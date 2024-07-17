@@ -16,16 +16,17 @@ public class ThirdPersonRotation : MonoBehaviour
     private void Update()
     {
         SetDirection(_inputProvider.MoveDirection);
+        Rotate();
     }
 
-    public void SetDirection(Vector3 moveDirection)
+    private void SetDirection(Vector3 moveDirection)
     {
         _moveDirection.x = moveDirection.x * Time.deltaTime;
         _moveDirection.z = moveDirection.z * Time.deltaTime;
         _moveDirection.y = 0;
     }
 
-    public void Rotate()
+    private void Rotate()
     {
         _moveDirection = _moveDirection.normalized;
 

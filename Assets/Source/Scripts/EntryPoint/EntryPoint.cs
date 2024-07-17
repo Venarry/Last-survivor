@@ -6,9 +6,10 @@ public class EntryPoint : MonoBehaviour
 
     private void Awake()
     {
-        bool isMobile = Application.isMobilePlatform;
-
         IInputProvider inputProvider;
+        TargetsProvider targetsProvider = new();
+
+        bool isMobile = Application.isMobilePlatform;
 
         if (isMobile == false)
         {
@@ -20,7 +21,7 @@ public class EntryPoint : MonoBehaviour
             inputProvider = mobileInputsProviderFactory.Create(_canvas.transform);
         }
 
-        PlayerFactory playerFactory = new(inputProvider);
+        PlayerFactory playerFactory = new(inputProvider, targetsProvider);
 
         playerFactory.Create(Vector3.zero);
     }

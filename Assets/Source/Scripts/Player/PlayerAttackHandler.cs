@@ -12,7 +12,7 @@ public class PlayerAttackHandler : MonoBehaviour
 
     private void Update()
     {
-        if (_targetsProvider.TryGetNearest(transform.position, _attackDistance, out ITarget target))
+        if (_targetsProvider.TryGetNearest(transform.position, _attackDistance, out Target target))
         {
             Debug.Log(target);
         }

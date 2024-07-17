@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class TargetsProvider
 {
-    private readonly List<ITarget> _targets = new();
+    private readonly List<Target> _targets = new();
 
-    public ITarget[] Targets => _targets.ToArray();
+    public Target[] Targets => _targets.ToArray();
 
-    public void Add(ITarget target)
+    public void Add(Target target)
     {
         if (_targets.Contains(target) == true)
             return;
@@ -15,7 +15,7 @@ public class TargetsProvider
         _targets.Add(target);
     }
 
-    public void Remove(ITarget target)
+    public void Remove(Target target)
     {
         if (_targets.Contains(target) == false)
             return;
@@ -23,12 +23,12 @@ public class TargetsProvider
         _targets.Remove(target);
     }
 
-    public bool TryGetNearest(Vector3 position, float maxDistance, out ITarget nearestTarget)
+    public bool TryGetNearest(Vector3 position, float maxDistance, out Target nearestTarget)
     {
         nearestTarget = null;
         float nearestDistance = Mathf.Infinity;
 
-        foreach (ITarget currentTarget in _targets)
+        foreach (Target currentTarget in _targets)
         {
             float distance = Vector3.Distance(currentTarget.Position, position);
 

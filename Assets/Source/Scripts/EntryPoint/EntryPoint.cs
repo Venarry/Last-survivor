@@ -7,8 +7,6 @@ public class EntryPoint : MonoBehaviour
     private void Awake()
     {
         bool isMobile = Application.isMobilePlatform;
-        isMobile = true;
-        Debug.Log(isMobile);
 
         IInputProvider inputProvider;
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MobileInputsProvider : MonoBehaviour, IInputProvider
 {
-    public Vector3 MoveDirection => throw new System.NotImplementedException();
+    [SerializeField] private FloatingJoystick _floatingJoystick;
 
-
+    public Vector3 MoveDirection => new(_floatingJoystick.Direction.x, 0, _floatingJoystick.Direction.y);
 }

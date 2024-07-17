@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EntryPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
+        IInputProvider inputProvider = new KeyboardInputProvider();
+        PlayerFactory playerFactory = new(inputProvider);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        playerFactory.Create(Vector3.zero);
     }
 }

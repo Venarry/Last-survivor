@@ -36,9 +36,10 @@ public class ThirdPersonMovement : MonoBehaviour
         _characterController.enabled = true;
     }
 
-    private void SetDirection(Vector3 moveDirection)
+    private void SetDirection(Vector2 moveDirection)
     {
-        _moveDirection = moveDirection;
+        _moveDirection.x = moveDirection.x;
+        _moveDirection.z = moveDirection.y;
         _moveDirection = _moveDirection.normalized;
 
         _moveDirection.y = -1f;

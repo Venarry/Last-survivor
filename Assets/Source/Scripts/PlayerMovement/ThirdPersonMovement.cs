@@ -7,6 +7,7 @@ public class ThirdPersonMovement : MonoBehaviour
     
     private CharacterController _characterController;
     private Vector3 _moveDirection;
+    private IInputProvider _inputProvider;
 
     public Vector3 Direction => _moveDirection;
     public Vector3 Position => transform.position;
@@ -16,6 +17,18 @@ public class ThirdPersonMovement : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
     }
 
+    public void Init(IInputProvider inputProvider)
+    {
+        _inputProvider = inputProvider;
+    }
+
+    public void Update()
+    {
+        SetDirection(_inputProvider.MoveDirection);
+
+        _characterController.Move(_speed * Time.deltaTime * _moveDirection);
+    }
+
     public void SetPosition(Vector3 position)
     {
         _characterController.enabled = false;
@@ -23,16 +36,11 @@ public class ThirdPersonMovement : MonoBehaviour
         _characterController.enabled = true;
     }
 
-    public void SetDirection(Vector3 moveDirection)
+    private void SetDirection(Vector3 moveDirection)
     {
         _moveDirection = moveDirection;
         _moveDirection = _moveDirection.normalized;
 
         _moveDirection.y = -1f;
-    }
-
-    public void Move()
-    {
-        _characterController.Move(_speed * Time.deltaTime * _moveDirection);
     }
 }

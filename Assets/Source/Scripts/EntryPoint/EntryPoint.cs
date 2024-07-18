@@ -8,6 +8,7 @@ public class EntryPoint : MonoBehaviour
     {
         IInputProvider inputProvider;
         TargetsProvider targetsProvider = new();
+        MineralsFactory mineralsFactory = new(targetsProvider);
 
         bool isMobile = Application.isMobilePlatform;
 
@@ -24,5 +25,7 @@ public class EntryPoint : MonoBehaviour
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
 
         playerFactory.Create(Vector3.zero);
+
+        mineralsFactory.Create(new Vector3(1, 0, 1), Quaternion.identity);
     }
 }

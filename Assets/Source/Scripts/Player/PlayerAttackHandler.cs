@@ -1,41 +1,34 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(ThirdPersonRotation))]
 public class PlayerAttackHandler : MonoBehaviour
 {
-    private TargetsProvider _targetsProvider;
-    private ThirdPersonRotation _thirdPersonRotation;
-    private float _attackDistance = 3f;
     private float _attackCooldown = 0.5f;
     private float _timeLeft = 0;
     private int _damage = 1;
+    private Target _target;
 
-    private void Awake()
-    {
-        _thirdPersonRotation = GetComponent<ThirdPersonRotation>();
-    }
-
-    public void Init(TargetsProvider targetsProvider)
-    {
-        _targetsProvider = targetsProvider;
-    }
-
-    private void Update()
+    public void IncreaseLeftTime()
     {
         _timeLeft += Time.deltaTime;
+    }
 
-        if (_targetsProvider.TryGetNearest(transform.position, _attackDistance, out Target target) == false)
-        {
-            return;
-        }
+    public void Set(Target target)
+    {
+        _target = target;
+    }
 
-        _thirdPersonRotation.Set(target);
+    public void RemoveTarget()
+    {
+        _target = null;
+    }
 
+    public void TryAttack()
+    {
         if (_timeLeft >= _attackCooldown)
         {
-            Debug.Log(target);
+            Debug.Log(_target);
+            _target.TakeDamage(_damage);
             _timeLeft = 0;
-            target.TakeDamage(_damage);
         }
     }
 }

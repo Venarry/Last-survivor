@@ -1,12 +1,12 @@
-public class PlayerAttackStateMachine : StateMachine
+public class PlayerAttackStateMachine : StateMachine, IPlayerAttackStateSwitcher
 {
-    public void SetEnemySearchingState()
+    public void SetTargetSearchState()
     {
-
+        Switch<PlayerTargetSearchState>();
     }
 
     public void SetAttackState()
     {
-
+        Switch<PlayerAttackState>();
     }
 }

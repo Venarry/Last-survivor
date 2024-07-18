@@ -5,7 +5,7 @@ public abstract class Target : MonoBehaviour
 {
     [SerializeField] private HealthView _healthView;
 
-    public Vector3 Position { get; }
+    public Vector3 Position => transform.position;
     public abstract TargetType TargetType { get; }
 
     public void TakeDamage(int damage)

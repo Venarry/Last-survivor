@@ -26,6 +26,6 @@ public class EntryPoint : MonoBehaviour
 
         playerFactory.Create(Vector3.zero);
 
-        mineralsFactory.Create(new Vector3(1, 0, 1), Quaternion.identity);
+        mineralsFactory.Create(new Vector3(3, 0, 3), Quaternion.identity);
     }
 }

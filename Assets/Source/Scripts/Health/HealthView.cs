@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +13,8 @@ public class HealthView : MonoBehaviour
 
         _healthModel.HealthChanged += OnHealthChange;
         _healthModel.HealthOver += OnHealthOver;
+
+        OnHealthChange();
     }
 
     public void TakeDamage(int count)

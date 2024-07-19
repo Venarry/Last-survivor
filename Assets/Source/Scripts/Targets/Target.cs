@@ -8,6 +8,11 @@ public abstract class Target : MonoBehaviour
     public Vector3 Position => transform.position;
     public abstract TargetType TargetType { get; }
 
+    public void SetHealthModel(HealthModel healthModel)
+    {
+        _healthView.Init(healthModel);
+    }
+
     public void TakeDamage(int damage)
     {
         _healthView.TakeDamage(damage);

@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9974b1847aa98564f8a204f9c31912db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBar: {fileID: 0}
+  _healthBar: {fileID: 8895700211744351011}
 --- !u!114 &3188243482913580290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fb463665d61f14e94459260b3f35e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthView: {fileID: 0}
+  _healthView: {fileID: 3528315976075890925}
 --- !u!1 &5241908342156205983
 GameObject:
   m_ObjectHideFlags: 0

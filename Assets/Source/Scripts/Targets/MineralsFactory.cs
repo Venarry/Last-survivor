@@ -14,6 +14,10 @@ public class MineralsFactory
     {
         Diamond diamond = Object.Instantiate(_diamondPrefab, position, rotation);
 
+        int maxHealth = 3;
+        HealthModel healthModel = new(maxHealth);
+        diamond.SetHealthModel(healthModel);
+
         _targetsProvider.Add(diamond);
         return diamond;
     }

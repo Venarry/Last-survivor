@@ -31,7 +31,6 @@ public class PlayerAttackHandler : MonoBehaviour
     {
         if (_timeLeft >= _attackCooldown)
         {
-            Debug.Log(_target);
             _target.TakeDamage(_damage);
             _timeLeft = 0;
         }

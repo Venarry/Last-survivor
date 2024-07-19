@@ -10,20 +10,4 @@ public class PlayerAttackStateMachineTransitions
         _targetSearcher = targetSearcher;
         _playerAttackStateSwitcher = playerAttackStateSwitcher;
     }
-
-    public void TrySetAttackState()
-    {
-        if (_targetSearcher.TrySearchTarget())
-        {
-            _playerAttackStateSwitcher.SetAttackState();
-        }
-    }
-
-    public void TrySetSearchState()
-    {
-        if (_targetSearcher.HasNearestTarget(out _) == false)
-        {
-            _playerAttackStateSwitcher.SetTargetSearchState();
-        }
-    }
 }

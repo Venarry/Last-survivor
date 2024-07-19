@@ -10,7 +10,6 @@ public abstract class Target : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        Debug.Log($"Take {damage} damage");
-        //_healthView.TakeDamage(damage);
+        _healthView.TakeDamage(damage);
     }
 }

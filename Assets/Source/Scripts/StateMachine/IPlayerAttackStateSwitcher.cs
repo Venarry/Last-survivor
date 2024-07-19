@@ -1,5 +1,5 @@
 public interface IPlayerAttackStateSwitcher : IStateSwitcher
 {
     public void SetTargetSearchState();
-    public void SetAttackState();
+    public void SetAttackState(Target target);
 }

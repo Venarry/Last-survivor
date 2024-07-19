@@ -21,7 +21,7 @@ public class TargetSearcher : MonoBehaviour
 
     public bool TrySearchTarget()
     {
-        if (HasNearestTarget(out Target target) == false)
+        if (TryGetNearestTarget(out Target target) == false)
         {
             return false;
         }
@@ -32,6 +32,6 @@ public class TargetSearcher : MonoBehaviour
         return true;
     }
 
-    public bool HasNearestTarget(out Target target) =>
+    public bool TryGetNearestTarget(out Target target) =>
         _targetsProvider.TryGetNearest(transform.position, _attackDistance, out target);
 }

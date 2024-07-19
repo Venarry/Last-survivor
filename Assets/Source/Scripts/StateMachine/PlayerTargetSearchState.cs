@@ -1,11 +1,12 @@
 public class PlayerTargetSearchState : IState
 {
-    private readonly PlayerAttackStateMachineTransitions _playerAttackStateMachineTransitions;
+    private readonly TargetSearcher _targetSearcher;
+    private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
 
-    public PlayerTargetSearchState(
-        PlayerAttackStateMachineTransitions playerAttackStateMachineTransitions)
+    public PlayerTargetSearchState(TargetSearcher targetSearcher, IPlayerAttackStateSwitcher playerAttackStateSwitcher)
     {
-        _playerAttackStateMachineTransitions = playerAttackStateMachineTransitions;
+        _targetSearcher = targetSearcher;
+        _playerAttackStateSwitcher = playerAttackStateSwitcher;
     }
 
     public void OnEnter()
@@ -14,7 +15,10 @@ public class PlayerTargetSearchState : IState
 
     public void OnUpdate()
     {
-        _playerAttackStateMachineTransitions.TrySetAttackState();
+        if(_targetSearcher.TryGetNearestTarget(out Target target))
+        {
+            _playerAttackStateSwitcher.SetAttackState(target);
+        }
     }
 
     public void OnExit()

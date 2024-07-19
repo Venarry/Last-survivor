@@ -7,6 +7,11 @@ public class PlayerAttackHandler : MonoBehaviour
     private int _damage = 1;
     private Target _target;
 
+    private void Awake()
+    {
+        _timeLeft = _attackCooldown;
+    }
+
     private void Update()
     {
         _timeLeft += Time.deltaTime;

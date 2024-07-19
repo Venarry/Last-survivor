@@ -21,16 +21,7 @@ public class Player : MonoBehaviour
         _playerAttackHandler = GetComponent<PlayerAttackHandler>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
 
-        PlayerAttackStateMachineTransitions playerAttackStateMachineTransitions = new(_targetSearcher, _playerAttackStateMachine);
-
-        PlayerTargetSearchState playerTargetSearchState = new(playerAttackStateMachineTransitions);
-        PlayerAttackState playerAttackState = new(
-            _thirdPersonRotation, _playerAttackHandler, _targetSearcher, playerAttackStateMachineTransitions);
-
-        _playerAttackStateMachine.Register(playerTargetSearchState);
-        _playerAttackStateMachine.Register(playerAttackState);
-
-        _playerAttackStateMachine.SetTargetSearchState();
+        _playerAttackStateMachine.Init(_targetSearcher, _thirdPersonRotation, _playerAttackHandler, _playerAttackStateMachine);
     }
 
     public void Init(IInputProvider inputProvider, TargetsProvider targetsProvider)

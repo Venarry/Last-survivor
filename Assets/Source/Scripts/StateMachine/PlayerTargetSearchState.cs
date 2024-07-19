@@ -13,12 +13,11 @@ public class PlayerTargetSearchState : IState
 
     public void OnEnter()
     {
-        _thirdPersonRotation.RemoveTarget();
     }
 
     public void OnUpdate()
     {
-        _targetSearchHandler.SearchEnemy();
+        _targetSearchHandler.TrySetAttackState();
     }
 
     public void OnExit()

@@ -22,15 +22,35 @@ public class PlayerTargetSearchHandler : MonoBehaviour
         _playerAttackStateSwitcher = playerAttackStateSwitcher;
     }
 
-    public void SearchEnemy()
+    public void TrySetAttackState()
     {
-        if (_targetsProvider.TryGetNearest(transform.position, _attackDistance, out Target target) == false)
+        if (TrySearchTarget())
         {
-            return;
+            _playerAttackStateSwitcher.SetAttackState();
+        }
+    }
+
+    public void TrySetSearchState()
+    {
+        if (HasNearestTarget(out _) == false)
+        {
+            _playerAttackStateSwitcher.SetTargetSearchState();
+        }
+    }
+
+    public bool TrySearchTarget()
+    {
+        if (HasNearestTarget(out Target target) == false)
+        {
+            return false;
         }
 
         _thirdPersonRotation.Set(target);
         _playerAttackHandler.Set(target);
-        _playerAttackStateSwitcher.SetAttackState();
+
+        return true;
     }
+
+    public bool HasNearestTarget(out Target target) =>
+        _targetsProvider.TryGetNearest(transform.position, _attackDistance, out target);
 }

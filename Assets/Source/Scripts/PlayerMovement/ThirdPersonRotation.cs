@@ -23,7 +23,7 @@ public class ThirdPersonRotation : MonoBehaviour
         }
         else
         {
-            Rotate(_target.Position);
+            Rotate(_target.Position - transform.position);
         }
     }
 
@@ -54,9 +54,9 @@ public class ThirdPersonRotation : MonoBehaviour
         Rotate(_moveDirection);
     }
 
-    private void Rotate(Vector3 targetPosition)
+    private void Rotate(Vector3 direction)
     {
-        Quaternion rotateDirection = Quaternion.LookRotation(targetPosition - transform.position);
+        Quaternion rotateDirection = Quaternion.LookRotation(direction);
         rotateDirection.x = 0;
         Quaternion targetRotation = Quaternion.Lerp(transform.rotation, rotateDirection, _speed);
 

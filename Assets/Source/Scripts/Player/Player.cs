@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
 
         PlayerTargetSearchState playerTargetSearchState = new(_thirdPersonRotation, _playerTargetSearchHandler);
-        PlayerAttackState playerAttackState = new(_thirdPersonRotation, _playerAttackHandler);
+        PlayerAttackState playerAttackState = new(_thirdPersonRotation, _playerAttackHandler, _playerTargetSearchHandler);
 
         _playerAttackStateMachine.Register(playerTargetSearchState);
         _playerAttackStateMachine.Register(playerAttackState);

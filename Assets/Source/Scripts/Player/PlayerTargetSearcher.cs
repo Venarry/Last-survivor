@@ -1,11 +1,10 @@
 using UnityEngine;
 
-public class PlayerTargetSearchHandler : MonoBehaviour
+public class PlayerTargetSearcher : MonoBehaviour
 {
     private TargetsProvider _targetsProvider;
     private ThirdPersonRotation _thirdPersonRotation;
     private PlayerAttackHandler _playerAttackHandler;
-    private IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
     private float _attackDistance = 3f;
 
     private void Awake()
@@ -15,27 +14,9 @@ public class PlayerTargetSearchHandler : MonoBehaviour
     }
 
     public void Init(
-        TargetsProvider targetsProvider,
-        IPlayerAttackStateSwitcher playerAttackStateSwitcher)
+        TargetsProvider targetsProvider)
     {
         _targetsProvider = targetsProvider;
-        _playerAttackStateSwitcher = playerAttackStateSwitcher;
-    }
-
-    public void TrySetAttackState()
-    {
-        if (TrySearchTarget())
-        {
-            _playerAttackStateSwitcher.SetAttackState();
-        }
-    }
-
-    public void TrySetSearchState()
-    {
-        if (HasNearestTarget(out _) == false)
-        {
-            _playerAttackStateSwitcher.SetTargetSearchState();
-        }
     }
 
     public bool TrySearchTarget()

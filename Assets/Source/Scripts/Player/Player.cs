@@ -2,14 +2,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(ThirdPersonMovement))]
 [RequireComponent(typeof(ThirdPersonRotation))]
-[RequireComponent(typeof(PlayerTargetSearchHandler))]
+[RequireComponent(typeof(PlayerTargetSearcher))]
 [RequireComponent(typeof(PlayerAttackStateMachine))]
 [RequireComponent(typeof(PlayerAttackHandler))]
 public class Player : MonoBehaviour
 {
     private ThirdPersonMovement _thirdPersonMovement;
     private ThirdPersonRotation _thirdPersonRotation;
-    private PlayerTargetSearchHandler _playerTargetSearchHandler;
+    private PlayerTargetSearcher _playerTargetSearcher;
     private PlayerAttackHandler _playerAttackHandler;
     private PlayerAttackStateMachine _playerAttackStateMachine;
 
@@ -17,12 +17,15 @@ public class Player : MonoBehaviour
     {
         _thirdPersonMovement = GetComponent<ThirdPersonMovement>();
         _thirdPersonRotation = GetComponent<ThirdPersonRotation>();
-        _playerTargetSearchHandler = GetComponent<PlayerTargetSearchHandler>();
+        _playerTargetSearcher = GetComponent<PlayerTargetSearcher>();
         _playerAttackHandler = GetComponent<PlayerAttackHandler>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
 
-        PlayerTargetSearchState playerTargetSearchState = new(_thirdPersonRotation, _playerTargetSearchHandler);
-        PlayerAttackState playerAttackState = new(_thirdPersonRotation, _playerAttackHandler, _playerTargetSearchHandler);
+        PlayerAttackStateMachineTransitions playerAttackStateMachineTransitions = new(_playerTargetSearcher, _playerAttackStateMachine);
+
+        PlayerTargetSearchState playerTargetSearchState = new(playerAttackStateMachineTransitions);
+        PlayerAttackState playerAttackState = new(
+            _thirdPersonRotation, _playerAttackHandler, _playerTargetSearcher, playerAttackStateMachineTransitions);
 
         _playerAttackStateMachine.Register(playerTargetSearchState);
         _playerAttackStateMachine.Register(playerAttackState);
@@ -34,6 +37,6 @@ public class Player : MonoBehaviour
     {
         _thirdPersonMovement.Init(inputProvider);
         _thirdPersonRotation.Init(inputProvider);
-        _playerTargetSearchHandler.Init(targetsProvider, _playerAttackStateMachine);
+        _playerTargetSearcher.Init(targetsProvider);
     }
 }

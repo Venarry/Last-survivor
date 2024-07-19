@@ -1,17 +1,20 @@
 public class PlayerAttackState : IState
 {
-    private ThirdPersonRotation _thirdPersonRotation;
-    private PlayerAttackHandler _playerAttackHandler;
-    private PlayerTargetSearchHandler _playerTargetSearchHandler;
+    private readonly ThirdPersonRotation _thirdPersonRotation;
+    private readonly PlayerAttackHandler _playerAttackHandler;
+    private readonly PlayerTargetSearcher _playerTargetSearcher;
+    private readonly PlayerAttackStateMachineTransitions _playerAttackStateMachineTransitions;
 
     public PlayerAttackState(
         ThirdPersonRotation thirdPersonRotation,
         PlayerAttackHandler playerAttackHandler,
-        PlayerTargetSearchHandler playerTargetSearchHandler)
+        PlayerTargetSearcher playerTargetSearchHandler,
+        PlayerAttackStateMachineTransitions playerAttackStateMachineTransitions)
     {
         _thirdPersonRotation = thirdPersonRotation;
         _playerAttackHandler = playerAttackHandler;
-        _playerTargetSearchHandler = playerTargetSearchHandler;
+        _playerTargetSearcher = playerTargetSearchHandler;
+        _playerAttackStateMachineTransitions = playerAttackStateMachineTransitions;
     }
 
     public void OnEnter()
@@ -20,11 +23,10 @@ public class PlayerAttackState : IState
 
     public void OnUpdate()
     {
-        _playerAttackHandler.IncreaseLeftTime();
         _playerAttackHandler.TryAttack();
 
-        _playerTargetSearchHandler.TrySearchTarget();
-        _playerTargetSearchHandler.TrySetSearchState();
+        _playerTargetSearcher.TrySearchTarget();
+        _playerAttackStateMachineTransitions.TrySetSearchState();
     }
 
     public void OnExit()

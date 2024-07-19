@@ -7,7 +7,7 @@ public class PlayerAttackHandler : MonoBehaviour
     private int _damage = 1;
     private Target _target;
 
-    public void IncreaseLeftTime()
+    private void Update()
     {
         _timeLeft += Time.deltaTime;
     }

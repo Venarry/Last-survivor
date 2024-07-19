@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 6717427368869373079}
   - component: {fileID: 3528315976075890925}
   - component: {fileID: 3188243482913580290}
+  - component: {fileID: 4066302369579559869}
   m_Layer: 0
   m_Name: Diamond
   m_TagString: Untagged
@@ -270,6 +271,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthView: {fileID: 3528315976075890925}
+--- !u!114 &4066302369579559869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954777449557193973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29928fbde0369f143afcc6f0e08046fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootPrefab: {fileID: 250469827840914495, guid: 4cc52f4d8e2843c4281f6c52075ea2cc, type: 3}
+  _baseLootCount: 15
+  _forceStrength: 300
 --- !u!1 &5241908342156205983
 GameObject:
   m_ObjectHideFlags: 0

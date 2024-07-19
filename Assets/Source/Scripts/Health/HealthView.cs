@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,8 @@ public class HealthView : MonoBehaviour
     [SerializeField] private Image _healthBar;
 
     private HealthModel _healthModel;
+
+    public event Action HealthOver;
 
     public void Init(HealthModel healthModel)
     {
@@ -34,5 +37,6 @@ public class HealthView : MonoBehaviour
 
     private void OnHealthOver()
     {
+        HealthOver?.Invoke();
     }
 }

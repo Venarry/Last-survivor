@@ -19,6 +19,13 @@ public class MineralsFactory
         diamond.SetHealthModel(healthModel);
 
         _targetsProvider.Add(diamond);
+        diamond.HealthOver += OnHealthOver;
         return diamond;
+    }
+
+    private void OnHealthOver(Target target)
+    {
+        _targetsProvider.Remove(target);
+        target.HealthOver -= OnHealthOver;
     }
 }

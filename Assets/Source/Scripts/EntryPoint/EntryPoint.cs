@@ -18,7 +18,7 @@ public class EntryPoint : MonoBehaviour
         }
         else
         {
-            MobileInputsProviderFactory mobileInputsProviderFactory = new MobileInputsProviderFactory();
+            MobileInputsProviderFactory mobileInputsProviderFactory = new();
             inputProvider = mobileInputsProviderFactory.Create(_canvas.transform);
         }
 
@@ -27,5 +27,7 @@ public class EntryPoint : MonoBehaviour
         playerFactory.Create(Vector3.zero);
 
         mineralsFactory.Create(new Vector3(3, 0, 3), Quaternion.identity);
+        mineralsFactory.Create(new Vector3(-3, 0, 3), Quaternion.identity);
+        mineralsFactory.Create(new Vector3(4, 0, 4), Quaternion.identity);
     }
 }

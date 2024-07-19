@@ -1,19 +1,19 @@
 public class PlayerAttackStateMachineTransitions
 {
-    private readonly PlayerTargetSearcher _playerTargetSearcher;
+    private readonly TargetSearcher _targetSearcher;
     private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
 
     public PlayerAttackStateMachineTransitions(
-        PlayerTargetSearcher playerTargetSearcher,
+        TargetSearcher targetSearcher,
         IPlayerAttackStateSwitcher playerAttackStateSwitcher)
     {
-        _playerTargetSearcher = playerTargetSearcher;
+        _targetSearcher = targetSearcher;
         _playerAttackStateSwitcher = playerAttackStateSwitcher;
     }
 
     public void TrySetAttackState()
     {
-        if (_playerTargetSearcher.TrySearchTarget())
+        if (_targetSearcher.TrySearchTarget())
         {
             _playerAttackStateSwitcher.SetAttackState();
         }
@@ -21,7 +21,7 @@ public class PlayerAttackStateMachineTransitions
 
     public void TrySetSearchState()
     {
-        if (_playerTargetSearcher.HasNearestTarget(out _) == false)
+        if (_targetSearcher.HasNearestTarget(out _) == false)
         {
             _playerAttackStateSwitcher.SetTargetSearchState();
         }

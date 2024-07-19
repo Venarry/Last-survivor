@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerTargetSearcher : MonoBehaviour
+public class TargetSearcher : MonoBehaviour
 {
     private TargetsProvider _targetsProvider;
     private ThirdPersonRotation _thirdPersonRotation;

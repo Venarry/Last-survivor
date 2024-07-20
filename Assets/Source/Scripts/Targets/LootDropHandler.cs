@@ -14,6 +14,11 @@ public class LootDropHandler : MonoBehaviour
         _healthView = GetComponent<HealthView>();
     }
 
+    public void Init()
+    {
+
+    }
+
     private void OnEnable()
     {
         _healthView.HealthOver += OnHealthOver;

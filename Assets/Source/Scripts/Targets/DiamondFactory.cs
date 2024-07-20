@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class MineralsFactory
+public class DiamondFactory
 {
     private readonly Diamond _diamondPrefab = Resources.Load<Diamond>(ResourcesPath.Diamond);
     private readonly TargetsProvider _targetsProvider;
+    private readonly LootFactory _lootFactory;
 
-    public MineralsFactory(TargetsProvider targetsProvider)
+    public DiamondFactory(TargetsProvider targetsProvider, LootFactory lootFactory)
     {
         _targetsProvider = targetsProvider;
+        _lootFactory = lootFactory;
     }
 
     public Diamond Create(Vector3 position, Quaternion rotation)
@@ -17,6 +19,7 @@ public class MineralsFactory
         int maxHealth = 3;
         HealthModel healthModel = new(maxHealth);
         diamond.SetHealthModel(healthModel);
+        diamond.InitLootDropHandler(_lootFactory);
 
         _targetsProvider.Add(diamond);
         diamond.HealthOver += OnHealthOver;

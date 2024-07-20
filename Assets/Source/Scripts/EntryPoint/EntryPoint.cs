@@ -8,7 +8,6 @@ public class EntryPoint : MonoBehaviour
     {
         IInputProvider inputProvider;
         TargetsProvider targetsProvider = new();
-        MineralsFactory mineralsFactory = new(targetsProvider);
 
         bool isMobile = Application.isMobilePlatform;
 
@@ -24,10 +23,13 @@ public class EntryPoint : MonoBehaviour
 
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
 
-        playerFactory.Create(Vector3.zero);
+        Player player = playerFactory.Create(Vector3.zero);
 
-        mineralsFactory.Create(new Vector3(3, 0, 3), Quaternion.identity);
-        mineralsFactory.Create(new Vector3(-3, 0, 3), Quaternion.identity);
-        mineralsFactory.Create(new Vector3(4, 0, 4), Quaternion.identity);
+        LootFactory lootFactory = new DiamondLootFactory();
+        DiamondFactory diamondFactory = new(targetsProvider);
+
+        diamondFactory.Create(new Vector3(3, 0, 3), Quaternion.identity);
+        diamondFactory.Create(new Vector3(-3, 0, 3), Quaternion.identity);
+        diamondFactory.Create(new Vector3(4, 0, 4), Quaternion.identity);
     }
 }

@@ -4,8 +4,10 @@ using UnityEngine;
 public class LootDropHandler : MonoBehaviour
 {
     [SerializeField] private Rigidbody _lootPrefab;
-    [SerializeField] private int _baseLootCount = 1;
+    [SerializeField] private int _lootCount = 1;
+
     private HealthView _healthView;
+    private LootFactory _lootFactory;
 
     [SerializeField] private float _forceStrength = 1;
 
@@ -14,9 +16,9 @@ public class LootDropHandler : MonoBehaviour
         _healthView = GetComponent<HealthView>();
     }
 
-    public void Init()
+    public void Init(LootFactory lootFactory)
     {
-
+        _lootFactory = lootFactory;
     }
 
     private void OnEnable()
@@ -34,12 +36,12 @@ public class LootDropHandler : MonoBehaviour
         float spawnHeight = 1f;
         Vector3 lootSpawnPosition = transform.position + Vector3.up * spawnHeight;
 
-        for (int i = 0; i < _baseLootCount; i++)
+        for (int i = 0; i < _lootCount; i++)
         {
-            Rigidbody loot = Instantiate(_lootPrefab, lootSpawnPosition, Quaternion.identity);
+            Loot loot = _lootFactory.Create(lootSpawnPosition, 1);//Instantiate(_lootPrefab, lootSpawnPosition, Quaternion.identity);
 
             Vector3 forceDirection = new(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
-            loot.AddForce(forceDirection * _forceStrength);
+            loot.AddForce(forceDirection, _forceStrength);
         }
     }
 }

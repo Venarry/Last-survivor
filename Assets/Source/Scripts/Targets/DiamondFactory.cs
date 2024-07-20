@@ -18,7 +18,7 @@ public class DiamondFactory
 
         int maxHealth = 3;
         HealthModel healthModel = new(maxHealth);
-        diamond.SetHealthModel(healthModel);
+        diamond.InitHealthView(healthModel);
         diamond.InitLootDropHandler(_lootFactory);
 
         _targetsProvider.Add(diamond);

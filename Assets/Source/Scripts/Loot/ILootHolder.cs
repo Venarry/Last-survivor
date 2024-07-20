@@ -2,6 +2,6 @@
 
 public interface ILootHolder
 {
-    public Vector3 Position { get; }
+    public Vector3 ReceivingPosition { get; }
     public void Add(LootType lootType, int count);
 }

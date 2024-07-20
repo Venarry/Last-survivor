@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 6207577549569768559}
   - component: {fileID: 6925142007368158091}
   - component: {fileID: 250469827840914495}
+  - component: {fileID: -2550854119385251467}
   m_Layer: 7
   m_Name: DiamondLoot
   m_TagString: Untagged
@@ -165,3 +166,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &-2550854119385251467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847494881538099121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbae9759d72fba40b875c096f0439af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -15,7 +15,8 @@ public class PlayerFactory
     public Player Create(Vector3 position)
     {
         Player player = Object.Instantiate(_playerPrefab, position, Quaternion.identity);
-        player.Init(_inputProviderl, _targetsProvider);
+        InventoryModel inventoryModel = new();
+        player.Init(_inputProviderl, _targetsProvider, inventoryModel);
 
         return player;
     }

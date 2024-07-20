@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lootPrefab: {fileID: 250469827840914495, guid: 4cc52f4d8e2843c4281f6c52075ea2cc, type: 3}
-  _baseLootCount: 15
+  _lootCount: 10
   _forceStrength: 300
 --- !u!1 &5241908342156205983
 GameObject:

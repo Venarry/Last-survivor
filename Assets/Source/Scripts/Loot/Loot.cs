@@ -35,11 +35,15 @@ public class Loot : MonoBehaviour
         yield return _waitForSeconds;
 
         float pickupDistance = 1f;
+        float deltaDistance = 0.1f;
 
-        while(Vector3.Distance(_lootHolder.Position, transform.position) > pickupDistance)
+        while(Vector3.Distance(_lootHolder.ReceivingPosition, transform.position) > pickupDistance)
         {
-            _lootHolder.Add(_lootType, _reward);
-            Destroy(gameObject);
+            transform.position = Vector3.MoveTowards(transform.position, _lootHolder.ReceivingPosition, deltaDistance);
+            yield return null;
         }
+
+        _lootHolder.Add(_lootType, _reward);
+        Destroy(gameObject);
     }
 }

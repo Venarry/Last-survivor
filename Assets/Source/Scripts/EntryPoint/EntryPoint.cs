@@ -22,11 +22,10 @@ public class EntryPoint : MonoBehaviour
         }
 
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
-
         Player player = playerFactory.Create(Vector3.zero);
 
-        LootFactory lootFactory = new DiamondLootFactory();
-        DiamondFactory diamondFactory = new(targetsProvider);
+        LootFactory lootFactory = new DiamondLootFactory(player.InventroyView);
+        DiamondFactory diamondFactory = new(targetsProvider, lootFactory);
 
         diamondFactory.Create(new Vector3(3, 0, 3), Quaternion.identity);
         diamondFactory.Create(new Vector3(-3, 0, 3), Quaternion.identity);

@@ -21,7 +21,7 @@ public abstract class Target : MonoBehaviour
         _healthView.HealthOver -= OnHealthOver;
     }
 
-    public void SetHealthModel(HealthModel healthModel)
+    public void InitHealthView(HealthModel healthModel)
     {
         _healthView.Init(healthModel);
     }

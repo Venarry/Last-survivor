@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerAttackHandler : MonoBehaviour
 {
@@ -6,6 +8,10 @@ public class PlayerAttackHandler : MonoBehaviour
     private float _timeLeft = 0;
     private int _damage = 1;
     private Target _target;
+    private Dictionary<TargetType, Action> _playerAttackType = new()
+    {
+        //{ TargetType.Ore,  }
+    };
 
     private void Awake()
     {
@@ -17,22 +23,20 @@ public class PlayerAttackHandler : MonoBehaviour
         _timeLeft += Time.deltaTime;
     }
 
-    public void Set(Target target)
+    public void TryAttack(Target target)
     {
-        _target = target;
-    }
+        if (target == null)
+            return;
 
-    public void RemoveTarget()
-    {
-        _target = null;
-    }
-
-    public void TryAttack()
-    {
         if (_timeLeft >= _attackCooldown)
         {
-            _target.TakeDamage(_damage);
+            target.TakeDamage(_damage);
             _timeLeft = 0;
         }
+    }
+
+    private void AttackOre()
+    {
+
     }
 }

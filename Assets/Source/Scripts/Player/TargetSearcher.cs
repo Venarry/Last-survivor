@@ -26,9 +26,6 @@ public class TargetSearcher : MonoBehaviour
             return false;
         }
 
-        _thirdPersonRotation.Set(target);
-        _playerAttackHandler.Set(target);
-
         return true;
     }
 

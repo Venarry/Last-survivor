@@ -22,7 +22,6 @@ public class PlayerAttackState : IState
     {
         _target = target;
         _thirdPersonRotation.Set(target);
-        _playerAttackHandler.Set(target);
     }
 
     public void OnEnter()
@@ -31,7 +30,7 @@ public class PlayerAttackState : IState
 
     public void OnUpdate()
     {
-        _playerAttackHandler.TryAttack();
+        _playerAttackHandler.TryAttack(_target);
 
         if(_targetSearcher.TryGetNearestTarget(out Target target))
         {
@@ -49,6 +48,5 @@ public class PlayerAttackState : IState
     public void OnExit()
     {
         _thirdPersonRotation.RemoveTarget();
-        _playerAttackHandler.RemoveTarget();
     }
 }

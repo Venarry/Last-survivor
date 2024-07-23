@@ -1,10 +1,8 @@
 using UnityEngine;
 
-public class InventroyView : MonoBehaviour, ILootHolder
+public class InventroyView : MonoBehaviour
 {
     private InventoryModel _inventoryModel;
-
-    public Vector3 ReceivingPosition => transform.position + Vector3.up;
 
     public void Init(InventoryModel inventoryModel)
     {

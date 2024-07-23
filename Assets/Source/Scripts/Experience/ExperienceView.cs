@@ -1,10 +1,11 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ExperienceView : MonoBehaviour
 {
     [SerializeField] private Image _levelBar;
-    //[SerializeField] private TMP_Pro _levelBar;
+    [SerializeField] private TMP_Text _levelLabel;
 
     private ExperienceModel _experienceModel;
 
@@ -15,6 +16,7 @@ public class ExperienceView : MonoBehaviour
         _experienceModel.LevelAdd += OnLevelAdd;
 
         OnExperienceAdd();
+        OnLevelAdd();
     }
 
     private void OnDestroy()
@@ -35,6 +37,6 @@ public class ExperienceView : MonoBehaviour
 
     private void OnLevelAdd()
     {
-        Debug.Log("level add");
+        _levelLabel.text = $"LVL {_experienceModel.CurrentLevel}";
     }
 }

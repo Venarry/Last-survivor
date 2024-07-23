@@ -6,10 +6,9 @@ public class LootDropHandler : MonoBehaviour
     [SerializeField] private Rigidbody _lootPrefab;
     [SerializeField] private int _lootCount = 1;
 
+    private readonly float _forceStrength = 300;
     private HealthView _healthView;
     private LootFactory _lootFactory;
-
-    [SerializeField] private float _forceStrength = 1;
 
     private void Awake()
     {
@@ -38,7 +37,7 @@ public class LootDropHandler : MonoBehaviour
 
         for (int i = 0; i < _lootCount; i++)
         {
-            Loot loot = _lootFactory.Create(lootSpawnPosition, 1);//Instantiate(_lootPrefab, lootSpawnPosition, Quaternion.identity);
+            Loot loot = _lootFactory.Create(lootSpawnPosition);
 
             Vector3 forceDirection = new(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
             loot.AddForce(forceDirection, _forceStrength);

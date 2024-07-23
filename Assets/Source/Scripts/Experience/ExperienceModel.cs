@@ -23,7 +23,6 @@ public class ExperienceModel
     {
         while (CurrentExperience >= ExperienceForNextLevel)
         {
-            //int experienceRemains = CurrentExperience - ExperienceForNextLevel;
             CurrentExperience -= ExperienceForNextLevel;
             CurrentLevel++;
             LevelAdd?.Invoke();

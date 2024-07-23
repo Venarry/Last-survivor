@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
 
     public PlayerLootHolder LootHolder { get; private set; }
 
-
     private void Awake()
     {
         _thirdPersonMovement = GetComponent<ThirdPersonMovement>();

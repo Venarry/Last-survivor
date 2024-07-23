@@ -11,10 +11,13 @@ public abstract class LootFactory
         _lootHolder = lootHolder;
     }
 
-    public Loot Create(Vector3 position, int reward)
+    public Loot Create(Vector3 position)
     {
         Loot loot = Object.Instantiate(Prefab, position, Quaternion.identity);
-        loot.Init(reward, LootType, _lootHolder);
+
+        int reward = 1;
+        int experience = 1;
+        loot.Init(reward, experience, LootType, _lootHolder);
         
         return loot;
     }

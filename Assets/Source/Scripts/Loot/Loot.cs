@@ -8,6 +8,7 @@ public class Loot : MonoBehaviour
     private readonly WaitForSeconds _waitForSeconds = new(MoveToPlayerDelay);
     private Rigidbody _rigidbody;
     private int _reward;
+    private int _experienceReward;
     private LootType _lootType;
     private ILootHolder _lootHolder;
 
@@ -18,9 +19,10 @@ public class Loot : MonoBehaviour
         StartCoroutine(GoToPlayer());
     }
 
-    public void Init(int reward, LootType lootType, ILootHolder lootHolder)
+    public void Init(int reward, int experience, LootType lootType, ILootHolder lootHolder)
     {
         _reward = reward;
+        _experienceReward = experience;
         _lootType = lootType;
         _lootHolder = lootHolder;
     }
@@ -44,6 +46,7 @@ public class Loot : MonoBehaviour
         }
 
         _lootHolder.Add(_lootType, _reward);
+        _lootHolder.Add(_experienceReward);
         Destroy(gameObject);
     }
 }

@@ -16,7 +16,8 @@ public class PlayerFactory
     {
         Player player = Object.Instantiate(_playerPrefab, position, Quaternion.identity);
         InventoryModel inventoryModel = new();
-        player.Init(_inputProviderl, _targetsProvider, inventoryModel);
+        ExperienceModel experienceModel = new();
+        player.Init(_inputProviderl, _targetsProvider, inventoryModel, experienceModel);
 
         return player;
     }

@@ -25,8 +25,8 @@ public class EntryPoint : MonoBehaviour
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
         Player player = playerFactory.Create(Vector3.zero);
 
-        LootFactory lootFactory = new DiamondLootFactory(player.LootHolder);
-        DiamondFactory diamondFactory = new(targetsProvider, lootFactory);
+        DiamondLootFactory diamondLootFactory = new(player.LootHolder);
+        DiamondFactory diamondFactory = new(targetsProvider, diamondLootFactory);
 
         _targetFollower.Set(player.transform);
 

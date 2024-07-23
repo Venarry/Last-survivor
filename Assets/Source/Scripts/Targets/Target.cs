@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(HealthView))]
-public abstract class Target : MonoBehaviour
+public class Target : MonoBehaviour
 {
     [SerializeField] private HealthView _healthView;
 
     public Vector3 Position => transform.position;
-    public abstract TargetType TargetType { get; }
+    public TargetType TargetType { get; private set; }
 
     public event Action<Target> HealthOver;
 
@@ -21,8 +21,9 @@ public abstract class Target : MonoBehaviour
         _healthView.HealthOver -= OnHealthOver;
     }
 
-    public void InitHealthView(HealthModel healthModel)
+    public void Init(TargetType targetType, HealthModel healthModel)
     {
+        TargetType = targetType;
         _healthView.Init(healthModel);
     }
 

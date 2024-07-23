@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerAttackHandler : MonoBehaviour
 {
@@ -8,15 +9,20 @@ public class PlayerAttackHandler : MonoBehaviour
     private float _timeLeft = 0;
     private int _damage = 1;
     private Target _target;
-    private Dictionary<TargetType, Action> _playerAttackType = new()
-    {
-        //{ TargetType.Ore,  }
-    };
+    private Dictionary<TargetType, Action<Target>> _playerAttackType;
 
     private void Awake()
     {
         _timeLeft = _attackCooldown;
+
+        _playerAttackType = new()
+        {
+            { TargetType.Enemy, AttackEnemy },
+            { TargetType.Wood, AttackWood },
+            { TargetType.Ore, AttackOre },
+        };
     }
+
 
     private void Update()
     {
@@ -30,13 +36,24 @@ public class PlayerAttackHandler : MonoBehaviour
 
         if (_timeLeft >= _attackCooldown)
         {
-            target.TakeDamage(_damage);
+            _playerAttackType[target.TargetType](target);
             _timeLeft = 0;
         }
     }
 
-    private void AttackOre()
+    private void AttackEnemy(Target target)
     {
+        Debug.Log($"Attack {target.TargetType}");
+    }
 
+    private void AttackWood(Target target)
+    {
+        Debug.Log($"Attack {target.TargetType}");
+    }
+    
+    private void AttackOre(Target target)
+    {
+        Debug.Log($"Attack {target.TargetType}");
+        target.TakeDamage(_damage);
     }
 }

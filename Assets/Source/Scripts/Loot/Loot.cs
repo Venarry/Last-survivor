@@ -4,8 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Loot : MonoBehaviour
 {
-    private const float MoveToPlayerDelay = 1f;
-    private readonly WaitForSeconds _waitForSeconds = new(MoveToPlayerDelay);
+    private const float MoveToPlayerDelay = 1.5f;
+
+    private readonly WaitForSeconds _waitForPickUp = new(MoveToPlayerDelay);
     private Rigidbody _rigidbody;
     private int _reward;
     private int _experienceReward;
@@ -34,7 +35,7 @@ public class Loot : MonoBehaviour
 
     private IEnumerator GoToPlayer()
     {
-        yield return _waitForSeconds;
+        yield return _waitForPickUp;
 
         _rigidbody.useGravity = false;
         float pickupDistance = 1f;

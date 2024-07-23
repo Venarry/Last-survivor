@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerAttackHandler : MonoBehaviour
 {
     private float _attackCooldown = 0.5f;
     private float _timeLeft = 0;
     private int _damage = 1;
-    private Target _target;
     private Dictionary<TargetType, Action<Target>> _playerAttackType;
 
     private void Awake()
@@ -44,11 +42,13 @@ public class PlayerAttackHandler : MonoBehaviour
     private void AttackEnemy(Target target)
     {
         Debug.Log($"Attack {target.TargetType}");
+        target.TakeDamage(_damage);
     }
 
     private void AttackWood(Target target)
     {
         Debug.Log($"Attack {target.TargetType}");
+        target.TakeDamage(_damage);
     }
     
     private void AttackOre(Target target)

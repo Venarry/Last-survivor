@@ -25,6 +25,8 @@ public class Target : MonoBehaviour
     {
         TargetType = targetType;
         _healthView.Init(healthModel);
+
+        _healthView.HealthOver += OnHealthOver;
     }
 
     public void TakeDamage(int damage)

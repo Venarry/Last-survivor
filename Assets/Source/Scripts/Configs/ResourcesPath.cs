@@ -8,4 +8,5 @@ public class ResourcesPath
     public const string Wood = "Prefabs/Wood";
     public const string Enemy = "Prefabs/Enemy";
     public const string DiamondLoot = "Prefabs/DiamondLoot";
+    public const string WoodLoot = "Prefabs/WoodLoot";
 }

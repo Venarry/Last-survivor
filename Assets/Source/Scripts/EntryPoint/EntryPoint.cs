@@ -28,10 +28,13 @@ public class EntryPoint : MonoBehaviour
         DiamondLootFactory diamondLootFactory = new(player.LootHolder);
         DiamondFactory diamondFactory = new(targetsProvider, diamondLootFactory);
 
+        WoodLootFactory woodLootFactory = new(player.LootHolder);
+        WoodFactory woodFactory = new(targetsProvider, woodLootFactory);
+
         _targetFollower.Set(player.transform);
 
         diamondFactory.Create(new Vector3(3, 0, 3), Quaternion.identity);
         diamondFactory.Create(new Vector3(-3, 0, 3), Quaternion.identity);
-        diamondFactory.Create(new Vector3(4, 0, 4), Quaternion.identity);
+        woodFactory.Create(new Vector3(4, 0, 4), Quaternion.identity);
     }
 }

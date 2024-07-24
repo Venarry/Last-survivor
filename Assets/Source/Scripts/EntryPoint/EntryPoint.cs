@@ -7,20 +7,8 @@ public class EntryPoint : MonoBehaviour
 
     private void Awake()
     {
-        IInputProvider inputProvider;
+        IInputProvider inputProvider = GetInputProvider();
         TargetsProvider targetsProvider = new();
-
-        bool isMobile = Application.isMobilePlatform;
-
-        if (isMobile == false)
-        {
-            inputProvider = new KeyboardInputProvider();
-        }
-        else
-        {
-            MobileInputsProviderFactory mobileInputsProviderFactory = new();
-            inputProvider = mobileInputsProviderFactory.Create(_canvas.transform);
-        }
 
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
         Player player = playerFactory.Create(Vector3.zero);
@@ -44,5 +32,20 @@ public class EntryPoint : MonoBehaviour
         diamondFactory.Create(obstaclesHealth, new Vector3(-3, 0, 3), Quaternion.identity);
         woodFactory.Create(obstaclesHealth, new Vector3(4, 0, 4), Quaternion.identity);
         enemyFactory.Create(enemyHealth, new Vector3(0, 0, 5), Quaternion.identity, player.Target, attackDistance: 3f);
+    }
+
+    private IInputProvider GetInputProvider()
+    {
+        bool isMobile = Application.isMobilePlatform;
+
+        if (isMobile == false)
+        {
+            return new KeyboardInputProvider();
+        }
+        else
+        {
+            MobileInputsProviderFactory mobileInputsProviderFactory = new();
+            return mobileInputsProviderFactory.Create(_canvas.transform);
+        }
     }
 }

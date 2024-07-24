@@ -55,7 +55,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void RemoveDestination()
     {
-        _agent.ResetPath();
+        _agent.SetDestination(transform.position);
     }
 
     public void TryAttack()

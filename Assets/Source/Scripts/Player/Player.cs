@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
 
     public void Init(
         IInputProvider inputProvider,
+        CharacterAttackParameters characterAttackParameters,
         TargetsProvider targetsProvider,
         InventoryModel inventoryModel,
         ExperienceModel experienceModel,
@@ -54,5 +55,6 @@ public class Player : MonoBehaviour
         _experienceView.Init(experienceModel);
         _healthOverReaction.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);
+        _playerAttackHandler.Init(characterAttackParameters);
     }
 }

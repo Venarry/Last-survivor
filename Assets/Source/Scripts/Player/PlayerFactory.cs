@@ -20,7 +20,8 @@ public class PlayerFactory
 
         int maxHealth = 30;
         HealthModel healthModel = new(maxHealth);
-        player.Init(_inputProviderl, _targetsProvider, inventoryModel, experienceModel, healthModel);
+        CharacterAttackParameters characterAttackParameters = new();
+        player.Init(_inputProviderl, characterAttackParameters, _targetsProvider, inventoryModel, experienceModel, healthModel);
 
         return player;
     }

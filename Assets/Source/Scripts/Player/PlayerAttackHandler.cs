@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class PlayerAttackHandler : MonoBehaviour
 {
-    private float _attackCooldown = 0.5f;
     private float _timeLeft = 0;
-    private int _damage = 1;
-    private Dictionary<TargetType, Action<Target>> _playerAttackType;
+    private CharacterAttackParameters _characterAttackParameters;
+    private Dictionary<TargetType, Action<Target>> _playerAttackTypes;
 
     private void Awake()
     {
-        _timeLeft = _attackCooldown;
-
-        _playerAttackType = new()
+        _playerAttackTypes = new()
         {
             { TargetType.Enemy, AttackEnemy },
             { TargetType.Wood, AttackWood },
@@ -21,6 +18,11 @@ public class PlayerAttackHandler : MonoBehaviour
         };
     }
 
+    public void Init(CharacterAttackParameters characterAttackParameters)
+    {
+        _characterAttackParameters = characterAttackParameters;
+        _timeLeft = _characterAttackParameters.AttackCooldown;
+    }
 
     private void Update()
     {
@@ -32,28 +34,25 @@ public class PlayerAttackHandler : MonoBehaviour
         if (target == null)
             return;
 
-        if (_timeLeft >= _attackCooldown)
+        if (_timeLeft >= _characterAttackParameters.AttackCooldown)
         {
-            _playerAttackType[target.TargetType](target);
+            _playerAttackTypes[target.TargetType](target);
             _timeLeft = 0;
         }
     }
 
     private void AttackEnemy(Target target)
     {
-        Debug.Log($"Attack {target.TargetType}");
-        target.TakeDamage(_damage);
+        target.TakeDamage(_characterAttackParameters.EnemyDamage);
     }
 
     private void AttackWood(Target target)
     {
-        Debug.Log($"Attack {target.TargetType}");
-        target.TakeDamage(_damage);
+        target.TakeDamage(_characterAttackParameters.WoodDamage);
     }
     
     private void AttackOre(Target target)
     {
-        Debug.Log($"Attack {target.TargetType}");
-        target.TakeDamage(_damage);
+        target.TakeDamage(_characterAttackParameters.OreDamage);
     }
 }

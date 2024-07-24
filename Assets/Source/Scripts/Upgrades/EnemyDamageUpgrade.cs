@@ -1,0 +1,26 @@
+﻿public class EnemyDamageUpgrade : IUpgrade
+{
+    private readonly CharacterAttackParameters _characterAttackParameters;
+    private int _damagePerLevel = 1;
+    private int _currentLevel = 0;
+
+    public EnemyDamageUpgrade(CharacterAttackParameters characterAttackParameters)
+    {
+        _characterAttackParameters = characterAttackParameters;
+    }
+
+    public void Apply()
+    {
+        _characterAttackParameters.EnemyDamage += _damagePerLevel * _currentLevel;
+    }
+
+    public void IncreaseLevel()
+    {
+        _currentLevel++;
+    }
+
+    public void Cancel()
+    {
+        _characterAttackParameters.EnemyDamage -= _damagePerLevel * _currentLevel;
+    }
+}

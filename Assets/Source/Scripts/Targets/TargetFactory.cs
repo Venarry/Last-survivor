@@ -12,12 +12,11 @@ public abstract class TargetFactory
     protected abstract Target Prefab { get; }
     protected abstract TargetType TargetType { get; }
 
-    public virtual Target Create(Vector3 position, Quaternion rotation)
+    public virtual Target Create(int health, Vector3 position, Quaternion rotation)
     {
         Target target = Object.Instantiate(Prefab, position, rotation);
 
-        int maxHealth = 3;
-        HealthModel healthModel = new(maxHealth);
+        HealthModel healthModel = new(health);
         target.Init(TargetType, healthModel);
 
         _targetsProvider.Add(target);

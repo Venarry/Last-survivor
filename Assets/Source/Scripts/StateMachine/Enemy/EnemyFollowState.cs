@@ -17,7 +17,7 @@
     {
         _enemyBehaviour.Follow();
 
-        if (_enemyBehaviour.IsReach())
+        if (_enemyBehaviour.TargetIsReached)
         {
             _enemyBehaviour.RemoveDestination();
             _enemyStateSwitcher.SetAttackState();

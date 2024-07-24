@@ -1,15 +1,25 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBehaviour : MonoBehaviour
 {
+    private const float AttackGapMultiply = 1.2f;
+    private const float AttackDelay = 1.2f;
+
     private int _damage = 1;
     private float _attackDistance;
     private float _attackCooldown = 1f;
     private float _timeLeft;
     private Target _target;
     private NavMeshAgent _agent;
+    private WaitForSeconds _waitAttackDelay = new(AttackDelay);
+    private Coroutine _activeAttackCoroutine;
+
+    public bool IsReadyToAttack => _timeLeft >= _attackCooldown;
+    public bool TargetIsReached => Vector3.Distance(transform.position, _target.Position) <= _attackDistance;
+    public bool AttackGapIsBroken => Vector3.Distance(transform.position, _target.Position) > _attackDistance * AttackGapMultiply;
 
     private void Awake()
     {
@@ -48,15 +58,26 @@ public class EnemyBehaviour : MonoBehaviour
         _agent.ResetPath();
     }
 
-    public bool IsReach() =>
-        Vector3.Distance(transform.position, _target.Position) <= _attackDistance;
-
     public void TryAttack()
     {
-        if (_timeLeft < _attackCooldown)
+        if (IsReadyToAttack == false)
             return;
 
-        _target.TakeDamage(_damage);
+        if(_activeAttackCoroutine == null)
+            _activeAttackCoroutine = StartCoroutine(Attacking());
+
         _timeLeft = 0;
+    }
+
+    private IEnumerator Attacking()
+    {
+        yield return _waitAttackDelay;
+
+        if (AttackGapIsBroken == false)
+        {
+            _target.TakeDamage(_damage);
+        }
+
+        _activeAttackCoroutine = null;
     }
 }

@@ -35,9 +35,11 @@ public class EntryPoint : MonoBehaviour
 
         _targetFollower.Set(player.transform);
 
-        diamondFactory.Create(new Vector3(3, 0, 3), Quaternion.identity);
-        diamondFactory.Create(new Vector3(-3, 0, 3), Quaternion.identity);
-        woodFactory.Create(new Vector3(4, 0, 4), Quaternion.identity);
-        enemyFactory.Create(new Vector3(0, 0, 5), Quaternion.identity, player.Target, attackDistance: 3f);
+        int obstaclesHealth = 3;
+        int enemyHealth = 15;
+        diamondFactory.Create(obstaclesHealth, new Vector3(3, 0, 3), Quaternion.identity);
+        diamondFactory.Create(obstaclesHealth, new Vector3(-3, 0, 3), Quaternion.identity);
+        woodFactory.Create(obstaclesHealth, new Vector3(4, 0, 4), Quaternion.identity);
+        enemyFactory.Create(enemyHealth, new Vector3(0, 0, 5), Quaternion.identity, player.Target, attackDistance: 3f);
     }
 }

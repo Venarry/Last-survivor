@@ -12,9 +12,9 @@ public abstract class TargetWithLootFactory : TargetFactory
         _lootFactory = lootFactory;
     }
 
-    public override Target Create(Vector3 position, Quaternion rotation)
+    public override Target Create(int health, Vector3 position, Quaternion rotation)
     {
-        Target target = base.Create(position, rotation);
+        Target target = base.Create(health, position, rotation);
 
         TargetWithLoot targetWithLoot = target as TargetWithLoot;
         targetWithLoot.InitLootDropHandler(_lootFactory);

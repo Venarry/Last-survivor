@@ -16,13 +16,17 @@
 
     public void OnUpdate()
     {
-        _enemyBehaviour.TryAttack();
         _enemyBehaviour.RotateToTarget();
 
-        if (_enemyBehaviour.IsReach() == false)
+        if (_enemyBehaviour.IsReadyToAttack == false)
+            return;
+
+        if (_enemyBehaviour.AttackGapIsBroken)
         {
             _enemyStateSwitcher.SetFollowState();
         }
+
+        _enemyBehaviour.TryAttack();
     }
 
     public void OnExit()

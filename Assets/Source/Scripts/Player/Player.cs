@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
+    public CharacterAttackParameters CharacterAttackParameters { get; private set; }
 
     private void Awake()
     {
@@ -56,5 +57,7 @@ public class Player : MonoBehaviour
         _healthOverReaction.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);
         _playerAttackHandler.Init(characterAttackParameters);
+
+        CharacterAttackParameters = characterAttackParameters;
     }
 }

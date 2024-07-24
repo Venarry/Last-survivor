@@ -1,7 +1,7 @@
 ﻿public class EnemyDamageUpgrade : IUpgrade
 {
     private readonly CharacterAttackParameters _characterAttackParameters;
-    private int _damagePerLevel = 1;
+    private int _damagePerLevel = 5;
     private int _currentLevel = 0;
 
     public EnemyDamageUpgrade(CharacterAttackParameters characterAttackParameters)

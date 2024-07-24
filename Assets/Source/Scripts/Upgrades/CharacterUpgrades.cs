@@ -9,8 +9,6 @@ public class CharacterUpgrades : IUpgradable
     public void Add(IUpgrade upgrade)
     {
         Type type = upgrade.GetType();
-        Debug.Log(type);
-        Debug.Log(type.ReflectedType);
 
         if (_upgrades.ContainsKey(type) == false)
         {

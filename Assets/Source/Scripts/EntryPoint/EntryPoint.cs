@@ -25,6 +25,9 @@ public class EntryPoint : MonoBehaviour
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
         Player player = playerFactory.Create(Vector3.zero);
 
+        CharacterUpgrades characterUpgrades = new();
+        characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
+
         DiamondLootFactory diamondLootFactory = new(player.LootHolder);
         DiamondFactory diamondFactory = new(targetsProvider, diamondLootFactory);
 

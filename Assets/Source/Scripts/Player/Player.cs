@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(ExperienceView))]
 [RequireComponent(typeof(PlayerLootHolder))]
 [RequireComponent(typeof(Target))]
+[RequireComponent(typeof(PlayerHealthOverReaction))]
 public class Player : MonoBehaviour
 {
     private ThirdPersonMovement _thirdPersonMovement;
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     private PlayerAttackStateMachine _playerAttackStateMachine;
     private ExperienceView _experienceView;
     private InventroyView _inventroyView;
+    private PlayerHealthOverReaction _healthOverReaction;
 
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour
         _inventroyView = GetComponent<InventroyView>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
         _experienceView = GetComponent<ExperienceView>();
+        _healthOverReaction = GetComponent<PlayerHealthOverReaction>();
         LootHolder = GetComponent<PlayerLootHolder>();
         Target = GetComponent<Target>();
 
@@ -49,6 +52,7 @@ public class Player : MonoBehaviour
         _targetSearcher.Init(targetsProvider);
         _inventroyView.Init(inventoryModel);
         _experienceView.Init(experienceModel);
+        _healthOverReaction.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);
     }
 }

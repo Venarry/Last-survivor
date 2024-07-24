@@ -3,7 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(LootDropHandler))]
 public class TargetWithLoot : Target
 {
-    [SerializeField] private LootDropHandler _lootDropHandler;
+    private LootDropHandler _lootDropHandler;
+
+    protected override void OnAwake()
+    {
+        _lootDropHandler = GetComponent<LootDropHandler>();
+    }
 
     public void InitLootDropHandler(LootFactory lootFactory)
     {

@@ -30,14 +30,14 @@ public class PlayerAttackState : IState
 
     public void OnUpdate()
     {
-        _playerAttackHandler.TryAttack(_target);
-
         if(_targetSearcher.TryGetNearestTarget(out Target target))
         {
             if(target != _target)
             {
                 Set(target);
             }
+
+            _playerAttackHandler.TryAttack(_target);
         }
         else
         {

@@ -18,9 +18,9 @@ public class Player : MonoBehaviour
     private PlayerAttackStateMachine _playerAttackStateMachine;
     private ExperienceView _experienceView;
     private InventroyView _inventroyView;
-    private Target _target;
 
     public PlayerLootHolder LootHolder { get; private set; }
+    public Target Target { get; private set; }
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
         _experienceView = GetComponent<ExperienceView>();
         LootHolder = GetComponent<PlayerLootHolder>();
-        _target = GetComponent<Target>();
+        Target = GetComponent<Target>();
 
         _playerAttackStateMachine.Init(_targetSearcher, _thirdPersonRotation, _playerAttackHandler, _playerAttackStateMachine);
     }
@@ -49,6 +49,6 @@ public class Player : MonoBehaviour
         _targetSearcher.Init(targetsProvider);
         _inventroyView.Init(inventoryModel);
         _experienceView.Init(experienceModel);
-        _target.Init(TargetType.Enemy, healthModel);
+        Target.Init(TargetType.Enemy, healthModel);
     }
 }

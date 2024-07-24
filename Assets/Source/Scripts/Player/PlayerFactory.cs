@@ -17,7 +17,10 @@ public class PlayerFactory
         Player player = Object.Instantiate(_playerPrefab, position, Quaternion.identity);
         InventoryModel inventoryModel = new();
         ExperienceModel experienceModel = new();
-        player.Init(_inputProviderl, _targetsProvider, inventoryModel, experienceModel);
+
+        int maxHealth = 30;
+        HealthModel healthModel = new(maxHealth);
+        player.Init(_inputProviderl, _targetsProvider, inventoryModel, experienceModel, healthModel);
 
         return player;
     }

@@ -7,17 +7,17 @@ public class EnemyBehaviour : MonoBehaviour
 {
     private const float AttackGapMultiply = 1.2f;
     private const float AttackDelay = 1.2f;
+    private const float AttackCooldown = 1f;
 
-    private int _damage = 1;
-    private float _attackDistance;
-    private float _attackCooldown = 1f;
-    private float _timeLeft;
+    private readonly CooldownTimer _cooldownTimer = new(AttackCooldown);
     private Target _target;
     private NavMeshAgent _agent;
     private WaitForSeconds _waitAttackDelay = new(AttackDelay);
     private Coroutine _activeAttackCoroutine;
+    private int _damage = 1;
+    private float _attackDistance;
 
-    public bool IsReadyToAttack => _timeLeft >= _attackCooldown;
+    public bool IsReadyToAttack => _cooldownTimer.IsReady;
     public bool TargetIsReached => Vector3.Distance(transform.position, _target.Position) <= _attackDistance;
     public bool AttackGapIsBroken => Vector3.Distance(transform.position, _target.Position) > _attackDistance * AttackGapMultiply;
 
@@ -34,7 +34,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Update()
     {
-        _timeLeft += Time.deltaTime;
+        _cooldownTimer.Tick();
     }
 
     public void Follow()
@@ -60,13 +60,12 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void TryAttack()
     {
-        if (IsReadyToAttack == false)
+        if (_cooldownTimer.IsReady == false)
             return;
 
-        if(_activeAttackCoroutine == null)
-            _activeAttackCoroutine = StartCoroutine(Attacking());
+        _activeAttackCoroutine ??= StartCoroutine(Attacking());
 
-        _timeLeft = 0;
+        _cooldownTimer.Reset();
     }
 
     private IEnumerator Attacking()

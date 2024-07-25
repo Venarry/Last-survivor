@@ -10,6 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerLootHolder))]
 [RequireComponent(typeof(Target))]
 [RequireComponent(typeof(PlayerHealthOverReaction))]
+[RequireComponent(typeof(CharacterSkills))]
 public class Player : MonoBehaviour
 {
     private ThirdPersonMovement _thirdPersonMovement;
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
     public CharacterAttackParameters CharacterAttackParameters { get; private set; }
+    public CharacterSkills CharacterSkills { get; private set; }
 
     private void Awake()
     {
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
         _healthOverReaction = GetComponent<PlayerHealthOverReaction>();
         LootHolder = GetComponent<PlayerLootHolder>();
         Target = GetComponent<Target>();
+        CharacterSkills = GetComponent<CharacterSkills>();
 
         _playerAttackStateMachine.Init(_targetSearcher, _thirdPersonRotation, _playerAttackHandler, _playerAttackStateMachine);
     }

@@ -1,6 +1,6 @@
-public interface IUpgradable
+public interface IUpgradable<T>
 {
-    public void Add(IUpgrade upgrade);
-    public void Remove(IUpgrade upgrade);
+    public void Add(T upgrade);
+    public void Remove(T upgrade);
     public void RemoveAll();
 }

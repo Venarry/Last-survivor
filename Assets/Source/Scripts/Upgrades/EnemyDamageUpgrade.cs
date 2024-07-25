@@ -14,13 +14,20 @@
         _characterAttackParameters.EnemyDamage += _damagePerLevel * _currentLevel;
     }
 
-    public void IncreaseLevel()
-    {
-        _currentLevel++;
-    }
-
     public void Cancel()
     {
         _characterAttackParameters.EnemyDamage -= _damagePerLevel * _currentLevel;
+    }
+
+    public void IncreaseLevel()
+    {
+        if(_currentLevel != 0)
+        {
+            Cancel();
+        }
+
+        _currentLevel++;
+
+        Apply();
     }
 }

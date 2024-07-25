@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class CharacterUpgrades : IUpgradable
+public class CharacterUpgrades : IUpgradable<IUpgrade>
 {
     private readonly Dictionary<Type, IUpgrade> _upgrades = new();
 
@@ -13,15 +12,9 @@ public class CharacterUpgrades : IUpgradable
         if (_upgrades.ContainsKey(type) == false)
         {
             _upgrades.Add(type, upgrade);
-            upgrade.IncreaseLevel();
-            upgrade.Apply();
         }
-        else
-        {
-            upgrade.Cancel();
-            upgrade.IncreaseLevel();
-            upgrade.Apply();
-        }
+
+        upgrade.IncreaseLevel();
     }
 
     public void Remove(IUpgrade upgrade)

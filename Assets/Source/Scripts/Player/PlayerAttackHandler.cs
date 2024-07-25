@@ -31,6 +31,7 @@ public class PlayerAttackHandler : MonoBehaviour
 
     public void TryAttack(Target target)
     {
+        return;
         if (target == null)
             return;
 

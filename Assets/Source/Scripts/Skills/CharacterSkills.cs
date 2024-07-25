@@ -30,8 +30,10 @@ public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
         {
             _skills.Add(type, skill);
         }
-
-        skill.IncreaseLevel();
+        else
+        {
+            _skills[type].IncreaseLevel();
+        }
     }
 
     public void Remove(ISkill skill)

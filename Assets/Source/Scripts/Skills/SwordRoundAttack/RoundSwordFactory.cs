@@ -10,11 +10,11 @@ public class RoundSwordFactory
         _characterAttackParameters = characterAttackParameters;
     }
 
-    public RoundSword Create(Vector3 position, Transform target)
+    public RoundSword Create(Vector3 position, Transform target, int swordCount, float scale)
     {
         RoundSword roundSword = Object.Instantiate(_roundSwordPrefab, position, Quaternion.identity);
 
-        roundSword.Init(_characterAttackParameters, target);
+        roundSword.Init(_characterAttackParameters, target, swordCount, scale);
         return roundSword;
     }
 }

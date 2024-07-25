@@ -12,15 +12,20 @@ public class CharacterUpgrades : IUpgradable<IUpgrade>
         if (_upgrades.ContainsKey(type) == false)
         {
             _upgrades.Add(type, upgrade);
+            _upgrades[type].Apply();
         }
-
-        upgrade.IncreaseLevel();
+        else
+        {
+            _upgrades[type].IncreaseLevel();
+        }
     }
 
     public void Remove(IUpgrade upgrade)
     {
-        upgrade.Cancel();
-        _upgrades.Remove(upgrade.GetType());
+        Type type = upgrade.GetType();
+
+        _upgrades[type].Cancel();
+        _upgrades.Remove(type);
     }
 
     public void RemoveAll()

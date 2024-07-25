@@ -20,6 +20,11 @@ public class EntryPoint : MonoBehaviour
         SwordRoundAttackSkill swordRoundAttackSkill = new(roundSwordFactory, player.transform, player.TargetSearcher);
         player.CharacterSkills.Add(swordRoundAttackSkill);
 
+        swordRoundAttackSkill.IncreaseLevel();
+        swordRoundAttackSkill.IncreaseLevel();
+        swordRoundAttackSkill.IncreaseLevel();
+        swordRoundAttackSkill.IncreaseLevel();
+
         DiamondLootFactory diamondLootFactory = new(player.LootHolder);
         DiamondFactory diamondFactory = new(targetsProvider, diamondLootFactory);
 

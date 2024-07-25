@@ -2,7 +2,7 @@
 {
     private readonly CharacterAttackParameters _characterAttackParameters;
     private int _damagePerLevel = 1;
-    private int _currentLevel = 0;
+    private int _currentLevel = 1;
 
     public EnemyDamageUpgrade(CharacterAttackParameters characterAttackParameters)
     {

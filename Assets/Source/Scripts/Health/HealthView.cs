@@ -2,14 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthView : MonoBehaviour, IDamageable
+public class HealthView : MonoBehaviour
 {
-    [SerializeField] private bool _isFriendly = false;
     [SerializeField] private Image _healthBar;
 
     private HealthModel _healthModel;
-
-    public bool IsFriendly => _isFriendly;
 
     public event Action HealthOver;
 

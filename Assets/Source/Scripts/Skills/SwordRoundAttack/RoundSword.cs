@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class RoundSword : MonoBehaviour
 {
-    private CharacterAttackParameters _characterAttackParameters;
+    [SerializeField] private List<RoundSwordCollisionHandler> _swords;
+
     private Transform _target;
-    private float _rotateSpeed = 100f;
     private float _duration = 2f;
 
     private void Awake()
@@ -14,13 +15,18 @@ public class RoundSword : MonoBehaviour
 
     public void Init(CharacterAttackParameters characterAttackParameters, Transform target)
     {
-        _characterAttackParameters = characterAttackParameters;
+        foreach (RoundSwordCollisionHandler sword in _swords)
+        {
+            sword.Init(characterAttackParameters);
+        }
+
         _target = target;
     }
 
     private void Update()
     {
+        float rotateSpeed = 360 / _duration;
         transform.position = _target.position;
-        transform.Rotate(Vector3.up * _rotateSpeed * Time.deltaTime);
+        transform.Rotate(rotateSpeed * Time.deltaTime * Vector3.up);
     }
 }

@@ -15,13 +15,13 @@ public class Player : MonoBehaviour
 {
     private ThirdPersonMovement _thirdPersonMovement;
     private ThirdPersonRotation _thirdPersonRotation;
-    private TargetSearcher _targetSearcher;
     private PlayerAttackHandler _playerAttackHandler;
     private PlayerAttackStateMachine _playerAttackStateMachine;
     private ExperienceView _experienceView;
     private InventroyView _inventroyView;
     private PlayerHealthOverReaction _healthOverReaction;
 
+    public TargetSearcher TargetSearcher { get; private set; }
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
     public CharacterAttackParameters CharacterAttackParameters { get; private set; }
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     {
         _thirdPersonMovement = GetComponent<ThirdPersonMovement>();
         _thirdPersonRotation = GetComponent<ThirdPersonRotation>();
-        _targetSearcher = GetComponent<TargetSearcher>();
+        TargetSearcher = GetComponent<TargetSearcher>();
         _playerAttackHandler = GetComponent<PlayerAttackHandler>();
         _inventroyView = GetComponent<InventroyView>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
         Target = GetComponent<Target>();
         CharacterSkills = GetComponent<CharacterSkills>();
 
-        _playerAttackStateMachine.Init(_targetSearcher, _thirdPersonRotation, _playerAttackHandler, _playerAttackStateMachine);
+        _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, _playerAttackHandler, _playerAttackStateMachine);
     }
 
     public void Init(
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
     {
         _thirdPersonMovement.Init(inputProvider);
         _thirdPersonRotation.Init(inputProvider);
-        _targetSearcher.Init(targetsProvider);
+        TargetSearcher.Init(targetsProvider);
         _inventroyView.Init(inventoryModel);
         _experienceView.Init(experienceModel);
         _healthOverReaction.Init(healthModel);

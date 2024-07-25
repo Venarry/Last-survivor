@@ -12,7 +12,7 @@ public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
         {
             if(skill.Value.SkillTickType == SkillTickType.EveryTick)
             {
-                skill.Value.Apply();
+                skill.Value.TryCast();
             }
 
             if(skill.Value.HasCooldown == true)
@@ -36,17 +36,11 @@ public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
 
     public void Remove(ISkill skill)
     {
-        skill.Cancel();
         _skills.Remove(skill.GetType());
     }
 
     public void RemoveAll()
     {
-        foreach (KeyValuePair<Type, ISkill> skill in _skills)
-        {
-            skill.Value.Cancel();
-        }
-
         _skills.Clear();
     }
 }

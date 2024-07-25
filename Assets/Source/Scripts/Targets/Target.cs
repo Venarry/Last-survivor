@@ -5,11 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(TargetHealthOverReaction))]
 public class Target : MonoBehaviour
 {
+    [SerializeField] private bool _isFriendly = false;
     private HealthView _healthView;
     private TargetHealthOverReaction _healthOverReaction;
 
     public Vector3 Position => transform.position;
     public TargetType TargetType { get; private set; }
+    public bool IsFriendly => _isFriendly;
 
     public event Action<Target> HealthOver;
 

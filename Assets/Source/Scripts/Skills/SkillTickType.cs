@@ -1,5 +1,5 @@
 ﻿public enum SkillTickType
 {
-    OnAwake,
+    HasNoTick,
     EveryTick,
 }

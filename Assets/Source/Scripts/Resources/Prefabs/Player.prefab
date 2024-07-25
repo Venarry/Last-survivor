@@ -742,7 +742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9974b1847aa98564f8a204f9c31912db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isFriendly: 1
   _healthBar: {fileID: 4783335953418728730}
 --- !u!114 &4706717776109421603
 MonoBehaviour:
@@ -756,6 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c977bf1f19350e4ba849e8223b5b7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFriendly: 1
 --- !u!114 &4553894755612824376
 MonoBehaviour:
   m_ObjectHideFlags: 0

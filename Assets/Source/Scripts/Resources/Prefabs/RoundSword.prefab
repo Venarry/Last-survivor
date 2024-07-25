@@ -486,6 +486,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: babbf6309d96dc643a6474e6d29d8fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _swords:
+  - {fileID: 4520339101585126529}
+  - {fileID: 4379345258537248630}
+  - {fileID: 3925693792137189830}
+  - {fileID: 7061467568162953417}
 --- !u!1 &8862553861288102230
 GameObject:
   m_ObjectHideFlags: 0

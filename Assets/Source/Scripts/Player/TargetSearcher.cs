@@ -11,16 +11,6 @@ public class TargetSearcher : MonoBehaviour
         _targetsProvider = targetsProvider;
     }
 
-    public bool TrySearchTarget()
-    {
-        if (TryGetNearestTarget(out Target target) == false)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     public bool TryGetNearestTarget(out Target target) =>
         _targetsProvider.TryGetNearest(transform.position, _attackDistance, out target);
 }

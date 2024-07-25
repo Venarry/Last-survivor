@@ -17,7 +17,7 @@ public class EntryPoint : MonoBehaviour
         characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters);
-        SwordRoundAttackSkill swordRoundAttackSkill = new(roundSwordFactory, player.transform);
+        SwordRoundAttackSkill swordRoundAttackSkill = new(roundSwordFactory, player.transform, player.TargetSearcher);
         player.CharacterSkills.Add(swordRoundAttackSkill);
 
         DiamondLootFactory diamondLootFactory = new(player.LootHolder);

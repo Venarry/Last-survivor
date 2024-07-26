@@ -11,4 +11,6 @@ public class ResourcesPath
     public const string WoodLoot = "Prefabs/WoodLoot";
 
     public const string RoundSword = "Prefabs/RoundSword";
+
+    public const string SwordRoundAttackSkillIcon = "Prefabs/SwordRoundAttackSkillIcon";
 }

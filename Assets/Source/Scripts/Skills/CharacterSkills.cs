@@ -36,13 +36,29 @@ public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
         }
     }
 
-    public void Remove(ISkill skill)
+    public void Remove(Type skillType)
     {
-        _skills.Remove(skill.GetType());
+        _skills.Remove(skillType);
     }
 
     public void RemoveAll()
     {
         _skills.Clear();
+    }
+
+    public bool TryGetSkillLevel(Type skillType, out int level, out int maxLevel)
+    {
+        level = 0;
+        maxLevel = 0;
+
+        if(_skills.ContainsKey(skillType) == false)
+        {
+            return false;
+        }
+
+        level = _skills[skillType].CurrentLevel;
+        maxLevel = _skills[skillType].MaxLevel;
+
+        return true;
     }
 }

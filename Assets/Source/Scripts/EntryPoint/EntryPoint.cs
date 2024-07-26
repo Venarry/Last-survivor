@@ -4,26 +4,35 @@ public class EntryPoint : MonoBehaviour
 {
     [SerializeField] private Canvas _canvas;
     [SerializeField] private TargetFollower _targetFollower;
+    [SerializeField] private SkillsOpener _skillsOpener;
 
     private void Awake()
     {
+        SkillsSpriteDataSouce skillsSpriteDataSouce = new();
         IInputProvider inputProvider = GetInputProvider();
         TargetsProvider targetsProvider = new();
 
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
-        Player player = playerFactory.Create(Vector3.zero);
+        ExperienceModel experienceModel = new();
+        Player player = playerFactory.Create(Vector3.zero, experienceModel);
+
+        RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters);
+
+        SkillsFactory skillsFactory = new(player, roundSwordFactory);
+        _skillsOpener.Init(player.CharacterSkills, experienceModel, skillsFactory);
 
         CharacterUpgrades characterUpgrades = new();
         characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
 
-        RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters);
-        SwordRoundAttackSkill swordRoundAttackSkill = new(roundSwordFactory, player.transform, player.TargetSearcher);
-        player.CharacterSkills.Add(swordRoundAttackSkill);
+        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
+        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
+        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
+        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
 
-        swordRoundAttackSkill.IncreaseLevel();
-        swordRoundAttackSkill.IncreaseLevel();
-        swordRoundAttackSkill.IncreaseLevel();
-        swordRoundAttackSkill.IncreaseLevel();
+        //swordRoundAttackSkill.IncreaseLevel();
+        //swordRoundAttackSkill.IncreaseLevel();
+        //swordRoundAttackSkill.IncreaseLevel();
+        //swordRoundAttackSkill.IncreaseLevel();
 
         DiamondLootFactory diamondLootFactory = new(player.LootHolder);
         DiamondFactory diamondFactory = new(targetsProvider, diamondLootFactory);

@@ -6,8 +6,6 @@ public class SwordRoundAttackSkill : ISkill
     private Transform _spawnTarget;
     private TargetSearcher _targetSearcher;
     private CooldownTimer _cooldownTimer = new(4);
-    private int _currentLevel = 1;
-    private int _maxLevel = 5;
 
     public SwordRoundAttackSkill(
         RoundSwordFactory roundSwordFactory,
@@ -21,6 +19,8 @@ public class SwordRoundAttackSkill : ISkill
 
     public SkillTickType SkillTickType => SkillTickType.EveryTick;
     public bool HasCooldown => true;
+    public int MaxLevel { get; private set; } = 5;
+    public int CurrentLevel { get; private set; } = 1;
 
     public void TryCast()
     {
@@ -31,18 +31,18 @@ public class SwordRoundAttackSkill : ISkill
 
         if (_cooldownTimer.IsReady == true)
         {
-            float swordsScale = 1 + (float)(_currentLevel - 1) / 3;
-            _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, _currentLevel, swordsScale);
+            float swordsScale = 1 + (float)(CurrentLevel - 1) / 3;
+            _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, swordsScale);
             _cooldownTimer.Reset();
         }
     }
 
     public void IncreaseLevel()
     {
-        if (_currentLevel >= _maxLevel)
+        if (CurrentLevel >= MaxLevel)
             return;
 
-        _currentLevel++;
+        CurrentLevel++;
     }
 
     public void IncreaseTimeLeft()

@@ -20,12 +20,10 @@ public class CharacterUpgrades : IUpgradable<IUpgrade>
         }
     }
 
-    public void Remove(IUpgrade upgrade)
+    public void Remove(Type upgradeType)
     {
-        Type type = upgrade.GetType();
-
-        _upgrades[type].Cancel();
-        _upgrades.Remove(type);
+        _upgrades[upgradeType].Cancel();
+        _upgrades.Remove(upgradeType);
     }
 
     public void RemoveAll()

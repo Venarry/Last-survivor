@@ -12,11 +12,10 @@ public class PlayerFactory
         _targetsProvider = targetsProvider;
     }
 
-    public Player Create(Vector3 position)
+    public Player Create(Vector3 position, ExperienceModel experienceModel)
     {
         Player player = Object.Instantiate(_playerPrefab, position, Quaternion.identity);
         InventoryModel inventoryModel = new();
-        ExperienceModel experienceModel = new();
 
         int maxHealth = 30;
         HealthModel healthModel = new(maxHealth);

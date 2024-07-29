@@ -39,11 +39,12 @@ public class Loot : MonoBehaviour
 
         _rigidbody.useGravity = false;
         float pickupDistance = 1f;
-        float deltaDistance = 0.2f;
+        float deltaDistance = 50f;
 
         while(Vector3.Distance(_lootHolder.ReceivingPosition, transform.position) > pickupDistance)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _lootHolder.ReceivingPosition, deltaDistance);
+            transform.position = Vector3
+                .MoveTowards(transform.position, _lootHolder.ReceivingPosition, deltaDistance * Time.deltaTime);
             yield return null;
         }
 

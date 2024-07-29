@@ -39,8 +39,8 @@ public class ThirdPersonRotation : MonoBehaviour
 
     private void Set(Vector3 moveDirection)
     {
-        _moveDirection.x = moveDirection.x * Time.deltaTime;
-        _moveDirection.z = moveDirection.z * Time.deltaTime;
+        _moveDirection.x = moveDirection.x;
+        _moveDirection.z = moveDirection.z;
         _moveDirection.y = 0;
     }
 
@@ -58,7 +58,7 @@ public class ThirdPersonRotation : MonoBehaviour
     {
         Quaternion rotateDirection = Quaternion.LookRotation(direction);
         rotateDirection.x = 0;
-        Quaternion targetRotation = Quaternion.Lerp(transform.rotation, rotateDirection, _speed);
+        Quaternion targetRotation = Quaternion.Lerp(transform.rotation, rotateDirection, _speed * Time.deltaTime);
 
         transform.rotation = targetRotation;
     }

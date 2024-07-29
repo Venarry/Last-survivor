@@ -4,16 +4,29 @@ using UnityEngine;
 
 public class SkillsOpener : MonoBehaviour
 {
-    [SerializeField] private GameObject _skillsMenu;
+    private const int SkillsInChoose = 3;
+
+    [SerializeField] private GameObject _skillsParent;
+    [SerializeField] private SkillToChoose _skillsPrefab;
+
+    private List<SkillToChoose> _spawnedSkill = new();
+    private SkillsSpriteDataSouce _skillsSpriteDataSouce;
     private CharacterSkills _characterSkills;
     private ExperienceModel _experienceModel;
     private SkillsFactory _skillsFactory;
 
-    public void Init(CharacterSkills characterSkills, ExperienceModel experienceModel, SkillsFactory skillsFactory)
+    public void Init(
+        SkillsSpriteDataSouce skillsSpriteDataSouce,
+        CharacterSkills characterSkills,
+        ExperienceModel experienceModel,
+        SkillsFactory skillsFactory)
     {
+        _skillsSpriteDataSouce = skillsSpriteDataSouce;
         _characterSkills = characterSkills;
         _experienceModel = experienceModel;
         _skillsFactory = skillsFactory;
+
+        _skillsParent.SetActive(false);
 
         experienceModel.LevelAdd += OnLevelAdd;
     }
@@ -23,9 +36,19 @@ public class SkillsOpener : MonoBehaviour
         _experienceModel.LevelAdd -= OnLevelAdd;
     }
 
+    public void CloseMenu()
+    {
+        foreach (SkillToChoose spawnedSkill in _spawnedSkill)
+        {
+            Destroy(spawnedSkill.gameObject);
+        }
+
+        _spawnedSkill.Clear();
+    }
+
     private void OnLevelAdd()
     {
-        _skillsMenu.SetActive(true);
+        _skillsParent.SetActive(true);
 
         ISkill[] allSkills = _skillsFactory.CreateAllSkills();
         Debug.Log($"allSkills {allSkills.Length}");
@@ -40,15 +63,31 @@ public class SkillsOpener : MonoBehaviour
             {
                 if (level < maxLevel)
                 {
-                    Debug.Log("skill added");
+                    SpawnSkill(skill);
                     addedSkillsCounter++;
                 }
             }
             else
             {
-                Debug.Log("skill added");
+                SpawnSkill(skill);
                 addedSkillsCounter++;
             }
+
+            if(addedSkillsCounter >= SkillsInChoose)
+            {
+                break;
+            }
         }
+    }
+
+    private void SpawnSkill(ISkill skill)
+    {
+        Debug.Log("skill added");
+        Sprite icon = _skillsSpriteDataSouce.Get(skill.GetType());
+
+        SkillToChoose skillButton = Instantiate(_skillsPrefab, _skillsParent.transform);
+        skillButton.Init(_characterSkills, this, icon, skill);
+
+        _spawnedSkill.Add(skillButton);
     }
 }

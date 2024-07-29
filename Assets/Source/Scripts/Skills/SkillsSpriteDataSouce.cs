@@ -10,12 +10,12 @@ public class SkillsSpriteDataSouce
     {
         _icons = new()
         {
-            { typeof(SwordRoundAttackSkill), Resources.Load<Sprite>(ResourcesPath.SwordRoundAttackSkillIcon) }
+            { typeof(SwordRoundAttackSkill), Resources.Load<Sprite>(ResourcesPath.SkillIconSwordRoundAttack) }
         };
     }
 
-    public Sprite Get(ISkill skill)
+    public Sprite Get(Type skillType)
     {
-        return _icons[skill.GetType()];
+        return _icons[skillType];
     }
 }

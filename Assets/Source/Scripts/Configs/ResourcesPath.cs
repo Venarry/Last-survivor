@@ -3,6 +3,8 @@ using UnityEngine;
 public class ResourcesPath
 {
     private const string PrefabsPath = "Prefabs/";
+    private const string SpritesPath = "";
+
     public const string Player = PrefabsPath + "Player";
     public const string MobileInputsProvider = PrefabsPath + "FloatingJoystick";
     public const string Diamond = PrefabsPath + "Diamond";
@@ -13,5 +15,5 @@ public class ResourcesPath
 
     public const string RoundSword = PrefabsPath + "RoundSword";
 
-    public const string SkillIconSwordRoundAttack = "Sprites/SkillIconSwordRoundAttack";
+    public const string SkillIconSwordRoundAttack = SpritesPath + "SkillIconSwordRoundAttack";
 }

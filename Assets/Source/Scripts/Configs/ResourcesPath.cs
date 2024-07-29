@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class ResourcesPath
 {
-    public const string Player = "Prefabs/Player";
-    public const string MobileInputsProvider = "Prefabs/FloatingJoystick";
-    public const string Diamond = "Prefabs/Diamond";
-    public const string Wood = "Prefabs/Wood";
-    public const string Enemy = "Prefabs/Enemy";
-    public const string DiamondLoot = "Prefabs/DiamondLoot";
-    public const string WoodLoot = "Prefabs/WoodLoot";
+    private const string PrefabsPath = "Prefabs/";
+    public const string Player = PrefabsPath + "Player";
+    public const string MobileInputsProvider = PrefabsPath + "FloatingJoystick";
+    public const string Diamond = PrefabsPath + "Diamond";
+    public const string Wood = PrefabsPath + "Wood";
+    public const string Enemy = PrefabsPath + "Enemy";
+    public const string DiamondLoot = PrefabsPath + "DiamondLoot";
+    public const string WoodLoot = PrefabsPath + "WoodLoot";
 
-    public const string RoundSword = "Prefabs/RoundSword";
+    public const string RoundSword = PrefabsPath + "RoundSword";
 
     public const string SkillIconSwordRoundAttack = "Sprites/SkillIconSwordRoundAttack";
 }

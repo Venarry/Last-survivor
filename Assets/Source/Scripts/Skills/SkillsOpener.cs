@@ -44,12 +44,11 @@ public class SkillsOpener : MonoBehaviour
         }
 
         _spawnedSkill.Clear();
+        Time.timeScale = 1;
     }
 
     private void OnLevelAdd()
     {
-        _skillsParent.SetActive(true);
-
         ISkill[] allSkills = _skillsFactory.CreateAllSkills();
         Debug.Log($"allSkills {allSkills.Length}");
         ISkill[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length - 1)).ToArray();
@@ -77,6 +76,12 @@ public class SkillsOpener : MonoBehaviour
             {
                 break;
             }
+        }
+
+        if(addedSkillsCounter != 0)
+        {
+            _skillsParent.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 

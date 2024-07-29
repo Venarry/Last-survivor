@@ -22,7 +22,7 @@ public class EntryPoint : MonoBehaviour
         _skillsOpener.Init(skillsSpriteDataSouce, player.CharacterSkills, experienceModel, skillsFactory);
 
         CharacterUpgrades characterUpgrades = new();
-        characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
+        //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
 
         //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
         //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
@@ -46,9 +46,14 @@ public class EntryPoint : MonoBehaviour
 
         int obstaclesHealth = 3;
         int enemyHealth = 15;
-        diamondFactory.Create(obstaclesHealth, new Vector3(3, 0, 3), Quaternion.identity);
-        diamondFactory.Create(obstaclesHealth, new Vector3(-3, 0, 3), Quaternion.identity);
-        woodFactory.Create(obstaclesHealth, new Vector3(4, 0, 4), Quaternion.identity);
+
+        for (int i = 0; i < 10; i++)
+        {
+            diamondFactory.Create(obstaclesHealth, new Vector3(3, 0, 3 * i), Quaternion.identity);
+            diamondFactory.Create(obstaclesHealth, new Vector3(-3, 0, 3 * i), Quaternion.identity);
+            woodFactory.Create(obstaclesHealth, new Vector3(4, 0, 4 * i), Quaternion.identity);
+        }
+        
         enemyFactory.Create(enemyHealth, new Vector3(0, 0, 5), Quaternion.identity, player.Target, attackDistance: 3f);
     }
 

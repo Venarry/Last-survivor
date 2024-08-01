@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class PlayerFactory
 {
-    private readonly Player _playerPrefab = Resources.Load<Player>(ResourcesPath.Player);
+    private Player _playerPrefab;
     private readonly IInputProvider _inputProviderl;
     private readonly TargetsProvider _targetsProvider;
 
@@ -10,6 +12,12 @@ public class PlayerFactory
     {
         _inputProviderl = inputProvider;
         _targetsProvider = targetsProvider;
+    }
+
+    public async Task Load()
+    {
+        GameObject gameObject = await Addressables.LoadAssetAsync<GameObject>(ResourcesPath.Player).Task;
+        _playerPrefab = gameObject.GetComponent<Player>();
     }
 
     public Player Create(Vector3 position, ExperienceModel experienceModel)

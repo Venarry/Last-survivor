@@ -6,13 +6,17 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private TargetFollower _targetFollower;
     [SerializeField] private SkillsOpener _skillsOpener;
 
-    private void Awake()
+    private async void Awake()
     {
         SkillsSpriteDataSouce skillsSpriteDataSouce = new();
+        await skillsSpriteDataSouce.Load();
+
         IInputProvider inputProvider = GetInputProvider();
         TargetsProvider targetsProvider = new();
 
         PlayerFactory playerFactory = new(inputProvider, targetsProvider);
+        await playerFactory.Load();
+
         ExperienceModel experienceModel = new();
         Player player = playerFactory.Create(Vector3.zero, experienceModel);
 

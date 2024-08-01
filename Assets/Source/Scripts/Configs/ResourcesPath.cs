@@ -5,7 +5,7 @@ public class ResourcesPath
     private const string PrefabsPath = "Prefabs/";
     private const string SpritesPath = "";
 
-    public const string Player = PrefabsPath + "Player";
+    public const string Player = /*PrefabsPath + */"Player";
     public const string MobileInputsProvider = PrefabsPath + "FloatingJoystick";
     public const string Diamond = PrefabsPath + "Diamond";
     public const string Wood = PrefabsPath + "Wood";

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -7,26 +8,14 @@ public class SkillsSpriteDataSouce
 {
     private Dictionary<Type, Sprite> _icons;
 
-    public SkillsSpriteDataSouce()
+    public async Task Load()
     {
-        Sprite swordRoundSkill;
+        Sprite swordRoundSkill = await Addressables.LoadAssetAsync<Sprite>(ResourcesPath.SkillIconSwordRoundAttack).Task;
 
-        Addressables.LoadAssetAsync<Sprite>(ResourcesPath.SkillIconSwordRoundAttack)
-            .Completed += (obj) =>
-            {
-                var swordRoundSkill = obj.Result;
-                Debug.Log(swordRoundSkill);
-
-                _icons = new() //Resources.Load<Sprite>(ResourcesPath.SkillIconSwordRoundAttack) 
-                {
-                    { typeof(SwordRoundAttackSkill), swordRoundSkill }
-                };
-            };
-
-        //_icons = new() //Resources.Load<Sprite>(ResourcesPath.SkillIconSwordRoundAttack) 
-        //{
-        //    { typeof(SwordRoundAttackSkill), swordRoundSkill }
-        //};
+        _icons = new()
+        {
+            { typeof(SwordRoundAttackSkill), swordRoundSkill }
+        };
     }
 
     public Sprite Get(Type skillType)

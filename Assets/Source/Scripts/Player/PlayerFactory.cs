@@ -1,29 +1,28 @@
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class PlayerFactory
 {
-    private Player _playerPrefab;
     private readonly IInputProvider _inputProviderl;
     private readonly TargetsProvider _targetsProvider;
+    private readonly AssetProvider _assetProvider;
+    private Player _playerPrefab;
 
-    public PlayerFactory(IInputProvider inputProvider, TargetsProvider targetsProvider)
+    public PlayerFactory(IInputProvider inputProvider, TargetsProvider targetsProvider, AssetProvider assetProvider)
     {
         _inputProviderl = inputProvider;
         _targetsProvider = targetsProvider;
+        _assetProvider = assetProvider;
     }
 
-    public async Task Load()
+    public async Task<Player> Create(Vector3 position, ExperienceModel experienceModel)
     {
-        GameObject gameObject = await Addressables.LoadAssetAsync<GameObject>(ResourcesPath.Player).Task;
-        _playerPrefab = gameObject.GetComponent<Player>();
-    }
+        await Load();
 
-    public Player Create(Vector3 position, ExperienceModel experienceModel)
-    {
         Player player = Object.Instantiate(_playerPrefab, position, Quaternion.identity);
         InventoryModel inventoryModel = new();
+
+        _assetProvider.Clear(ResourcesPath.Player);
 
         int maxHealth = 30;
         HealthModel healthModel = new(maxHealth);
@@ -31,5 +30,11 @@ public class PlayerFactory
         player.Init(_inputProviderl, characterAttackParameters, _targetsProvider, inventoryModel, experienceModel, healthModel);
 
         return player;
+    }
+
+    private async Task Load()
+    {
+        GameObject gameObject = await _assetProvider.Load<GameObject>(ResourcesPath.Player);
+        _playerPrefab = gameObject.GetComponent<Player>();
     }
 }

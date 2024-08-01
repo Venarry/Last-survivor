@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EntryPoint : MonoBehaviour
 {
@@ -6,19 +7,23 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private TargetFollower _targetFollower;
     [SerializeField] private SkillsOpener _skillsOpener;
 
+    private AssetProvider _assetProvider;
+
     private async void Awake()
     {
-        SkillsSpriteDataSouce skillsSpriteDataSouce = new();
+        _assetProvider = new();
+
+        SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetProvider);
+        await skillsSpriteDataSouce.Load();
         await skillsSpriteDataSouce.Load();
 
         IInputProvider inputProvider = GetInputProvider();
         TargetsProvider targetsProvider = new();
 
-        PlayerFactory playerFactory = new(inputProvider, targetsProvider);
-        await playerFactory.Load();
+        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetProvider);
 
         ExperienceModel experienceModel = new();
-        Player player = playerFactory.Create(Vector3.zero, experienceModel);
+        Player player = await playerFactory.Create(Vector3.zero, experienceModel);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters);
 
@@ -74,5 +79,18 @@ public class EntryPoint : MonoBehaviour
             MobileInputsProviderFactory mobileInputsProviderFactory = new();
             return mobileInputsProviderFactory.Create(_canvas.transform);
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        _assetProvider.Clear();
     }
 }

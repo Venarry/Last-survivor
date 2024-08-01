@@ -7,10 +7,16 @@ using UnityEngine.AddressableAssets;
 public class SkillsSpriteDataSouce
 {
     private Dictionary<Type, Sprite> _icons;
+    private AssetProvider _assetProvider;
+
+    public SkillsSpriteDataSouce(AssetProvider assetProvider)
+    {
+        _assetProvider = assetProvider;
+    }
 
     public async Task Load()
     {
-        Sprite swordRoundSkill = await Addressables.LoadAssetAsync<Sprite>(ResourcesPath.SkillIconSwordRoundAttack).Task;
+        Sprite swordRoundSkill = await _assetProvider.Load<Sprite>(ResourcesPath.SkillIconSwordRoundAttack);
 
         _icons = new()
         {

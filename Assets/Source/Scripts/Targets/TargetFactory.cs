@@ -1,20 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 public abstract class TargetFactory
 {
+    private readonly AssetsProvider _assetsProvider;
     private readonly TargetsProvider _targetsProvider;
 
-    protected TargetFactory(TargetsProvider targetsProvider)
+    protected TargetFactory(TargetsProvider targetsProvider, AssetsProvider assetsProvider)
     {
         _targetsProvider = targetsProvider;
+        _assetsProvider = assetsProvider;
     }
 
-    protected abstract Target Prefab { get; }
+    protected abstract string AssetKey { get; }
     protected abstract TargetType TargetType { get; }
 
-    public virtual Target Create(int health, Vector3 position, Quaternion rotation)
+    public virtual async Task<Target> Create(int health, Vector3 position, Quaternion rotation)
     {
-        Target target = Object.Instantiate(Prefab, position, rotation);
+        Target target = Object.Instantiate(await _assetsProvider.LoadGameObject<Target>(AssetKey), position, rotation);
 
         HealthModel healthModel = new(health);
         target.Init(TargetType, healthModel);

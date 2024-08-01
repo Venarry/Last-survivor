@@ -5,10 +5,10 @@ public class PlayerFactory
 {
     private readonly IInputProvider _inputProviderl;
     private readonly TargetsProvider _targetsProvider;
-    private readonly AssetProvider _assetProvider;
+    private readonly AssetsProvider _assetProvider;
     private Player _playerPrefab;
 
-    public PlayerFactory(IInputProvider inputProvider, TargetsProvider targetsProvider, AssetProvider assetProvider)
+    public PlayerFactory(IInputProvider inputProvider, TargetsProvider targetsProvider, AssetsProvider assetProvider)
     {
         _inputProviderl = inputProvider;
         _targetsProvider = targetsProvider;
@@ -17,12 +17,12 @@ public class PlayerFactory
 
     public async Task<Player> Create(Vector3 position, ExperienceModel experienceModel)
     {
-        await Load();
+        _playerPrefab = await _assetProvider.LoadGameObject<Player>(AssetsKeys.Player);
 
         Player player = Object.Instantiate(_playerPrefab, position, Quaternion.identity);
         InventoryModel inventoryModel = new();
 
-        _assetProvider.Clear(ResourcesPath.Player);
+        _assetProvider.Clear(AssetsKeys.Player);
 
         int maxHealth = 30;
         HealthModel healthModel = new(maxHealth);
@@ -30,11 +30,5 @@ public class PlayerFactory
         player.Init(_inputProviderl, characterAttackParameters, _targetsProvider, inventoryModel, experienceModel, healthModel);
 
         return player;
-    }
-
-    private async Task Load()
-    {
-        GameObject gameObject = await _assetProvider.Load<GameObject>(ResourcesPath.Player);
-        _playerPrefab = gameObject.GetComponent<Player>();
     }
 }

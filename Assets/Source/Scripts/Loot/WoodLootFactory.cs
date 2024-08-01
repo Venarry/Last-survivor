@@ -1,12 +1,9 @@
-﻿using UnityEngine;
-
-public class WoodLootFactory : LootFactory
+﻿public class WoodLootFactory : LootFactory
 {
-    public WoodLootFactory(ILootHolder lootHolder) : base(lootHolder)
+    public WoodLootFactory(ILootHolder lootHolder, AssetsProvider assetsProvider) : base(lootHolder, assetsProvider)
     {
     }
 
-    protected override Loot Prefab => Resources.Load<Loot>(ResourcesPath.WoodLoot);
-
+    protected override string AssetKey => AssetsKeys.WoodLoot;
     protected override LootType LootType => LootType.Wood;
 }

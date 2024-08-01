@@ -27,6 +27,46 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1be22033624005a47b273c2b2bbdf062
+    m_Address: RoundSword
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbae12bc27fd6ba4f8afdf854554a125
+    m_Address: WoodLoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cc52f4d8e2843c4281f6c52075ea2cc
+    m_Address: DiamondLoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 626be18f1a663244c943597871b2914e
+    m_Address: Enemy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b55de2175cf8814c990293727a20b34
+    m_Address: Wood
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67ae40650ba940649bdd6c8bb71807ac
+    m_Address: Diamond
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24057393758e7d34980e06b62c2c2c57
+    m_Address: FloatingJoystick
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dc9abefd34f9394a8481968c6816990
+    m_Address: SkillToChoose
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b5ae0c8eedb78e645a3e116db5339e10, type: 2}
   m_SchemaSet:

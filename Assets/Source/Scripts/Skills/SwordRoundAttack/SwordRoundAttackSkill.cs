@@ -22,7 +22,7 @@ public class SwordRoundAttackSkill : ISkill
     public int MaxLevel { get; private set; } = 5;
     public int CurrentLevel { get; private set; } = 1;
 
-    public void TryCast()
+    public async void TryCast()
     {
         if(_targetSearcher.TryGetNearestTarget(out _) == false)
         {
@@ -32,7 +32,7 @@ public class SwordRoundAttackSkill : ISkill
         if (_cooldownTimer.IsReady == true)
         {
             float swordsScale = 1 + (float)(CurrentLevel - 1) / 3;
-            _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, swordsScale);
+            await _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, swordsScale);
             _cooldownTimer.Reset();
         }
     }

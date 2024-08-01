@@ -1,19 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 public abstract class LootFactory
 {
-    protected abstract Loot Prefab { get; }
-    protected abstract LootType LootType { get; }
     private readonly ILootHolder _lootHolder;
+    protected AssetsProvider AssetsProvider;
+    protected abstract string AssetKey { get; }
+    protected abstract LootType LootType { get; }
 
-    protected LootFactory(ILootHolder lootHolder)
+    protected LootFactory(ILootHolder lootHolder, AssetsProvider assetsProvider)
     {
         _lootHolder = lootHolder;
+        AssetsProvider = assetsProvider;
     }
 
-    public Loot Create(Vector3 position)
+    public async Task<Loot> Create(Vector3 position)
     {
-        Loot loot = Object.Instantiate(Prefab, position, Quaternion.identity);
+        Loot loot = Object.Instantiate(await AssetsProvider.LoadGameObject<Loot>(AssetKey), position, Quaternion.identity);
 
         int reward = 1;
         int experience = 1;

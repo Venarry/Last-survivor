@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 public abstract class TargetWithLootFactory : TargetFactory
 {
@@ -6,15 +7,16 @@ public abstract class TargetWithLootFactory : TargetFactory
 
     public TargetWithLootFactory(
         TargetsProvider targetsProvider,
+        AssetsProvider assetsProvider,
         LootFactory lootFactory)
-        : base(targetsProvider)
+        : base(targetsProvider, assetsProvider)
     {
         _lootFactory = lootFactory;
     }
 
-    public override Target Create(int health, Vector3 position, Quaternion rotation)
+    public override async Task<Target> Create(int health, Vector3 position, Quaternion rotation)
     {
-        Target target = base.Create(health, position, rotation);
+        Target target = await base.Create(health, position, rotation);
 
         TargetWithLoot targetWithLoot = target as TargetWithLoot;
         targetWithLoot.InitLootDropHandler(_lootFactory);

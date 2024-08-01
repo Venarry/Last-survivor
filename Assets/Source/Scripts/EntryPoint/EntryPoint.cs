@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,25 +8,25 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private TargetFollower _targetFollower;
     [SerializeField] private SkillsOpener _skillsOpener;
 
-    private AssetProvider _assetProvider;
+    private AssetsProvider _assetsProvider;
 
     private async void Awake()
     {
-        _assetProvider = new();
+        _assetsProvider = new();
 
-        SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetProvider);
+        SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetsProvider);
         await skillsSpriteDataSouce.Load();
         await skillsSpriteDataSouce.Load();
 
-        IInputProvider inputProvider = GetInputProvider();
+        IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
 
-        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetProvider);
+        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider);
 
         ExperienceModel experienceModel = new();
         Player player = await playerFactory.Create(Vector3.zero, experienceModel);
 
-        RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters);
+        RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
         SkillsFactory skillsFactory = new(player, roundSwordFactory);
         _skillsOpener.Init(skillsSpriteDataSouce, player.CharacterSkills, experienceModel, skillsFactory);
@@ -43,13 +44,13 @@ public class EntryPoint : MonoBehaviour
         //swordRoundAttackSkill.IncreaseLevel();
         //swordRoundAttackSkill.IncreaseLevel();
 
-        DiamondLootFactory diamondLootFactory = new(player.LootHolder);
-        DiamondFactory diamondFactory = new(targetsProvider, diamondLootFactory);
+        DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
+        DiamondFactory diamondFactory = new(targetsProvider, _assetsProvider, diamondLootFactory);
 
-        WoodLootFactory woodLootFactory = new(player.LootHolder);
-        WoodFactory woodFactory = new(targetsProvider, woodLootFactory);
+        WoodLootFactory woodLootFactory = new(player.LootHolder, _assetsProvider);
+        WoodFactory woodFactory = new(targetsProvider, _assetsProvider, woodLootFactory);
 
-        EnemyFactory enemyFactory = new(targetsProvider);
+        EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider);
 
         _targetFollower.Set(player.transform);
 
@@ -58,15 +59,15 @@ public class EntryPoint : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            diamondFactory.Create(obstaclesHealth, new Vector3(3, 0, 3 * i), Quaternion.identity);
-            diamondFactory.Create(obstaclesHealth, new Vector3(-3, 0, 3 * i), Quaternion.identity);
-            woodFactory.Create(obstaclesHealth, new Vector3(4, 0, 4 * i), Quaternion.identity);
+            await diamondFactory.Create(obstaclesHealth, new Vector3(3, 0, 3 * i), Quaternion.identity);
+            await diamondFactory.Create(obstaclesHealth, new Vector3(-3, 0, 3 * i), Quaternion.identity);
+            await woodFactory.Create(obstaclesHealth, new Vector3(4, 0, 4 * i), Quaternion.identity);
         }
         
-        enemyFactory.Create(enemyHealth, new Vector3(0, 0, 5), Quaternion.identity, player.Target, attackDistance: 3f);
+        await enemyFactory.Create(enemyHealth, new Vector3(0, 0, 5), Quaternion.identity, player.Target, attackDistance: 3f);
     }
 
-    private IInputProvider GetInputProvider()
+    private async Task<IInputProvider> GetInputProvider()
     {
         bool isMobile = Application.isMobilePlatform;
 
@@ -76,8 +77,8 @@ public class EntryPoint : MonoBehaviour
         }
         else
         {
-            MobileInputsProviderFactory mobileInputsProviderFactory = new();
-            return mobileInputsProviderFactory.Create(_canvas.transform);
+            MobileInputsProviderFactory mobileInputsProviderFactory = new(_assetsProvider);
+            return await mobileInputsProviderFactory.Create(_canvas.transform);
         }
     }
 
@@ -91,6 +92,6 @@ public class EntryPoint : MonoBehaviour
 
     private void OnDestroy()
     {
-        _assetProvider.Clear();
+        _assetsProvider.Clear();
     }
 }

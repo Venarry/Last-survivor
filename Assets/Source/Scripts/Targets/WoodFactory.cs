@@ -1,14 +1,13 @@
-﻿using UnityEngine;
-
-public class WoodFactory : TargetWithLootFactory
+﻿public class WoodFactory : TargetWithLootFactory
 {
     public WoodFactory(
         TargetsProvider targetsProvider,
+        AssetsProvider assetsProvider,
         WoodLootFactory lootFactory) 
-        : base(targetsProvider, lootFactory)
+        : base(targetsProvider, assetsProvider, lootFactory)
     {
     }
 
-    protected override Target Prefab => Resources.Load<Target>(ResourcesPath.Wood);
+    protected override string AssetKey => AssetsKeys.Wood;
     protected override TargetType TargetType => TargetType.Wood;
 }

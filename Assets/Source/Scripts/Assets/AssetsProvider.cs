@@ -3,12 +3,17 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static UnityEditor.Progress;
 
-public class AssetProvider
+public class AssetsProvider
 {
     private readonly Dictionary<string, AsyncOperationHandle> _handlers = new();
     private readonly Dictionary<string, AsyncOperationHandle> _loadingHandlers = new();
+
+    public async Task<T> LoadGameObject<T>(string key) where T : class =>
+        (await Load<GameObject>(key)).GetComponent<T>();
+
+    public async Task<Sprite> LoadSprite(string key) =>
+        await Load<Sprite>(key);
 
     public async Task<T> Load<T>(string key) where T : class
     {

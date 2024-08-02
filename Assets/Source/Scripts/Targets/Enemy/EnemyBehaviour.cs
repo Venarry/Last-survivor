@@ -14,7 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
     private NavMeshAgent _agent;
     private WaitForSeconds _waitAttackDelay = new(AttackDelay);
     private Coroutine _activeAttackCoroutine;
-    private int _damage = 1;
+    private int _damage = 3;
     private float _attackDistance;
 
     public bool IsReadyToAttack => _cooldownTimer.IsReady;

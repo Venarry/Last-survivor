@@ -15,7 +15,7 @@ public class PlayerFactory
         _assetProvider = assetProvider;
     }
 
-    public async Task<Player> Create(Vector3 position, ExperienceModel experienceModel)
+    public async Task<Player> Create(Vector3 position, ExperienceModel experienceModel, HealthModel healthModel)
     {
         _playerPrefab = await _assetProvider.LoadGameObject<Player>(AssetsKeys.Player);
 
@@ -24,8 +24,6 @@ public class PlayerFactory
 
         _assetProvider.Clear(AssetsKeys.Player);
 
-        int maxHealth = 30;
-        HealthModel healthModel = new(maxHealth);
         CharacterAttackParameters characterAttackParameters = new();
         player.Init(_inputProviderl, characterAttackParameters, _targetsProvider, inventoryModel, experienceModel, healthModel);
 

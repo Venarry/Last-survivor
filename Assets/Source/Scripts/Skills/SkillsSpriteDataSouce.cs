@@ -20,6 +20,7 @@ public class SkillsSpriteDataSouce
             { typeof(SwordRoundAttackSkill), await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSwordRoundAttack) },
             { typeof(CritAttackSkill), await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconCritAttack) },
             { typeof(SplashSkill), await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSplash) },
+            { typeof(PassiveHealSkill), await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconPassiveHeal) },
         };
     }
 

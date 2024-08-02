@@ -5,7 +5,7 @@ public class SplashSkill : SkillBehaviour
     private PlayerAttackHandler _playerAttackHandler;
     private TargetsProvider _targetsProvider;
     private float _splashAngle = 90;
-    private float _splashDistance = 10;
+    private float _splashDistance = 6;
     private float _splashDamageMultiplier = 0.5f;
     private float _splashDamageMultiplierForLevel = 0.2f;
 

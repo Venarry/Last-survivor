@@ -24,11 +24,13 @@ public class EntryPoint : MonoBehaviour
         PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider);
 
         ExperienceModel experienceModel = new();
-        Player player = await playerFactory.Create(Vector3.zero, experienceModel);
+        int playerHealth = 30;
+        HealthModel healthModel = new(playerHealth);
+        Player player = await playerFactory.Create(Vector3.zero, experienceModel, healthModel);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
-        SkillsFactory skillsFactory = new(player, roundSwordFactory, targetsProvider);
+        SkillsFactory skillsFactory = new(player, targetsProvider, healthModel, roundSwordFactory);
         _skillsOpener.Init(skillsSpriteDataSouce, player.CharacterSkills, experienceModel, skillsFactory);
 
         CharacterUpgrades characterUpgrades = new();

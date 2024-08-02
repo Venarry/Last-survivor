@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 51951dd6c8eaf9a47bb5ec958562f988
   m_SerializeEntries:
-  - m_GUID: 3987e713d1ccac642b3b2599205dedc7
-    m_Address: SkillIconSwordRoundAttack
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3a3a1585973bf4746bec48519e11d60a
     m_Address: Player
     m_ReadOnly: 0
@@ -67,17 +62,22 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1076f787f79fb7f48b2958d0f4ec9e14
+  - m_GUID: c3a7773df97c2fe46baa6d3625a7f2c2
     m_Address: SkillIconCritAttack
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 51a915c4b80dd024faea067d47fe0fab
+  - m_GUID: d90b49d4b1bb6cc488ee16cd004700ad
     m_Address: SkillIconSplash
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 96647a135210db24397db098a2f35de2
+  - m_GUID: fca47bbbedaa1ff4cb2beaa7e34e4b7d
+    m_Address: SkillIconSwordRoundAttack
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9080ce17d001a9947a6abb915a8d3788
     m_Address: SkillIconPassiveHeal
     m_ReadOnly: 0
     m_SerializedLabels: []

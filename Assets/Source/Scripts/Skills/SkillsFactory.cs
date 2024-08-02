@@ -9,7 +9,7 @@ public class SkillsFactory
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly List<Func<ISkill>> _skills;
 
-    public SkillsFactory(
+    public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек. увеличенный атакспид
         Player player,
         TargetsProvider targetsProvider,
         HealthModel playerHealthModel,

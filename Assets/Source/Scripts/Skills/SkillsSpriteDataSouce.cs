@@ -15,13 +15,11 @@ public class SkillsSpriteDataSouce
 
     public async Task Load()
     {
-        Sprite swordRoundSkill = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSwordRoundAttack);
-        Sprite critAttackSkill = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconCritAttack);
-
         _icons = new()
         {
-            { typeof(SwordRoundAttackSkill), swordRoundSkill },
-            { typeof(CritAttackSkill), critAttackSkill },
+            { typeof(SwordRoundAttackSkill), await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSwordRoundAttack) },
+            { typeof(CritAttackSkill), await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconCritAttack) },
+            { typeof(SplashSkill), await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSplash) },
         };
     }
 

@@ -9,6 +9,7 @@ public class PlayerAttackHandler : MonoBehaviour
     private Dictionary<TargetType, Action<Target>> _playerAttackTypes;
 
     public event Action<Target, float> AttackBegin;
+    public event Action<Target, float> Attacked;
 
     private void Awake()
     {
@@ -71,6 +72,8 @@ public class PlayerAttackHandler : MonoBehaviour
             _playerAttackTypes[target.TargetType](target);
             target.TakeDamage(damage);
             _timeLeft = 0;
+
+            Attacked?.Invoke(target, damage);
         }
     }
 

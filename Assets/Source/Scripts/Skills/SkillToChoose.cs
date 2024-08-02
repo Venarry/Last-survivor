@@ -7,12 +7,12 @@ public class SkillToChoose : MonoBehaviour
     [SerializeField] private Image _skillIcon;
     [SerializeField] private Button _button;
 
-    private CharacterSkills _characterSkills;
+    private IUpgradable<ISkill> _characterSkills;
     private SkillsOpener _skillOpener;
     private ISkill _skill;
 
     public void Init(
-        CharacterSkills characterSkills,
+        IUpgradable<ISkill> characterSkills,
         SkillsOpener skillsOpener,
         Sprite icon,
         ISkill skill)

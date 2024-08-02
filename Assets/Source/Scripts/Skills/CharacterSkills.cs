@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
 {
+    private Transform _skillsParent;
     private readonly Dictionary<Type, ISkill> _skills = new();
+
+    public void Init(Transform skillsParent)
+    {
+        _skillsParent = skillsParent;
+    }
 
     private void Update()
     {

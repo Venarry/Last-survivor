@@ -50,9 +50,7 @@ public class SkillsOpener : MonoBehaviour
     private void OnLevelAdd()
     {
         ISkill[] allSkills = _skillsFactory.CreateAllSkills();
-        Debug.Log($"allSkills {allSkills.Length}");
-        ISkill[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length - 1)).ToArray();
-        Debug.Log($"shuffledSkills {shuffledSkills.Length}");
+        ISkill[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length)).ToArray();
 
         int addedSkillsCounter = 0;
 
@@ -87,7 +85,6 @@ public class SkillsOpener : MonoBehaviour
 
     private void SpawnSkill(ISkill skill)
     {
-        Debug.Log("skill added");
         Sprite icon = _skillsSpriteDataSouce.Get(skill.GetType());
 
         SkillToChoose skillButton = Instantiate(_skillsPrefab, _skillsParent.transform);

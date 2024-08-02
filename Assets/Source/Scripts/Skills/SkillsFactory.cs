@@ -16,6 +16,7 @@ public class SkillsFactory
         {
             CreateSwordRoundAttackSkill,
             CreateCritAttackSkill,
+            CreateSplashSkill,
         };
     }
 
@@ -23,6 +24,9 @@ public class SkillsFactory
         new(_roundSwordFactory, _player.transform, _player.TargetSearcher);
 
     public CritAttackSkill CreateCritAttackSkill() =>
+        new(_player.AttackHandler);
+
+    public SplashSkill CreateSplashSkill() =>
         new(_player.AttackHandler);
 
     public ISkill[] CreateAllSkills()

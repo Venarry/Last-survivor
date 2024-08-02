@@ -7,6 +7,7 @@ public interface ISkill
     public int MaxLevel { get; }
     public int CurrentLevel { get; }
     public void TryCast();
+    public void Disable();
     public void IncreaseLevel();
     public void IncreaseTimeLeft();
 }

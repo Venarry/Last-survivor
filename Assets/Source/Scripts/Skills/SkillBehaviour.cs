@@ -26,4 +26,8 @@
     public virtual void TryCast()
     {
     }
+
+    public virtual void Disable()
+    {
+    }
 }

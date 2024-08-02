@@ -8,7 +8,7 @@ public class PlayerAttackHandler : MonoBehaviour
     private CharacterAttackParameters _characterAttackParameters;
     private Dictionary<TargetType, Action<Target>> _playerAttackTypes;
 
-    public event Action<Target, int> AttackBegin;
+    public event Action<Target, float> AttackBegin;
 
     private void Awake()
     {
@@ -36,7 +36,7 @@ public class PlayerAttackHandler : MonoBehaviour
         if (target == null)
             return;
 
-        int damage;
+        float damage;
 
         switch (target.TargetType)
         {

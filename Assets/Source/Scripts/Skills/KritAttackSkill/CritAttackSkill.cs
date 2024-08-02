@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class CritAttackSkill : SkillBehaviour
 {
     private float _critDamageMultiplier = 1.5f;
@@ -6,39 +8,43 @@ public class CritAttackSkill : SkillBehaviour
     private float _critChance = 30;
     private float _critChanceForLevel = 5;
 
-    private PlayerAttackHandler _playerAttackHandler;
+    private readonly PlayerAttackHandler _playerAttackHandler;
 
     public CritAttackSkill(PlayerAttackHandler playerAttackHandler)
     {
         _playerAttackHandler = playerAttackHandler;
+    }
+
+    public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
+    public override bool HasCooldown => false;
+
+    public override void TryCast()
+    {
         _playerAttackHandler.AttackBegin += OnAttackBegin;
     }
 
-    ~CritAttackSkill()
+    public override void Disable()
     {
         _playerAttackHandler.AttackBegin -= OnAttackBegin;
     }
-
-    public override SkillTickType SkillTickType => SkillTickType.HasNoTick;
-    public override bool HasCooldown => true;
-
     protected override void OnLevelAdd()
     {
         _critDamageMultiplier += _critDamageMultiplierForLevel;
         _critChance += _critChanceForLevel;
     }
 
-    private void OnAttackBegin(Target target, int damage)
+    private void OnAttackBegin(Target target, float damage)
     {
         if (TryAttackWithCrit() == true)
         {
-            _playerAttackHandler.TryAttackWithResetTimeLeft(target, damage * _critDamageMultiplier);
+            float critDamage = damage * _critDamageMultiplier;
+            _playerAttackHandler.TryAttackWithResetTimeLeft(target, critDamage);
         }
     }
 
     private bool TryAttackWithCrit()
     {
-        int roll = UnityEngine.Random.Range(0, 101);
+        int roll = Random.Range(0, 101);
 
         return _critChance >= roll;
     }

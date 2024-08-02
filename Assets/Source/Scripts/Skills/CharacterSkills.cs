@@ -28,21 +28,37 @@ public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
 
         if (_skills.ContainsKey(type) == false)
         {
+            Debug.Log($"Add unique skill {type}");
             _skills.Add(type, skill);
+
+            if (skill.SkillTickType == SkillTickType.AwakeTick)
+            {
+                skill.TryCast();
+            }
         }
         else
         {
+            Debug.Log($"Upgrade skill {type}");
             _skills[type].IncreaseLevel();
         }
     }
 
     public void Remove(Type skillType)
     {
+        if (_skills.ContainsKey(skillType) == false)
+            return;
+
+        _skills[skillType].Disable();
         _skills.Remove(skillType);
     }
 
     public void RemoveAll()
     {
+        foreach (KeyValuePair<Type, ISkill> skill in _skills)
+        {
+            skill.Value.Disable();
+        }
+
         _skills.Clear();
     }
 

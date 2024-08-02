@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SwordRoundAttackSkill : ISkill
+public class SwordRoundAttackSkill : SkillBehaviour
 {
     private RoundSwordFactory _roundSwordFactory;
     private Transform _spawnTarget;
@@ -17,12 +17,10 @@ public class SwordRoundAttackSkill : ISkill
         _targetSearcher = targetSearcher;
     }
 
-    public SkillTickType SkillTickType => SkillTickType.EveryTick;
-    public bool HasCooldown => true;
-    public int MaxLevel { get; private set; } = 5;
-    public int CurrentLevel { get; private set; } = 1;
+    public override SkillTickType SkillTickType => SkillTickType.EveryTick;
+    public override bool HasCooldown => true;
 
-    public async void TryCast()
+    public override async void TryCast()
     {
         if(_targetSearcher.TryGetNearestTarget(out _) == false)
         {
@@ -37,15 +35,7 @@ public class SwordRoundAttackSkill : ISkill
         }
     }
 
-    public void IncreaseLevel()
-    {
-        if (CurrentLevel >= MaxLevel)
-            return;
-
-        CurrentLevel++;
-    }
-
-    public void IncreaseTimeLeft()
+    public override void IncreaseTimeLeft()
     {
         _cooldownTimer.Tick();
     }

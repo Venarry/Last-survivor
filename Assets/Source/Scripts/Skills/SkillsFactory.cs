@@ -4,13 +4,15 @@ using System.Collections.Generic;
 public class SkillsFactory
 {
     private readonly Player _player;
+    private readonly TargetsProvider _targetsProvider;
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly List<Func<ISkill>> _skills;
 
-    public SkillsFactory(Player player, RoundSwordFactory roundSwordFactory)
+    public SkillsFactory(Player player, RoundSwordFactory roundSwordFactory, TargetsProvider targetsProvider)
     {
         _player = player;
         _roundSwordFactory = roundSwordFactory;
+        _targetsProvider = targetsProvider;
 
         _skills = new()
         {
@@ -27,7 +29,7 @@ public class SkillsFactory
         new(_player.AttackHandler);
 
     public SplashSkill CreateSplashSkill() =>
-        new(_player.AttackHandler);
+        new(_player.AttackHandler, _targetsProvider);
 
     public ISkill[] CreateAllSkills()
     {

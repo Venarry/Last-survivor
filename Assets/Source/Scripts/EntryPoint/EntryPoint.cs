@@ -28,7 +28,7 @@ public class EntryPoint : MonoBehaviour
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
-        SkillsFactory skillsFactory = new(player, roundSwordFactory);
+        SkillsFactory skillsFactory = new(player, roundSwordFactory, targetsProvider);
         _skillsOpener.Init(skillsSpriteDataSouce, player.CharacterSkills, experienceModel, skillsFactory);
 
         CharacterUpgrades characterUpgrades = new();

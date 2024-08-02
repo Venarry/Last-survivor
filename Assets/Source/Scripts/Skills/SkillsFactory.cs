@@ -5,7 +5,7 @@ public class SkillsFactory
 {
     private readonly Player _player;
     private readonly RoundSwordFactory _roundSwordFactory;
-    private List<Func<ISkill>> _skills;
+    private readonly List<Func<ISkill>> _skills;
 
     public SkillsFactory(Player player, RoundSwordFactory roundSwordFactory)
     {
@@ -14,14 +14,16 @@ public class SkillsFactory
 
         _skills = new()
         {
-            CreateSwordRoundAttack,
+            CreateSwordRoundAttackSkill,
+            CreateCritAttackSkill,
         };
     }
 
-    public SwordRoundAttackSkill CreateSwordRoundAttack()
-    {
-        return new(_roundSwordFactory, _player.transform, _player.TargetSearcher);
-    }
+    public SwordRoundAttackSkill CreateSwordRoundAttackSkill() =>
+        new(_roundSwordFactory, _player.transform, _player.TargetSearcher);
+
+    public CritAttackSkill CreateCritAttackSkill() =>
+        new(_player.AttackHandler);
 
     public ISkill[] CreateAllSkills()
     {

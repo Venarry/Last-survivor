@@ -13,4 +13,5 @@ public class AssetsKeys
     public const string RoundSword = "RoundSword";
 
     public const string SkillIconSwordRoundAttack = "SkillIconSwordRoundAttack";
+    public const string SkillIconCritAttack = "SkillIconCritAttack";
 }

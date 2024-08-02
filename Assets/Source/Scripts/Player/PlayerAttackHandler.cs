@@ -8,6 +8,8 @@ public class PlayerAttackHandler : MonoBehaviour
     private CharacterAttackParameters _characterAttackParameters;
     private Dictionary<TargetType, Action<Target>> _playerAttackTypes;
 
+    public event Action<Target, int> AttackBegin;
+
     private void Awake()
     {
         _playerAttackTypes = new()
@@ -34,25 +36,53 @@ public class PlayerAttackHandler : MonoBehaviour
         if (target == null)
             return;
 
+        int damage;
+
+        switch (target.TargetType)
+        {
+            case TargetType.Enemy:
+                damage = _characterAttackParameters.EnemyDamage;
+                break;
+
+            case TargetType.Wood:
+                damage = _characterAttackParameters.WoodDamage;
+                break;
+
+            case TargetType.Ore:
+                damage = _characterAttackParameters.OreDamage;
+                break;
+
+            default:
+                return;
+        }
+
+        if (_timeLeft >= _characterAttackParameters.AttackCooldown)
+        {
+            AttackBegin?.Invoke(target, damage);
+
+            TryAttackWithResetTimeLeft(target, damage);
+        }
+    }
+
+    public void TryAttackWithResetTimeLeft(Target target, float damage)
+    {
         if (_timeLeft >= _characterAttackParameters.AttackCooldown)
         {
             _playerAttackTypes[target.TargetType](target);
+            target.TakeDamage(damage);
             _timeLeft = 0;
         }
     }
 
     private void AttackEnemy(Target target)
     {
-        target.TakeDamage(_characterAttackParameters.EnemyDamage);
     }
 
     private void AttackWood(Target target)
     {
-        target.TakeDamage(_characterAttackParameters.WoodDamage);
     }
     
     private void AttackOre(Target target)
     {
-        target.TakeDamage(_characterAttackParameters.OreDamage);
     }
 }

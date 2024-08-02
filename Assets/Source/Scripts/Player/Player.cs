@@ -15,12 +15,12 @@ public class Player : MonoBehaviour
 {
     private ThirdPersonMovement _thirdPersonMovement;
     private ThirdPersonRotation _thirdPersonRotation;
-    private PlayerAttackHandler _playerAttackHandler;
     private PlayerAttackStateMachine _playerAttackStateMachine;
     private ExperienceView _experienceView;
     private InventroyView _inventroyView;
     private PlayerHealthOverReaction _healthOverReaction;
 
+    public PlayerAttackHandler AttackHandler { get; private set; }
     public TargetSearcher TargetSearcher { get; private set; }
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         _thirdPersonMovement = GetComponent<ThirdPersonMovement>();
         _thirdPersonRotation = GetComponent<ThirdPersonRotation>();
         TargetSearcher = GetComponent<TargetSearcher>();
-        _playerAttackHandler = GetComponent<PlayerAttackHandler>();
+        AttackHandler = GetComponent<PlayerAttackHandler>();
         _inventroyView = GetComponent<InventroyView>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
         _experienceView = GetComponent<ExperienceView>();
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
         Target = GetComponent<Target>();
         CharacterSkills = GetComponent<CharacterSkills>();
 
-        _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, _playerAttackHandler, _playerAttackStateMachine);
+        _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, AttackHandler, _playerAttackStateMachine);
     }
 
     public void Init(
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         _experienceView.Init(experienceModel);
         _healthOverReaction.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);
-        _playerAttackHandler.Init(characterAttackParameters);
+        AttackHandler.Init(characterAttackParameters);
 
         CharacterAttackParameters = characterAttackParameters;
     }

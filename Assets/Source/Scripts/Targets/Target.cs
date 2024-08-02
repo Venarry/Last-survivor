@@ -46,7 +46,7 @@ public class Target : MonoBehaviour
         _healthView.HealthOver += OnHealthOver;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         _healthView.TakeDamage(damage);
     }

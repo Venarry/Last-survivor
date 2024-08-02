@@ -20,7 +20,7 @@ public class HealthView : MonoBehaviour
         OnHealthChange();
     }
 
-    public void TakeDamage(int count)
+    public void TakeDamage(float count)
     {
         _healthModel.TakeDamage(count);
     }

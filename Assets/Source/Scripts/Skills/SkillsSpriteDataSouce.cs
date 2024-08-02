@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class SkillsSpriteDataSouce
 {
+    private readonly AssetsProvider _assetProvider;
     private Dictionary<Type, Sprite> _icons;
-    private AssetsProvider _assetProvider;
 
     public SkillsSpriteDataSouce(AssetsProvider assetProvider)
     {
@@ -17,10 +16,12 @@ public class SkillsSpriteDataSouce
     public async Task Load()
     {
         Sprite swordRoundSkill = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSwordRoundAttack);
+        Sprite critAttackSkill = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconCritAttack);
 
         _icons = new()
         {
-            { typeof(SwordRoundAttackSkill), swordRoundSkill }
+            { typeof(SwordRoundAttackSkill), swordRoundSkill },
+            { typeof(CritAttackSkill), critAttackSkill },
         };
     }
 

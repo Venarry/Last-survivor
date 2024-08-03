@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SkillsOpener : MonoBehaviour
@@ -10,18 +11,18 @@ public class SkillsOpener : MonoBehaviour
     [SerializeField] private SkillToChoose _skillsPrefab;
 
     private List<SkillToChoose> _spawnedSkill = new();
-    private SkillsSpriteDataSouce _skillsSpriteDataSouce;
+    private SkillToChooseFactory _skillToChooseFactory;
     private CharacterSkills _characterSkills;
     private ExperienceModel _experienceModel;
     private SkillsFactory _skillsFactory;
 
     public void Init(
-        SkillsSpriteDataSouce skillsSpriteDataSouce,
+        SkillToChooseFactory skillToChooseFactory,
         CharacterSkills characterSkills,
         ExperienceModel experienceModel,
         SkillsFactory skillsFactory)
     {
-        _skillsSpriteDataSouce = skillsSpriteDataSouce;
+        _skillToChooseFactory = skillToChooseFactory;
         _characterSkills = characterSkills;
         _experienceModel = experienceModel;
         _skillsFactory = skillsFactory;
@@ -83,13 +84,48 @@ public class SkillsOpener : MonoBehaviour
         }
     }
 
-    private void SpawnSkill(ISkill skill, int level, int maxLevel)
+    private async void SpawnSkill(ISkill skill, int level, int maxLevel)
     {
-        Sprite icon = _skillsSpriteDataSouce.Get(skill.GetType());
-
-        SkillToChoose skillButton = Instantiate(_skillsPrefab, _skillsParent.transform);
-        skillButton.Init(_characterSkills, this, icon, skill, level, maxLevel);
+        SkillToChoose skillButton = await _skillToChooseFactory
+            .Create(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel);
 
         _spawnedSkill.Add(skillButton);
+    }
+}
+
+public class SkillToChooseFactory
+{
+    private SkillsSpriteDataSouce _skillsSpriteDataSouce;
+    private SkillsInformationDataSource _skillsInformationDataSource;
+    private AssetsProvider _assetsProvider;
+
+    public SkillToChooseFactory(
+        SkillsSpriteDataSouce skillsSpriteDataSouce,
+        SkillsInformationDataSource skillsInformationDataSource,
+        AssetsProvider assetsProvider)
+    {
+        _skillsSpriteDataSouce = skillsSpriteDataSouce;
+        _skillsInformationDataSource = skillsInformationDataSource;
+        _assetsProvider = assetsProvider;
+    }
+
+    public async Task<SkillToChoose> Create(
+        Transform parent,
+        IUpgradable<ISkill> upgradable,
+        SkillsOpener skillsOpener,
+        ISkill skill,
+        int skillLevel,
+        int maxSkillLevel)
+    {
+        SkillToChoose skillToChoosePrefab = await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
+        Sprite icon = _skillsSpriteDataSouce.Get(skill.GetType());
+        string name = _skillsInformationDataSource.GetName(skill.GetType());
+        string description = _skillsInformationDataSource.GetDescription(skill.GetType());
+
+        SkillToChoose skillToChooseButton = Object.Instantiate(skillToChoosePrefab, parent);
+        skillToChooseButton.Init(upgradable, skillsOpener, icon, skill);
+        skillToChooseButton.SetSkillInformation(skillLevel, maxSkillLevel, name, description);
+
+        return skillToChooseButton;
     }
 }

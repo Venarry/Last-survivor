@@ -24,8 +24,5 @@ public class SkillsSpriteDataSouce
         };
     }
 
-    public Sprite Get(Type skillType)
-    {
-        return _icons[skillType];
-    }
+    public Sprite Get(Type skillType) => _icons[skillType];
 }

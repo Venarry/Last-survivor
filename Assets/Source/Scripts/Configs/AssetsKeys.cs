@@ -9,6 +9,7 @@ public class AssetsKeys
     public const string Enemy = "Enemy";
     public const string DiamondLoot = "DiamondLoot";
     public const string WoodLoot = "WoodLoot";
+    public const string SkillToChoose = "SkillToChoose";
 
     public const string RoundSword = "RoundSword";
 

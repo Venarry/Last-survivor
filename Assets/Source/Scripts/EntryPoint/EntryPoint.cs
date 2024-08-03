@@ -14,9 +14,12 @@ public class EntryPoint : MonoBehaviour
     {
         _assetsProvider = new();
 
+        SkillsInformationDataSource skillsInformationDataSource = new();
         SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetsProvider);
         await skillsSpriteDataSouce.Load();
         await skillsSpriteDataSouce.Load();
+
+        SkillToChooseFactory skillToChooseFactory = new(skillsSpriteDataSouce, skillsInformationDataSource, _assetsProvider);
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
@@ -31,7 +34,7 @@ public class EntryPoint : MonoBehaviour
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
         SkillsFactory skillsFactory = new(player, targetsProvider, healthModel, roundSwordFactory);
-        _skillsOpener.Init(skillsSpriteDataSouce, player.CharacterSkills, experienceModel, skillsFactory);
+        _skillsOpener.Init(skillToChooseFactory, player.CharacterSkills, experienceModel, skillsFactory);
 
         CharacterUpgrades characterUpgrades = new();
         //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));

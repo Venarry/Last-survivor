@@ -60,13 +60,13 @@ public class SkillsOpener : MonoBehaviour
             {
                 if (level < maxLevel)
                 {
-                    SpawnSkill(skill);
+                    SpawnSkill(skill, level, maxLevel);
                     addedSkillsCounter++;
                 }
             }
             else
             {
-                SpawnSkill(skill);
+                SpawnSkill(skill, skill.CurrentLevel, skill.MaxLevel);
                 addedSkillsCounter++;
             }
 
@@ -83,12 +83,12 @@ public class SkillsOpener : MonoBehaviour
         }
     }
 
-    private void SpawnSkill(ISkill skill)
+    private void SpawnSkill(ISkill skill, int level, int maxLevel)
     {
         Sprite icon = _skillsSpriteDataSouce.Get(skill.GetType());
 
         SkillToChoose skillButton = Instantiate(_skillsPrefab, _skillsParent.transform);
-        skillButton.Init(_characterSkills, this, icon, skill);
+        skillButton.Init(_characterSkills, this, icon, skill, level, maxLevel);
 
         _spawnedSkill.Add(skillButton);
     }

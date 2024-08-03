@@ -35,6 +35,7 @@ public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
         if (_skills.ContainsKey(type) == false)
         {
             _skills.Add(type, skill);
+            skill.IncreaseLevel();
 
             if (skill.SkillTickType == SkillTickType.AwakeTick)
             {

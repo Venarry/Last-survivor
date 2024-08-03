@@ -1,7 +1,7 @@
 ﻿public abstract class SkillBehaviour : ISkill
 {
     public int MaxLevel { get; private set; } = 5;
-    public int CurrentLevel { get; private set; } = 1;
+    public int CurrentLevel { get; private set; } = 0;
     public abstract SkillTickType SkillTickType { get; }
     public abstract bool HasCooldown { get; }
 
@@ -12,7 +12,10 @@
 
         CurrentLevel++;
 
-        OnLevelAdd();
+        if(CurrentLevel > 1)
+        {
+            OnLevelAdd();
+        }
     }
 
     protected virtual void OnLevelAdd()

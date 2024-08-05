@@ -6,6 +6,7 @@ public class AssetsKeys
     public const string MobileInputsProvider = "FloatingJoystick";
     public const string Diamond = "Diamond";
     public const string Wood = "Wood";
+    public const string Stone = "Stone";
     public const string Enemy = "Enemy";
     public const string DiamondLoot = "DiamondLoot";
     public const string WoodLoot = "WoodLoot";

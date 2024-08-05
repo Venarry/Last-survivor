@@ -7,6 +7,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private Canvas _canvas;
     [SerializeField] private TargetFollower _targetFollower;
     [SerializeField] private SkillsOpener _skillsOpener;
+    [SerializeField] private LevelSpawner _levelSpawner;
 
     private AssetsProvider _assetsProvider;
 
@@ -18,6 +19,9 @@ public class EntryPoint : MonoBehaviour
         SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetsProvider);
         await skillsSpriteDataSouce.Load();
         await skillsSpriteDataSouce.Load();
+
+        LevelResourcesSpawnChance levelResourcesSpawnChance = new();
+        LevelsStatistic levelsStatistic = new();
 
         SkillToChooseFactory skillToChooseFactory = new(skillsSpriteDataSouce, skillsInformationDataSource, _assetsProvider);
 
@@ -56,9 +60,14 @@ public class EntryPoint : MonoBehaviour
         WoodFactory woodFactory = new(targetsProvider, _assetsProvider, woodLootFactory);
 
         EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider);
+        StoneFactory stoneFactory = new(targetsProvider, _assetsProvider);
 
         _targetFollower.Set(player.transform);
 
+        _levelSpawner.Init(enemyFactory, woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
+        _levelSpawner.Spawn(Vector3.zero);
+
+        return;
         int obstaclesHealth = 3;
         int enemyHealth = 15;
 

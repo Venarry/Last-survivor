@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillsInformationDataSource : MonoBehaviour
+public class SkillsInformationDataSource
 {
     private Dictionary<Type, string> _skillsName = new()
     {

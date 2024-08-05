@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelSpawner : MonoBehaviour
@@ -34,8 +35,48 @@ public class LevelSpawner : MonoBehaviour
     {
         Instantiate(_levelPrefab, position, Quaternion.identity);
 
-        int spawnCount = _levelsStatistic.CurrentWave * 5 + 40;
+        List<Vector3> spawnPoints = new();
+        int spawnCount = _levelsStatistic.CurrentWave * 5 + 40 + 60;
 
+        int rowsMultiplier = 7;
+        int rowsCount = spawnCount / rowsMultiplier;
+        int colsCount = spawnCount / rowsMultiplier;
+
+        float cellOfssetX = (_endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x) / (colsCount - 1); // благодаря -1 мы получаем расчет для спавна на один элемент меньше, а потом в цикле в 0 координате доспавливаем этот элемент
+        float cellOfssetZ = (_endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z) / (rowsCount - 1); // потому что в противном случае или первый или последний стобец\строка отстутствуют
+
+        for (int i = 0; i < rowsCount; i++)
+        {
+            for (int j = 0; j < colsCount; j++)
+            {
+                spawnPoints.Add(new Vector3(
+                    j * cellOfssetX,
+                    0,
+                    i * cellOfssetZ) + _startResourcesOffseSpawnPoint);
+            }
+        }
+
+        foreach (Vector3 spawnPosition in spawnPoints)
+        {
+            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+
+            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
+            {
+                await _diamondFactory.Create(3, spawnPosition, rotation);
+
+                continue;
+            }
+
+            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
+            {
+                await _woodFactory.Create(3, spawnPosition, rotation);
+                continue;
+            }
+
+            await _stoneFactory.Create(3, spawnPosition, rotation);
+        }
+
+        return;
         for (int i = 0; i < spawnCount; i++)
         {
             float spawnPositionX = Random.Range(_startResourcesOffseSpawnPoint.x, _endResourcesOffseSpawnPoint.x);

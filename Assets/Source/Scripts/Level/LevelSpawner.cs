@@ -36,7 +36,7 @@ public class LevelSpawner : MonoBehaviour
         Instantiate(_levelPrefab, position, Quaternion.identity);
 
         List<Vector3> spawnPoints = new();
-        int spawnCount = 60 + _levelsStatistic.CurrentWave * 5;
+        int spawnCount = 90 + _levelsStatistic.CurrentWave * 5;
 
         int rowsMultiplier = 7;
         int rowsCount = spawnCount / rowsMultiplier;

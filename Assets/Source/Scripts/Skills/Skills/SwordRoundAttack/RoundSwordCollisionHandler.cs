@@ -6,6 +6,7 @@ public class RoundSwordCollisionHandler : MonoBehaviour
 {
     private CharacterAttackParameters _characterAttackParameters;
     private Dictionary<TargetType, Action<Target>> _attackTypes;
+    private float _damageMultiplier = 0.6f;
 
     public void Init(CharacterAttackParameters characterAttackParameters)
     {
@@ -13,9 +14,9 @@ public class RoundSwordCollisionHandler : MonoBehaviour
 
         _attackTypes = new()
         {
-            { TargetType.Enemy, (target) => target.TakeDamage(_characterAttackParameters.EnemyDamage) },
-            { TargetType.Wood, (target) => target.TakeDamage(_characterAttackParameters.WoodDamage) },
-            { TargetType.Ore, (target) => target.TakeDamage(_characterAttackParameters.OreDamage) },
+            { TargetType.Enemy, (target) => target.TakeDamage(_characterAttackParameters.EnemyDamage * _damageMultiplier) },
+            { TargetType.Wood, (target) => target.TakeDamage(_characterAttackParameters.WoodDamage * _damageMultiplier) },
+            { TargetType.Ore, (target) => target.TakeDamage(_characterAttackParameters.OreDamage * _damageMultiplier) },
         };
     }
 

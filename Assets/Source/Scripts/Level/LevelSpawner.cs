@@ -12,8 +12,8 @@ public class LevelSpawner : MonoBehaviour
     private LevelResourcesSpawnChance _levelResourcesSpawnChance;
     private LevelsStatistic _levelsStatistic;
 
-    private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 5);
-    private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 25);
+    private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
+    private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 40);
 
     public void Init(
         EnemyFactory enemyFactory,
@@ -36,7 +36,7 @@ public class LevelSpawner : MonoBehaviour
         Instantiate(_levelPrefab, position, Quaternion.identity);
 
         List<Vector3> spawnPoints = new();
-        int spawnCount = _levelsStatistic.CurrentWave * 5 + 40 + 60;
+        int spawnCount = 60 + _levelsStatistic.CurrentWave * 5;
 
         int rowsMultiplier = 7;
         int rowsCount = spawnCount / rowsMultiplier;
@@ -56,49 +56,35 @@ public class LevelSpawner : MonoBehaviour
             }
         }
 
+        int health = 3 + _levelsStatistic.TotalWave + _levelsStatistic.CurrentWave * 2;
+        Debug.Log(health);
+        Debug.Log(_levelsStatistic.TotalWave);
+        Debug.Log(_levelsStatistic.CurrentWave);
+
         foreach (Vector3 spawnPosition in spawnPoints)
         {
+            float randomSpawnOffset = 2f;
+
+            float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
+            float offsetZ = Random.Range(randomSpawnOffset, randomSpawnOffset);
+
+            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ);
             Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
             {
-                await _diamondFactory.Create(3, spawnPosition, rotation);
-
+                await _diamondFactory.Create(health, targetPosition, rotation);
                 continue;
             }
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
             {
-                await _woodFactory.Create(3, spawnPosition, rotation);
+                await _woodFactory.Create(health, targetPosition, rotation);
                 continue;
             }
 
-            await _stoneFactory.Create(3, spawnPosition, rotation);
-        }
-
-        return;
-        for (int i = 0; i < spawnCount; i++)
-        {
-            float spawnPositionX = Random.Range(_startResourcesOffseSpawnPoint.x, _endResourcesOffseSpawnPoint.x);
-            float spawnPositionZ = Random.Range(_startResourcesOffseSpawnPoint.z, _endResourcesOffseSpawnPoint.z);
-
-            Vector3 spawnPosition = new(spawnPositionX, 0, spawnPositionZ);
-            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-
-            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
-            {
-                await _diamondFactory.Create(3, spawnPosition, rotation);
-
-                continue;
-            }
-
-            if(_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
-            {
-                await _woodFactory.Create(3, spawnPosition, rotation);
-                continue;
-            }
-
-            await _stoneFactory.Create(3, spawnPosition, rotation);
+            await _stoneFactory.Create(health, targetPosition, rotation);
         }
     }
 }

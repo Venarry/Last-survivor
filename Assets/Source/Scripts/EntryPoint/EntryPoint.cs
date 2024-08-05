@@ -33,7 +33,7 @@ public class EntryPoint : MonoBehaviour
         ExperienceModel experienceModel = new();
         int playerHealth = 30;
         HealthModel healthModel = new(playerHealth);
-        Player player = await playerFactory.Create(Vector3.zero, experienceModel, healthModel);
+        Player player = await playerFactory.Create(new(0, 0, 5), experienceModel, healthModel);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
@@ -66,19 +66,6 @@ public class EntryPoint : MonoBehaviour
 
         _levelSpawner.Init(enemyFactory, woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
         _levelSpawner.Spawn(Vector3.zero);
-
-        return;
-        int obstaclesHealth = 3;
-        int enemyHealth = 15;
-
-        for (int i = 0; i < 10; i++)
-        {
-            await diamondFactory.Create(obstaclesHealth, new Vector3(3, 0, 3 * i), Quaternion.identity);
-            await diamondFactory.Create(obstaclesHealth, new Vector3(-3, 0, 3 * i), Quaternion.identity);
-            await woodFactory.Create(obstaclesHealth, new Vector3(4, 0, 4 * i), Quaternion.identity);
-        }
-        
-        await enemyFactory.Create(enemyHealth, new Vector3(0, 0, 5), Quaternion.identity, player.Target, attackDistance: 3f);
     }
 
     private async Task<IInputProvider> GetInputProvider()

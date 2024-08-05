@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 478807752047888028}
   - component: {fileID: 827257478070594664}
   - component: {fileID: 4047955725360688054}
+  - component: {fileID: 4433628776681731336}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -56,7 +57,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -99,8 +100,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c70fabca9682041aadcf5c6431bea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthView: {fileID: 478807752047888028}
-  _lootDropHandler: {fileID: 827257478070594664}
+  _isFriendly: 0
+--- !u!114 &4433628776681731336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395033506930004201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af910c31da8d83c4dadd47737b777736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6276848222282916628
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,6 +30,11 @@ public class HealthView : MonoBehaviour
         _healthModel.Restore();
     }
 
+    public void SetMaxHealth(float health)
+    {
+        _healthModel.SetMaxHealth(health);
+    }
+
     private void OnHealthChange()
     {
         _healthBar.fillAmount = _healthModel.HealthNormalized;

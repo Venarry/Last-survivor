@@ -64,7 +64,7 @@ public class EntryPoint : MonoBehaviour
 
         _targetFollower.Set(player.transform);
 
-        _levelSpawner.Init(enemyFactory, woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
+        _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
         _levelSpawner.Spawn(Vector3.zero);
     }
 

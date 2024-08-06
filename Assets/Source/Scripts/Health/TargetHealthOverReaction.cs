@@ -2,6 +2,6 @@
 {
     protected override void OnHealthOver()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

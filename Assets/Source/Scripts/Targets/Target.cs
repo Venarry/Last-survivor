@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(HealthView))]
 [RequireComponent(typeof(TargetHealthOverReaction))]
-public class Target : MonoBehaviour
+public class Target : MonoBehaviour, IPoolObject<Target>
 {
     [SerializeField] private bool _isFriendly = false;
     private HealthView _healthView;
@@ -14,6 +14,7 @@ public class Target : MonoBehaviour
     public bool IsFriendly => _isFriendly;
 
     public event Action<Target> HealthOver;
+    //public event Action<Target> Destroyed;
 
     private void Awake()
     {
@@ -54,5 +55,17 @@ public class Target : MonoBehaviour
     private void OnHealthOver()
     {
         HealthOver?.Invoke(this);
+    }
+
+    public void Respawn(Vector3 spawnPosition, Quaternion rotation)
+    {
+        transform.position = spawnPosition;
+        transform.rotation = rotation;
+    }
+
+    public void ResetSettings(int health)
+    {
+        _healthView.SetMaxHealth(health);
+        _healthView.Restore();
     }
 }

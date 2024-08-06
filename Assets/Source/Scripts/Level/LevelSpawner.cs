@@ -5,7 +5,6 @@ public class LevelSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _levelPrefab;
 
-    private EnemyFactory _enemyFactory;
     private WoodFactory _woodFactory;
     private DiamondFactory _diamondFactory;
     private StoneFactory _stoneFactory;
@@ -16,14 +15,12 @@ public class LevelSpawner : MonoBehaviour
     private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 35);
 
     public void Init(
-        EnemyFactory enemyFactory,
         WoodFactory woodFactory,
         DiamondFactory diamondFactory,
         StoneFactory stoneFactory,
         LevelResourcesSpawnChance levelResourcesSpawnChance,
         LevelsStatistic levelsStatistic)
     {
-        _enemyFactory = enemyFactory;
         _woodFactory = woodFactory;
         _diamondFactory = diamondFactory;
         _stoneFactory = stoneFactory;

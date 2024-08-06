@@ -13,7 +13,7 @@ public class LevelSpawner : MonoBehaviour
     private LevelsStatistic _levelsStatistic;
 
     private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
-    private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 40);
+    private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 35);
 
     public void Init(
         EnemyFactory enemyFactory,
@@ -36,11 +36,10 @@ public class LevelSpawner : MonoBehaviour
         Instantiate(_levelPrefab, position, Quaternion.identity);
 
         List<Vector3> spawnPoints = new();
-        int spawnCount = 90 + _levelsStatistic.CurrentWave * 5;
+        int spawnCount = 100 + _levelsStatistic.CurrentWave * 5;
 
-        int rowsMultiplier = 7;
-        int rowsCount = spawnCount / rowsMultiplier;
-        int colsCount = spawnCount / rowsMultiplier;
+        int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(spawnCount));
+        int colsCount = (int)Mathf.Floor(spawnCount / rowsCount);
 
         float cellOfssetX = (_endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x) / (colsCount - 1); // благодаря -1 мы получаем расчет для спавна на один элемент меньше, а потом в цикле в 0 координате доспавливаем этот элемент
         float cellOfssetZ = (_endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z) / (rowsCount - 1); // потому что в противном случае или первый или последний стобец\строка отстутствуют
@@ -57,20 +56,16 @@ public class LevelSpawner : MonoBehaviour
         }
 
         int health = 3 + _levelsStatistic.TotalWave + _levelsStatistic.CurrentWave * 2;
-        Debug.Log(health);
-        Debug.Log(_levelsStatistic.TotalWave);
-        Debug.Log(_levelsStatistic.CurrentWave);
 
         foreach (Vector3 spawnPosition in spawnPoints)
         {
             float randomSpawnOffset = 2f;
 
-            float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
-            float offsetZ = Random.Range(randomSpawnOffset, randomSpawnOffset);
+            float offsetX = UnityEngine.Random.Range(-randomSpawnOffset, randomSpawnOffset);
+            float offsetZ = UnityEngine.Random.Range(randomSpawnOffset, randomSpawnOffset);
 
             Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ);
-            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-
+            Quaternion rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
             {

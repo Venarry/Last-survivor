@@ -1,15 +1,17 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class LevelSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _levelPrefab;
+    [SerializeField] private MapPart _levelPrefab;
 
     private WoodFactory _woodFactory;
     private DiamondFactory _diamondFactory;
     private StoneFactory _stoneFactory;
     private LevelResourcesSpawnChance _levelResourcesSpawnChance;
     private LevelsStatistic _levelsStatistic;
+    private List<Target> _targets = new();
 
     private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
     private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 35);
@@ -28,9 +30,9 @@ public class LevelSpawner : MonoBehaviour
         _levelsStatistic = levelsStatistic;
     }
 
-    public async void Spawn(Vector3 position)
+    public async Task<MapPart> Spawn(Vector3 position)
     {
-        Instantiate(_levelPrefab, position, Quaternion.identity);
+        MapPart map = Instantiate(_levelPrefab, position, Quaternion.identity);
 
         List<Vector3> spawnPoints = new();
         int spawnCount = 100 + _levelsStatistic.CurrentWave * 5;
@@ -58,25 +60,37 @@ public class LevelSpawner : MonoBehaviour
         {
             float randomSpawnOffset = 2f;
 
-            float offsetX = UnityEngine.Random.Range(-randomSpawnOffset, randomSpawnOffset);
-            float offsetZ = UnityEngine.Random.Range(randomSpawnOffset, randomSpawnOffset);
+            float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
+            float offsetZ = Random.Range(randomSpawnOffset, randomSpawnOffset);
 
-            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ);
-            Quaternion rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
+            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + position;
+            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
             {
-                await _diamondFactory.Create(health, targetPosition, rotation);
+                _targets.Add(await _diamondFactory.Create(health, targetPosition, rotation));
                 continue;
             }
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
             {
-                await _woodFactory.Create(health, targetPosition, rotation);
+                _targets.Add(await _woodFactory.Create(health, targetPosition, rotation));
                 continue;
             }
 
-            await _stoneFactory.Create(health, targetPosition, rotation);
+            _targets.Add(await _stoneFactory.Create(health, targetPosition, rotation));
         }
+
+        return map;
+    }
+
+    public void ClearObjectsOnMap()
+    {
+        foreach (Target target in _targets)
+        {
+            target.PlaceInPool();
+        }
+
+        _targets.Clear();
     }
 }

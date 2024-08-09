@@ -13,7 +13,7 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     public TargetType TargetType { get; private set; }
     public bool IsFriendly => _isFriendly;
 
-    public event Action<Target> HealthOver;
+    public event Action<Target> LifeCycleEnded;
     //public event Action<Target> Destroyed;
 
     private void Awake()
@@ -52,9 +52,14 @@ public class Target : MonoBehaviour, IPoolObject<Target>
         _healthView.TakeDamage(damage);
     }
 
+    public void PlaceInPool()
+    {
+        LifeCycleEnded?.Invoke(this);
+    }
+
     private void OnHealthOver()
     {
-        HealthOver?.Invoke(this);
+        LifeCycleEnded?.Invoke(this);
     }
 
     public void Respawn(Vector3 spawnPosition, Quaternion rotation)

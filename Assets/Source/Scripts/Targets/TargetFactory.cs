@@ -22,20 +22,21 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
             HealthModel healthModel = new(health);
             target.Init(TargetType, healthModel);
 
-            _targetsProvider.Add(target);
-            target.HealthOver += OnHealthOver;
+            target.LifeCycleEnded += OnLifeCycleEnd;
         }
         else
         {
             target.ResetSettings(health);
         }
 
+        _targetsProvider.Add(target);
+
         return target;
     }
 
-    private void OnHealthOver(Target target)
+    private void OnLifeCycleEnd(Target target)
     {
         _targetsProvider.Remove(target);
-        target.HealthOver -= OnHealthOver;
+        target.LifeCycleEnded -= OnLifeCycleEnd;
     }
 }

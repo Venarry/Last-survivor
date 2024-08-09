@@ -8,6 +8,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private TargetFollower _targetFollower;
     [SerializeField] private SkillsOpener _skillsOpener;
     [SerializeField] private LevelSpawner _levelSpawner;
+    [SerializeField] private MapGenerator _mapGenerator;
 
     private AssetsProvider _assetsProvider;
 
@@ -65,7 +66,10 @@ public class EntryPoint : MonoBehaviour
         _targetFollower.Set(player.transform);
 
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
-        _levelSpawner.Spawn(Vector3.zero);
+        //_levelSpawner.Spawn(Vector3.zero);
+
+        _mapGenerator.Init(player.transform, levelsStatistic);
+        _mapGenerator.StartGenerator();
     }
 
     private async Task<IInputProvider> GetInputProvider()

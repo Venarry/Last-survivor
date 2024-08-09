@@ -42,7 +42,7 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
         }
 
         ActiveObjectsChanged?.Invoke();
-        foundedObject.HealthOver += OnObjectDestroy;
+        foundedObject.LifeCycleEnded += OnObjectDestroy;
 
         poolResult.Result = foundedObject;
 
@@ -51,7 +51,7 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
 
     private void OnObjectDestroy(T target)
     {
-        target.HealthOver -= OnObjectDestroy;
+        target.LifeCycleEnded -= OnObjectDestroy;
         target.gameObject.SetActive(false);
         ActiveObjectsChanged?.Invoke();
     }

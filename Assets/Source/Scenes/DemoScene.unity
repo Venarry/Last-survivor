@@ -171,6 +171,7 @@ MonoBehaviour:
   _targetFollower: {fileID: 608443013}
   _skillsOpener: {fileID: 2060088945}
   _levelSpawner: {fileID: 1117798182}
+  _mapGenerator: {fileID: 1585436177}
 --- !u!1 &359055123
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30ac206677f77e4f97b85f5e1c8ea88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelPrefab: {fileID: 1055355998020007035, guid: f519d75e02b24dd4c9a3ed88f4f38732, type: 3}
+  _levelPrefab: {fileID: -500852015413381680, guid: f519d75e02b24dd4c9a3ed88f4f38732, type: 3}
 --- !u!4 &1117798183
 Transform:
   m_ObjectHideFlags: 0
@@ -599,9 +600,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b18d81982033c1547a213d4382f17d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelSpawner: {fileID: 0}
-  _safeZonePrefab: {fileID: 0}
-  _checkpointPrefab: {fileID: 0}
+  _levelSpawner: {fileID: 1117798182}
+  _checkpointZonePrefab: {fileID: -6855260363937495498, guid: e0828c0de08c113458264cf5e7a0f240, type: 3}
+  _betweenLevelsZonePrefab: {fileID: 8096692624404605528, guid: 0cc15c62263fa2746b9562a88956178e, type: 3}
+  _levelLength: 45
+  _checkpointLength: 6
+  _betweenLevelsZoneLength: 10
 --- !u!4 &1585436178
 Transform:
   m_ObjectHideFlags: 0

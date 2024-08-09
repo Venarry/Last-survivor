@@ -19,6 +19,11 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
 
     public event Action ActiveObjectsChanged;
 
+    public async Task Load()
+    {
+        await _assetsProvider.LoadGameObject<T>(AssetKey);
+    }
+
     protected async Task<PoolResult<T>> CreatePoolObject(Vector3 spawnPoint, Quaternion rotation)
     {
         T foundedObject = _objects.FirstOrDefault(c => c.isActiveAndEnabled == false);

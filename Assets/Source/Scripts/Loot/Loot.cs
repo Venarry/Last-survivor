@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Loot : MonoBehaviour
+public class Loot : MonoBehaviour, IPoolObject<Loot>
 {
     private const float MoveToPlayerDelay = 1.5f;
 
@@ -13,11 +14,11 @@ public class Loot : MonoBehaviour
     private LootType _lootType;
     private ILootHolder _lootHolder;
 
+    public event Action<Loot> LifeCycleEnded;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-
-        StartCoroutine(GoToPlayer());
     }
 
     public void Init(int reward, int experience, LootType lootType, ILootHolder lootHolder)
@@ -28,12 +29,17 @@ public class Loot : MonoBehaviour
         _lootHolder = lootHolder;
     }
 
+    public void GoToPlayer()
+    {
+        StartCoroutine(MovingToPlayer());
+    }
+
     public void AddForce(Vector3 forceDirection, float forceStrength)
     {
         _rigidbody.AddForce(forceDirection * forceStrength);
     }
 
-    private IEnumerator GoToPlayer()
+    private IEnumerator MovingToPlayer()
     {
         yield return _waitForPickUp;
 
@@ -50,6 +56,18 @@ public class Loot : MonoBehaviour
 
         _lootHolder.Add(_lootType, _reward);
         _lootHolder.Add(_experienceReward);
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        LifeCycleEnded?.Invoke(this);
+    }
+
+    public void Respawn(Vector3 spawnPosition, Quaternion rotation)
+    {
+        transform.position = spawnPosition;
+        transform.rotation = rotation;
+    }
+
+    public void ResetSettings()
+    {
+        _rigidbody.useGravity = true;
     }
 }

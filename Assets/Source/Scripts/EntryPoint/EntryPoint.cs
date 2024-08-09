@@ -55,7 +55,10 @@ public class EntryPoint : MonoBehaviour
         //swordRoundAttackSkill.IncreaseLevel();
 
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
+        //await diamondLootFactory.Load();
+
         DiamondFactory diamondFactory = new(targetsProvider, _assetsProvider, diamondLootFactory);
+        //await diamondFactory.Load();
 
         WoodLootFactory woodLootFactory = new(player.LootHolder, _assetsProvider);
         WoodFactory woodFactory = new(targetsProvider, _assetsProvider, woodLootFactory);
@@ -66,7 +69,6 @@ public class EntryPoint : MonoBehaviour
         _targetFollower.Set(player.transform);
 
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
-        //_levelSpawner.Spawn(Vector3.zero);
 
         _mapGenerator.Init(player.transform, levelsStatistic);
         _mapGenerator.StartGenerator();

@@ -35,6 +35,7 @@ public class EntryPoint : MonoBehaviour
         int playerHealth = 30;
         HealthModel healthModel = new(playerHealth);
         Player player = await playerFactory.Create(new(0, 0, 5), experienceModel, healthModel);
+        player.SetBehaviour(false);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
@@ -44,27 +45,23 @@ public class EntryPoint : MonoBehaviour
         CharacterUpgrades characterUpgrades = new();
         //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
 
-        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
-        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
-        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
-        //player.CharacterSkills.Add(skillsFactory.CreateSwordRoundAttack());
-
-        //swordRoundAttackSkill.IncreaseLevel();
-        //swordRoundAttackSkill.IncreaseLevel();
-        //swordRoundAttackSkill.IncreaseLevel();
-        //swordRoundAttackSkill.IncreaseLevel();
-
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
-        //await diamondLootFactory.Load();
+        await diamondLootFactory.Load();
 
         DiamondFactory diamondFactory = new(targetsProvider, _assetsProvider, diamondLootFactory);
-        //await diamondFactory.Load();
+        await diamondFactory.Load();
 
         WoodLootFactory woodLootFactory = new(player.LootHolder, _assetsProvider);
+        await woodLootFactory.Load();
+
         WoodFactory woodFactory = new(targetsProvider, _assetsProvider, woodLootFactory);
+        await woodFactory.Load();
 
         EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider);
+        await enemyFactory.Load();
+
         StoneFactory stoneFactory = new(targetsProvider, _assetsProvider);
+        await stoneFactory.Load();
 
         _targetFollower.Set(player.transform);
 
@@ -72,6 +69,8 @@ public class EntryPoint : MonoBehaviour
 
         _mapGenerator.Init(player.transform, levelsStatistic);
         _mapGenerator.StartGenerator();
+
+        player.SetBehaviour(true);
     }
 
     private async Task<IInputProvider> GetInputProvider()

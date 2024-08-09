@@ -8,6 +8,7 @@ public class ThirdPersonMovement : MonoBehaviour
     private CharacterController _characterController;
     private Vector3 _moveDirection;
     private IInputProvider _inputProvider;
+    private bool _isEnabled;
 
     public Vector3 Direction => _moveDirection;
     public Vector3 Position => transform.position;
@@ -24,9 +25,17 @@ public class ThirdPersonMovement : MonoBehaviour
 
     public void Update()
     {
+        if (_isEnabled == false)
+            return;
+
         SetDirection(_inputProvider.MoveDirection);
 
         _characterController.Move(_speed * Time.deltaTime * _moveDirection);
+    }
+
+    public void SetBehaviour(bool state)
+    {
+        _isEnabled = state;
     }
 
     public void SetPosition(Vector3 position)

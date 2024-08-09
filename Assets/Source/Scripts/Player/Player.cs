@@ -63,4 +63,9 @@ public class Player : MonoBehaviour
 
         CharacterAttackParameters = characterAttackParameters;
     }
+
+    public void SetBehaviour(bool state)
+    {
+        _thirdPersonMovement.SetBehaviour(state);
+    }
 }

@@ -9,6 +9,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private SkillsOpener _skillsOpener;
     [SerializeField] private LevelSpawner _levelSpawner;
     [SerializeField] private MapGenerator _mapGenerator;
+    [SerializeField] private GameLoadingPanel _gameLoadingPanel;
 
     private AssetsProvider _assetsProvider;
 
@@ -16,9 +17,15 @@ public class EntryPoint : MonoBehaviour
     {
         _assetsProvider = new();
 
+        int maxProgress = 5;
+        int progressCounter = 0;
+        _gameLoadingPanel.SetMaxProgress(maxProgress);
+
+        _gameLoadingPanel.Show("Load skills", progressCounter);
+        progressCounter++;
+
         SkillsInformationDataSource skillsInformationDataSource = new();
         SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetsProvider);
-        await skillsSpriteDataSouce.Load();
         await skillsSpriteDataSouce.Load();
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
@@ -30,6 +37,9 @@ public class EntryPoint : MonoBehaviour
         TargetsProvider targetsProvider = new();
 
         PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider);
+
+        _gameLoadingPanel.Show("Load player", progressCounter);
+        progressCounter++;
 
         ExperienceModel experienceModel = new();
         int playerHealth = 30;
@@ -44,6 +54,8 @@ public class EntryPoint : MonoBehaviour
 
         CharacterUpgrades characterUpgrades = new();
         //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
+
+        _gameLoadingPanel.Show("Load factorys", progressCounter);
 
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
         await diamondLootFactory.Load();
@@ -70,6 +82,7 @@ public class EntryPoint : MonoBehaviour
         _mapGenerator.Init(player.transform, levelsStatistic);
         _mapGenerator.StartGenerator();
 
+        _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
     }
 

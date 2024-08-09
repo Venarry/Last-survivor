@@ -14,7 +14,6 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     public bool IsFriendly => _isFriendly;
 
     public event Action<Target> LifeCycleEnded;
-    //public event Action<Target> Destroyed;
 
     private void Awake()
     {

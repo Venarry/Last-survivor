@@ -21,8 +21,6 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
         {
             HealthModel healthModel = new(health);
             target.Init(TargetType, healthModel);
-
-            target.LifeCycleEnded += OnLifeCycleEnd;
         }
         else
         {
@@ -30,6 +28,7 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
         }
 
         _targetsProvider.Add(target);
+        target.LifeCycleEnded += OnLifeCycleEnd;
 
         return target;
     }

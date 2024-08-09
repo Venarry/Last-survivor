@@ -17,7 +17,7 @@ public class EntryPoint : MonoBehaviour
     {
         _assetsProvider = new();
 
-        int maxProgress = 5;
+        int maxProgress = 3;
         int progressCounter = 0;
         _gameLoadingPanel.SetMaxProgress(maxProgress);
 

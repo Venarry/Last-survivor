@@ -17,12 +17,15 @@ public class EntryPoint : MonoBehaviour
     {
         _assetsProvider = new();
 
-        int maxProgress = 3;
-        int progressCounter = 0;
-        _gameLoadingPanel.SetMaxProgress(maxProgress);
+        string[] labels = new string[]
+        {
+            "Load skills",
+            "Load player",
+            "Load factorys",
+        };
 
-        _gameLoadingPanel.Show("Load skills", progressCounter);
-        progressCounter++;
+        _gameLoadingPanel.Set(labels);
+        _gameLoadingPanel.ShowNext();
 
         SkillsInformationDataSource skillsInformationDataSource = new();
         SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetsProvider);
@@ -38,8 +41,7 @@ public class EntryPoint : MonoBehaviour
 
         PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider);
 
-        _gameLoadingPanel.Show("Load player", progressCounter);
-        progressCounter++;
+        _gameLoadingPanel.ShowNext();
 
         ExperienceModel experienceModel = new();
         int playerHealth = 30;
@@ -55,7 +57,7 @@ public class EntryPoint : MonoBehaviour
         CharacterUpgrades characterUpgrades = new();
         //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
 
-        _gameLoadingPanel.Show("Load factorys", progressCounter);
+        _gameLoadingPanel.ShowNext();
 
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
         await diamondLootFactory.Load();

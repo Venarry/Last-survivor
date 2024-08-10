@@ -10,8 +10,8 @@ public class LevelSpawner : MonoBehaviour
     private DiamondFactory _diamondFactory;
     private StoneFactory _stoneFactory;
     private LevelResourcesSpawnChance _levelResourcesSpawnChance;
-    private LevelsStatistic _levelsStatistic;
-    private List<Target> _targets = new();
+    private LevelsStatisticModel _levelsStatistic;
+    private readonly List<Target> _targets = new();
 
     private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
     private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 35);
@@ -21,7 +21,7 @@ public class LevelSpawner : MonoBehaviour
         DiamondFactory diamondFactory,
         StoneFactory stoneFactory,
         LevelResourcesSpawnChance levelResourcesSpawnChance,
-        LevelsStatistic levelsStatistic)
+        LevelsStatisticModel levelsStatistic)
     {
         _woodFactory = woodFactory;
         _diamondFactory = diamondFactory;
@@ -33,6 +33,7 @@ public class LevelSpawner : MonoBehaviour
     public async Task<MapPart> Spawn(Vector3 position)
     {
         MapPart map = Instantiate(_levelPrefab, position, Quaternion.identity);
+        map.GetComponent<EndlLevelTrigger>().Init(_levelsStatistic);
 
         List<Vector3> spawnPoints = new();
         int spawnCount = 100 + _levelsStatistic.CurrentWave * 5;
@@ -54,7 +55,20 @@ public class LevelSpawner : MonoBehaviour
             }
         }
 
-        int health = 3 + _levelsStatistic.TotalWave + _levelsStatistic.CurrentWave * 2;
+        int healthPerTotalWave = _levelsStatistic.TotalWave + 1;
+        int healthPerCurrentWave;
+
+        if (_levelsStatistic.CurrentWave + 1 != LevelsStatisticModel.LevelForCheckpoint)
+        {
+            healthPerCurrentWave = (_levelsStatistic.CurrentWave + 1) * 2;
+        }
+        else
+        {
+            healthPerCurrentWave = 2;
+        }
+
+        int health = 1 + healthPerTotalWave + healthPerCurrentWave;
+        
 
         foreach (Vector3 spawnPosition in spawnPoints)
         {

@@ -32,7 +32,7 @@ public class EntryPoint : MonoBehaviour
         await skillsSpriteDataSouce.Load();
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
-        LevelsStatistic levelsStatistic = new();
+        LevelsStatisticModel levelsStatistic = new();
 
         SkillToChooseFactory skillToChooseFactory = new(skillsSpriteDataSouce, skillsInformationDataSource, _assetsProvider);
 

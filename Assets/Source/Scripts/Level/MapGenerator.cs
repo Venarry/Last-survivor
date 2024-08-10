@@ -11,11 +11,11 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float _betweenLevelsZoneLength;
 
     private Transform _player;
-    private LevelsStatistic _levelsStatistic;
+    private LevelsStatisticModel _levelsStatistic;
     private bool _isEnabled;
     private float _currentPosition;
 
-    public void Init(Transform player, LevelsStatistic levelsStatistic)
+    public void Init(Transform player, LevelsStatisticModel levelsStatistic)
     {
         _player = player;
         _levelsStatistic = levelsStatistic;

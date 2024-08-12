@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ public class LevelSpawner : MonoBehaviour
     private StoneFactory _stoneFactory;
     private LevelResourcesSpawnChance _levelResourcesSpawnChance;
     private LevelsStatisticModel _levelsStatistic;
-    private readonly List<Target> _targets = new();
+    private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targets = new();
 
     private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
     private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 35);
@@ -68,7 +70,8 @@ public class LevelSpawner : MonoBehaviour
         }
 
         int health = 1 + healthPerTotalWave + healthPerCurrentWave;
-        
+        List<Target> targetsInLevel = new();
+        _targets.Enqueue(new(map, targetsInLevel));
 
         foreach (Vector3 spawnPosition in spawnPoints)
         {
@@ -82,29 +85,36 @@ public class LevelSpawner : MonoBehaviour
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
             {
-                _targets.Add(await _diamondFactory.Create(health, targetPosition, rotation));
+                //_targets.Add(map, await _diamondFactory.Create(health, targetPosition, rotation));
+                targetsInLevel.Add(await _diamondFactory.Create(health, targetPosition, rotation));
                 continue;
             }
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
             {
-                _targets.Add(await _woodFactory.Create(health, targetPosition, rotation));
+                //_targets.Add(map, await _woodFactory.Create(health, targetPosition, rotation));
+                targetsInLevel.Add(await _woodFactory.Create(health, targetPosition, rotation));
                 continue;
             }
 
-            _targets.Add(await _stoneFactory.Create(health, targetPosition, rotation));
+            targetsInLevel.Add(await _stoneFactory.Create(health, targetPosition, rotation));
         }
 
         return map;
     }
 
-    public void ClearObjectsOnMap()
+    public void TryDeletePassedMap()
     {
-        foreach (Target target in _targets)
+        if (_targets.Count <= GameParamenters.SpawnedMapBufferCount)
+            return;
+
+        KeyValuePair<MapPart, List<Target>> zeroMap = _targets.Dequeue();
+
+        foreach (Target target in zeroMap.Value)
         {
             target.PlaceInPool();
         }
 
-        _targets.Clear();
+        Destroy(zeroMap.Key.gameObject);
     }
 }

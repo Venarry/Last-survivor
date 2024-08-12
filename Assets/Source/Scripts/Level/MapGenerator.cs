@@ -10,10 +10,12 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float _checkpointLength;
     [SerializeField] private float _betweenLevelsZoneLength;
 
+    private readonly Queue<MapPart> _mapParts = new();
     private Transform _player;
     private LevelsStatisticModel _levelsStatistic;
     private bool _isEnabled;
     private float _currentPosition;
+    private float _spawnOffsetPosition = -30f;
 
     public void Init(Transform player, LevelsStatisticModel levelsStatistic)
     {
@@ -36,7 +38,7 @@ public class MapGenerator : MonoBehaviour
 
     private async void TrySpawnMap()
     {
-        if(_player.position.z >= _currentPosition)
+        if(_player.position.z >= _currentPosition + _spawnOffsetPosition)
         {
             Vector3 spawnPosition = new(0, 0, _currentPosition);
 
@@ -49,9 +51,11 @@ public class MapGenerator : MonoBehaviour
                 SpawnPart(_betweenLevelsZonePrefab, ref spawnPosition);
             }
 
-            _levelSpawner.ClearObjectsOnMap();
             MapPart mapPart = await _levelSpawner.Spawn(spawnPosition);
             _currentPosition += mapPart.Length;
+
+            _levelSpawner.TryDeletePassedMap();
+            TryDeletePassedPart();
         }
     }
 
@@ -59,6 +63,17 @@ public class MapGenerator : MonoBehaviour
     {
         MapPart part = Instantiate(prefab, spawnPosition, Quaternion.identity);
         _currentPosition += part.Length;
+
+        _mapParts.Enqueue(part);
         spawnPosition = new(0, 0, _currentPosition);
+    }
+
+    private void TryDeletePassedPart()
+    {
+        if (_mapParts.Count <= GameParamenters.SpawnedMapBufferCount)
+            return;
+
+        MapPart part = _mapParts.Dequeue();
+        Destroy(part.gameObject);
     }
 }

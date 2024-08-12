@@ -95,12 +95,12 @@ public class SkillsOpener : MonoBehaviour
 
 public class SkillToChooseFactory
 {
-    private SkillsSpriteDataSouce _skillsSpriteDataSouce;
+    private SpritesDataSouce _skillsSpriteDataSouce;
     private SkillsInformationDataSource _skillsInformationDataSource;
     private AssetsProvider _assetsProvider;
 
     public SkillToChooseFactory(
-        SkillsSpriteDataSouce skillsSpriteDataSouce,
+        SpritesDataSouce skillsSpriteDataSouce,
         SkillsInformationDataSource skillsInformationDataSource,
         AssetsProvider assetsProvider)
     {

@@ -28,7 +28,7 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.ShowNext();
 
         SkillsInformationDataSource skillsInformationDataSource = new();
-        SkillsSpriteDataSouce skillsSpriteDataSouce = new(_assetsProvider);
+        SpritesDataSouce skillsSpriteDataSouce = new(_assetsProvider);
         await skillsSpriteDataSouce.Load();
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();

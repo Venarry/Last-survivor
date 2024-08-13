@@ -11,6 +11,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private MapGenerator _mapGenerator;
     [SerializeField] private GameLoadingPanel _gameLoadingPanel;
     [SerializeField] private Transform _itemsParent;
+    [SerializeField] private Transform _skillsParent;
 
     private AssetsProvider _assetsProvider;
 
@@ -37,28 +38,28 @@ public class EntryPoint : MonoBehaviour
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
         LevelsStatisticModel levelsStatistic = new();
 
-        SkillToChooseFactory skillToChooseFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
+        SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
 
-        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider, itemViewFactory, spritesDataSouce, _itemsParent);
+        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider, itemViewFactory, skillsViewFactory, spritesDataSouce, _itemsParent, _skillsParent);
 
         _gameLoadingPanel.ShowNext();
 
         ExperienceModel experienceModel = new();
+        CharacterSkillsModel characterSkillsModel = new();
+        CharacterUpgrades characterUpgrades = new();
+        //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
         int playerHealth = 30;
         HealthModel healthModel = new(playerHealth);
-        Player player = await playerFactory.Create(new(0, 0, 5), experienceModel, healthModel);
+        Player player = await playerFactory.Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel);
         player.SetBehaviour(false);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
         SkillsFactory skillsFactory = new(player, targetsProvider, healthModel, roundSwordFactory);
-        _skillsOpener.Init(skillToChooseFactory, player.CharacterSkills, experienceModel, skillsFactory);
-
-        CharacterUpgrades characterUpgrades = new();
-        //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
+        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory);
 
         _gameLoadingPanel.ShowNext();
 

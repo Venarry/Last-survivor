@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
+public class CharacterSkillsModel : IUpgradable<ISkill>
 {
-    private Transform _skillsParent;
     private readonly Dictionary<Type, ISkill> _skills = new();
 
-    public void Init(Transform skillsParent)
-    {
-        _skillsParent = skillsParent;
-    }
+    public event Action<ISkill> Added;
 
-    private void Update()
+    public void OnUpdate()
     {
         foreach (KeyValuePair<Type, ISkill> skill in _skills)
         {
@@ -46,6 +42,8 @@ public class CharacterSkills : MonoBehaviour, IUpgradable<ISkill>
         {
             _skills[type].IncreaseLevel();
         }
+
+        Added?.Invoke(skill);
     }
 
     public void Remove(Type skillType)

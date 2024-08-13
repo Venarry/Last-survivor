@@ -10,14 +10,14 @@ public class SkillsOpener : MonoBehaviour
     [SerializeField] private SkillToChoose _skillsPrefab;
 
     private List<SkillToChoose> _spawnedSkill = new();
-    private SkillToChooseFactory _skillToChooseFactory;
-    private CharacterSkills _characterSkills;
+    private SkillsViewFactory _skillToChooseFactory;
+    private CharacterSkillsModel _characterSkills;
     private ExperienceModel _experienceModel;
     private SkillsFactory _skillsFactory;
 
     public void Init(
-        SkillToChooseFactory skillToChooseFactory,
-        CharacterSkills characterSkills,
+        SkillsViewFactory skillToChooseFactory,
+        CharacterSkillsModel characterSkills,
         ExperienceModel experienceModel,
         SkillsFactory skillsFactory)
     {
@@ -86,7 +86,7 @@ public class SkillsOpener : MonoBehaviour
     private async void SpawnSkill(ISkill skill, int level, int maxLevel)
     {
         SkillToChoose skillButton = await _skillToChooseFactory
-            .Create(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel);
+            .CreateSkillButton(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel);
 
         _spawnedSkill.Add(skillButton);
     }

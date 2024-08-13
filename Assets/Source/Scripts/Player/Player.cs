@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerLootHolder))]
 [RequireComponent(typeof(Target))]
 [RequireComponent(typeof(PlayerHealthOverReaction))]
-[RequireComponent(typeof(CharacterSkills))]
+[RequireComponent(typeof(CharacterSkillsView))]
 public class Player : MonoBehaviour
 {
     private ThirdPersonMovement _thirdPersonMovement;
@@ -19,13 +19,13 @@ public class Player : MonoBehaviour
     private ExperienceView _experienceView;
     private InventroyView _inventroyView;
     private PlayerHealthOverReaction _healthOverReaction;
+    private CharacterSkillsView _characterSkillsView;
 
     public PlayerAttackHandler AttackHandler { get; private set; }
     public TargetSearcher TargetSearcher { get; private set; }
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
     public CharacterAttackParameters CharacterAttackParameters { get; private set; }
-    public CharacterSkills CharacterSkills { get; private set; }
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         _healthOverReaction = GetComponent<PlayerHealthOverReaction>();
         LootHolder = GetComponent<PlayerLootHolder>();
         Target = GetComponent<Target>();
-        CharacterSkills = GetComponent<CharacterSkills>();
+        _characterSkillsView = GetComponent<CharacterSkillsView>();
 
         _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, AttackHandler, _playerAttackStateMachine);
     }
@@ -51,9 +51,12 @@ public class Player : MonoBehaviour
         InventoryModel inventoryModel,
         ExperienceModel experienceModel,
         HealthModel healthModel,
+        CharacterSkillsModel characterSkillsModel,
         ItemViewFactory itemViewFactory,
+        SkillsViewFactory skillsViewFactory,
         SpritesDataSouce spritesDataSouce,
-        Transform lootParent)
+        Transform lootParent,
+        Transform skillsParent)
     {
         _thirdPersonMovement.Init(inputProvider);
         _thirdPersonRotation.Init(inputProvider);
@@ -63,6 +66,7 @@ public class Player : MonoBehaviour
         _healthOverReaction.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);
         AttackHandler.Init(characterAttackParameters);
+        _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
 
         CharacterAttackParameters = characterAttackParameters;
     }

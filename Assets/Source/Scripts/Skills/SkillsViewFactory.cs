@@ -1,23 +1,23 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 
-public class SkillToChooseFactory
+public class SkillsViewFactory
 {
-    private SpritesDataSouce _skillsSpriteDataSouce;
-    private SkillsInformationDataSource _skillsInformationDataSource;
-    private AssetsProvider _assetsProvider;
+    private readonly SpritesDataSouce _spritesDataSouce;
+    private readonly SkillsInformationDataSource _skillsInformationDataSource;
+    private readonly AssetsProvider _assetsProvider;
 
-    public SkillToChooseFactory(
+    public SkillsViewFactory(
         SpritesDataSouce skillsSpriteDataSouce,
         SkillsInformationDataSource skillsInformationDataSource,
         AssetsProvider assetsProvider)
     {
-        _skillsSpriteDataSouce = skillsSpriteDataSouce;
+        _spritesDataSouce = skillsSpriteDataSouce;
         _skillsInformationDataSource = skillsInformationDataSource;
         _assetsProvider = assetsProvider;
     }
 
-    public async Task<SkillToChoose> Create(
+    public async Task<SkillToChoose> CreateSkillButton(
         Transform parent,
         IUpgradable<ISkill> upgradable,
         SkillsOpener skillsOpener,
@@ -26,7 +26,7 @@ public class SkillToChooseFactory
         int maxSkillLevel)
     {
         SkillToChoose skillToChoosePrefab = await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
-        Sprite icon = _skillsSpriteDataSouce.Get(skill.GetType());
+        Sprite icon = _spritesDataSouce.Get(skill.GetType());
         string name = _skillsInformationDataSource.GetName(skill.GetType());
         string description = _skillsInformationDataSource.GetDescription(skill.GetType());
 
@@ -35,5 +35,13 @@ public class SkillToChooseFactory
         skillToChooseButton.SetSkillInformation(skillLevel, maxSkillLevel, name, description);
 
         return skillToChooseButton;
+    }
+
+    public async void CreateSkillIcon(System.Type skillType, Transform parent)
+    {
+        SkillIcon skillIcon = Object.Instantiate(await _assetsProvider.LoadGameObject<SkillIcon>(AssetsKeys.SkillIcon), parent);
+
+        Sprite icon = _spritesDataSouce.Get(skillType);
+        skillIcon.Set(icon);
     }
 }

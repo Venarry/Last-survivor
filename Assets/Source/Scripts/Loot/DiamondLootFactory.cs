@@ -5,5 +5,4 @@ public class DiamondLootFactory : LootFactory
     }
 
     protected override string AssetKey => AssetsKeys.DiamondLoot;
-    protected override LootType LootType => LootType.Diamond;
 }

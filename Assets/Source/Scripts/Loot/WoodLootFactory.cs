@@ -5,5 +5,4 @@
     }
 
     protected override string AssetKey => AssetsKeys.WoodLoot;
-    protected override LootType LootType => LootType.Wood;
 }

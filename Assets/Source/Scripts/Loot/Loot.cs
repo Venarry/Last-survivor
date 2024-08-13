@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Loot : MonoBehaviour, IPoolObject<Loot>
+public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
 {
     private const float MoveToPlayerDelay = 1.5f;
 
@@ -11,8 +11,9 @@ public class Loot : MonoBehaviour, IPoolObject<Loot>
     private Rigidbody _rigidbody;
     private int _reward;
     private int _experienceReward;
-    private LootType _lootType;
     private ILootHolder _lootHolder;
+
+    public abstract LootType LootType { get; }
 
     public event Action<Loot> LifeCycleEnded;
 
@@ -21,11 +22,10 @@ public class Loot : MonoBehaviour, IPoolObject<Loot>
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Init(int reward, int experience, LootType lootType, ILootHolder lootHolder)
+    public void Init(int reward, int experience, ILootHolder lootHolder)
     {
         _reward = reward;
         _experienceReward = experience;
-        _lootType = lootType;
         _lootHolder = lootHolder;
     }
 
@@ -54,7 +54,7 @@ public class Loot : MonoBehaviour, IPoolObject<Loot>
             yield return null;
         }
 
-        _lootHolder.Add(_lootType, _reward);
+        _lootHolder.Add(LootType, _reward);
         _lootHolder.Add(_experienceReward);
         //Destroy(gameObject);
         LifeCycleEnded?.Invoke(this);

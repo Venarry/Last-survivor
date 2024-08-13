@@ -5,7 +5,6 @@ public abstract class LootFactory : ObjectPoolBehaviour<Loot>
 {
     private readonly ILootHolder _lootHolder;
     protected AssetsProvider AssetsProvider;
-    protected abstract LootType LootType { get; }
 
     protected LootFactory(ILootHolder lootHolder, AssetsProvider assetsProvider) : base(assetsProvider)
     {
@@ -22,7 +21,7 @@ public abstract class LootFactory : ObjectPoolBehaviour<Loot>
         {
             int reward = 1;
             int experience = 1;
-            loot.Init(reward, experience, LootType, _lootHolder);
+            loot.Init(reward, experience, _lootHolder);
         }
         else
         {

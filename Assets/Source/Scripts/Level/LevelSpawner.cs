@@ -75,7 +75,7 @@ public class LevelSpawner : MonoBehaviour
 
         foreach (Vector3 spawnPosition in spawnPoints)
         {
-            float randomSpawnOffset = 2f;
+            float randomSpawnOffset = 1.2f;
 
             float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
             float offsetZ = Random.Range(randomSpawnOffset, randomSpawnOffset);
@@ -85,14 +85,12 @@ public class LevelSpawner : MonoBehaviour
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
             {
-                //_targets.Add(map, await _diamondFactory.Create(health, targetPosition, rotation));
                 targetsInLevel.Add(await _diamondFactory.Create(health, targetPosition, rotation));
                 continue;
             }
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
             {
-                //_targets.Add(map, await _woodFactory.Create(health, targetPosition, rotation));
                 targetsInLevel.Add(await _woodFactory.Create(health, targetPosition, rotation));
                 continue;
             }

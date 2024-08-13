@@ -1,16 +1,28 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventroyView : MonoBehaviour
 {
-    private InventoryModel _inventoryModel;
+    private readonly Dictionary<LootType, ItemView> _items = new();
 
-    public void Init(InventoryModel inventoryModel)
+    private InventoryModel _inventoryModel;
+    private ItemViewFactory _itemViewFactory;
+    private SpritesDataSouce _spritesDataSouce;
+
+    public async void Init(InventoryModel inventoryModel, ItemViewFactory itemViewFactory, SpritesDataSouce spritesDataSouce, Transform parent)
     {
         _inventoryModel = inventoryModel;
+        _itemViewFactory = itemViewFactory;
+        _spritesDataSouce = spritesDataSouce;
 
         _inventoryModel.ItemAdded += OnItemAdd;
+
+        Dictionary<LootType, Sprite> icons = _spritesDataSouce.GetAllItemsIcon();
+
+        foreach (KeyValuePair<LootType, Sprite> icon in icons)
+        {
+            _items.Add(icon.Key, await _itemViewFactory.Create(icon.Value, parent));
+        }
     }
 
     public void Add(LootType lootType, int count) =>
@@ -18,11 +30,6 @@ public class InventroyView : MonoBehaviour
 
     private void OnItemAdd(LootType type, int count)
     {
-
+        _items[type].SetCount(count);
     }
-}
-
-public class ItemView : MonoBehaviour
-{
-    [SerializeField] private Image _
 }

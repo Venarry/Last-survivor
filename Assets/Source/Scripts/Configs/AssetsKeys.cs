@@ -19,6 +19,8 @@ public class AssetsKeys
     public const string SkillIconSplash = "SkillIconSplash";
     public const string SkillIconPassiveHeal = "SkillIconPassiveHeal";
 
+    public const string ItemView = "ItemView";
+
     public const string ItemWood = "ItemWood";
     public const string ItemDiamond = "ItemDiamond";
 }

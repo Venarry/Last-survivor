@@ -10,6 +10,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private LevelSpawner _levelSpawner;
     [SerializeField] private MapGenerator _mapGenerator;
     [SerializeField] private GameLoadingPanel _gameLoadingPanel;
+    [SerializeField] private Transform _itemsParent;
 
     private AssetsProvider _assetsProvider;
 
@@ -28,18 +29,20 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.ShowNext();
 
         SkillsInformationDataSource skillsInformationDataSource = new();
-        SpritesDataSouce skillsSpriteDataSouce = new(_assetsProvider);
-        await skillsSpriteDataSouce.Load();
+        SpritesDataSouce spritesDataSouce = new(_assetsProvider);
+        await spritesDataSouce.Load();
+
+        ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
         LevelsStatisticModel levelsStatistic = new();
 
-        SkillToChooseFactory skillToChooseFactory = new(skillsSpriteDataSouce, skillsInformationDataSource, _assetsProvider);
+        SkillToChooseFactory skillToChooseFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
 
-        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider);
+        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider, itemViewFactory, spritesDataSouce, _itemsParent);
 
         _gameLoadingPanel.ShowNext();
 

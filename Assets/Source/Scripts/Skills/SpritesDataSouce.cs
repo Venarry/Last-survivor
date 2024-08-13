@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -26,10 +27,12 @@ public class SpritesDataSouce
 
         _lootIcons = new()
         {
-            [LootType.Wood] = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSwordRoundAttack),
-            [LootType.Diamond] = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSwordRoundAttack),
+            [LootType.Wood] = await _assetProvider.Load<Sprite>(AssetsKeys.ItemWood),
+            [LootType.Diamond] = await _assetProvider.Load<Sprite>(AssetsKeys.ItemDiamond),
         };
     }
 
     public Sprite Get(Type skillType) => _skillsIcons[skillType];
+    public Sprite Get(LootType lootType) => _lootIcons[lootType];
+    public Dictionary<LootType, Sprite> GetAllItemsIcon() => _lootIcons.ToDictionary(c => c.Key, x => x.Value);
 }

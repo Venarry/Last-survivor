@@ -30,8 +30,8 @@ public class SwordRoundAttackSkill : SkillBehaviour
         if (_cooldownTimer.IsReady == true)
         {
             float swordsScale = 1 + (float)(CurrentLevel - 1) / 3;
-            _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, swordsScale);
             _cooldownTimer.Reset();
+            await _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, swordsScale);
         }
     }
 

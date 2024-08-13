@@ -50,12 +50,15 @@ public class Player : MonoBehaviour
         TargetsProvider targetsProvider,
         InventoryModel inventoryModel,
         ExperienceModel experienceModel,
-        HealthModel healthModel)
+        HealthModel healthModel,
+        ItemViewFactory itemViewFactory,
+        SpritesDataSouce spritesDataSouce,
+        Transform lootParent)
     {
         _thirdPersonMovement.Init(inputProvider);
         _thirdPersonRotation.Init(inputProvider);
         TargetSearcher.Init(targetsProvider);
-        _inventroyView.Init(inventoryModel);
+        _inventroyView.Init(inventoryModel, itemViewFactory, spritesDataSouce, lootParent);
         _experienceView.Init(experienceModel);
         _healthOverReaction.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);

@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(HealthView))]
 public class LootDropHandler : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _lootPrefab;
     [SerializeField] private int _lootCount = 1;
 
     private readonly float _forceStrength = 300;

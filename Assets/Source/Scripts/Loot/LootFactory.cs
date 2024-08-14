@@ -6,6 +6,9 @@ public abstract class LootFactory : ObjectPoolBehaviour<Loot>
     private readonly ILootHolder _lootHolder;
     protected AssetsProvider AssetsProvider;
 
+    protected virtual int RewardCount { get; } = 1;
+    protected virtual int ExperienceCount { get; } = 1;
+
     protected LootFactory(ILootHolder lootHolder, AssetsProvider assetsProvider) : base(assetsProvider)
     {
         _lootHolder = lootHolder;
@@ -19,9 +22,7 @@ public abstract class LootFactory : ObjectPoolBehaviour<Loot>
 
         if (poolResult.IsInstantiatedObject == true)
         {
-            int reward = 1;
-            int experience = 1;
-            loot.Init(reward, experience, _lootHolder);
+            loot.Init(RewardCount, ExperienceCount, _lootHolder);
         }
         else
         {

@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class CharacterUpgrades : IUpgradable<IUpgrade>
+public class CharacterUpgrades : IUpgradable<UpgradeBehaviour>
 {
-    private readonly Dictionary<Type, IUpgrade> _upgrades = new();
+    private readonly Dictionary<Type, UpgradeBehaviour> _upgrades = new();
 
-    public void Add(IUpgrade upgrade)
+    public void Add(UpgradeBehaviour upgrade)
     {
         Type type = upgrade.GetType();
 
         if (_upgrades.ContainsKey(type) == false)
         {
             _upgrades.Add(type, upgrade);
-            _upgrades[type].Apply();
         }
-        else
-        {
-            _upgrades[type].IncreaseLevel();
-        }
+
+        _upgrades[type].Apply();
     }
 
     public void Remove(Type upgradeType)
@@ -28,7 +25,7 @@ public class CharacterUpgrades : IUpgradable<IUpgrade>
 
     public void RemoveAll()
     {
-        foreach (KeyValuePair<Type, IUpgrade> upgrade in _upgrades)
+        foreach (KeyValuePair<Type, UpgradeBehaviour> upgrade in _upgrades)
         {
             upgrade.Value.Cancel();
         }

@@ -50,11 +50,14 @@ public class EntryPoint : MonoBehaviour
         ExperienceModel experienceModel = new();
         CharacterSkillsModel characterSkillsModel = new();
         CharacterUpgrades characterUpgrades = new();
-        //characterUpgrades.Add(new EnemyDamageUpgrade(player.CharacterAttackParameters));
         int playerHealth = 30;
         HealthModel healthModel = new(playerHealth);
         Player player = await playerFactory.Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel);
         player.SetBehaviour(false);
+        //characterUpgrades.Add(new DamageForEnemyUpgrade(player.CharacterAttackParameters));
+        //characterUpgrades.Add(new DamageForEnemyUpgrade(player.CharacterAttackParameters));
+        //characterUpgrades.Add(new DamageForEnemyUpgrade(player.CharacterAttackParameters));
+        //characterUpgrades.Remove(typeof(DamageForEnemyUpgrade));
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 

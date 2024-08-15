@@ -23,6 +23,7 @@ public class EntryPoint : MonoBehaviour
         {
             "Load skills",
             "Load player",
+            "Load shop",
             "Load factorys",
         };
 
@@ -34,6 +35,7 @@ public class EntryPoint : MonoBehaviour
         await spritesDataSouce.Load();
 
         ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
+        ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
         LevelsStatisticModel levelsStatistic = new();
@@ -59,8 +61,10 @@ public class EntryPoint : MonoBehaviour
 
         player.SetBehaviour(false);
 
+        _gameLoadingPanel.ShowNext();
+
         UpgradesFactory upgradesFactory = new(characterAttackParameters);
-        _upgradesShop.Init(inventoryModel, characterUpgrades, upgradesFactory);
+        _upgradesShop.Init(inventoryModel, characterUpgrades, upgradesFactory, itemPriceFactory);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 

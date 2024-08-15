@@ -22,9 +22,10 @@ public class EntryPoint : MonoBehaviour
         string[] labels = new string[]
         {
             "Load skills",
+            "Load map",
             "Load player",
             "Load shop",
-            "Load factorys",
+            "Load targets",
         };
 
         _gameLoadingPanel.Set(labels);
@@ -34,18 +35,27 @@ public class EntryPoint : MonoBehaviour
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);
         await spritesDataSouce.Load();
 
+        _gameLoadingPanel.ShowNext();
+
         ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
         ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
-
-        LevelResourcesSpawnChance levelResourcesSpawnChance = new();
-        LevelsStatisticModel levelsStatistic = new();
+        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop);
+        await mapPartsFactory.Load();
 
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
 
-        PlayerFactory playerFactory = new(inputProvider, targetsProvider, _assetsProvider, itemViewFactory, skillsViewFactory, spritesDataSouce, _itemsParent, _skillsParent);
+        PlayerFactory playerFactory = new(
+            inputProvider,
+            targetsProvider,
+            _assetsProvider,
+            itemViewFactory,
+            skillsViewFactory,
+            spritesDataSouce,
+            _itemsParent,
+            _skillsParent);
 
         _gameLoadingPanel.ShowNext();
 
@@ -93,9 +103,12 @@ public class EntryPoint : MonoBehaviour
 
         _targetFollower.Set(player.transform);
 
-        _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
+        LevelResourcesSpawnChance levelResourcesSpawnChance = new();
+        LevelsStatisticModel levelsStatistic = new();
 
-        _mapGenerator.Init(player.transform, levelsStatistic);
+        _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
+        _mapGenerator.Init(player.transform, levelsStatistic, mapPartsFactory);
+
         _mapGenerator.StartGenerator();
 
         _gameLoadingPanel.Disable();

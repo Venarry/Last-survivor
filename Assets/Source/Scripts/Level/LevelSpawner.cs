@@ -38,7 +38,14 @@ public class LevelSpawner : MonoBehaviour
         map.GetComponent<EndlLevelTrigger>().Init(_levelsStatistic);
 
         List<Vector3> spawnPoints = new();
-        int spawnCount = 100 + _levelsStatistic.CurrentWave * 5;
+        int spawnCount = 100;
+
+        if (_targets.Count != 0)
+        {
+            spawnCount += _levelsStatistic.NextWave * 5;
+        }
+
+        Debug.Log(spawnCount);
 
         int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(spawnCount));
         int colsCount = (int)Mathf.Floor(spawnCount / rowsCount);
@@ -60,9 +67,9 @@ public class LevelSpawner : MonoBehaviour
         int healthPerTotalWave = _levelsStatistic.TotalWave + 1;
         int healthPerCurrentWave;
 
-        if (_levelsStatistic.CurrentWave + 1 != LevelsStatisticModel.LevelForCheckpoint)
+        if (_levelsStatistic.NextWave != 0)
         {
-            healthPerCurrentWave = (_levelsStatistic.CurrentWave + 1) * 2;
+            healthPerCurrentWave = _levelsStatistic.NextWave * 2;
         }
         else
         {

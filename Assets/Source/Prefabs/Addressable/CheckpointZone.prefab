@@ -82,7 +82,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3110038346817122989}
-  - component: {fileID: -6855260363937495498}
+  - component: {fileID: 8101548041484594436}
   m_Layer: 0
   m_Name: CheckpointZone
   m_TagString: Untagged
@@ -108,7 +108,7 @@ Transform:
   - {fileID: 3600421573825961482}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6855260363937495498
+--- !u!114 &8101548041484594436
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,10 +117,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3482237955461279054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b331ca6d3179634a9b22a63bbd83335, type: 3}
+  m_Script: {fileID: 11500000, guid: e62d67b12bd12d6448971fe4c4b7be6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _lengthTarget: {fileID: 7679682126147490833}
+  _upgradesShopTrigger: {fileID: 7245319263054684156}
 --- !u!1 &4089093147693561417
 GameObject:
   m_ObjectHideFlags: 0

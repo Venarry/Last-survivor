@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class LevelsStatisticModel
 {
-    public const int LevelForCheckpoint = 10;
     public int TotalWave { get; private set; }
-    public int CurrentWave => TotalWave % LevelForCheckpoint;
+    public int CurrentWave => TotalWave % GameParamenters.LevelForCheckpoint;
+    public int NextWave => (CurrentWave + 1) % GameParamenters.LevelForCheckpoint;
 
     public void Add()
     {

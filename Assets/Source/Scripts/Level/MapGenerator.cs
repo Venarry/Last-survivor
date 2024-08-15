@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -13,14 +14,19 @@ public class MapGenerator : MonoBehaviour
     private readonly Queue<MapPart> _mapParts = new();
     private Transform _player;
     private LevelsStatisticModel _levelsStatistic;
+    private MapPartsFactory _mapPartsFactory;
     private bool _isEnabled;
     private float _currentPosition;
     private float _spawnOffsetPosition = -30f;
 
-    public void Init(Transform player, LevelsStatisticModel levelsStatistic)
+    public void Init(
+        Transform player,
+        LevelsStatisticModel levelsStatistic,
+        MapPartsFactory mapPartsFactory)
     {
         _player = player;
         _levelsStatistic = levelsStatistic;
+        _mapPartsFactory = mapPartsFactory;
     }
 
     public void StartGenerator()
@@ -28,27 +34,27 @@ public class MapGenerator : MonoBehaviour
         _isEnabled = true;
     }
 
-    private void Update()
+    private async void Update()
     {
         if (_isEnabled == false)
             return;
 
-        TrySpawnMap();
+        await TrySpawnMap();
     }
 
-    private async void TrySpawnMap()
+    private async Task TrySpawnMap()
     {
         if(_player.position.z >= _currentPosition + _spawnOffsetPosition)
         {
             Vector3 spawnPosition = new(0, 0, _currentPosition);
 
-            if (_levelsStatistic.CurrentWave == 0)
+            if ((_levelsStatistic.CurrentWave + 1) % GameParamenters.LevelForCheckpoint == 0 || _mapParts.Count == 0)
             {
-                SpawnPart(_checkpointZonePrefab, ref spawnPosition);
+                RegisterPart(await _mapPartsFactory.CreateCheckPointZone(spawnPosition), ref spawnPosition);
             }
             else
             {
-                SpawnPart(_betweenLevelsZonePrefab, ref spawnPosition);
+                RegisterPart(await _mapPartsFactory.CreateBetweenLevelZone(spawnPosition), ref spawnPosition);
             }
 
             MapPart mapPart = await _levelSpawner.Spawn(spawnPosition);
@@ -59,12 +65,10 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void SpawnPart(MapPart prefab, ref Vector3 spawnPosition)
+    private void RegisterPart(MapPart mapPart, ref Vector3 spawnPosition)
     {
-        MapPart part = Instantiate(prefab, spawnPosition, Quaternion.identity);
-        _currentPosition += part.Length;
-
-        _mapParts.Enqueue(part);
+        _currentPosition += mapPart.Length;
+        _mapParts.Enqueue(mapPart);
         spawnPosition = new(0, 0, _currentPosition);
     }
 

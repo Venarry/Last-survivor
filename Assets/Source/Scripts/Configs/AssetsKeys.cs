@@ -27,4 +27,7 @@ public class AssetsKeys
     public const string ItemDiamond = "ItemDiamond";
 
     public const string ItemPrice = "ItemPrice";
+
+    public const string BetweenLevelsZone = "BetweenLevelsZone";
+    public const string CheckpointZone = "CheckpointZone";
 }

@@ -58,6 +58,16 @@ public class UpgradesShop : MonoBehaviour
         }
     }
 
+    public void Show()
+    {
+        _shopMenu.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        _shopMenu.SetActive(false);
+    }
+
     private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory)
     {
         Dictionary<LootType, int> basePrice = _upgradesPrice[upgradeType];

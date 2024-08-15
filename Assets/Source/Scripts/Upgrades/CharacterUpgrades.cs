@@ -17,6 +17,16 @@ public class CharacterUpgrades : IUpgradable<UpgradeBehaviour>
         _upgrades[type].Apply();
     }
 
+    public void IncreaseLevel(Type upgradeType)
+    {
+        if (_upgrades.ContainsKey(upgradeType) == false)
+        {
+            return;
+        }
+
+        _upgrades[upgradeType].Apply();
+    }
+
     public void Remove(Type upgradeType)
     {
         _upgrades[upgradeType].Cancel();

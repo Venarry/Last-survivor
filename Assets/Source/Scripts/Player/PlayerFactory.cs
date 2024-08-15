@@ -33,16 +33,19 @@ public class PlayerFactory
         _skillsParent = skillsParent;
     }
 
-    public async Task<Player> Create(Vector3 position, ExperienceModel experienceModel, HealthModel healthModel, CharacterSkillsModel characterSkillsModel)
+    public async Task<Player> Create(
+        Vector3 position,
+        ExperienceModel experienceModel,
+        HealthModel healthModel,
+        CharacterSkillsModel characterSkillsModel,
+        InventoryModel inventoryModel,
+        CharacterAttackParameters characterAttackParameters)
     {
         _playerPrefab = await _assetProvider.LoadGameObject<Player>(AssetsKeys.Player);
 
         Player player = Object.Instantiate(_playerPrefab, position, Quaternion.identity);
-        InventoryModel inventoryModel = new();
-
         _assetProvider.Clear(AssetsKeys.Player);
 
-        CharacterAttackParameters characterAttackParameters = new();
         player.Init(
             _inputProviderl,
             characterAttackParameters,

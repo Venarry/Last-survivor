@@ -8,6 +8,6 @@
     }
 
     public DamageForEnemyUpgrade CreateDamageForEnemy() => new(_characterAttackParameters);
-    public DamageForEnemyUpgrade CreateDamageForWood() => new(_characterAttackParameters);
-    public DamageForEnemyUpgrade CreateDamageForOre() => new(_characterAttackParameters);
+    public DamageForWoodUpgrade CreateDamageForWood() => new(_characterAttackParameters);
+    public DamageForOreUpgrade CreateDamageForOre() => new(_characterAttackParameters);
 }

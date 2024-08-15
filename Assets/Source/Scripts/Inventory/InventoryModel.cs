@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class InventoryModel
 {
     private readonly Dictionary<LootType, int> _loot = new();
 
-    public event Action<LootType, int> ItemAdded;
+    public event Action<LootType, int> ItemChanged;
 
     public void Add(LootType lootType, int count)
     {
@@ -18,7 +19,7 @@ public class InventoryModel
             _loot[lootType] += count;
         }
 
-        ItemAdded?.Invoke(lootType, _loot[lootType]);
+        ItemChanged?.Invoke(lootType, _loot[lootType]);
     }
 
     public bool TryRemove(Dictionary<LootType, int> items)
@@ -27,10 +28,12 @@ public class InventoryModel
         {
             return false;
         }
-
+        Debug.Log("Has items");
         foreach (KeyValuePair<LootType, int> item in items)
         {
             _loot[item.Key] -= item.Value;
+
+            ItemChanged?.Invoke(item.Key, _loot[item.Key]);
 
             if (_loot[item.Key] == 0)
             {

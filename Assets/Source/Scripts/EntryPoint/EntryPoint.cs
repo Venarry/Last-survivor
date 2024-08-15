@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EntryPoint : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private LevelSpawner _levelSpawner;
     [SerializeField] private MapGenerator _mapGenerator;
     [SerializeField] private GameLoadingPanel _gameLoadingPanel;
+    [SerializeField] private UpgradesShop _upgradesShop;
     [SerializeField] private Transform _itemsParent;
     [SerializeField] private Transform _skillsParent;
 
@@ -52,12 +52,15 @@ public class EntryPoint : MonoBehaviour
         CharacterUpgrades characterUpgrades = new();
         int playerHealth = 30;
         HealthModel healthModel = new(playerHealth);
-        Player player = await playerFactory.Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel);
+        InventoryModel inventoryModel = new();
+        CharacterAttackParameters characterAttackParameters = new();
+        Player player = await playerFactory
+            .Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel, inventoryModel, characterAttackParameters);
+
         player.SetBehaviour(false);
-        //characterUpgrades.Add(new DamageForEnemyUpgrade(player.CharacterAttackParameters));
-        //characterUpgrades.Add(new DamageForEnemyUpgrade(player.CharacterAttackParameters));
-        //characterUpgrades.Add(new DamageForEnemyUpgrade(player.CharacterAttackParameters));
-        //characterUpgrades.Remove(typeof(DamageForEnemyUpgrade));
+
+        UpgradesFactory upgradesFactory = new(characterAttackParameters);
+        _upgradesShop.Init(inventoryModel, characterUpgrades, upgradesFactory);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
@@ -107,14 +110,6 @@ public class EntryPoint : MonoBehaviour
         {
             MobileInputsProviderFactory mobileInputsProviderFactory = new(_assetsProvider);
             return await mobileInputsProviderFactory.Create(_canvas.transform);
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            SceneManager.LoadScene(0);
         }
     }
 

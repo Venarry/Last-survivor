@@ -15,7 +15,7 @@ public class InventroyView : MonoBehaviour
         _itemViewFactory = itemViewFactory;
         _spritesDataSouce = spritesDataSouce;
 
-        _inventoryModel.ItemAdded += OnItemAdd;
+        _inventoryModel.ItemChanged += OnItemAdd;
 
         Dictionary<LootType, Sprite> icons = _spritesDataSouce.GetAllItemsIcon();
 

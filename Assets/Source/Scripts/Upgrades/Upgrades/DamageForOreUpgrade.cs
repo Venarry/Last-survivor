@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 public class DamageForOreUpgrade : UpgradeBehaviour
 {
     private readonly CharacterAttackParameters _characterAttackParameters;
@@ -17,5 +19,6 @@ public class DamageForOreUpgrade : UpgradeBehaviour
     protected override void OnApply()
     {
         _characterAttackParameters.OreDamage += _damagePerLevel;
+        Debug.Log(_characterAttackParameters.OreDamage);
     }
 }

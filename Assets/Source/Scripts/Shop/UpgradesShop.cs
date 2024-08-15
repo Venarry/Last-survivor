@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UpgradesShop : MonoBehaviour
 {
     [SerializeField] private GameObject _shopMenu;
-    [SerializeField] private Button _buyDamageForEnemyButton;
-    [SerializeField] private Button _buyDamageForWoodButton;
-    [SerializeField] private Button _buyDamageForOreButton;
+    [SerializeField] private BuyUpgradeButton _buyDamageForEnemyButton;
+    [SerializeField] private BuyUpgradeButton _buyDamageForWoodButton;
+    [SerializeField] private BuyUpgradeButton _buyDamageForOreButton;
 
     private InventoryModel _inventoryModel;
     private CharacterUpgrades _characterUpgrades;
@@ -36,25 +35,35 @@ public class UpgradesShop : MonoBehaviour
     public void Init(
         InventoryModel inventoryModel,
         CharacterUpgrades characterUpgrades,
-        UpgradesFactory upgradesFactory)
+        UpgradesFactory upgradesFactory,
+        ItemPriceFactory itemPriceFactory)
     {
         _inventoryModel = inventoryModel;
         _characterUpgrades = characterUpgrades;
         _upgradesFactory = upgradesFactory;
+
+        _buyDamageForEnemyButton.Init(itemPriceFactory);
+        _buyDamageForEnemyButton.SetPrice(_upgradesPrice[typeof(DamageForEnemyUpgrade)]);
+
+        _buyDamageForWoodButton.Init(itemPriceFactory);
+        _buyDamageForWoodButton.SetPrice(_upgradesPrice[typeof(DamageForWoodUpgrade)]);
+
+        _buyDamageForOreButton.Init(itemPriceFactory);
+        _buyDamageForOreButton.SetPrice(_upgradesPrice[typeof(DamageForOreUpgrade)]);
     }
 
     private void OnEnable()
     {
-        _buyDamageForEnemyButton.onClick.AddListener(OnClickBuyDamageForEnemy);
-        _buyDamageForWoodButton.onClick.AddListener(OnClickBuyDamageForWood);
-        _buyDamageForOreButton.onClick.AddListener(OnClickBuyDamageForOre);
+        _buyDamageForEnemyButton.AddListenerOnClick(OnClickBuyDamageForEnemy);
+        _buyDamageForWoodButton.AddListenerOnClick(OnClickBuyDamageForWood);
+        _buyDamageForOreButton.AddListenerOnClick(OnClickBuyDamageForOre);
     }
 
     private void OnDisable()
     {
-        _buyDamageForEnemyButton.onClick.RemoveListener(OnClickBuyDamageForEnemy);
-        _buyDamageForWoodButton.onClick.RemoveListener(OnClickBuyDamageForWood);
-        _buyDamageForOreButton.onClick.RemoveListener(OnClickBuyDamageForOre);
+        _buyDamageForEnemyButton.RemoveListenerOnClick(OnClickBuyDamageForEnemy);
+        _buyDamageForWoodButton.RemoveListenerOnClick(OnClickBuyDamageForWood);
+        _buyDamageForOreButton.RemoveListenerOnClick(OnClickBuyDamageForOre);
     }
 
     private void OnClickBuyDamageForOre()

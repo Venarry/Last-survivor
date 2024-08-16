@@ -14,7 +14,6 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
         _assetsProvider = assetsProvider;
     }
 
-    public int ActiveObjectsCount => _objects.Where(c => c.isActiveAndEnabled).Count();
     protected abstract string AssetKey { get; }
 
     public event Action ActiveObjectsChanged;
@@ -31,7 +30,6 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
 
         if (foundedObject == null)
         {
-            //foundedObject = UnityEngine.Object.Instantiate(GetPrefab(), spawnPoint, Quaternion.identity);
             T prefab = await _assetsProvider.LoadGameObject<T>(AssetKey);
             foundedObject = UnityEngine.Object.Instantiate(prefab, spawnPoint, rotation);
             _objects.Add(foundedObject);

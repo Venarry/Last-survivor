@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 public class LevelSpawner : MonoBehaviour
@@ -13,7 +14,7 @@ public class LevelSpawner : MonoBehaviour
     private StoneFactory _stoneFactory;
     private LevelResourcesSpawnChance _levelResourcesSpawnChance;
     private LevelsStatisticModel _levelsStatistic;
-    private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targets = new();
+    private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new();
 
     private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
     private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 35);
@@ -40,7 +41,7 @@ public class LevelSpawner : MonoBehaviour
         List<Vector3> spawnPoints = new();
         int spawnCount = 100;
 
-        if (_targets.Count != 0)
+        if (_targetsOnMap.Count != 0)
         {
             spawnCount += _levelsStatistic.NextWave * 5;
         }
@@ -78,7 +79,7 @@ public class LevelSpawner : MonoBehaviour
 
         int health = 1 + healthPerTotalWave + healthPerCurrentWave;
         List<Target> targetsInLevel = new();
-        _targets.Enqueue(new(map, targetsInLevel));
+        _targetsOnMap.Enqueue(new(map, targetsInLevel));
 
         foreach (Vector3 spawnPosition in spawnPoints)
         {
@@ -92,17 +93,17 @@ public class LevelSpawner : MonoBehaviour
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
             {
-                targetsInLevel.Add(await _diamondFactory.Create(health, targetPosition, rotation));
+                await SpawnObstacle(_diamondFactory, health, targetPosition, rotation, targetsInLevel);
                 continue;
             }
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
             {
-                targetsInLevel.Add(await _woodFactory.Create(health, targetPosition, rotation));
+                await SpawnObstacle(_woodFactory, health, targetPosition, rotation, targetsInLevel);
                 continue;
             }
 
-            targetsInLevel.Add(await _stoneFactory.Create(health, targetPosition, rotation));
+            await SpawnObstacle(_stoneFactory, health, targetPosition, rotation, targetsInLevel);
         }
 
         return map;
@@ -110,10 +111,10 @@ public class LevelSpawner : MonoBehaviour
 
     public void TryDeletePassedMap()
     {
-        if (_targets.Count <= GameParamenters.SpawnedMapBufferCount)
+        if (_targetsOnMap.Count <= GameParamenters.SpawnedMapBufferCount)
             return;
 
-        KeyValuePair<MapPart, List<Target>> zeroMap = _targets.Dequeue();
+        KeyValuePair<MapPart, List<Target>> zeroMap = _targetsOnMap.Dequeue();
 
         foreach (Target target in zeroMap.Value)
         {
@@ -121,5 +122,33 @@ public class LevelSpawner : MonoBehaviour
         }
 
         Destroy(zeroMap.Key.gameObject);
+    }
+
+    private async Task SpawnObstacle(TargetFactory targetFactory, int health, Vector3 position, Quaternion rotation, List<Target> pool)
+    {
+        Target obstacle = await targetFactory.Create(health, position, rotation);
+        pool.Add(obstacle);
+
+        obstacle.LifeCycleEnded += OnTargetLifeCycleEnd;
+    }
+
+    private void OnTargetLifeCycleEnd(Target removedTarget)
+    {
+        removedTarget.LifeCycleEnded -= OnTargetLifeCycleEnd;
+
+        List<Target> listWithRemovedTarget = new();
+
+        foreach (KeyValuePair<MapPart, List<Target>> targets in _targetsOnMap)
+        {
+            foreach (Target target in targets.Value)
+            {
+                if(removedTarget == target)
+                {
+                    listWithRemovedTarget = targets.Value;
+                }
+            }
+        }
+
+        listWithRemovedTarget.Remove(removedTarget);
     }
 }

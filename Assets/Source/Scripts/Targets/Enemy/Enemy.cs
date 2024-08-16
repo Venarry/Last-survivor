@@ -13,9 +13,14 @@ public class Enemy : MonoBehaviour
         _enemyBehaviour = GetComponent<EnemyBehaviour>();
     }
 
-    public void Init(Target attackTarget, float attackDistance)
+    public void Init(Target attackTarget, float attackDistance, float damage)
     {
         _enemyStateMachine.Init();
-        _enemyBehaviour.Init(attackTarget, attackDistance);
+        _enemyBehaviour.Init(attackTarget, attackDistance, damage);
+    }
+
+    public void ResetDamage(float damage)
+    {
+        _enemyBehaviour.SetDamage(damage);
     }
 }

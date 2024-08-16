@@ -14,7 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
     private NavMeshAgent _agent;
     private WaitForSeconds _waitAttackDelay = new(AttackDelay);
     private Coroutine _activeAttackCoroutine;
-    private int _damage = 3;
+    private float _damage;
     private float _attackDistance;
 
     public bool IsReadyToAttack => _cooldownTimer.IsReady;
@@ -26,15 +26,21 @@ public class EnemyBehaviour : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
     }
 
-    public void Init(Target target, float attackDistance)
+    public void Init(Target target, float attackDistance, float damage)
     {
         _target = target;
         _attackDistance = attackDistance;
+        _damage = damage;
     }
 
     private void Update()
     {
         _cooldownTimer.Tick();
+    }
+
+    public void SetDamage(float damage)
+    {
+        _damage = damage;
     }
 
     public void Follow()
@@ -63,7 +69,10 @@ public class EnemyBehaviour : MonoBehaviour
         if (_cooldownTimer.IsReady == false)
             return;
 
-        _activeAttackCoroutine ??= StartCoroutine(Attacking());
+        if(_activeAttackCoroutine == null)
+        {
+            StartCoroutine(Attacking());
+        }
 
         _cooldownTimer.Reset();
     }

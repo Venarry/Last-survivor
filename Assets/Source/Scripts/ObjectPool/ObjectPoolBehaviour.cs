@@ -23,10 +23,10 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
         await _assetsProvider.LoadGameObject<T>(AssetKey);
     }
 
-    protected async Task<PoolResult<T>> CreatePoolObject(Vector3 spawnPoint, Quaternion rotation)
+    protected async Task<PoolSpawnResult<T>> CreatePoolObject(Vector3 spawnPoint, Quaternion rotation)
     {
         T foundedObject = _objects.FirstOrDefault(c => c.isActiveAndEnabled == false);
-        PoolResult<T> poolResult = new();
+        PoolSpawnResult<T> poolResult = new();
 
         if (foundedObject == null)
         {
@@ -60,7 +60,7 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
     }
 }
 
-public class PoolResult<T> where T : MonoBehaviour, IPoolObject<T>
+public class PoolSpawnResult<T> where T : MonoBehaviour, IPoolObject<T>
 {
     public T Result { get; set; }
     public bool IsInstantiatedObject { get; set; }

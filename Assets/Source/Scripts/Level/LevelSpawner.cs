@@ -125,7 +125,7 @@ public class LevelSpawner : MonoBehaviour
 
     private async Task SpawnObstacle(TargetFactory targetFactory, float health, Vector3 position, Quaternion rotation, List<Target> pool)
     {
-        Target obstacle = await targetFactory.Create(health, position, rotation);
+        Target obstacle = (await targetFactory.Create(health, position, rotation)).Result;
         pool.Add(obstacle);
 
         obstacle.LifeCycleEnded += OnTargetLifeCycleEnd;

@@ -13,6 +13,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private DayCycleView _dayCycleView;
     [SerializeField] private Transform _itemsParent;
     [SerializeField] private Transform _skillsParent;
+    [SerializeField] private EnemySpawner _enemySpawner;
 
     private AssetsProvider _assetsProvider;
 
@@ -100,7 +101,7 @@ public class EntryPoint : MonoBehaviour
         WoodFactory woodFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, woodLootFactory);
         await woodFactory.Load();
 
-        EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider, player.Target, attackDistance: 3);
+        EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider, attackDistance: 3);
         await enemyFactory.Load();
 
         StoneFactory stoneFactory = new(targetsProvider, _assetsProvider);
@@ -112,9 +113,9 @@ public class EntryPoint : MonoBehaviour
 
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
+        _enemySpawner.Init(enemyFactory, levelsStatisticModel, player.Target);
 
         _mapGenerator.StartGenerator();
-        //await enemyFactory.Create(50, new(0, 0, 7), Quaternion.identity);
 
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);

@@ -41,8 +41,9 @@ public class EntryPoint : MonoBehaviour
         ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
         MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop);
         await mapPartsFactory.Load();
-
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
+
+        LevelsStatisticModel levelsStatisticModel = new();
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
@@ -86,16 +87,16 @@ public class EntryPoint : MonoBehaviour
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
         await diamondLootFactory.Load();
 
-        DiamondFactory diamondFactory = new(targetsProvider, _assetsProvider, diamondLootFactory);
+        DiamondFactory diamondFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, diamondLootFactory);
         await diamondFactory.Load();
 
         WoodLootFactory woodLootFactory = new(player.LootHolder, _assetsProvider);
         await woodLootFactory.Load();
 
-        WoodFactory woodFactory = new(targetsProvider, _assetsProvider, woodLootFactory);
+        WoodFactory woodFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, woodLootFactory);
         await woodFactory.Load();
 
-        EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider);
+        EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider, player.Target, attackDistance: 3);
         await enemyFactory.Load();
 
         StoneFactory stoneFactory = new(targetsProvider, _assetsProvider);
@@ -104,12 +105,12 @@ public class EntryPoint : MonoBehaviour
         _targetFollower.Set(player.transform);
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
-        LevelsStatisticModel levelsStatistic = new();
 
-        _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatistic);
-        _mapGenerator.Init(player.transform, levelsStatistic, mapPartsFactory);
+        _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatisticModel);
+        _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
 
         _mapGenerator.StartGenerator();
+        //await enemyFactory.Create(50, new(0, 0, 7), Quaternion.identity);
 
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);

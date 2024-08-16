@@ -4,10 +4,11 @@ using UnityEngine;
 public class DiamondFactory : TargetWithLootFactory
 {
     public DiamondFactory(
+        LevelsStatisticModel levelsStatisticModel,
         TargetsProvider targetsProvider,
         AssetsProvider assetsProvider,
         DiamondLootFactory lootFactory) 
-        : base(targetsProvider, assetsProvider, lootFactory)
+        : base(levelsStatisticModel, targetsProvider, assetsProvider, lootFactory)
     {
     }
 

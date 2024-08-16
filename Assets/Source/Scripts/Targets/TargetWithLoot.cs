@@ -10,8 +10,8 @@ public class TargetWithLoot : Target
         _lootDropHandler = GetComponent<LootDropHandler>();
     }
 
-    public void InitLootDropHandler(LootFactory lootFactory)
+    public void InitLootDropHandler(HealthModel healthModel, LootFactory lootFactory, LevelsStatisticModel levelsStatisticModel)
     {
-        _lootDropHandler.Init(lootFactory);
+        _lootDropHandler.Init(healthModel, lootFactory, levelsStatisticModel);
     }
 }

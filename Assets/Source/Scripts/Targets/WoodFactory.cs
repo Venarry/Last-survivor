@@ -1,10 +1,11 @@
 ﻿public class WoodFactory : TargetWithLootFactory
 {
     public WoodFactory(
+        LevelsStatisticModel levelsStatisticModel,
         TargetsProvider targetsProvider,
         AssetsProvider assetsProvider,
         WoodLootFactory lootFactory) 
-        : base(targetsProvider, assetsProvider, lootFactory)
+        : base(levelsStatisticModel, targetsProvider, assetsProvider, lootFactory)
     {
     }
 

@@ -84,8 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29928fbde0369f143afcc6f0e08046fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lootPrefab: {fileID: 250469827840914495, guid: 4cc52f4d8e2843c4281f6c52075ea2cc, type: 3}
-  _lootCount: 10
+  _lootCount: 4
 --- !u!114 &5031590401893312492
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
 
     protected abstract TargetType TargetType { get; }
 
-    public virtual async Task<Target> Create(float health, Vector3 position, Quaternion rotation)
+    public async Task<Target> Create(float health, Vector3 position, Quaternion rotation)
     {
         PoolResult<Target> poolResult = await CreatePoolObject(position, rotation);
         Target target = poolResult.Result;
@@ -21,6 +21,7 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
         {
             HealthModel healthModel = new(health);
             target.Init(TargetType, healthModel);
+            OnCreated(target, healthModel);
         }
         else
         {
@@ -31,6 +32,10 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
         target.LifeCycleEnded += OnLifeCycleEnd;
 
         return target;
+    }
+
+    protected virtual void OnCreated(Target target, HealthModel healthModel)
+    {
     }
 
     private void OnLifeCycleEnd(Target target)

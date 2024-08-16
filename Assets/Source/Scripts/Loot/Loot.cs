@@ -56,7 +56,7 @@ public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
 
         _lootHolder.Add(LootType, _reward);
         _lootHolder.Add(_experienceReward);
-        //Destroy(gameObject);
+
         LifeCycleEnded?.Invoke(this);
     }
 
@@ -66,8 +66,9 @@ public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
         transform.rotation = rotation;
     }
 
-    public void ResetSettings()
+    public void ResetSettings(int reward)
     {
         _rigidbody.useGravity = true;
+        _reward = reward;
     }
 }

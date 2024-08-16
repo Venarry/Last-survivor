@@ -3,19 +3,25 @@ using UnityEngine;
 
 public class EnemyFactory : TargetFactory
 {
-    public EnemyFactory(TargetsProvider targetsProvider, AssetsProvider assetsProvider) : base(targetsProvider, assetsProvider)
+    private readonly Target _attackTarget;
+    private readonly float _attackDistance;
+
+    public EnemyFactory(
+        TargetsProvider targetsProvider,
+        AssetsProvider assetsProvider,
+        Target attackTarget,
+        float attackDistance) : base(targetsProvider, assetsProvider)
     {
+        _attackTarget = attackTarget;
+        _attackDistance = attackDistance;
     }
 
     protected override string AssetKey => AssetsKeys.Enemy;
     protected override TargetType TargetType => TargetType.Enemy;
 
-    public async Task<Target> Create(int health, Vector3 position, Quaternion rotation, Target attackTarget, float attackDistance)
+    protected override void OnCreated(Target target, HealthModel healthModel)
     {
-        Target target = await base.Create(health, position, rotation);
         Enemy enemy = target.GetComponent<Enemy>();
-        enemy.Init(attackTarget, attackDistance);
-
-        return target;
+        enemy.Init(_attackTarget, _attackDistance);
     }
 }

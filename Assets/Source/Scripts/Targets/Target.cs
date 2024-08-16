@@ -67,7 +67,7 @@ public class Target : MonoBehaviour, IPoolObject<Target>
         transform.rotation = rotation;
     }
 
-    public void ResetSettings(int health)
+    public void ResetSettings(float health)
     {
         _healthView.SetMaxHealth(health);
         _healthView.Restore();

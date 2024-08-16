@@ -9,6 +9,5 @@ public class LevelsStatisticModel
     public void Add()
     {
         TotalWave++;
-        Debug.Log(TotalWave);
     }
 }

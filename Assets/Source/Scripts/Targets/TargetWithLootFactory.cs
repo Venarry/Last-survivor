@@ -14,7 +14,7 @@ public abstract class TargetWithLootFactory : TargetFactory
         _lootFactory = lootFactory;
     }
 
-    public override async Task<Target> Create(int health, Vector3 position, Quaternion rotation)
+    public override async Task<Target> Create(float health, Vector3 position, Quaternion rotation)
     {
         Target target = await base.Create(health, position, rotation);
 

@@ -12,7 +12,7 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
 
     protected abstract TargetType TargetType { get; }
 
-    public virtual async Task<Target> Create(int health, Vector3 position, Quaternion rotation)
+    public virtual async Task<Target> Create(float health, Vector3 position, Quaternion rotation)
     {
         PoolResult<Target> poolResult = await CreatePoolObject(position, rotation);
         Target target = poolResult.Result;

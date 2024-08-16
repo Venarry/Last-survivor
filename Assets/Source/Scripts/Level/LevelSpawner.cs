@@ -46,8 +46,6 @@ public class LevelSpawner : MonoBehaviour
             spawnCount += _levelsStatistic.NextWave * 5;
         }
 
-        Debug.Log(spawnCount);
-
         int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(spawnCount));
         int colsCount = (int)Mathf.Floor(spawnCount / rowsCount);
 
@@ -65,19 +63,20 @@ public class LevelSpawner : MonoBehaviour
             }
         }
 
-        int healthPerTotalWave = _levelsStatistic.TotalWave + 1;
-        int healthPerCurrentWave;
+        float healthPerTotalWave = _levelsStatistic.TotalWave + 1;
+        float healthPerCurrentWave;
+        float healthPerCurrentWaveMultiplier = 2;
 
         if (_levelsStatistic.NextWave != 0)
         {
-            healthPerCurrentWave = _levelsStatistic.NextWave * 2;
+            healthPerCurrentWave = _levelsStatistic.NextWave * healthPerCurrentWaveMultiplier;
         }
         else
         {
-            healthPerCurrentWave = 2;
+            healthPerCurrentWave = healthPerCurrentWaveMultiplier / 2;
         }
 
-        int health = 1 + healthPerTotalWave + healthPerCurrentWave;
+        float health = 1 + healthPerTotalWave + healthPerCurrentWave;
         List<Target> targetsInLevel = new();
         _targetsOnMap.Enqueue(new(map, targetsInLevel));
 
@@ -124,7 +123,7 @@ public class LevelSpawner : MonoBehaviour
         Destroy(zeroMap.Key.gameObject);
     }
 
-    private async Task SpawnObstacle(TargetFactory targetFactory, int health, Vector3 position, Quaternion rotation, List<Target> pool)
+    private async Task SpawnObstacle(TargetFactory targetFactory, float health, Vector3 position, Quaternion rotation, List<Target> pool)
     {
         Target obstacle = await targetFactory.Create(health, position, rotation);
         pool.Add(obstacle);

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(ThirdPersonMovement))]
 [RequireComponent(typeof(ThirdPersonRotation))]
@@ -13,6 +14,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterSkillsView))]
 public class Player : MonoBehaviour
 {
+    [field: SerializeField] public GameObject DayBar { get; private set; }
+
     private ThirdPersonMovement _thirdPersonMovement;
     private ThirdPersonRotation _thirdPersonRotation;
     private PlayerAttackStateMachine _playerAttackStateMachine;

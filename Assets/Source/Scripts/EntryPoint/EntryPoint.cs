@@ -10,6 +10,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private MapGenerator _mapGenerator;
     [SerializeField] private GameLoadingPanel _gameLoadingPanel;
     [SerializeField] private UpgradesShop _upgradesShop;
+    [SerializeField] private DayCycleView _dayCycleView;
     [SerializeField] private Transform _itemsParent;
     [SerializeField] private Transform _skillsParent;
 
@@ -42,6 +43,7 @@ public class EntryPoint : MonoBehaviour
         MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop);
         await mapPartsFactory.Load();
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
+        DayCycleParameters dayCycleParameters = new();
 
         LevelsStatisticModel levelsStatisticModel = new();
 
@@ -73,6 +75,8 @@ public class EntryPoint : MonoBehaviour
         player.SetBehaviour(false);
 
         _gameLoadingPanel.ShowNext();
+
+        _dayCycleView.Init(dayCycleParameters, player.DayBar);
 
         UpgradesFactory upgradesFactory = new(characterAttackParameters);
         _upgradesShop.Init(inventoryModel, characterUpgrades, upgradesFactory, itemPriceFactory);
@@ -115,8 +119,8 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
 
-        inventoryModel.Add(LootType.Diamond, 10000);
-        inventoryModel.Add(LootType.Wood, 10000);
+        //inventoryModel.Add(LootType.Diamond, 10000);
+        //inventoryModel.Add(LootType.Wood, 10000);
     }
 
     private async Task<IInputProvider> GetInputProvider()
@@ -131,6 +135,19 @@ public class EntryPoint : MonoBehaviour
         {
             MobileInputsProviderFactory mobileInputsProviderFactory = new(_assetsProvider);
             return await mobileInputsProviderFactory.Create(_canvas.transform);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _dayCycleView.StartDayTimer();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _dayCycleView.EndNight();
         }
     }
 

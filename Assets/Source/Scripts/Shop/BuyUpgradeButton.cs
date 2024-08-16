@@ -31,7 +31,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _itemPriceFactory = itemPriceFactory;
         _basePrice = basePrice;
 
-        SetPrice(GetActualPrice());
+        SetPriceView(GetActualPrice());
     }
 
     private void OnEnable()
@@ -53,7 +53,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
         OnUpgradeBuy();
         _buyCount++;
-        SetPrice(GetActualPrice());
+        SetPriceView(GetActualPrice());
     }
 
     protected Dictionary<LootType, int> GetActualPrice()
@@ -62,13 +62,16 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
         foreach (KeyValuePair<LootType, int> baseLootPrice in _basePrice)
         {
-            targetPrice.Add(baseLootPrice.Key, (int)Mathf.Pow(baseLootPrice.Value, _buyCount));
+            int minLootCount = 2;
+            int lootCount = Mathf.Max(baseLootPrice.Value, minLootCount);
+            int lootPrice = (int)Mathf.Pow(lootCount, _buyCount + 1);
+            targetPrice.Add(baseLootPrice.Key, lootPrice);
         }
 
         return targetPrice;
     }
 
-    protected async void SetPrice(Dictionary<LootType, int> price)
+    protected async void SetPriceView(Dictionary<LootType, int> price)
     {
         foreach (KeyValuePair<LootType, int> currentLoot in price)
         {

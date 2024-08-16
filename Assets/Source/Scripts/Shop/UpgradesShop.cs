@@ -70,7 +70,7 @@ public class UpgradesShop : MonoBehaviour
 
     private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory)
     {
-        Dictionary<LootType, int> basePrice = _upgradesPrice[upgradeType];
+        Dictionary<LootType, int> basePrice = _upgradesPrice[upgradeType].ToDictionary(x => x.Key, x => x.Value);
         _upgradesButtons[upgradeType].Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, itemPriceFactory);
     }
 }

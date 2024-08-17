@@ -1,12 +1,16 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class DayCycle : MonoBehaviour
 {
     [SerializeField] private Light _light;
+    [SerializeField] private Color _targetColor;
 
     private GameObject _dayBar;
     private DayCycleParameters _dayCycleParameters;
+    private Color _startLightColor;
+    private Coroutine _activeLightTransition;
     private float _timeLeft = 0;
     private bool _isDayTimeStarted = false;
 
@@ -18,8 +22,7 @@ public class DayCycle : MonoBehaviour
     {
         _dayCycleParameters = dayCycleParameters;
         _dayBar = dayBar;
-        Color startColor = _light.color;
-        Debug.Log(startColor);
+        _startLightColor = _light.color;
 
         _dayBar.SetActive(false);
     }
@@ -36,6 +39,8 @@ public class DayCycle : MonoBehaviour
             return;
 
         _isDayTimeStarted = false;
+        StartLightTransition(_targetColor);
+
         NightCome?.Invoke();
     }
 
@@ -54,6 +59,7 @@ public class DayCycle : MonoBehaviour
         _isDayTimeStarted = false;
         RefreshBar();
         _dayBar.SetActive(false);
+        StartLightTransition(_startLightColor);
 
         TimeReset?.Invoke();
     }
@@ -61,5 +67,37 @@ public class DayCycle : MonoBehaviour
     private void RefreshBar()
     {
         _dayBar.transform.localRotation = Quaternion.Euler(0, 0, _timeLeft / _dayCycleParameters.DayDuration * 180);
+    }
+
+    private void StartLightTransition(Color targetColor)
+    {
+        if(_activeLightTransition != null)
+        {
+            StopCoroutine(_activeLightTransition);
+        }
+
+        _activeLightTransition = StartCoroutine(TransitionLightColor(targetColor));
+    }
+
+    private IEnumerator TransitionLightColor(Color targetColor)
+    {
+        float transitDuration = 2f;
+        float timeLeft = 0;
+
+        while (_light.color != targetColor)
+        {
+            float progress = timeLeft / transitDuration;
+
+            float r = Mathf.Lerp(_light.color.r, targetColor.r, progress);
+            float g = Mathf.Lerp(_light.color.g, targetColor.g, progress);
+            float b = Mathf.Lerp(_light.color.b, targetColor.b, progress);
+
+            _light.color = new(r, g, b);
+            timeLeft += Time.deltaTime;
+
+            yield return null;
+        }
+
+        _activeLightTransition = null;
     }
 }

@@ -1,21 +1,25 @@
 using System;
 using UnityEngine;
 
-public class DayCycleView : MonoBehaviour
+public class DayCycle : MonoBehaviour
 {
+    [SerializeField] private Light _light;
+
     private GameObject _dayBar;
     private DayCycleParameters _dayCycleParameters;
     private float _timeLeft = 0;
     private bool _isDayTimeStarted = false;
 
-    public event Action DayTimeStarted;
-    public event Action NightEnded;
-    public event Action NightStarted;
+    //public event Action DayTimeStarted;
+    public event Action TimeReset;
+    public event Action NightCome;
 
     public void Init(DayCycleParameters dayCycleParameters, GameObject dayBar)
     {
         _dayCycleParameters = dayCycleParameters;
         _dayBar = dayBar;
+        Color startColor = _light.color;
+        Debug.Log(startColor);
 
         _dayBar.SetActive(false);
     }
@@ -32,7 +36,7 @@ public class DayCycleView : MonoBehaviour
             return;
 
         _isDayTimeStarted = false;
-        NightStarted?.Invoke();
+        NightCome?.Invoke();
     }
 
     public void StartDayTimer()
@@ -41,17 +45,17 @@ public class DayCycleView : MonoBehaviour
         _isDayTimeStarted = true;
         _dayBar.SetActive(true);
 
-        DayTimeStarted?.Invoke();
+        //DayTimeStarted?.Invoke();
     }
 
-    public void EndNight()
+    public void ResetTime()
     {
         _timeLeft = 0;
         _isDayTimeStarted = false;
         RefreshBar();
         _dayBar.SetActive(false);
 
-        NightEnded?.Invoke();
+        TimeReset?.Invoke();
     }
 
     private void RefreshBar()

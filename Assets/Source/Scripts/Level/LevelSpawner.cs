@@ -12,6 +12,7 @@ public class LevelSpawner : MonoBehaviour
     private WoodFactory _woodFactory;
     private DiamondFactory _diamondFactory;
     private StoneFactory _stoneFactory;
+    private MapPartsFactory _mapPartsFactory;
     private LevelResourcesSpawnChance _levelResourcesSpawnChance;
     private LevelsStatisticModel _levelsStatistic;
     private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new();
@@ -23,20 +24,21 @@ public class LevelSpawner : MonoBehaviour
         WoodFactory woodFactory,
         DiamondFactory diamondFactory,
         StoneFactory stoneFactory,
+        MapPartsFactory mapPartsFactory,
         LevelResourcesSpawnChance levelResourcesSpawnChance,
         LevelsStatisticModel levelsStatistic)
     {
         _woodFactory = woodFactory;
         _diamondFactory = diamondFactory;
         _stoneFactory = stoneFactory;
+        _mapPartsFactory = mapPartsFactory;
         _levelResourcesSpawnChance = levelResourcesSpawnChance;
         _levelsStatistic = levelsStatistic;
     }
 
     public async Task<MapPart> Spawn(Vector3 position)
     {
-        MapPart map = Instantiate(_levelPrefab, position, Quaternion.identity);
-        map.GetComponent<EndlLevelTrigger>().Init(_levelsStatistic);
+        MapPart map = await _mapPartsFactory.CreateLevelZone(position);
 
         List<Vector3> spawnPoints = new();
         int spawnCount = 100;

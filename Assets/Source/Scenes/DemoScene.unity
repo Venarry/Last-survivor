@@ -566,7 +566,7 @@ MonoBehaviour:
   _mapGenerator: {fileID: 1585436177}
   _gameLoadingPanel: {fileID: 53965653}
   _upgradesShop: {fileID: 2033634830}
-  _dayCycleView: {fileID: 1275668697}
+  _dayCycle: {fileID: 1275668699}
   _itemsParent: {fileID: 609393880}
   _skillsParent: {fileID: 746839164}
   _enemySpawner: {fileID: 1342519360}
@@ -1520,7 +1520,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1275668698}
-  - component: {fileID: 1275668697}
+  - component: {fileID: 1275668699}
   m_Layer: 0
   m_Name: DayCycle
   m_TagString: Untagged
@@ -1528,18 +1528,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1275668697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1275668696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2667c5e3819da8449ce5f2ecb1cb8da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1275668698
 Transform:
   m_ObjectHideFlags: 0
@@ -1555,6 +1543,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1275668699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275668696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ebfc4a1697aea449191f12769694e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 1796042454}
 --- !u!1 &1304181987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,7 +1983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddc5e04c065ce70478ac5145e248157b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayCycleView: {fileID: 1275668697}
+  _dayCycleView: {fileID: 1275668699}
 --- !u!4 &1342519361
 Transform:
   m_ObjectHideFlags: 0

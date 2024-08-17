@@ -38,8 +38,8 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
         }
         else
         {
-            foundedObject.gameObject.SetActive(true);
             foundedObject.Respawn(spawnPoint, Quaternion.identity);
+            foundedObject.gameObject.SetActive(true);
 
             poolResult.IsInstantiatedObject = false;
         }

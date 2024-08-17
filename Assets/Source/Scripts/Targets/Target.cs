@@ -2,12 +2,10 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(HealthView))]
-[RequireComponent(typeof(TargetHealthOverReaction))]
 public class Target : MonoBehaviour, IPoolObject<Target>
 {
     [SerializeField] private bool _isFriendly = false;
     private HealthView _healthView;
-    private TargetHealthOverReaction _healthOverReaction;
 
     public Vector3 Position => transform.position;
     public TargetType TargetType { get; private set; }
@@ -18,7 +16,6 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     private void Awake()
     {
         _healthView = GetComponent<HealthView>();
-        _healthOverReaction = GetComponent<TargetHealthOverReaction>();
 
         OnAwake();
     }
@@ -41,7 +38,6 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     {
         TargetType = targetType;
         _healthView.Init(healthModel);
-        _healthOverReaction.Init(healthModel);
 
         _healthView.HealthOver += OnHealthOver;
     }

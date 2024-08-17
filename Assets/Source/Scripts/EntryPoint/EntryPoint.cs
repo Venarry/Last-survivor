@@ -10,7 +10,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private MapGenerator _mapGenerator;
     [SerializeField] private GameLoadingPanel _gameLoadingPanel;
     [SerializeField] private UpgradesShop _upgradesShop;
-    [SerializeField] private DayCycleView _dayCycleView;
+    [SerializeField] private DayCycle _dayCycle;
     [SerializeField] private Transform _itemsParent;
     [SerializeField] private Transform _skillsParent;
     [SerializeField] private EnemySpawner _enemySpawner;
@@ -39,14 +39,13 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.ShowNext();
 
+        LevelsStatisticModel levelsStatisticModel = new();
         ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
         ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
-        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop);
+        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel);
         await mapPartsFactory.Load();
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
         DayCycleParameters dayCycleParameters = new();
-
-        LevelsStatisticModel levelsStatisticModel = new();
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
@@ -77,7 +76,7 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.ShowNext();
 
-        _dayCycleView.Init(dayCycleParameters, player.DayBar);
+        _dayCycle.Init(dayCycleParameters, player.DayBar);
 
         UpgradesFactory upgradesFactory = new(characterAttackParameters);
         _upgradesShop.Init(inventoryModel, characterUpgrades, upgradesFactory, itemPriceFactory);
@@ -111,7 +110,7 @@ public class EntryPoint : MonoBehaviour
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
 
-        _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, levelResourcesSpawnChance, levelsStatisticModel);
+        _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner.Init(enemyFactory, levelsStatisticModel, player.Target);
 
@@ -136,19 +135,6 @@ public class EntryPoint : MonoBehaviour
         {
             MobileInputsProviderFactory mobileInputsProviderFactory = new(_assetsProvider);
             return await mobileInputsProviderFactory.Create(_canvas.transform);
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _dayCycleView.StartDayTimer();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            _dayCycleView.EndNight();
         }
     }
 

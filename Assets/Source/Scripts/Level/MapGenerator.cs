@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -47,18 +48,22 @@ public class MapGenerator : MonoBehaviour
         if(_player.position.z >= _currentPosition + _spawnOffsetPosition)
         {
             Vector3 spawnPosition = new(0, 0, _currentPosition);
+            MapPart part;
 
             if ((_levelsStatistic.CurrentWave + 1) % GameParamenters.LevelsForCheckpoint == 0 || _mapParts.Count == 0)
             {
-                RegisterPart(await _mapPartsFactory.CreateCheckPointZone(spawnPosition), ref spawnPosition);
+                bool haveEndLevelTrigger = _mapParts.Count > 0;
+                part = await _mapPartsFactory.CreateCheckPointZone(spawnPosition, haveEndLevelTrigger);
             }
             else
             {
-                RegisterPart(await _mapPartsFactory.CreateBetweenLevelZone(spawnPosition), ref spawnPosition);
+                part = await _mapPartsFactory.CreateBetweenLevelZone(spawnPosition);
             }
 
-            MapPart mapPart = await _levelSpawner.Spawn(spawnPosition);
-            _currentPosition += mapPart.Length;
+            RegisterPart(part, ref spawnPosition);
+
+            MapPart levelZone = await _levelSpawner.Spawn(spawnPosition);
+            _currentPosition += levelZone.Length;
 
             _levelSpawner.TryDeletePassedMap();
             TryDeletePassedPart();

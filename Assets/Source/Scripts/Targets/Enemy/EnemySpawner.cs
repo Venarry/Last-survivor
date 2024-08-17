@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     private const float SpawnDelay = 2f;
 
-    [SerializeField] private DayCycleView _dayCycleView;
+    [SerializeField] private DayCycle _dayCycleView;
 
     private readonly WaitForSeconds _waitSpawnDelay = new(SpawnDelay);
     private EnemyFactory _enemyFactory;
@@ -24,11 +24,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        _dayCycleView.NightStarted += OnNightStart;
-        _dayCycleView.NightEnded += TryStopSpawner;
+        _dayCycleView.NightCome += OnNightCome;
+        _dayCycleView.TimeReset += TryStopSpawner;
     }
     
-    private void OnNightStart()
+    private void OnNightCome()
     {
         TryStopSpawner();
         _activeSpawner = StartCoroutine(SpawningEnemy());
@@ -45,6 +45,7 @@ public class EnemySpawner : MonoBehaviour
                 enemy.PlaceInPool();
             }
 
+            _enemys.Clear();
             _activeSpawner = null;
         }
     }

@@ -115,11 +115,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1819065520403705896}
   - component: {fileID: 6005460642776822815}
-  - component: {fileID: -500852015413381680}
-  - component: {fileID: 644649444063360931}
   - component: {fileID: 956378669440162221}
+  - component: {fileID: 4242983899591818415}
   m_Layer: 0
-  m_Name: Map
+  m_Name: LevelZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,31 +171,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 06e7bc712df147a45aac45bc93510d4c, type: 2}
   m_BuildHeightMesh: 0
---- !u!114 &-500852015413381680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055355998020007035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b331ca6d3179634a9b22a63bbd83335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lengthTarget: {fileID: 509909931448774992}
---- !u!114 &644649444063360931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055355998020007035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac15422fc50bc7a45a74e40f4d9a00ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &956378669440162221
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -218,3 +192,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 15, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 46}
+--- !u!114 &4242983899591818415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055355998020007035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b331ca6d3179634a9b22a63bbd83335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lengthTarget: {fileID: 509909931448774992}

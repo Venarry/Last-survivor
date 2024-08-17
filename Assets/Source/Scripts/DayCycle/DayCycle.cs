@@ -81,19 +81,21 @@ public class DayCycle : MonoBehaviour
 
     private IEnumerator TransitionLightColor(Color targetColor)
     {
-        float transitDuration = 2f;
+        float transitDuration = 1f;
         float timeLeft = 0;
+        Color startColor = _light.color;
 
         while (_light.color != targetColor)
         {
             float progress = timeLeft / transitDuration;
 
-            float r = Mathf.Lerp(_light.color.r, targetColor.r, progress);
-            float g = Mathf.Lerp(_light.color.g, targetColor.g, progress);
-            float b = Mathf.Lerp(_light.color.b, targetColor.b, progress);
+            float r = Mathf.Lerp(startColor.r, targetColor.r, progress);
+            float g = Mathf.Lerp(startColor.g, targetColor.g, progress);
+            float b = Mathf.Lerp(startColor.b, targetColor.b, progress);
 
             _light.color = new(r, g, b);
             timeLeft += Time.deltaTime;
+            
 
             yield return null;
         }

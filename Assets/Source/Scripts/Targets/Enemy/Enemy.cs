@@ -2,18 +2,18 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyStateMachine))]
 [RequireComponent(typeof(EnemyBehaviour))]
-public class Enemy : MonoBehaviour
+public class Enemy : Target
 {
     private EnemyStateMachine _enemyStateMachine;
     private EnemyBehaviour _enemyBehaviour;
 
-    private void Awake()
+    protected override void OnAwake()
     {
         _enemyStateMachine = GetComponent<EnemyStateMachine>();
         _enemyBehaviour = GetComponent<EnemyBehaviour>();
     }
 
-    public void Init(Target attackTarget, float attackDistance, float damage)
+    public void InitEnemy(Target attackTarget, float attackDistance, float damage)
     {
         _enemyStateMachine.Init();
         _enemyBehaviour.Init(attackTarget, attackDistance, damage);

@@ -23,7 +23,7 @@ public class EnemyFactory : TargetFactory
 
         if (poolSpawnResult.IsInstantiatedObject == true)
         {
-            enemy.Init(attackTarget, _attackDistance, damage);
+            enemy.InitEnemy(attackTarget, _attackDistance, damage);
         }
         else
         {

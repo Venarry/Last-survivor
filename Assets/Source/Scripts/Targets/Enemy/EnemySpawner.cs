@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
     private LevelsStatisticModel _levelsStatistic;
     private Target _attackTarget;
     private Coroutine _activeSpawner;
+    private readonly List<Enemy> _enemys = new();
 
     public void Init(EnemyFactory enemyFactory, LevelsStatisticModel levelsStatistic, Target attackTarget)
     {
@@ -38,6 +39,12 @@ public class EnemySpawner : MonoBehaviour
         if (_activeSpawner != null)
         {
             StopCoroutine(_activeSpawner);
+
+            foreach (Enemy enemy in _enemys)
+            {
+                enemy.PlaceInPool();
+            }
+
             _activeSpawner = null;
         }
     }
@@ -48,15 +55,21 @@ public class EnemySpawner : MonoBehaviour
         float damage = 1 + _levelsStatistic.TotalWave;
 
         float offsetX = Random.Range(-5f, 5f);
-        float offsetZ = Random.Range(2f, 5f);
+        float offsetZ = Random.Range(-2f, -5f);
 
         Vector3 spawnOffset = new(offsetX, 0, offsetZ);
 
         while (true)
         {
-            _enemyFactory.Create(_attackTarget, health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
+            SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
 
             yield return _waitSpawnDelay;
         }
+    }
+
+    private async void SpawnEnemy(float health, float damage, Vector3 position, Quaternion rotation)
+    {
+        Enemy target = await _enemyFactory.Create(_attackTarget, health, damage, position, rotation);
+        _enemys.Add(target);
     }
 }

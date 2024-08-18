@@ -17,8 +17,8 @@ public class LevelSpawner : MonoBehaviour
     private LevelsStatisticModel _levelsStatistic;
     private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new();
 
-    private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
-    private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 50);
+    private Vector3 _startResourcesOffseSpawnPoint = new(-20, 0, 10);
+    private Vector3 _endResourcesOffseSpawnPoint = new(20, 0, 50);
 
     public void Init(
         WoodFactory woodFactory,
@@ -41,18 +41,23 @@ public class LevelSpawner : MonoBehaviour
         MapPart map = await _mapPartsFactory.CreateLevelZone(position);
 
         List<Vector3> spawnPoints = new();
-        int baseSpawnCount = 120;
+
+        float mapSizeX = _endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x;
+        float mapSizeZ = _endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z;
+
+        int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 10);
 
         if (_targetsOnMap.Count != 0)
         {
-            baseSpawnCount += _levelsStatistic.NextWave * 5;
+            int spawnCountByWave = 7;
+            baseSpawnCount += _levelsStatistic.NextWave * spawnCountByWave;
         }
 
         int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(baseSpawnCount));
         int colsCount = (int)Mathf.Floor(baseSpawnCount / rowsCount);
 
-        float cellOfssetX = (_endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x) / (colsCount - 1); // благодаря -1 мы получаем расчет для спавна на один элемент меньше, а потом в цикле в 0 координате доспавливаем этот элемент
-        float cellOfssetZ = (_endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z) / (rowsCount - 1); // потому что в противном случае или первый или последний стобец\строка отстутствуют
+        float cellOfssetX = mapSizeX / (colsCount - 1); // благодаря -1 мы получаем расчет для спавна на один элемент меньше, а потом в цикле в 0 координате доспавливаем этот элемент
+        float cellOfssetZ = mapSizeZ / (rowsCount - 1); // потому что в противном случае или первый или последний стобец\строка отстутствуют
 
         for (int i = 0; i < rowsCount; i++)
         {

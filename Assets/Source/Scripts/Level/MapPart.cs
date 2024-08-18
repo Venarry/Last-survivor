@@ -2,6 +2,6 @@
 
 public class MapPart : MonoBehaviour
 {
-    [SerializeField] private Transform _lengthTarget;
-    public float Length => _lengthTarget.localScale.z;
+    [SerializeField] private BoxCollider _groundCollider;
+    public float Length => _groundCollider.size.z;
 }

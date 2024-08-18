@@ -5,7 +5,7 @@ public class LevelResourcesSpawnChance
 {
     private readonly Dictionary<LootType, float> _lootsSpawnChance = new()
     {
-        [LootType.Wood] = 30f,
+        [LootType.Wood] = 40f,
         [LootType.Diamond] = 10f,
     };
 

@@ -65,7 +65,7 @@ public class EntryPoint : MonoBehaviour
         ExperienceModel experienceModel = new();
         CharacterSkillsModel characterSkillsModel = new();
         CharacterUpgrades characterUpgrades = new();
-        int playerHealth = 30;
+        int playerHealth = 50;
         HealthModel healthModel = new(playerHealth);
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new();

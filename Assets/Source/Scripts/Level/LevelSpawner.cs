@@ -18,7 +18,7 @@ public class LevelSpawner : MonoBehaviour
     private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new();
 
     private Vector3 _startResourcesOffseSpawnPoint = new(-15, 0, 10);
-    private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 35);
+    private Vector3 _endResourcesOffseSpawnPoint = new(15, 0, 50);
 
     public void Init(
         WoodFactory woodFactory,
@@ -41,15 +41,15 @@ public class LevelSpawner : MonoBehaviour
         MapPart map = await _mapPartsFactory.CreateLevelZone(position);
 
         List<Vector3> spawnPoints = new();
-        int spawnCount = 100;
+        int baseSpawnCount = 120;
 
         if (_targetsOnMap.Count != 0)
         {
-            spawnCount += _levelsStatistic.NextWave * 5;
+            baseSpawnCount += _levelsStatistic.NextWave * 5;
         }
 
-        int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(spawnCount));
-        int colsCount = (int)Mathf.Floor(spawnCount / rowsCount);
+        int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(baseSpawnCount));
+        int colsCount = (int)Mathf.Floor(baseSpawnCount / rowsCount);
 
         float cellOfssetX = (_endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x) / (colsCount - 1); // благодаря -1 мы получаем расчет для спавна на один элемент меньше, а потом в цикле в 0 координате доспавливаем этот элемент
         float cellOfssetZ = (_endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z) / (rowsCount - 1); // потому что в противном случае или первый или последний стобец\строка отстутствуют
@@ -84,10 +84,10 @@ public class LevelSpawner : MonoBehaviour
 
         foreach (Vector3 spawnPosition in spawnPoints)
         {
-            float randomSpawnOffset = 1.2f;
+            float randomSpawnOffset = 0.8f;
 
             float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
-            float offsetZ = Random.Range(randomSpawnOffset, randomSpawnOffset);
+            float offsetZ = Random.Range(-randomSpawnOffset, randomSpawnOffset);
 
             Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + position;
             Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);

@@ -53,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator SpawningEnemy()
     {
         float health = 3 + _levelsStatistic.TotalWave;
-        float damage = 1 + _levelsStatistic.TotalWave;
+        float damage = 1 + (_levelsStatistic.TotalWave * GameParamenters.EnemyDamageMultiplier);
 
         float offsetX = Random.Range(-5f, 5f);
         float offsetZ = Random.Range(-2f, -5f);

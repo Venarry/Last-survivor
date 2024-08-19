@@ -13,6 +13,9 @@ public class UpgradesShop : MonoBehaviour
     private InventoryModel _inventoryModel;
     private CharacterUpgrades _characterUpgrades;
     private UpgradesFactory _upgradesFactory;
+    private GameTimeScaler _gameTimeScaler;
+
+    private string GameTimeKey => nameof(UpgradesShop);
 
     private readonly Dictionary<Type, Dictionary<LootType, int>> _upgradesPrice = new()
     {
@@ -39,11 +42,13 @@ public class UpgradesShop : MonoBehaviour
         InventoryModel inventoryModel,
         CharacterUpgrades characterUpgrades,
         UpgradesFactory upgradesFactory,
-        ItemPriceFactory itemPriceFactory)
+        ItemPriceFactory itemPriceFactory,
+        GameTimeScaler gameTimeScaler)
     {
         _inventoryModel = inventoryModel;
         _characterUpgrades = characterUpgrades;
         _upgradesFactory = upgradesFactory;
+        _gameTimeScaler = gameTimeScaler;
 
         _upgradesButtons = new()
         {
@@ -61,11 +66,13 @@ public class UpgradesShop : MonoBehaviour
     public void Show()
     {
         _shopMenu.SetActive(true);
+        _gameTimeScaler.Add(GameTimeKey, timeScale: 0);
     }
 
     public void Hide()
     {
         _shopMenu.SetActive(false);
+        _gameTimeScaler.Remove(GameTimeKey);
     }
 
     private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory)

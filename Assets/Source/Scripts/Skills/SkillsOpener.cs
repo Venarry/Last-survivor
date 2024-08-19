@@ -14,17 +14,22 @@ public class SkillsOpener : MonoBehaviour
     private CharacterSkillsModel _characterSkills;
     private ExperienceModel _experienceModel;
     private SkillsFactory _skillsFactory;
+    private GameTimeScaler _gameTimeScaler;
+
+    private string GameTimeKey => nameof(SkillsOpener);
 
     public void Init(
         SkillsViewFactory skillToChooseFactory,
         CharacterSkillsModel characterSkills,
         ExperienceModel experienceModel,
-        SkillsFactory skillsFactory)
+        SkillsFactory skillsFactory,
+        GameTimeScaler gameTimeScaler)
     {
         _skillToChooseFactory = skillToChooseFactory;
         _characterSkills = characterSkills;
         _experienceModel = experienceModel;
         _skillsFactory = skillsFactory;
+        _gameTimeScaler = gameTimeScaler;
 
         _skillsParent.SetActive(false);
 
@@ -44,7 +49,7 @@ public class SkillsOpener : MonoBehaviour
         }
 
         _spawnedSkill.Clear();
-        Time.timeScale = 1;
+        _gameTimeScaler.Remove(GameTimeKey);
     }
 
     private void OnLevelAdd()
@@ -79,7 +84,7 @@ public class SkillsOpener : MonoBehaviour
         if(addedSkillsCounter != 0)
         {
             _skillsParent.SetActive(true);
-            Time.timeScale = 0;
+            _gameTimeScaler.Add(GameTimeKey, timeScale: 0);
         }
     }
 

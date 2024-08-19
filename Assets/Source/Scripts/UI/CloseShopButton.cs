@@ -1,15 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CloseMenuButton : MonoBehaviour
+public class CloseShopButton : MonoBehaviour
 {
-    [SerializeField] private GameObject _menu;
-    private Button _button;
-
-    private void Awake()
-    {
-        _button = GetComponent<Button>();
-    }
+    [SerializeField] private UpgradesShop _shop;
+    [SerializeField] private Button _button;
 
     private void OnEnable()
     {
@@ -23,6 +18,6 @@ public class CloseMenuButton : MonoBehaviour
 
     private void OnClick()
     {
-        _menu.SetActive(false);
+        _shop.Hide();
     }
 }

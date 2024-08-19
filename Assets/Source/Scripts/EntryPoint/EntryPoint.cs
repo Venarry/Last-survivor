@@ -16,6 +16,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private EnemySpawner _enemySpawner;
 
     private AssetsProvider _assetsProvider;
+    private GameTimeScaler _gameTimeScaler = new();
 
     private async void Awake()
     {
@@ -79,12 +80,12 @@ public class EntryPoint : MonoBehaviour
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 
         UpgradesFactory upgradesFactory = new(characterAttackParameters);
-        _upgradesShop.Init(inventoryModel, characterUpgrades, upgradesFactory, itemPriceFactory);
+        _upgradesShop.Init(inventoryModel, characterUpgrades, upgradesFactory, itemPriceFactory, _gameTimeScaler);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
         SkillsFactory skillsFactory = new(player, targetsProvider, healthModel, roundSwordFactory);
-        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory);
+        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
 
         _gameLoadingPanel.ShowNext();
 
@@ -141,5 +142,6 @@ public class EntryPoint : MonoBehaviour
     private void OnDestroy()
     {
         _assetsProvider.Clear();
+        _gameTimeScaler.RemoveAll();
     }
 }

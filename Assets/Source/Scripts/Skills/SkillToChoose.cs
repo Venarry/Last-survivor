@@ -14,6 +14,7 @@ public class SkillToChoose : MonoBehaviour
 
     [SerializeField] private TMP_Text _skillName;
     [SerializeField] private TMP_Text _skillDescription;
+    [SerializeField] private TMP_Text _skillUpgradeDescription;
 
     private IUpgradable<ISkill> _characterSkills;
     private SkillsOpener _skillOpener;
@@ -35,10 +36,12 @@ public class SkillToChoose : MonoBehaviour
         int currentLevel,
         int maxLevel,
         string name,
-        string description)
+        string description,
+        string upgradeDescription)
     {
         _skillName.text = name;
         _skillDescription.text = description;
+        _skillUpgradeDescription.text = upgradeDescription;
 
         for (int i = 0; i < maxLevel; i++)
         {

@@ -8,9 +8,10 @@ public class RoundSwordCollisionHandler : MonoBehaviour
     private Dictionary<TargetType, Action<Target>> _attackTypes;
     private float _damageMultiplier = 0.6f;
 
-    public void Init(CharacterAttackParameters characterAttackParameters)
+    public void Init(CharacterAttackParameters characterAttackParameters, float damageMultiplier)
     {
         _characterAttackParameters = characterAttackParameters;
+        _damageMultiplier = damageMultiplier;
 
         _attackTypes = new()
         {

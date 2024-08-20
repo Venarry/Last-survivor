@@ -58,4 +58,9 @@ public class SplashSkill : SkillBehaviour
             }
         }
     }
+
+    public override string GetUpgradeDescription() => 
+        $"Splash angle {_splashAngle}\n" +
+        $"Splash distance {_splashDistance}\n" +
+        $"Splash damage {_splashDamageMultiplier * 100}% +{_splashDamageMultiplierForLevel * 100}%";
 }

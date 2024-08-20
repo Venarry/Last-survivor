@@ -27,6 +27,7 @@ public class CritAttackSkill : SkillBehaviour
     {
         _playerAttackHandler.AttackBegin -= OnAttackBegin;
     }
+
     protected override void OnLevelAdd()
     {
         _critDamageMultiplier += _critDamageMultiplierForLevel;
@@ -49,5 +50,19 @@ public class CritAttackSkill : SkillBehaviour
         return _critChance >= roll;
     }
 
-    public override string GetUpgradeDescription() => $"Crit damage {_critDamageMultiplier * 100}% + {_critDamageMultiplierForLevel * 100}%";
+    public override string GetUpgradeDescription() 
+    {
+        string critDamageUpgradeText = "";
+        string critChanceUpgradeText = "";
+
+        if (CurrentLevel > 0)
+        {
+            critDamageUpgradeText = $"(+{GameParamenters.TextColorStart}{_critDamageMultiplierForLevel * 100}%{GameParamenters.TextColorEnd})";
+            critChanceUpgradeText = $"(+{GameParamenters.TextColorStart}{_critChanceForLevel}%{GameParamenters.TextColorEnd})";
+        }
+
+        return $"Crit damage {_critDamageMultiplier * 100}% {critDamageUpgradeText}\n" +
+        $"Crit chance {_critChance}% {critChanceUpgradeText}";
+    }
+        
 }

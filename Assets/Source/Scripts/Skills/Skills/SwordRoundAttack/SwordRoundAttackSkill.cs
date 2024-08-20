@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SwordRoundAttackSkill : SkillBehaviour
 {
@@ -6,6 +7,9 @@ public class SwordRoundAttackSkill : SkillBehaviour
     private Transform _spawnTarget;
     private TargetSearcher _targetSearcher;
     private CooldownTimer _cooldownTimer = new(4);
+    private float _damageMultiplier = 0.6f;
+
+    private float SwordSize => 1 + (float)(CurrentLevel - 1) / 3;
 
     public SwordRoundAttackSkill(
         RoundSwordFactory roundSwordFactory,
@@ -29,9 +33,9 @@ public class SwordRoundAttackSkill : SkillBehaviour
 
         if (_cooldownTimer.IsReady == true)
         {
-            float swordsScale = 1 + (float)(CurrentLevel - 1) / 3;
+            float swordSize = GetSwordSize(CurrentLevel);
             _cooldownTimer.Reset();
-            await _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, swordsScale);
+            await _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, _damageMultiplier, swordSize);
         }
     }
 
@@ -39,4 +43,31 @@ public class SwordRoundAttackSkill : SkillBehaviour
     {
         _cooldownTimer.Tick();
     }
+
+    public override string GetUpgradeDescription() 
+    {
+        string swordSizeText;
+        string swordCountText;
+
+        if(CurrentLevel == 0)
+        {
+            swordSizeText = $"{GameParamenters.TextColorStart}{GetSwordSize(CurrentLevel + 1)}{GameParamenters.TextColorEnd}";
+            swordCountText = $"{GameParamenters.TextColorStart}{CurrentLevel + 1}{GameParamenters.TextColorEnd}";
+        }
+        else
+        {
+            decimal beforeSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel), 2);
+            decimal afterSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel + 1) - (decimal)GetSwordSize(CurrentLevel), 2);
+            swordSizeText = $"{beforeSwordSize} (+{GameParamenters.TextColorStart}{afterSwordSize}{GameParamenters.TextColorEnd})";
+
+            swordCountText = $"{CurrentLevel} (+{GameParamenters.TextColorStart}1{GameParamenters.TextColorEnd})";
+        }
+
+        return $"Sword count {swordCountText}\n" +
+        $"Damage {_damageMultiplier * 100}%\n" +
+        $"Sword size {swordSizeText}";
+    }
+        
+
+    private float GetSwordSize(int level) => 1 + (float)(level - 1) / 3;
 }

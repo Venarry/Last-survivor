@@ -13,11 +13,11 @@ public class RoundSword : MonoBehaviour
         Destroy(gameObject, _duration);
     }
 
-    public void Init(CharacterAttackParameters characterAttackParameters, Transform target, int swordCount, float scale)
+    public void Init(CharacterAttackParameters characterAttackParameters, Transform target, int swordCount, float damageMultiplier, float scale)
     {
         foreach (RoundSwordCollisionHandler sword in _swords)
         {
-            sword.Init(characterAttackParameters);
+            sword.Init(characterAttackParameters, damageMultiplier);
         }
 
         for (int i = 0; i < swordCount; i++)

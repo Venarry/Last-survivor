@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -61,17 +62,22 @@ public class SkillsOpener : MonoBehaviour
 
         foreach (ISkill skill in shuffledSkills)
         {
-            if(_characterSkills.TryGetSkillLevel(skill.GetType(), out int level, out int maxLevel) == true)
+            Type skillType = skill.GetType();
+
+            if (_characterSkills.HasSkill(skillType))
             {
+                _characterSkills.TryGetSkillLevel(skillType, out int level, out int maxLevel);
+                string upgradeDescription = _characterSkills.GetSkillUpgradeDescription(skillType);
+                
                 if (level < maxLevel)
                 {
-                    SpawnSkill(skill, level, maxLevel);
+                    SpawnSkill(skill, level, maxLevel, upgradeDescription);
                     addedSkillsCounter++;
                 }
             }
             else
             {
-                SpawnSkill(skill, skill.CurrentLevel, skill.MaxLevel);
+                SpawnSkill(skill, skill.CurrentLevel, skill.MaxLevel, skill.GetUpgradeDescription());
                 addedSkillsCounter++;
             }
 
@@ -88,10 +94,10 @@ public class SkillsOpener : MonoBehaviour
         }
     }
 
-    private async void SpawnSkill(ISkill skill, int level, int maxLevel)
+    private async void SpawnSkill(ISkill skill, int level, int maxLevel, string upgradeDescription)
     {
         SkillToChoose skillButton = await _skillToChooseFactory
-            .CreateSkillButton(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel);
+            .CreateSkillButton(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel, upgradeDescription);
 
         _spawnedSkill.Add(skillButton);
     }

@@ -23,7 +23,8 @@ public class SkillsViewFactory
         SkillsOpener skillsOpener,
         ISkill skill,
         int skillLevel,
-        int maxSkillLevel)
+        int maxSkillLevel,
+        string upgradeDescription)
     {
         SkillToChoose skillToChoosePrefab = await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
 
@@ -34,7 +35,7 @@ public class SkillsViewFactory
 
         SkillToChoose skillToChooseButton = Object.Instantiate(skillToChoosePrefab, parent);
         skillToChooseButton.Init(upgradable, skillsOpener, icon, skill);
-        skillToChooseButton.SetSkillInformation(skillLevel, maxSkillLevel, name, description);
+        skillToChooseButton.SetSkillInformation(skillLevel, maxSkillLevel, name, description, upgradeDescription);
 
         return skillToChooseButton;
     }

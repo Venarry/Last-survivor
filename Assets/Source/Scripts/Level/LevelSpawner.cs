@@ -45,7 +45,7 @@ public class LevelSpawner : MonoBehaviour
         float mapSizeX = _endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x;
         float mapSizeZ = _endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z;
 
-        int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 10);
+        int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 8);
 
         if (_targetsOnMap.Count != 0)
         {

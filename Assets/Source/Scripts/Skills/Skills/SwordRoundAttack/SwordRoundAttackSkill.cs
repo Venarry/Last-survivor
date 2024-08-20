@@ -9,8 +9,6 @@ public class SwordRoundAttackSkill : SkillBehaviour
     private CooldownTimer _cooldownTimer = new(4);
     private float _damageMultiplier = 0.6f;
 
-    private float SwordSize => 1 + (float)(CurrentLevel - 1) / 3;
-
     public SwordRoundAttackSkill(
         RoundSwordFactory roundSwordFactory,
         Transform spawnTarget,
@@ -67,7 +65,6 @@ public class SwordRoundAttackSkill : SkillBehaviour
         $"Damage {_damageMultiplier * 100}%\n" +
         $"Sword size {swordSizeText}";
     }
-        
 
     private float GetSwordSize(int level) => 1 + (float)(level - 1) / 3;
 }

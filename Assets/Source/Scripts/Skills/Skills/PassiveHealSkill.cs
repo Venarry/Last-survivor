@@ -14,7 +14,17 @@ public class PassiveHealSkill : SkillBehaviour
     public override SkillTickType SkillTickType => SkillTickType.EveryTick;
     public override bool HasCooldown => false;
 
-    public override string GetUpgradeDescription() => $"Health per second {_healPercentPerSecond}% +{_healPercentPerSecondPerLevel}%";
+    public override string GetUpgradeDescription()
+    {
+        string upgradeText = "";
+
+        if(CurrentLevel > 0)
+        {
+            upgradeText = $"(+{GameParamenters.TextColorStart}{_healPercentPerSecondPerLevel * 100}{GameParamenters.TextColorEnd}%)";
+        }
+
+        return $"Health per second {_healPercentPerSecond * 100}% {upgradeText}";
+    }
 
     public override void TryCast()
     {

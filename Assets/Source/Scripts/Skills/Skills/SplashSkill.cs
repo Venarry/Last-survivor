@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SplashSkill : SkillBehaviour
@@ -59,8 +60,18 @@ public class SplashSkill : SkillBehaviour
         }
     }
 
-    public override string GetUpgradeDescription() => 
-        $"Splash angle {_splashAngle}\n" +
+    public override string GetUpgradeDescription()
+    {
+        string splashDamageText = "";
+
+        if(CurrentLevel > 0)
+        {
+            decimal danage = Math.Round((decimal)_splashDamageMultiplierForLevel * 100, 0);
+            splashDamageText = $"(+{GameParamenters.TextColorStart}{danage}%{GameParamenters.TextColorEnd})";
+        }
+
+        return $"Splash angle {_splashAngle}\n" +
         $"Splash distance {_splashDistance}\n" +
-        $"Splash damage {_splashDamageMultiplier * 100}% +{_splashDamageMultiplierForLevel * 100}%";
+        $"Splash damage {_splashDamageMultiplier * 100}% {splashDamageText}";
+    }
 }

@@ -48,4 +48,6 @@ public class CritAttackSkill : SkillBehaviour
 
         return _critChance >= roll;
     }
+
+    public override string GetUpgradeDescription() => $"Crit damage {_critDamageMultiplier * 100}% + {_critDamageMultiplierForLevel * 100}%";
 }

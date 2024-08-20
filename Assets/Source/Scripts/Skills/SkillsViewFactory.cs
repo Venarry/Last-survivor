@@ -26,9 +26,11 @@ public class SkillsViewFactory
         int maxSkillLevel)
     {
         SkillToChoose skillToChoosePrefab = await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
-        Sprite icon = _spritesDataSouce.Get(skill.GetType());
-        string name = _skillsInformationDataSource.GetName(skill.GetType());
-        string description = _skillsInformationDataSource.GetDescription(skill.GetType());
+
+        System.Type skillType = skill.GetType();
+        Sprite icon = _spritesDataSouce.Get(skillType);
+        string name = _skillsInformationDataSource.GetName(skillType);
+        string description = _skillsInformationDataSource.GetDescription(skillType);
 
         SkillToChoose skillToChooseButton = Object.Instantiate(skillToChoosePrefab, parent);
         skillToChooseButton.Init(upgradable, skillsOpener, icon, skill);

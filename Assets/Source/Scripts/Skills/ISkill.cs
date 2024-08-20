@@ -1,5 +1,3 @@
-using System.Collections;
-
 public interface ISkill
 {
     public SkillTickType SkillTickType { get; }
@@ -10,4 +8,5 @@ public interface ISkill
     public void Disable();
     public void IncreaseLevel();
     public void IncreaseTimeLeft();
+    public string GetUpgradeDescription();
 }

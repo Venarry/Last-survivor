@@ -17,6 +17,7 @@
             OnLevelAdd();
         }
     }
+    public abstract string GetUpgradeDescription();
 
     protected virtual void OnLevelAdd()
     {
@@ -33,4 +34,5 @@
     public virtual void Disable()
     {
     }
+
 }

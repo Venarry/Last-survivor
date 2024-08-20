@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class CharacterSkillsModel : IUpgradable<ISkill>
 {
@@ -65,6 +64,8 @@ public class CharacterSkillsModel : IUpgradable<ISkill>
         _skills.Clear();
     }
 
+    public bool HasSkill(Type skillType) => _skills.ContainsKey(skillType);
+
     public bool TryGetSkillLevel(Type skillType, out int level, out int maxLevel)
     {
         level = 0;
@@ -79,5 +80,15 @@ public class CharacterSkillsModel : IUpgradable<ISkill>
         maxLevel = _skills[skillType].MaxLevel;
 
         return true;
+    }
+
+    public string GetSkillUpgradeDescription(Type skillType)
+    {
+        if (_skills.ContainsKey(skillType) == false)
+        {
+            return "";
+        }
+
+        return _skills[skillType].GetUpgradeDescription();
     }
 }

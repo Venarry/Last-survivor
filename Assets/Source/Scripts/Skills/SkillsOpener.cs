@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class SkillsOpener : MonoBehaviour
 {
-    private const int SkillsInChoose = 3;
-
     [SerializeField] private GameObject _skillsParent;
     [SerializeField] private SkillToChoose _skillsPrefab;
 
@@ -16,6 +14,7 @@ public class SkillsOpener : MonoBehaviour
     private ExperienceModel _experienceModel;
     private SkillsFactory _skillsFactory;
     private GameTimeScaler _gameTimeScaler;
+    private int _levelsInQueue = 0;
 
     private string GameTimeKey => nameof(SkillsOpener);
 
@@ -51,10 +50,22 @@ public class SkillsOpener : MonoBehaviour
 
         _spawnedSkill.Clear();
         _gameTimeScaler.Remove(GameTimeKey);
+
+        if(_levelsInQueue > 0)
+        {
+            _levelsInQueue--;
+            OnLevelAdd();
+        }
     }
 
     private void OnLevelAdd()
     {
+        if(_spawnedSkill.Count != 0)
+        {
+            _levelsInQueue++;
+            return;
+        }
+
         ISkill[] allSkills = _skillsFactory.CreateAllSkills();
         ISkill[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length)).ToArray();
 
@@ -81,7 +92,7 @@ public class SkillsOpener : MonoBehaviour
                 addedSkillsCounter++;
             }
 
-            if(addedSkillsCounter >= SkillsInChoose)
+            if(addedSkillsCounter >= GameParamenters.SkillsToChooseByLevel)
             {
                 break;
             }

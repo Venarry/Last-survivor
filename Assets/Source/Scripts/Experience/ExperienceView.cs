@@ -6,6 +6,7 @@ public class ExperienceView : MonoBehaviour
 {
     [SerializeField] private Image _levelBar;
     [SerializeField] private TMP_Text _levelLabel;
+    [SerializeField] private ParticleSystem _levelUpParticlePrefab;
 
     private ExperienceModel _experienceModel;
 
@@ -14,19 +15,17 @@ public class ExperienceView : MonoBehaviour
         _experienceModel = experienceModel;
         _experienceModel.ExperienceChanged += OnExperienceChange;
         _experienceModel.LevelAdded += OnLevelAdd;
-        _experienceModel.LevelRemoved += OnLevelRemove;
+        _experienceModel.LevelsRemoved += OnLevelRemove;
 
         OnExperienceChange();
-        OnLevelAdd();
+        RefreshLevelLabel();
     }
-
-
 
     private void OnDestroy()
     {
         _experienceModel.ExperienceChanged -= OnExperienceChange;
         _experienceModel.LevelAdded -= OnLevelAdd;
-        _experienceModel.LevelRemoved -= OnLevelRemove;
+        _experienceModel.LevelsRemoved -= OnLevelRemove;
     }
 
     public void Add(int experience)
@@ -42,7 +41,7 @@ public class ExperienceView : MonoBehaviour
     private void OnLevelAdd()
     {
         RefreshLevelLabel();
-        // вызов эффектов
+        Instantiate(_levelUpParticlePrefab, transform.position, Quaternion.identity);
     }
 
     private void OnLevelRemove()

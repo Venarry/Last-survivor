@@ -47,6 +47,7 @@ public class EntryPoint : MonoBehaviour
         MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel);
         await mapPartsFactory.Load();
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
+        await skillsViewFactory.Load();
         DayCycleParameters dayCycleParameters = new();
         CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
 

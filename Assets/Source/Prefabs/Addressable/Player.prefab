@@ -867,6 +867,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelBar: {fileID: 8746170674499413846}
   _levelLabel: {fileID: 2451643732193963836}
+  _levelUpParticlePrefab: {fileID: 7235231536805418550, guid: 7eaf41b8526c7e646bd732f82bb54b31, type: 3}
 --- !u!114 &4468057806859689677
 MonoBehaviour:
   m_ObjectHideFlags: 0

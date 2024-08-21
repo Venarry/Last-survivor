@@ -5,5 +5,5 @@ public class DiamondLootFactory : LootFactory
     }
 
     protected override string AssetKey => AssetsKeys.DiamondLoot;
-    protected override int BaseExperienceCount => 2;
+    protected override int BaseExperienceCount => 3;
 }

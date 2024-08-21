@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class ExperienceModel
 {
@@ -10,7 +11,7 @@ public class ExperienceModel
 
     public event Action ExperienceChanged;
     public event Action LevelAdded;
-    public event Action LevelRemoved;
+    public event Action LevelsRemoved;
 
     public void Add(int experience)
     {
@@ -38,7 +39,7 @@ public class ExperienceModel
         CurrentExperience = 0;
         CurrentLevel = 0;
         ExperienceChanged?.Invoke();
-        LevelRemoved?.Invoke();
+        LevelsRemoved?.Invoke();
     }
 
     private void TryUpLevel()

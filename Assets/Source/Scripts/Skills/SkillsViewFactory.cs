@@ -17,6 +17,12 @@ public class SkillsViewFactory
         _assetsProvider = assetsProvider;
     }
 
+    public async Task Load()
+    {
+        await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
+        await _assetsProvider.LoadGameObject<SkillIcon>(AssetsKeys.SkillIcon);
+    }
+
     public async Task<SkillToChoose> CreateSkillButton(
         Transform parent,
         IUpgradable<ISkill> upgradable,

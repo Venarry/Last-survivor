@@ -24,7 +24,7 @@ public class EntryPoint : MonoBehaviour
     {
         _assetsProvider = new();
 
-        string[] labels = new string[]
+        string[] loadingLabels = new string[]
         {
             "Load skills",
             "Load visual",
@@ -33,7 +33,7 @@ public class EntryPoint : MonoBehaviour
             "Load targets",
         };
 
-        _gameLoadingPanel.Set(labels);
+        _gameLoadingPanel.Set(loadingLabels);
         _gameLoadingPanel.ShowNext();
 
         SkillsInformationDataSource skillsInformationDataSource = new();

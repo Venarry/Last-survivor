@@ -28,7 +28,8 @@ public class LootDropHandler : MonoBehaviour
         float spawnHeight = 1f;
         Vector3 lootSpawnPosition = transform.position + Vector3.up * spawnHeight;
         int rewardMultiplier = _levelsStatisticModel.TotalLevel + 1;
-        float experienceMultiplier = (_levelsStatisticModel.CurrentLevel + 1) * GameParamenters.ExperienceMultiplier;
+        //float experienceMultiplier = (_levelsStatisticModel.CurrentLevel + 1) * GameParamenters.ExperienceMultiplier;
+        float experienceMultiplier = Mathf.Pow(_levelsStatisticModel.CurrentLevel + 1, 2) * GameParamenters.ExperienceMultiplier;
 
         for (int i = 0; i < _lootCount; i++)
         {

@@ -66,9 +66,10 @@ public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
         transform.rotation = rotation;
     }
 
-    public void ResetSettings(int reward)
+    public void ResetSettings(int reward, float experienceReward)
     {
         _rigidbody.useGravity = true;
         _reward = reward;
+        _experienceReward = experienceReward;
     }
 }

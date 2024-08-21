@@ -7,7 +7,8 @@ public class ExperienceModel
 
     public float CurrentExperience { get; private set; }
     public int CurrentLevel { get; private set; }
-    public float ExperienceForNextLevel => (CurrentLevel + 1) * GameParamenters.BaseExperienceForNextLevel;
+    public float ExperienceForNextLevel => Mathf.Pow(CurrentLevel + 1, 2) * GameParamenters.BaseExperienceForNextLevel;
+    //public float ExperienceForNextLevel => (CurrentLevel + 1) * GameParamenters.BaseExperienceForNextLevel;
 
     public event Action ExperienceChanged;
     public event Action LevelAdded;

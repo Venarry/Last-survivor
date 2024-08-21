@@ -23,13 +23,13 @@ public class EnemySpawner
         _coroutineProvider = coroutineProvider;
     }
 
-    public void EnableBehaviour()
+    public void StartSpawning()
     {
         _dayCycleView.NightCome += OnNightCome;
         _dayCycleView.TimeReset += TryStopSpawner;
     }
 
-    public void DisableBehaviour()
+    public void DisableSpawning()
     {
         _dayCycleView.NightCome -= OnNightCome;
         _dayCycleView.TimeReset -= TryStopSpawner;
@@ -60,7 +60,7 @@ public class EnemySpawner
     private IEnumerator SpawningEnemy()
     {
         float health = 3 + _levelsStatistic.TotalLevel;
-        float damage = 1 + (_levelsStatistic.TotalLevel * GameParamenters.EnemyDamageMultiplier);
+        float damage = 1 + (_levelsStatistic.TotalLevel * GameParamenters.EnemyDamageperLevelMultiplier);
 
         float offsetX = Random.Range(-5f, 5f);
         float offsetZ = Random.Range(-2f, -5f);

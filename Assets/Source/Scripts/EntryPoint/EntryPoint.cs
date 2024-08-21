@@ -48,6 +48,7 @@ public class EntryPoint : MonoBehaviour
         await mapPartsFactory.Load();
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
         DayCycleParameters dayCycleParameters = new();
+        CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
@@ -78,7 +79,7 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.ShowNext();
 
-        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, characterSkillsModel);
+        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, characterSkillsModel, coroutineProvider);
         _characterUpgradesRefresher.Enable();
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 

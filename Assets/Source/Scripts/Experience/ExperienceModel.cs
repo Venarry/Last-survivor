@@ -2,6 +2,8 @@ using System;
 
 public class ExperienceModel
 {
+    private bool _disabled = false;
+
     public int CurrentExperience { get; private set; }
     public int CurrentLevel { get; private set; }
     public int ExperienceForNextLevel => (CurrentLevel + 1) * GameParamenters.BaseExperienceForNextLevel;
@@ -12,10 +14,23 @@ public class ExperienceModel
 
     public void Add(int experience)
     {
+        if (_disabled == true)
+            return;
+
         CurrentExperience += experience;
         TryUpLevel();
 
         ExperienceChanged.Invoke();
+    }
+
+    public void EnableBeahviour()
+    {
+        _disabled = false;
+    }
+
+    public void DisableBehaviour()
+    {
+        _disabled = true;
     }
 
     public void Reset()

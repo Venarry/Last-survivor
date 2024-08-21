@@ -40,11 +40,13 @@ public class SkillsViewFactory
         return skillToChooseButton;
     }
 
-    public async void CreateSkillIcon(System.Type skillType, Transform parent)
+    public async Task<SkillIcon> CreateSkillIcon(System.Type skillType, Transform parent)
     {
         SkillIcon skillIcon = Object.Instantiate(await _assetsProvider.LoadGameObject<SkillIcon>(AssetsKeys.SkillIcon), parent);
 
         Sprite icon = _spritesDataSouce.Get(skillType);
         skillIcon.Set(icon);
+
+        return skillIcon;
     }
 }

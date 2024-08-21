@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterSkillsView : MonoBehaviour
 {
+    private readonly List<SkillIcon> _skillIcons = new();
     private CharacterSkillsModel _characterSkillsModel;
     private SkillsViewFactory _skillsViewFactory;
     private Transform _skillsParent;
@@ -13,16 +15,29 @@ public class CharacterSkillsView : MonoBehaviour
         _skillsParent = parent;
 
         _characterSkillsModel.Added += OnSkillAdd;
+        _characterSkillsModel.AllRemoved += OnAllRemoved;
     }
 
     private void OnDestroy()
     {
         _characterSkillsModel.Added -= OnSkillAdd;
+        _characterSkillsModel.AllRemoved -= OnAllRemoved;
     }
 
-    private void OnSkillAdd(ISkill skill)
+    private async void OnSkillAdd(ISkill skill)
     {
-        _skillsViewFactory.CreateSkillIcon(skill.GetType(), _skillsParent);
+        SkillIcon skillIcon = await _skillsViewFactory.CreateSkillIcon(skill.GetType(), _skillsParent);
+        _skillIcons.Add(skillIcon);
+    }
+
+    private void OnAllRemoved()
+    {
+        foreach (SkillIcon icon in _skillIcons)
+        {
+            Destroy(icon.gameObject);
+        }
+
+        _skillIcons.Clear();
     }
 
     private void Update()

@@ -2,21 +2,28 @@ using System;
 
 public class ExperienceModel
 {
-    private const int BaseExperienceForNextLevel = 10;
-
     public int CurrentExperience { get; private set; }
     public int CurrentLevel { get; private set; }
-    public int ExperienceForNextLevel => (CurrentLevel + 1) * BaseExperienceForNextLevel;
+    public int ExperienceForNextLevel => (CurrentLevel + 1) * GameParamenters.BaseExperienceForNextLevel;
 
-    public event Action ExperienceAdd;
-    public event Action LevelAdd;
+    public event Action ExperienceChanged;
+    public event Action LevelAdded;
+    public event Action LevelRemoved;
 
     public void Add(int experience)
     {
         CurrentExperience += experience;
         TryUpLevel();
 
-        ExperienceAdd.Invoke();
+        ExperienceChanged.Invoke();
+    }
+
+    public void Reset()
+    {
+        CurrentExperience = 0;
+        CurrentLevel = 0;
+        ExperienceChanged?.Invoke();
+        LevelRemoved?.Invoke();
     }
 
     private void TryUpLevel()
@@ -25,7 +32,7 @@ public class ExperienceModel
         {
             CurrentExperience -= ExperienceForNextLevel;
             CurrentLevel++;
-            LevelAdd?.Invoke();
+            LevelAdded?.Invoke();
         }
     }
 }

@@ -34,12 +34,12 @@ public class SkillsOpener : MonoBehaviour
 
         _skillsParent.SetActive(false);
 
-        experienceModel.LevelAdd += OnLevelAdd;
+        experienceModel.LevelAdded += OnLevelAdd;
     }
 
     private void OnDestroy()
     {
-        _experienceModel.LevelAdd -= OnLevelAdd;
+        _experienceModel.LevelAdded -= OnLevelAdd;
     }
 
     public void CloseMenu()

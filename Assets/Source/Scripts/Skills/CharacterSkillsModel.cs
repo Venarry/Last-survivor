@@ -6,6 +6,7 @@ public class CharacterSkillsModel : IUpgradable<ISkill>
     private readonly Dictionary<Type, ISkill> _skills = new();
 
     public event Action<ISkill> Added;
+    public event Action AllRemoved;
 
     public void OnUpdate()
     {
@@ -62,6 +63,7 @@ public class CharacterSkillsModel : IUpgradable<ISkill>
         }
 
         _skills.Clear();
+        AllRemoved?.Invoke();
     }
 
     public bool HasSkill(Type skillType) => _skills.ContainsKey(skillType);

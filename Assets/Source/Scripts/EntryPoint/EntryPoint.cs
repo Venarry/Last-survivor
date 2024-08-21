@@ -17,6 +17,7 @@ public class EntryPoint : MonoBehaviour
 
     private AssetsProvider _assetsProvider;
     private GameTimeScaler _gameTimeScaler = new();
+    private CharacterParametersRefresher _characterUpgradesRefresher;
 
     private async void Awake()
     {
@@ -77,6 +78,8 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.ShowNext();
 
+        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, characterSkillsModel);
+        _characterUpgradesRefresher.Enable();
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 
         UpgradesFactory upgradesFactory = new(characterAttackParameters);
@@ -142,6 +145,7 @@ public class EntryPoint : MonoBehaviour
     private void OnDestroy()
     {
         _assetsProvider.Clear();
+        _characterUpgradesRefresher.Disable();
         _gameTimeScaler.RemoveAll();
     }
 }

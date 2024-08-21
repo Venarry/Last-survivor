@@ -12,17 +12,21 @@ public class ExperienceView : MonoBehaviour
     public void Init(ExperienceModel experienceModel)
     {
         _experienceModel = experienceModel;
-        _experienceModel.ExperienceAdd += OnExperienceAdd;
-        _experienceModel.LevelAdd += OnLevelAdd;
+        _experienceModel.ExperienceChanged += OnExperienceChange;
+        _experienceModel.LevelAdded += OnLevelAdd;
+        _experienceModel.LevelRemoved += OnLevelRemove;
 
-        OnExperienceAdd();
+        OnExperienceChange();
         OnLevelAdd();
     }
 
+
+
     private void OnDestroy()
     {
-        _experienceModel.ExperienceAdd -= OnExperienceAdd;
-        _experienceModel.LevelAdd -= OnLevelAdd;
+        _experienceModel.ExperienceChanged -= OnExperienceChange;
+        _experienceModel.LevelAdded -= OnLevelAdd;
+        _experienceModel.LevelRemoved -= OnLevelRemove;
     }
 
     public void Add(int experience)
@@ -30,12 +34,23 @@ public class ExperienceView : MonoBehaviour
         _experienceModel.Add(experience);
     }
 
-    private void OnExperienceAdd()
+    private void OnExperienceChange()
     {
         _levelBar.fillAmount = (float)_experienceModel.CurrentExperience / _experienceModel.ExperienceForNextLevel;
     }
 
     private void OnLevelAdd()
+    {
+        RefreshLevelLabel();
+        // вызов эффектов
+    }
+
+    private void OnLevelRemove()
+    {
+        RefreshLevelLabel();
+    }
+
+    private void RefreshLevelLabel()
     {
         _levelLabel.text = $"LVL {_experienceModel.CurrentLevel}";
     }

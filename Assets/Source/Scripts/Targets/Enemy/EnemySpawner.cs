@@ -2,43 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner
 {
-    private const float SpawnDelay = 2f;
+    private readonly WaitForSeconds _waitSpawnDelay = new(GameParamenters.EnemySpawnDelay);
+    private readonly List<Enemy> _enemys = new();
 
-    [SerializeField] private DayCycle _dayCycleView;
-
-    private readonly WaitForSeconds _waitSpawnDelay = new(SpawnDelay);
+    private DayCycle _dayCycleView;
     private EnemyFactory _enemyFactory;
     private LevelsStatisticModel _levelsStatistic;
     private Target _attackTarget;
+    private CoroutineProvider _coroutineProvider;
     private Coroutine _activeSpawner;
-    private readonly List<Enemy> _enemys = new();
 
-    public void Init(EnemyFactory enemyFactory, LevelsStatisticModel levelsStatistic, Target attackTarget)
+    public EnemySpawner(DayCycle dayCycle, EnemyFactory enemyFactory, LevelsStatisticModel levelsStatistic, Target attackTarget, CoroutineProvider coroutineProvider)
     {
+        _dayCycleView = dayCycle;
         _enemyFactory = enemyFactory;
         _levelsStatistic = levelsStatistic;
         _attackTarget = attackTarget;
+        _coroutineProvider = coroutineProvider;
     }
 
-    private void OnEnable()
+    public void EnableBehaviour()
     {
         _dayCycleView.NightCome += OnNightCome;
         _dayCycleView.TimeReset += TryStopSpawner;
     }
-    
+
+    public void DisableBehaviour()
+    {
+        _dayCycleView.NightCome -= OnNightCome;
+        _dayCycleView.TimeReset -= TryStopSpawner;
+    }
+
     private void OnNightCome()
     {
         TryStopSpawner();
-        _activeSpawner = StartCoroutine(SpawningEnemy());
+        _activeSpawner = _coroutineProvider.StartCoroutine(SpawningEnemy());
     }
 
     private void TryStopSpawner()
     {
         if (_activeSpawner != null)
         {
-            StopCoroutine(_activeSpawner);
+            _coroutineProvider.StopCoroutine(_activeSpawner);
 
             foreach (Enemy enemy in _enemys)
             {

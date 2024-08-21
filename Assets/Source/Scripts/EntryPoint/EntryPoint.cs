@@ -117,7 +117,8 @@ public class EntryPoint : MonoBehaviour
 
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
-        _enemySpawner.Init(enemyFactory, levelsStatisticModel, player.Target);
+        _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
+        _enemySpawner.EnableBehaviour();
 
         _mapGenerator.StartGenerator();
 
@@ -147,6 +148,7 @@ public class EntryPoint : MonoBehaviour
     {
         _assetsProvider.Clear();
         _characterUpgradesRefresher.Disable();
+        _enemySpawner.DisableBehaviour();
         _gameTimeScaler.RemoveAll();
     }
 }

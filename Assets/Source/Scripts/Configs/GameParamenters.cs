@@ -1,6 +1,7 @@
 public class GameParamenters
 {
     public const int BaseExperienceForNextLevel = 10;
+    public const float EnemySpawnDelay = 2f;
     public const int SpawnedMapBufferCount = 3;
     public const int LevelsForCheckpoint = 2;
     public const int BaseDayDuration = 20;

@@ -1,7 +1,7 @@
 ﻿public class DamageForWoodUpgrade : UpgradeBehaviour
 {
     private readonly CharacterAttackParameters _characterAttackParameters;
-    private readonly int _damagePerLevel = 1;
+    private readonly float _damagePerLevel = 0.3f;
 
     public DamageForWoodUpgrade(CharacterAttackParameters characterAttackParameters)
     {

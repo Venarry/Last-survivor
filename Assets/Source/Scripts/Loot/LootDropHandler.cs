@@ -27,11 +27,12 @@ public class LootDropHandler : MonoBehaviour
     {
         float spawnHeight = 1f;
         Vector3 lootSpawnPosition = transform.position + Vector3.up * spawnHeight;
-        int rewardMultiplier = _levelsStatisticModel.TotalWave + 1;
+        int rewardMultiplier = _levelsStatisticModel.TotalLevel + 1;
+        float experienceMultiplier = (_levelsStatisticModel.CurrentLevel + 1) * GameParamenters.ExperienceMultiplier;
 
         for (int i = 0; i < _lootCount; i++)
         {
-            Loot loot = await _lootFactory.Create(lootSpawnPosition, rewardMultiplier);
+            Loot loot = await _lootFactory.Create(lootSpawnPosition, rewardMultiplier, experienceMultiplier);
 
             Vector3 forceDirection = new(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
             loot.AddForce(forceDirection, _forceStrength);

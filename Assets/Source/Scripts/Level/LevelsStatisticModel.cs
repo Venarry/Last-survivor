@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class LevelsStatisticModel
 {
-    public int TotalWave { get; private set; }
-    public int CurrentWave => TotalWave % GameParamenters.LevelsForCheckpoint;
-    public int NextWave => (CurrentWave + 1) % GameParamenters.LevelsForCheckpoint;
+    public int TotalLevel { get; private set; }
+    public int CurrentLevel => TotalLevel % GameParamenters.LevelsForCheckpoint;
+    public int NextWave => (CurrentLevel + 1) % GameParamenters.LevelsForCheckpoint;
 
     public event Action Added;
 
     public void Add()
     {
-        TotalWave++;
+        TotalLevel++;
         Added?.Invoke();
     }
 }

@@ -29,7 +29,7 @@ public class CharacterParametersRefresher
 
     private void OnWaveAdd()
     {
-        if (_levelsStatisticModel.CurrentWave != 0)
+        if (_levelsStatisticModel.CurrentLevel != 0)
             return;
 
         _characterSkillsModel.RemoveAll();

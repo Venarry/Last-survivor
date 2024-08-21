@@ -50,7 +50,7 @@ public class MapGenerator : MonoBehaviour
             Vector3 spawnPosition = new(0, 0, _currentPosition);
             MapPart part;
 
-            if ((_levelsStatistic.CurrentWave + 1) % GameParamenters.LevelsForCheckpoint == 0 || _mapParts.Count == 0)
+            if ((_levelsStatistic.CurrentLevel + 1) % GameParamenters.LevelsForCheckpoint == 0 || _mapParts.Count == 0)
             {
                 bool haveEndLevelTrigger = _mapParts.Count > 0;
                 part = await _mapPartsFactory.CreateCheckPointZone(spawnPosition, haveEndLevelTrigger);

@@ -28,7 +28,7 @@ public class InventoryModel
         {
             return false;
         }
-        Debug.Log("Has items");
+
         foreach (KeyValuePair<LootType, int> item in items)
         {
             _loot[item.Key] -= item.Value;

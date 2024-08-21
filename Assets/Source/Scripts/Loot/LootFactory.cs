@@ -15,14 +15,14 @@ public abstract class LootFactory : ObjectPoolBehaviour<Loot>
         AssetsProvider = assetsProvider;
     }
 
-    public async Task<Loot> Create(Vector3 position, int rewardMultiplier)
+    public async Task<Loot> Create(Vector3 position, int rewardMultiplier, float experienceMultiplier)
     {
         var poolResult = await CreatePoolObject(position, Quaternion.identity);
         Loot loot = poolResult.Result;
 
         if (poolResult.IsInstantiatedObject == true)
         {
-            loot.Init(BaseRewardCount * rewardMultiplier, BaseExperienceCount, _lootHolder);
+            loot.Init(BaseRewardCount * rewardMultiplier, BaseExperienceCount * experienceMultiplier, _lootHolder);
         }
         else
         {

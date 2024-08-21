@@ -14,6 +14,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private Transform _itemsParent;
     [SerializeField] private Transform _skillsParent;
     [SerializeField] private EnemySpawner _enemySpawner;
+    [SerializeField] private LevelsStatisticView _levelsStatisticView;
 
     private AssetsProvider _assetsProvider;
     private GameTimeScaler _gameTimeScaler = new();
@@ -26,7 +27,7 @@ public class EntryPoint : MonoBehaviour
         string[] labels = new string[]
         {
             "Load skills",
-            "Load map",
+            "Load visual",
             "Load player",
             "Load shop",
             "Load targets",
@@ -43,13 +44,17 @@ public class EntryPoint : MonoBehaviour
 
         LevelsStatisticModel levelsStatisticModel = new();
         ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
+        await itemViewFactory.Load();
         ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
+        await itemPriceFactory.Load();
         MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel);
         await mapPartsFactory.Load();
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
         await skillsViewFactory.Load();
+
         DayCycleParameters dayCycleParameters = new();
         CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
+        _levelsStatisticView.Init(levelsStatisticModel);
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();

@@ -12,6 +12,11 @@ public class ItemPriceFactory
         _spritesDataSouce = spritesDataSouce;
     }
 
+    public async Task Load()
+    {
+        await _assetsProvider.LoadGameObject<ItemPrice>(AssetsKeys.ItemPrice);
+    }
+
     public async Task<ItemPrice> Create(LootType lootType, Transform parent)
     {
         ItemPrice itemPrice = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemPrice>(AssetsKeys.ItemPrice), parent);

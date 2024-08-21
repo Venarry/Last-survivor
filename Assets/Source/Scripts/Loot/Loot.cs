@@ -10,7 +10,7 @@ public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
     private readonly WaitForSeconds _waitForPickUp = new(MoveToPlayerDelay);
     private Rigidbody _rigidbody;
     private int _reward;
-    private int _experienceReward;
+    private float _experienceReward;
     private ILootHolder _lootHolder;
 
     public abstract LootType LootType { get; }
@@ -22,7 +22,7 @@ public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Init(int reward, int experience, ILootHolder lootHolder)
+    public void Init(int reward, float experience, ILootHolder lootHolder)
     {
         _reward = reward;
         _experienceReward = experience;

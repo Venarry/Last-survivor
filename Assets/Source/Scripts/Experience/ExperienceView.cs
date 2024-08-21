@@ -28,7 +28,7 @@ public class ExperienceView : MonoBehaviour
         _experienceModel.LevelsRemoved -= OnLevelRemove;
     }
 
-    public void Add(int experience)
+    public void Add(float experience)
     {
         _experienceModel.Add(experience);
     }

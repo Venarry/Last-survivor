@@ -18,7 +18,7 @@ public class PlayerLootHolder : MonoBehaviour, ILootHolder
         _inventroyView.Add(lootType, count);
     }
 
-    public void Add(int experience)
+    public void Add(float experience)
     {
         _experienceView.Add(experience);
     }

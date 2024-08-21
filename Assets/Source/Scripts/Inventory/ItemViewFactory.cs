@@ -12,6 +12,11 @@ public class ItemViewFactory
         _spritesDataSouce = spritesDataSouce;
     }
 
+    public async Task Load()
+    {
+        await _assetsProvider.LoadGameObject<ItemView>(AssetsKeys.ItemView);
+    }
+
     public async Task<ItemView> Create(LootType lootType, Transform parent)
     {
         ItemView itemView = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemView>(AssetsKeys.ItemView), parent);

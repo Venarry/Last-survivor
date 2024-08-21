@@ -5,15 +5,15 @@ public class ExperienceModel
 {
     private bool _disabled = false;
 
-    public int CurrentExperience { get; private set; }
+    public float CurrentExperience { get; private set; }
     public int CurrentLevel { get; private set; }
-    public int ExperienceForNextLevel => (CurrentLevel + 1) * GameParamenters.BaseExperienceForNextLevel;
+    public float ExperienceForNextLevel => (CurrentLevel + 1) * GameParamenters.BaseExperienceForNextLevel;
 
     public event Action ExperienceChanged;
     public event Action LevelAdded;
     public event Action LevelsRemoved;
 
-    public void Add(int experience)
+    public void Add(float experience)
     {
         if (_disabled == true)
             return;

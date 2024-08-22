@@ -18,7 +18,7 @@
         _characterAttackParameters.OreDamage -= _damagePerLevel * CurrentLevel;
     }
 
-    public override string GetUpgradeDescription()
+    public override string GetUpLevelDescription()
     {
         return "";
     }

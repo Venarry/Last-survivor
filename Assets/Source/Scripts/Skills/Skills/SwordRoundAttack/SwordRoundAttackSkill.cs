@@ -42,7 +42,7 @@ public class SwordRoundAttackSkill : SkillBehaviour
         _cooldownTimer.Tick();
     }
 
-    public override string GetUpgradeDescription() 
+    public override string GetUpLevelDescription() 
     {
         string swordSizeText;
         string swordCountText;

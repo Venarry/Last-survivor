@@ -36,7 +36,7 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.Set(loadingLabels);
         _gameLoadingPanel.ShowNext();
 
-        SkillsInformationDataSource skillsInformationDataSource = new();
+        UpgradesInformationDataSource skillsInformationDataSource = new();
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);
         await spritesDataSouce.Load();
 
@@ -74,12 +74,13 @@ public class EntryPoint : MonoBehaviour
         ExperienceModel experienceModel = new();
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel = new();
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
+        CharacterBuffsModel characterBuffsModel = new();
         int playerHealth = 50;
         HealthModel healthModel = new(playerHealth);
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new();
         Player player = await playerFactory
-            .Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel, inventoryModel, characterAttackParameters);
+            .Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel, inventoryModel, characterAttackParameters, characterBuffsModel);
 
         player.SetBehaviour(false);
 
@@ -94,7 +95,7 @@ public class EntryPoint : MonoBehaviour
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
 
-        SkillsFactory skillsFactory = new(player, targetsProvider, healthModel, roundSwordFactory);
+        SkillsFactory skillsFactory = new(player, targetsProvider, healthModel, characterBuffsModel, roundSwordFactory);
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
 
         _gameLoadingPanel.ShowNext();

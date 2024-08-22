@@ -1,4 +1,4 @@
-﻿public abstract class SkillBehaviour : ISkill
+﻿public abstract class SkillBehaviour : IUpgrade
 {
     public int MaxLevel { get; private set; } = 5;
     public int CurrentLevel { get; private set; } = 0;
@@ -18,7 +18,7 @@
         }
     }
 
-    public abstract string GetUpgradeDescription();
+    public abstract string GetUpLevelDescription();
 
     public virtual void IncreaseTimeLeft()
     {

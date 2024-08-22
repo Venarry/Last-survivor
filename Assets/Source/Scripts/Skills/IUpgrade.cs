@@ -1,4 +1,4 @@
-public interface ISkill
+public interface IUpgrade
 {
     public SkillTickType SkillTickType { get; }
     public bool HasCooldown { get; }
@@ -8,5 +8,5 @@ public interface ISkill
     public void Disable();
     public void IncreaseLevel();
     public void IncreaseTimeLeft();
-    public string GetUpgradeDescription();
+    public string GetUpLevelDescription();
 }

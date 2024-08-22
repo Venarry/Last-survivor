@@ -75,10 +75,10 @@ public class SkillsOpener : MonoBehaviour
         {
             Type skillType = skill.GetType();
 
-            if (_characterSkills.HasSkill(skillType))
+            if (_characterSkills.HasUpgrade(skillType))
             {
-                _characterSkills.TryGetSkillLevel(skillType, out int level, out int maxLevel);
-                string upgradeDescription = _characterSkills.GetSkillUpgradeDescription(skillType);
+                _characterSkills.TryGetUpgradeLevel(skillType, out int level, out int maxLevel);
+                string upgradeDescription = _characterSkills.GetUpLevelDescription(skillType);
                 
                 if (level < maxLevel)
                 {
@@ -88,7 +88,7 @@ public class SkillsOpener : MonoBehaviour
             }
             else
             {
-                SpawnSkill(skill, skill.CurrentLevel, skill.MaxLevel, skill.GetUpgradeDescription());
+                SpawnSkill(skill, skill.CurrentLevel, skill.MaxLevel, skill.GetUpLevelDescription());
                 addedSkillsCounter++;
             }
 

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class CharacterUpgradesModel<T> where T : ISkill
+public class CharacterUpgradesModel<T> where T : IUpgrade
 {
-    private readonly Dictionary<Type, ISkill> _skills = new();
+    private readonly Dictionary<Type, IUpgrade> _upgrades = new();
 
-    public event Action<ISkill> Added;
+    public event Action<IUpgrade> Added;
     public event Action AllRemoved;
 
     public void OnUpdate()
     {
-        foreach (KeyValuePair<Type, ISkill> skill in _skills)
+        foreach (KeyValuePair<Type, IUpgrade> skill in _upgrades)
         {
             if(skill.Value.SkillTickType == SkillTickType.EveryTick)
             {
@@ -28,9 +28,9 @@ public class CharacterUpgradesModel<T> where T : ISkill
     {
         Type type = skill.GetType();
 
-        if (_skills.ContainsKey(type) == false)
+        if (_upgrades.ContainsKey(type) == false)
         {
-            _skills.Add(type, skill);
+            _upgrades.Add(type, skill);
 
             if (skill.SkillTickType == SkillTickType.AwakeTick)
             {
@@ -38,56 +38,56 @@ public class CharacterUpgradesModel<T> where T : ISkill
             }
         }
 
-        _skills[type].IncreaseLevel();
+        _upgrades[type].IncreaseLevel();
 
         Added?.Invoke(skill);
     }
 
     public void Remove(Type skillType)
     {
-        if (_skills.ContainsKey(skillType) == false)
+        if (_upgrades.ContainsKey(skillType) == false)
             return;
 
-        _skills[skillType].Disable();
-        _skills.Remove(skillType);
+        _upgrades[skillType].Disable();
+        _upgrades.Remove(skillType);
     }
 
     public void RemoveAll()
     {
-        foreach (KeyValuePair<Type, ISkill> skill in _skills)
+        foreach (KeyValuePair<Type, IUpgrade> skill in _upgrades)
         {
             skill.Value.Disable();
         }
 
-        _skills.Clear();
+        _upgrades.Clear();
         AllRemoved?.Invoke();
     }
 
-    public bool HasSkill(Type skillType) => _skills.ContainsKey(skillType);
+    public bool HasUpgrade(Type skillType) => _upgrades.ContainsKey(skillType);
 
-    public bool TryGetSkillLevel(Type skillType, out int level, out int maxLevel)
+    public bool TryGetUpgradeLevel(Type skillType, out int level, out int maxLevel)
     {
         level = 0;
         maxLevel = 0;
 
-        if(_skills.ContainsKey(skillType) == false)
+        if(_upgrades.ContainsKey(skillType) == false)
         {
             return false;
         }
 
-        level = _skills[skillType].CurrentLevel;
-        maxLevel = _skills[skillType].MaxLevel;
+        level = _upgrades[skillType].CurrentLevel;
+        maxLevel = _upgrades[skillType].MaxLevel;
 
         return true;
     }
 
-    public string GetSkillUpgradeDescription(Type skillType)
+    public string GetUpLevelDescription(Type skillType)
     {
-        if (_skills.ContainsKey(skillType) == false)
+        if (_upgrades.ContainsKey(skillType) == false)
         {
             return "";
         }
 
-        return _skills[skillType].GetUpgradeDescription();
+        return _upgrades[skillType].GetUpLevelDescription();
     }
 }

@@ -60,7 +60,7 @@ public class SplashSkill : SkillBehaviour
         }
     }
 
-    public override string GetUpgradeDescription()
+    public override string GetUpLevelDescription()
     {
         string splashDamageText = "";
 
@@ -75,18 +75,3 @@ public class SplashSkill : SkillBehaviour
         $"Splash damage {_splashDamageMultiplier * 100}% {splashDamageText}";
     }
 }
-
-/*public class AttackSpeedSkill : SkillBehaviour
-{
-    private float _attackSpeedPerLevel = 0.1f;
-    public override SkillTickType SkillTickType => throw new NotImplementedException();
-    public override bool HasCooldown => throw new NotImplementedException();
-
-    protected override void OnLevelAdd()
-    {
-    }
-
-    public override string GetUpgradeDescription()
-    {
-    }
-}*/

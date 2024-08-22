@@ -4,12 +4,12 @@ using UnityEngine;
 public class SkillsViewFactory
 {
     private readonly SpritesDataSouce _spritesDataSouce;
-    private readonly SkillsInformationDataSource _skillsInformationDataSource;
+    private readonly UpgradesInformationDataSource _skillsInformationDataSource;
     private readonly AssetsProvider _assetsProvider;
 
     public SkillsViewFactory(
         SpritesDataSouce skillsSpriteDataSouce,
-        SkillsInformationDataSource skillsInformationDataSource,
+        UpgradesInformationDataSource skillsInformationDataSource,
         AssetsProvider assetsProvider)
     {
         _spritesDataSouce = skillsSpriteDataSouce;

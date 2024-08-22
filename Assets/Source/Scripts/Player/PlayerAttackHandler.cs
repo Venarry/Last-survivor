@@ -6,14 +6,15 @@ public class PlayerAttackHandler : MonoBehaviour
 {
     private float _timeLeft = 0;
     private CharacterAttackParameters _characterAttackParameters;
-    private Dictionary<TargetType, Action<Target>> _playerAttackTypes;
+    private CharacterBuffsModel _characterBuffsModel;
+    private Dictionary<TargetType, Action<Target>> _playerViewAttackTypes;
 
     public event Action<Target, float> AttackBegin;
     public event Action<Target, float> Attacked;
 
     private void Awake()
     {
-        _playerAttackTypes = new()
+        _playerViewAttackTypes = new()
         {
             { TargetType.Enemy, AttackEnemy },
             { TargetType.Wood, AttackWood },
@@ -21,9 +22,10 @@ public class PlayerAttackHandler : MonoBehaviour
         };
     }
 
-    public void Init(CharacterAttackParameters characterAttackParameters)
+    public void Init(CharacterAttackParameters characterAttackParameters, CharacterBuffsModel characterBuffsModel)
     {
         _characterAttackParameters = characterAttackParameters;
+        _characterBuffsModel = characterBuffsModel;
         _timeLeft = _characterAttackParameters.AttackCooldown;
     }
 
@@ -57,24 +59,35 @@ public class PlayerAttackHandler : MonoBehaviour
                 return;
         }
 
-        if (_timeLeft >= _characterAttackParameters.AttackCooldown)
+        float attackCooldown = GetAttackCooldown();
+
+        if (_timeLeft >= attackCooldown)
         {
             AttackBegin?.Invoke(target, damage);
-
-            TryAttackWithResetTimeLeft(target, damage);
+            AttackWithResetTimeLeft(target, damage);
         }
     }
 
-    public void TryAttackWithResetTimeLeft(Target target, float damage)
+    public void AttackWithResetTimeLeft(Target target, float damage)
     {
-        if (_timeLeft >= _characterAttackParameters.AttackCooldown)
-        {
-            _playerAttackTypes[target.TargetType](target);
-            target.TakeDamage(damage);
-            _timeLeft = 0;
+        _playerViewAttackTypes[target.TargetType](target);
+        target.TakeDamage(damage);
+        _timeLeft = 0;
 
-            Attacked?.Invoke(target, damage);
+        Attacked?.Invoke(target, damage);
+    }
+
+    private float GetAttackCooldown()
+    {
+        IAttackSpeedBuff[] attackSpeedBuffs = _characterBuffsModel.GetBuffs<IAttackSpeedBuff>();
+        float attackCooldown = _characterAttackParameters.AttackCooldown;
+
+        foreach (IAttackSpeedBuff buff in attackSpeedBuffs)
+        {
+            attackCooldown = buff.ApplyCooldown(attackCooldown);
         }
+
+        return attackCooldown;
     }
 
     private void AttackEnemy(Target target)

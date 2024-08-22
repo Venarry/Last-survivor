@@ -39,7 +39,7 @@ public class CritAttackSkill : SkillBehaviour
         if (TryAttackWithCrit() == true)
         {
             float critDamage = damage * _critDamageMultiplier;
-            _playerAttackHandler.TryAttackWithResetTimeLeft(target, critDamage);
+            _playerAttackHandler.AttackWithResetTimeLeft(target, critDamage);
         }
     }
 
@@ -50,7 +50,7 @@ public class CritAttackSkill : SkillBehaviour
         return _critChance >= roll;
     }
 
-    public override string GetUpgradeDescription() 
+    public override string GetUpLevelDescription() 
     {
         string critDamageUpgradeText = "";
         string critChanceUpgradeText = "";

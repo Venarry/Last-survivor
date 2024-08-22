@@ -14,7 +14,7 @@ public class PassiveHealSkill : SkillBehaviour
     public override SkillTickType SkillTickType => SkillTickType.EveryTick;
     public override bool HasCooldown => false;
 
-    public override string GetUpgradeDescription()
+    public override string GetUpLevelDescription()
     {
         string upgradeText = "";
 

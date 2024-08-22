@@ -6,6 +6,7 @@ public class SkillsFactory
     private readonly Player _player;
     private readonly TargetsProvider _targetsProvider;
     private readonly HealthModel _playerHealthModel;
+    private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly List<Func<SkillBehaviour>> _skills;
 
@@ -13,19 +14,22 @@ public class SkillsFactory
         Player player,
         TargetsProvider targetsProvider,
         HealthModel playerHealthModel,
+        CharacterBuffsModel characterBuffsModel,
         RoundSwordFactory roundSwordFactory)
     {
         _player = player;
         _targetsProvider = targetsProvider;
         _roundSwordFactory = roundSwordFactory;
         _playerHealthModel = playerHealthModel;
+        _characterBuffsModel = characterBuffsModel;
 
         _skills = new()
         {
             CreateSwordRoundAttackSkill,
             CreateCritAttackSkill,
-            CreateSplashSkill,
-            CreatePassiveHealSkill,
+            //CreateSplashSkill,
+            //CreatePassiveHealSkill,
+            CreateAttackSpeedSkill,
         };
     }
 
@@ -40,6 +44,9 @@ public class SkillsFactory
 
     public PassiveHealSkill CreatePassiveHealSkill() =>
         new(_playerHealthModel);
+
+    public AttackSpeedSkill CreateAttackSpeedSkill() =>
+        new(_characterBuffsModel);
 
     public SkillBehaviour[] CreateAllSkills()
     {

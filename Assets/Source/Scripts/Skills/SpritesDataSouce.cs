@@ -23,6 +23,7 @@ public class SpritesDataSouce
             [typeof(CritAttackSkill)] = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconCritAttack),
             [typeof(SplashSkill)] = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconSplash),
             [typeof(PassiveHealSkill)] = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconPassiveHeal),
+            [typeof(AttackSpeedSkill)] = await _assetProvider.Load<Sprite>(AssetsKeys.SkillIconAttackSpeed),
         };
 
         _lootIcons = new()

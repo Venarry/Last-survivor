@@ -27,8 +27,8 @@ public class SkillsFactory
         {
             CreateSwordRoundAttackSkill,
             CreateCritAttackSkill,
-            //CreateSplashSkill,
-            //CreatePassiveHealSkill,
+            CreateSplashSkill,
+            CreatePassiveHealSkill,
             CreateAttackSpeedSkill,
         };
     }

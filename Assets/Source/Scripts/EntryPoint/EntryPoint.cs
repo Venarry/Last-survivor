@@ -16,8 +16,8 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private LevelsStatisticView _levelsStatisticView;
 
+    private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
-    private GameTimeScaler _gameTimeScaler = new();
     private CharacterParametersRefresher _characterUpgradesRefresher;
 
     private async void Awake()
@@ -125,7 +125,7 @@ public class EntryPoint : MonoBehaviour
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
-        //_enemySpawner.StartSpawning();
+        _enemySpawner.StartSpawning();
 
         _mapGenerator.StartGenerator();
 

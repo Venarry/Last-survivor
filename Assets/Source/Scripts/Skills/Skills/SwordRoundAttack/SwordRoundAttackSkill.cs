@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class SwordRoundAttackSkill : SkillBehaviour
 {
-    private RoundSwordFactory _roundSwordFactory;
-    private Transform _spawnTarget;
-    private TargetSearcher _targetSearcher;
-    private CooldownTimer _cooldownTimer = new(4);
-    private float _damageMultiplier = 0.6f;
+    private readonly RoundSwordFactory _roundSwordFactory;
+    private readonly Transform _spawnTarget;
+    private readonly TargetSearcher _targetSearcher;
+    private readonly CooldownTimer _cooldownTimer = new(cooldown: 4);
+    private readonly float _damageMultiplier = 0.6f;
 
     public SwordRoundAttackSkill(
         RoundSwordFactory roundSwordFactory,

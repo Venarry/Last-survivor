@@ -55,7 +55,6 @@ public class Player : MonoBehaviour
         ExperienceModel experienceModel,
         HealthModel healthModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
-        CharacterBuffsModel characterBuffsModel,
         ItemViewFactory itemViewFactory,
         SkillsViewFactory skillsViewFactory,
         SpritesDataSouce spritesDataSouce,
@@ -69,7 +68,7 @@ public class Player : MonoBehaviour
         _experienceView.Init(experienceModel);
         _healthOverReaction.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);
-        AttackHandler.Init(characterAttackParameters, characterBuffsModel);
+        AttackHandler.Init(characterAttackParameters);
         _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
 
         CharacterAttackParameters = characterAttackParameters;

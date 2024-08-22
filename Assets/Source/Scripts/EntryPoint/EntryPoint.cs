@@ -78,9 +78,9 @@ public class EntryPoint : MonoBehaviour
         int playerHealth = 50;
         HealthModel healthModel = new(playerHealth);
         InventoryModel inventoryModel = new();
-        CharacterAttackParameters characterAttackParameters = new();
+        CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
         Player player = await playerFactory
-            .Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel, inventoryModel, characterAttackParameters, characterBuffsModel);
+            .Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel, inventoryModel, characterAttackParameters);
 
         player.SetBehaviour(false);
 
@@ -90,7 +90,7 @@ public class EntryPoint : MonoBehaviour
         _characterUpgradesRefresher.Enable();
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 
-        UpgradesFactory upgradesFactory = new(characterAttackParameters);
+        ParameterUpgradesFactory upgradesFactory = new(characterBuffsModel);
         _upgradesShop.Init(inventoryModel, characterParametersUpgradesModel, upgradesFactory, itemPriceFactory, _gameTimeScaler);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);

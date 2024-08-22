@@ -12,7 +12,7 @@ public class UpgradesShop : MonoBehaviour
 
     private InventoryModel _inventoryModel;
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
-    private UpgradesFactory _upgradesFactory;
+    private ParameterUpgradesFactory _upgradesFactory;
     private GameTimeScaler _gameTimeScaler;
 
     private string GameTimeKey => nameof(UpgradesShop);
@@ -41,7 +41,7 @@ public class UpgradesShop : MonoBehaviour
     public void Init(
         InventoryModel inventoryModel,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
-        UpgradesFactory upgradesFactory,
+        ParameterUpgradesFactory upgradesFactory,
         ItemPriceFactory itemPriceFactory,
         GameTimeScaler gameTimeScaler)
     {

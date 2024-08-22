@@ -11,11 +11,7 @@
             return;
 
         CurrentLevel++;
-
-        if(CurrentLevel > 1)
-        {
-            OnLevelAdd();
-        }
+        OnLevelAdd();
     }
 
     public abstract string GetUpLevelDescription();

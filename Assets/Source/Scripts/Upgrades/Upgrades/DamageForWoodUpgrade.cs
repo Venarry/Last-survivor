@@ -1,25 +1,10 @@
-﻿public class DamageForWoodUpgrade : ParametersUpgradeBehaviour
+﻿public class DamageForWoodUpgrade : DamageUpgrade
 {
-    private readonly CharacterAttackParameters _characterAttackParameters;
-    private readonly float _damagePerLevel = 0.3f;
+    private readonly DamageForWoodBuff _buff = new();
 
-    public DamageForWoodUpgrade(CharacterAttackParameters characterAttackParameters)
+    public DamageForWoodUpgrade(CharacterBuffsModel characterBuffsModel) : base(characterBuffsModel)
     {
-        _characterAttackParameters = characterAttackParameters;
     }
 
-    protected override void OnLevelAdd()
-    {
-        _characterAttackParameters.WoodDamage += _damagePerLevel;
-    }
-
-    public override void Disable()
-    {
-        _characterAttackParameters.WoodDamage -= _damagePerLevel * CurrentLevel;
-    }
-
-    public override string GetUpLevelDescription()
-    {
-        return "";
-    }
+    protected override DamageBuff DamageBuff => _buff;
 }

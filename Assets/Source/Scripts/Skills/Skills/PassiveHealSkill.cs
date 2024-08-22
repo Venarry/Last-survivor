@@ -3,8 +3,8 @@ using UnityEngine;
 public class PassiveHealSkill : SkillBehaviour
 {
     private readonly HealthModel _targetHealthModel;
-    private float _healPercentPerSecond = 0.01f;
-    private float _healPercentPerSecondPerLevel = 0.01f;
+    private readonly float _healPercentPerSecondPerLevel = 0.0075f;
+    private float _healPercentPerSecond = 0.015f;
 
     public PassiveHealSkill(HealthModel targetHealthModel)
     {
@@ -33,6 +33,9 @@ public class PassiveHealSkill : SkillBehaviour
 
     protected override void OnLevelAdd()
     {
+        if (CurrentLevel <= 1)
+            return;
+
         _healPercentPerSecond += _healPercentPerSecondPerLevel;
     }
 }

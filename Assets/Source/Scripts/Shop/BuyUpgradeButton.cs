@@ -10,7 +10,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
     [SerializeField] private Transform _priceParent;
 
     protected CharacterUpgradesModel<ParametersUpgradeBehaviour> CharacterUpgrades;
-    protected UpgradesFactory UpgradesFactory;
+    protected ParameterUpgradesFactory UpgradesFactory;
 
     private Dictionary<LootType, int> _basePrice;
     private InventoryModel _inventoryModel;
@@ -20,7 +20,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
     public void Init(
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
-        UpgradesFactory upgradesFactory,
+        ParameterUpgradesFactory upgradesFactory,
         InventoryModel inventoryModel,
         Dictionary<LootType, int> basePrice,
         ItemPriceFactory itemPriceFactory)

@@ -1,25 +1,10 @@
-﻿public class DamageForEnemyUpgrade : ParametersUpgradeBehaviour
+﻿public class DamageForEnemyUpgrade : DamageUpgrade
 {
-    private readonly CharacterAttackParameters _characterAttackParameters;
-    private readonly float _damagePerLevel = 0.3f;
+    private readonly DamageForOreBuff _buff = new();
 
-    public DamageForEnemyUpgrade(CharacterAttackParameters characterAttackParameters)
+    public DamageForEnemyUpgrade(CharacterBuffsModel characterBuffsModel) : base(characterBuffsModel)
     {
-        _characterAttackParameters = characterAttackParameters;
     }
 
-    protected override void OnLevelAdd()
-    {
-        _characterAttackParameters.EnemyDamage += _damagePerLevel;
-    }
-
-    public override void Disable()
-    {
-        _characterAttackParameters.EnemyDamage -= _damagePerLevel * CurrentLevel;
-    }
-
-    public override string GetUpLevelDescription()
-    {
-        return "";
-    }
+    protected override DamageBuff DamageBuff => _buff;
 }

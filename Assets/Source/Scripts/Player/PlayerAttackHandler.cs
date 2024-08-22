@@ -6,7 +6,6 @@ public class PlayerAttackHandler : MonoBehaviour
 {
     private float _timeLeft = 0;
     private CharacterAttackParameters _characterAttackParameters;
-    private CharacterBuffsModel _characterBuffsModel;
     private Dictionary<TargetType, Action<Target>> _playerViewAttackTypes;
 
     public event Action<Target, float> AttackBegin;
@@ -22,10 +21,9 @@ public class PlayerAttackHandler : MonoBehaviour
         };
     }
 
-    public void Init(CharacterAttackParameters characterAttackParameters, CharacterBuffsModel characterBuffsModel)
+    public void Init(CharacterAttackParameters characterAttackParameters)
     {
         _characterAttackParameters = characterAttackParameters;
-        _characterBuffsModel = characterBuffsModel;
         _timeLeft = _characterAttackParameters.AttackCooldown;
     }
 
@@ -39,30 +37,30 @@ public class PlayerAttackHandler : MonoBehaviour
         if (target == null)
             return;
 
-        float damage;
-
-        switch (target.TargetType)
-        {
-            case TargetType.Enemy:
-                damage = _characterAttackParameters.EnemyDamage;
-                break;
-
-            case TargetType.Wood:
-                damage = _characterAttackParameters.WoodDamage;
-                break;
-
-            case TargetType.Ore:
-                damage = _characterAttackParameters.OreDamage;
-                break;
-
-            default:
-                return;
-        }
-
-        float attackCooldown = GetAttackCooldown();
+        float attackCooldown = _characterAttackParameters.AttackCooldown;
 
         if (_timeLeft >= attackCooldown)
         {
+            float damage;
+
+            switch (target.TargetType)
+            {
+                case TargetType.Enemy:
+                    damage = _characterAttackParameters.EnemyDamage;
+                    break;
+
+                case TargetType.Wood:
+                    damage = _characterAttackParameters.WoodDamage;
+                    break;
+
+                case TargetType.Ore:
+                    damage = _characterAttackParameters.OreDamage;
+                    break;
+
+                default:
+                    return;
+            }
+        
             AttackBegin?.Invoke(target, damage);
             AttackWithResetTimeLeft(target, damage);
         }
@@ -75,19 +73,6 @@ public class PlayerAttackHandler : MonoBehaviour
         _timeLeft = 0;
 
         Attacked?.Invoke(target, damage);
-    }
-
-    private float GetAttackCooldown()
-    {
-        IAttackSpeedBuff[] attackSpeedBuffs = _characterBuffsModel.GetBuffs<IAttackSpeedBuff>();
-        float attackCooldown = _characterAttackParameters.AttackCooldown;
-
-        foreach (IAttackSpeedBuff buff in attackSpeedBuffs)
-        {
-            attackCooldown = buff.ApplyCooldown(attackCooldown);
-        }
-
-        return attackCooldown;
     }
 
     private void AttackEnemy(Target target)

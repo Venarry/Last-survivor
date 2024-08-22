@@ -5,10 +5,10 @@ public class SplashSkill : SkillBehaviour
 {
     private PlayerAttackHandler _playerAttackHandler;
     private TargetsProvider _targetsProvider;
-    private float _splashAngle = 90;
-    private float _splashDistance = 6;
+    private readonly float _splashAngle = 90;
+    private readonly float _splashDistance = 6;
+    private readonly float _splashDamageMultiplierForLevel = 0.1f;
     private float _splashDamageMultiplier = 0.4f;
-    private float _splashDamageMultiplierForLevel = 0.1f;
 
     public SplashSkill(PlayerAttackHandler playerAttackHandler, TargetsProvider targetsProvider)
     {
@@ -31,6 +31,9 @@ public class SplashSkill : SkillBehaviour
 
     protected override void OnLevelAdd()
     {
+        if (CurrentLevel <= 1)
+            return;
+
         _splashDamageMultiplier += _splashDamageMultiplierForLevel;
     }
 

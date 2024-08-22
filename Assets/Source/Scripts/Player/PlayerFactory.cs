@@ -39,8 +39,7 @@ public class PlayerFactory
         HealthModel healthModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
         InventoryModel inventoryModel,
-        CharacterAttackParameters characterAttackParameters,
-        CharacterBuffsModel characterBuffsModel)
+        CharacterAttackParameters characterAttackParameters)
     {
         _playerPrefab = await _assetProvider.LoadGameObject<Player>(AssetsKeys.Player);
 
@@ -55,7 +54,6 @@ public class PlayerFactory
             experienceModel,
             healthModel,
             characterSkillsModel,
-            characterBuffsModel,
             _itemViewFactory,
             _skillsViewFactory,
             _spritesDataSouce,

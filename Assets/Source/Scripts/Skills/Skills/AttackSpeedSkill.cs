@@ -16,21 +16,18 @@
 
     public override void Apply()
     {
-        _attackCooldownMultiplier = _attackCooldownMultiplierPerLevel;
-        _attackSpeedBuff.SetParameters(_attackCooldownMultiplier);
-
         _characterBuffsModel.Add(_attackSpeedBuff);
-    }
-
-    public override void Disable()
-    {
-        _characterBuffsModel.Remove(_attackSpeedBuff);
     }
 
     protected override void OnLevelAdd()
     {
         _attackCooldownMultiplier += _attackCooldownMultiplierPerLevel;
         _attackSpeedBuff.SetParameters(_attackCooldownMultiplier);
+    }
+
+    public override void Disable()
+    {
+        _characterBuffsModel.Remove(_attackSpeedBuff);
     }
 
     public override string GetUpLevelDescription()

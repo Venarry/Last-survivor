@@ -1,4 +1,5 @@
 ﻿public class DayCycleParameters
 {
-    public float DayDuration = GameParamenters.BaseDayDuration;
+    private float _baseDayDuration = GameParamenters.BaseDayDuration;
+    public float DayDuration => _baseDayDuration;
 }

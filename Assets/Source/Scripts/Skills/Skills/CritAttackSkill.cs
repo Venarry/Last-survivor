@@ -30,6 +30,9 @@ public class CritAttackSkill : SkillBehaviour
 
     protected override void OnLevelAdd()
     {
+        if (CurrentLevel <= 1)
+            return;
+
         _critDamageMultiplier += _critDamageMultiplierForLevel;
         _critChance += _critChanceForLevel;
     }

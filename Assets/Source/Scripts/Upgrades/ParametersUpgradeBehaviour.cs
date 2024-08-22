@@ -2,7 +2,7 @@
 {
     public int MaxLevel { get; private set; } = 5;
     public int CurrentLevel { get; private set; } = 0;
-    public SkillTickType SkillTickType => SkillTickType.HasNoTick;
+    public SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public bool HasCooldown => false;
 
     public void IncreaseLevel()
@@ -22,7 +22,7 @@
     {
     }
 
-    public void Apply()
+    public virtual void Apply()
     {
     }
 

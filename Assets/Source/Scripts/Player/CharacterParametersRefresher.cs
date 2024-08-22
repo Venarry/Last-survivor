@@ -5,11 +5,15 @@ public class CharacterParametersRefresher
 {
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly ExperienceModel _experienceModel;
-    private readonly CharacterSkillsModel _characterSkillsModel;
+    private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
     private readonly WaitForSeconds _waitForExperienceDisable = new(seconds: 2);
     private readonly CoroutineProvider _coroutineProvider;
 
-    public CharacterParametersRefresher(LevelsStatisticModel levelsStatisticModel, ExperienceModel experienceModel, CharacterSkillsModel characterSkillsModel, CoroutineProvider coroutineProvider)
+    public CharacterParametersRefresher(
+        LevelsStatisticModel levelsStatisticModel,
+        ExperienceModel experienceModel,
+        CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
+        CoroutineProvider coroutineProvider)
     {
         _levelsStatisticModel = levelsStatisticModel;
         _experienceModel = experienceModel;

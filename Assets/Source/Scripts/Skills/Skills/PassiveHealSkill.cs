@@ -26,7 +26,7 @@ public class PassiveHealSkill : SkillBehaviour
         return $"Health per second {_healPercentPerSecond * 100}% {upgradeText}";
     }
 
-    public override void TryCast()
+    public override void Apply()
     {
         _targetHealthModel.Add(_targetHealthModel.MaxValue * _healPercentPerSecond * Time.deltaTime);
     }

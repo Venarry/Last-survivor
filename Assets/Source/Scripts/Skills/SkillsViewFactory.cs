@@ -25,9 +25,9 @@ public class SkillsViewFactory
 
     public async Task<SkillToChoose> CreateSkillButton(
         Transform parent,
-        IUpgradable<ISkill> upgradable,
+        CharacterUpgradesModel<SkillBehaviour> upgradable,
         SkillsOpener skillsOpener,
-        ISkill skill,
+        SkillBehaviour skill,
         int skillLevel,
         int maxSkillLevel,
         string upgradeDescription)

@@ -7,7 +7,7 @@ public class SkillsFactory
     private readonly TargetsProvider _targetsProvider;
     private readonly HealthModel _playerHealthModel;
     private readonly RoundSwordFactory _roundSwordFactory;
-    private readonly List<Func<ISkill>> _skills;
+    private readonly List<Func<SkillBehaviour>> _skills;
 
     public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек. увеличенный атакспид
         Player player,
@@ -41,11 +41,11 @@ public class SkillsFactory
     public PassiveHealSkill CreatePassiveHealSkill() =>
         new(_playerHealthModel);
 
-    public ISkill[] CreateAllSkills()
+    public SkillBehaviour[] CreateAllSkills()
     {
-        List<ISkill> skills = new();
+        List<SkillBehaviour> skills = new();
 
-        foreach (Func<ISkill> skill in _skills) 
+        foreach (Func<SkillBehaviour> skill in _skills) 
         {
             skills.Add(skill.Invoke());
         }

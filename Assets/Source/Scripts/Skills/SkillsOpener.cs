@@ -10,7 +10,7 @@ public class SkillsOpener : MonoBehaviour
 
     private List<SkillToChoose> _spawnedSkill = new();
     private SkillsViewFactory _skillToChooseFactory;
-    private CharacterSkillsModel _characterSkills;
+    private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private ExperienceModel _experienceModel;
     private SkillsFactory _skillsFactory;
     private GameTimeScaler _gameTimeScaler;
@@ -20,7 +20,7 @@ public class SkillsOpener : MonoBehaviour
 
     public void Init(
         SkillsViewFactory skillToChooseFactory,
-        CharacterSkillsModel characterSkills,
+        CharacterUpgradesModel<SkillBehaviour> characterSkills,
         ExperienceModel experienceModel,
         SkillsFactory skillsFactory,
         GameTimeScaler gameTimeScaler)
@@ -66,12 +66,12 @@ public class SkillsOpener : MonoBehaviour
             return;
         }
 
-        ISkill[] allSkills = _skillsFactory.CreateAllSkills();
-        ISkill[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length)).ToArray();
+        SkillBehaviour[] allSkills = _skillsFactory.CreateAllSkills();
+        SkillBehaviour[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length)).ToArray();
 
         int addedSkillsCounter = 0;
 
-        foreach (ISkill skill in shuffledSkills)
+        foreach (SkillBehaviour skill in shuffledSkills)
         {
             Type skillType = skill.GetType();
 
@@ -105,7 +105,7 @@ public class SkillsOpener : MonoBehaviour
         }
     }
 
-    private async void SpawnSkill(ISkill skill, int level, int maxLevel, string upgradeDescription)
+    private async void SpawnSkill(SkillBehaviour skill, int level, int maxLevel, string upgradeDescription)
     {
         SkillToChoose skillButton = await _skillToChooseFactory
             .CreateSkillButton(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel, upgradeDescription);

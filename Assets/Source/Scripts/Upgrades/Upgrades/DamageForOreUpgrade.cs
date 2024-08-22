@@ -1,7 +1,4 @@
-﻿
-using UnityEngine;
-
-public class DamageForOreUpgrade : UpgradeBehaviour
+﻿public class DamageForOreUpgrade : ParametersUpgradeBehaviour
 {
     private readonly CharacterAttackParameters _characterAttackParameters;
     private readonly float _damagePerLevel = 0.3f;
@@ -11,13 +8,18 @@ public class DamageForOreUpgrade : UpgradeBehaviour
         _characterAttackParameters = characterAttackParameters;
     }
 
-    public override void Cancel()
+    protected override void OnLevelAdd()
+    {
+        _characterAttackParameters.OreDamage += _damagePerLevel;
+    }
+
+    public override void Disable()
     {
         _characterAttackParameters.OreDamage -= _damagePerLevel * CurrentLevel;
     }
 
-    protected override void OnApply()
+    public override string GetUpgradeDescription()
     {
-        _characterAttackParameters.OreDamage += _damagePerLevel;
+        return "";
     }
 }

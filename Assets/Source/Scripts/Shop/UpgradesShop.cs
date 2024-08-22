@@ -11,7 +11,7 @@ public class UpgradesShop : MonoBehaviour
     [SerializeField] private DamageForOreBuyButton _buyDamageForOreButton;
 
     private InventoryModel _inventoryModel;
-    private CharacterUpgrades _characterUpgrades;
+    private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private UpgradesFactory _upgradesFactory;
     private GameTimeScaler _gameTimeScaler;
 
@@ -40,7 +40,7 @@ public class UpgradesShop : MonoBehaviour
 
     public void Init(
         InventoryModel inventoryModel,
-        CharacterUpgrades characterUpgrades,
+        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         UpgradesFactory upgradesFactory,
         ItemPriceFactory itemPriceFactory,
         GameTimeScaler gameTimeScaler)

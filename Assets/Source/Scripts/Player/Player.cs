@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         InventoryModel inventoryModel,
         ExperienceModel experienceModel,
         HealthModel healthModel,
-        CharacterSkillsModel characterSkillsModel,
+        CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
         ItemViewFactory itemViewFactory,
         SkillsViewFactory skillsViewFactory,
         SpritesDataSouce spritesDataSouce,

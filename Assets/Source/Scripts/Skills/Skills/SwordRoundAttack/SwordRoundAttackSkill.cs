@@ -22,7 +22,7 @@ public class SwordRoundAttackSkill : SkillBehaviour
     public override SkillTickType SkillTickType => SkillTickType.EveryTick;
     public override bool HasCooldown => true;
 
-    public override async void TryCast()
+    public override async void Apply()
     {
         if(_targetSearcher.TryGetNearestTarget(out _) == false)
         {

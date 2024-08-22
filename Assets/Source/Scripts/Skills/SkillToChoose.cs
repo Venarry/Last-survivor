@@ -16,15 +16,15 @@ public class SkillToChoose : MonoBehaviour
     [SerializeField] private TMP_Text _skillDescription;
     [SerializeField] private TMP_Text _skillUpgradeDescription;
 
-    private IUpgradable<ISkill> _characterSkills;
+    private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private SkillsOpener _skillOpener;
-    private ISkill _skill;
+    private SkillBehaviour _skill;
 
     public void Init(
-        IUpgradable<ISkill> characterSkills,
+        CharacterUpgradesModel<SkillBehaviour> characterSkills,
         SkillsOpener skillsOpener,
         Sprite icon,
-        ISkill skill)
+        SkillBehaviour skill)
     {
         _characterSkills = characterSkills;
         _skillOpener = skillsOpener;

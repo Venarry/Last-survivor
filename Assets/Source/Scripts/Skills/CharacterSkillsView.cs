@@ -4,11 +4,11 @@ using UnityEngine;
 public class CharacterSkillsView : MonoBehaviour
 {
     private readonly List<SkillIcon> _skillIcons = new();
-    private CharacterSkillsModel _characterSkillsModel;
+    private CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
     private SkillsViewFactory _skillsViewFactory;
     private Transform _skillsParent;
 
-    public void Init(CharacterSkillsModel characterSkillsModel, SkillsViewFactory skillsViewFactory, Transform parent)
+    public void Init(CharacterUpgradesModel<SkillBehaviour> characterSkillsModel, SkillsViewFactory skillsViewFactory, Transform parent)
     {
         _characterSkillsModel = characterSkillsModel;
         _skillsViewFactory = skillsViewFactory;

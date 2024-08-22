@@ -19,7 +19,7 @@ public class SplashSkill : SkillBehaviour
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public override bool HasCooldown => false;
 
-    public override void TryCast()
+    public override void Apply()
     {
         _playerAttackHandler.Attacked += OnAttack;
     }
@@ -75,3 +75,18 @@ public class SplashSkill : SkillBehaviour
         $"Splash damage {_splashDamageMultiplier * 100}% {splashDamageText}";
     }
 }
+
+/*public class AttackSpeedSkill : SkillBehaviour
+{
+    private float _attackSpeedPerLevel = 0.1f;
+    public override SkillTickType SkillTickType => throw new NotImplementedException();
+    public override bool HasCooldown => throw new NotImplementedException();
+
+    protected override void OnLevelAdd()
+    {
+    }
+
+    public override string GetUpgradeDescription()
+    {
+    }
+}*/

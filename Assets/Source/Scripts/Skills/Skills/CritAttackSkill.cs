@@ -18,7 +18,7 @@ public class CritAttackSkill : SkillBehaviour
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public override bool HasCooldown => false;
 
-    public override void TryCast()
+    public override void Apply()
     {
         _playerAttackHandler.AttackBegin += OnAttackBegin;
     }

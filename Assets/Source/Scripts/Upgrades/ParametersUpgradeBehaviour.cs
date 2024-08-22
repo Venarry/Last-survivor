@@ -1,9 +1,9 @@
-﻿public abstract class SkillBehaviour : ISkill
+﻿public abstract class ParametersUpgradeBehaviour : ISkill
 {
     public int MaxLevel { get; private set; } = 5;
     public int CurrentLevel { get; private set; } = 0;
-    public abstract SkillTickType SkillTickType { get; }
-    public abstract bool HasCooldown { get; }
+    public SkillTickType SkillTickType => SkillTickType.HasNoTick;
+    public bool HasCooldown => false;
 
     public void IncreaseLevel()
     {
@@ -11,22 +11,18 @@
             return;
 
         CurrentLevel++;
-
-        if(CurrentLevel > 1)
-        {
-            OnLevelAdd();
-        }
+        OnLevelAdd();
     }
+
+    public abstract void Disable();
 
     public abstract string GetUpgradeDescription();
 
-    public virtual void IncreaseTimeLeft()
+    public void IncreaseTimeLeft()
     {
     }
 
-    public abstract void Apply();
-
-    public virtual void Disable()
+    public void Apply()
     {
     }
 

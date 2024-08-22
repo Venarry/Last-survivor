@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class CharacterSkillsModel : IUpgradable<ISkill>
+public class CharacterUpgradesModel<T> where T : ISkill
 {
     private readonly Dictionary<Type, ISkill> _skills = new();
 
@@ -14,7 +14,7 @@ public class CharacterSkillsModel : IUpgradable<ISkill>
         {
             if(skill.Value.SkillTickType == SkillTickType.EveryTick)
             {
-                skill.Value.TryCast();
+                skill.Value.Apply();
             }
 
             if(skill.Value.HasCooldown == true)
@@ -24,24 +24,21 @@ public class CharacterSkillsModel : IUpgradable<ISkill>
         }
     }
 
-    public void Add(ISkill skill)
+    public void Add(T skill)
     {
         Type type = skill.GetType();
 
         if (_skills.ContainsKey(type) == false)
         {
             _skills.Add(type, skill);
-            skill.IncreaseLevel();
 
             if (skill.SkillTickType == SkillTickType.AwakeTick)
             {
-                skill.TryCast();
+                skill.Apply();
             }
         }
-        else
-        {
-            _skills[type].IncreaseLevel();
-        }
+
+        _skills[type].IncreaseLevel();
 
         Added?.Invoke(skill);
     }

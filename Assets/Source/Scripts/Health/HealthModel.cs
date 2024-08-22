@@ -102,23 +102,31 @@ public class HealthModel
 
     public void ApplyMaxHealth()
     {
+        float healthMultiplier = HealthNormalized;
+        float startMaxHealth = MaxValue;
         MaxValue = _baseMaxValue;
+        Value = MaxValue * healthMultiplier;
+
         IMaxHealthBuff[] buffs = _characterBuffsModel.GetBuffs<IMaxHealthBuff>();
 
         foreach (IMaxHealthBuff buff in buffs)
         {
-            float startHealth = MaxValue;
+            float bufferHealth = MaxValue;
             MaxValue = buff.Apply(MaxValue, out bool increaseCurrentHealth);
+            float deltaHealth = (MaxValue - bufferHealth) * healthMultiplier;
 
-            /*if (increaseCurrentHealth == true)
+            if (increaseCurrentHealth == true)
             {
-                Value += MaxValue - startHealth;
+                Value += deltaHealth;
             }
-            else if (Value > MaxValue)
+            else
             {
-                Value = MaxValue;
-            }*/
+                Value -= deltaHealth;
+            }
         }
+
+        Debug.Log($"max {MaxValue}  multi {healthMultiplier}");
+        float healthWithoutIncrease = MaxValue * healthMultiplier - (MaxValue - startMaxHealth) * healthMultiplier;
 
         Debug.Log($"{Value} {MaxValue}");
         HealthChanged?.Invoke();

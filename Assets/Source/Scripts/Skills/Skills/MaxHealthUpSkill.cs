@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 public class MaxHealthUpSkill : SkillBehaviour
 {
     private readonly HealthModel _healthModel;
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly MaxHealthUpBuff _maxHealthUpBuff = new();
-    private readonly List<float> _healthPerLevel = new() { 30, 50, 70, 110, 150, 250 };
+    private readonly List<float> _healthPerLevel = new() { 25, 50, 80, 120, 160, 250 };
     private float _health;
     private bool _increaseCurrentHealth = true;
 
@@ -29,7 +30,7 @@ public class MaxHealthUpSkill : SkillBehaviour
 
     protected override void OnLevelAdd()
     {
-        _health = _healthPerLevel[CurrentLevel];
+        _health = _healthPerLevel[CurrentLevel - 1];
         _maxHealthUpBuff.SetParamenters(_health, _increaseCurrentHealth);
         _healthModel.ApplyMaxHealth();
     }
@@ -41,6 +42,25 @@ public class MaxHealthUpSkill : SkillBehaviour
 
     public override string GetUpLevelDescription()
     {
-        return "";
+        StringBuilder stringBuilder = new("Increase health:\n");
+
+        for (int i = 0; i < _healthPerLevel.Count; i++)
+        {
+            if(i == CurrentLevel)
+            {
+                stringBuilder.Append($"{GameParamenters.TextColorStart}{_healthPerLevel[i]}{GameParamenters.TextColorEnd}");
+            }
+            else
+            {
+                stringBuilder.Append($"{_healthPerLevel[i]}");
+            }
+
+            if(i != _healthPerLevel.Count - 1)
+            {
+                stringBuilder.Append("/");
+            }
+        }
+
+        return stringBuilder.ToString();
     }
 }

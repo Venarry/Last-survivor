@@ -19,6 +19,7 @@ public class AssetsKeys
     public const string SkillIconSplash = "SkillIconSplash";
     public const string SkillIconPassiveHeal = "SkillIconPassiveHeal";
     public const string SkillIconAttackSpeed = "SkillIconAttackSpeed";
+    public const string SkillIconMaxHealtUp = "SkillIconMaxHealtUp";
 
     public const string RoundSword = "RoundSword";
 

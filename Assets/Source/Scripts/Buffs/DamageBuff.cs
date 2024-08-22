@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 public abstract class DamageBuff : IDamageBuff
 {
@@ -16,6 +15,5 @@ public abstract class DamageBuff : IDamageBuff
     public void SetParameters(float damage)
     {
         _damage = damage;
-        Debug.Log($"set {_damage}; {GetHashCode()}");
     }
 }

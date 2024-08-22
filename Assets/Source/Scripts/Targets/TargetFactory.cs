@@ -19,7 +19,8 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
 
         if (poolSpawnResult.IsInstantiatedObject == true)
         {
-            HealthModel healthModel = new(health);
+            CharacterBuffsModel characterBuffsModel = new();
+            HealthModel healthModel = new(characterBuffsModel, health);
             target.Init(TargetType, healthModel);
             OnCreated(target, healthModel);
         }

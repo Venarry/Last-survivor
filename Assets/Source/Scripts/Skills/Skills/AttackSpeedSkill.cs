@@ -1,10 +1,10 @@
 ﻿public class AttackSpeedSkill : SkillBehaviour
 {
-    private float _attackCooldownMultiplier;
-    private float _attackCooldownMultiplierPerLevel = 0.1f;
-
     private readonly AttackSpeedBuff _attackSpeedBuff = new();
     private readonly CharacterBuffsModel _characterBuffsModel;
+    private readonly float _attackCooldownMultiplierPerLevel = 0.1f;
+
+    private float _attackCooldownMultiplier;
 
     public AttackSpeedSkill(CharacterBuffsModel characterBuffsModel)
     {

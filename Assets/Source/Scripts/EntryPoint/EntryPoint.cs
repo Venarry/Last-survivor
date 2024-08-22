@@ -76,7 +76,7 @@ public class EntryPoint : MonoBehaviour
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
         CharacterBuffsModel characterBuffsModel = new();
         int playerHealth = 50;
-        HealthModel healthModel = new(playerHealth);
+        HealthModel healthModel = new(characterBuffsModel, playerHealth);
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
         Player player = await playerFactory

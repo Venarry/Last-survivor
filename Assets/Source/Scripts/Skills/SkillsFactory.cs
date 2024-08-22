@@ -10,7 +10,7 @@ public class SkillsFactory
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly List<Func<SkillBehaviour>> _skills;
 
-    public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек. увеличенный атакспид
+    public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек.
         Player player,
         TargetsProvider targetsProvider,
         HealthModel playerHealthModel,
@@ -26,10 +26,11 @@ public class SkillsFactory
         _skills = new()
         {
             CreateSwordRoundAttackSkill,
-            CreateCritAttackSkill,
-            CreateSplashSkill,
-            CreatePassiveHealSkill,
+            //CreateCritAttackSkill,
+            //CreateSplashSkill,
+            //CreatePassiveHealSkill,
             CreateAttackSpeedSkill,
+            CreateMaxHealthUpSkill,
         };
     }
 
@@ -47,6 +48,8 @@ public class SkillsFactory
 
     public AttackSpeedSkill CreateAttackSpeedSkill() =>
         new(_characterBuffsModel);
+    public MaxHealthUpSkill CreateMaxHealthUpSkill() =>
+       new(_playerHealthModel, _characterBuffsModel);
 
     public SkillBehaviour[] CreateAllSkills()
     {

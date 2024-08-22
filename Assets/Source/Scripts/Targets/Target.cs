@@ -6,6 +6,7 @@ public class Target : MonoBehaviour, IPoolObject<Target>
 {
     [SerializeField] private bool _isFriendly = false;
     private HealthView _healthView;
+    private HealthModel _healthModel;
 
     public Vector3 Position => transform.position;
     public TargetType TargetType { get; private set; }
@@ -24,22 +25,18 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     {
     }
 
-    private void OnEnable()
-    {
-        _healthView.HealthOver += OnHealthOver;
-    }
-
-    private void OnDisable()
-    {
-        _healthView.HealthOver -= OnHealthOver;
-    }
-
     public void Init(TargetType targetType, HealthModel healthModel)
     {
         TargetType = targetType;
+        _healthModel = healthModel;
         _healthView.Init(healthModel);
 
-        _healthView.HealthOver += OnHealthOver;
+        _healthModel.HealthOver += OnHealthOver;
+    }
+
+    private void OnDestroy()
+    {
+        _healthModel.HealthOver -= OnHealthOver;
     }
 
     public void TakeDamage(float damage)
@@ -65,7 +62,7 @@ public class Target : MonoBehaviour, IPoolObject<Target>
 
     public void ResetSettings(float health)
     {
-        _healthView.SetMaxHealth(health);
-        _healthView.Restore();
+        _healthModel.SetMaxHealth(health);
+        _healthModel.Restore();
     }
 }

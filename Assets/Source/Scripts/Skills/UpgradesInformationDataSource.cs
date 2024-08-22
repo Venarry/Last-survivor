@@ -10,6 +10,7 @@ public class UpgradesInformationDataSource
         [typeof(SplashSkill)] = "Splash",
         [typeof(PassiveHealSkill)] = "Passive heal",
         [typeof(AttackSpeedSkill)] = "Attack speed",
+        [typeof(MaxHealthUpSkill)] = "Max health",
     };
 
     private readonly Dictionary<Type, string> _skillsDescription = new()
@@ -19,6 +20,7 @@ public class UpgradesInformationDataSource
         [typeof(SplashSkill)] = "When attacking, the character deals damage to neighboring targets",
         [typeof(PassiveHealSkill)] = "The character is passively healing",
         [typeof(AttackSpeedSkill)] = "Reduce attack cooldown",
+        [typeof(MaxHealthUpSkill)] = "Increase your max health",
     };
 
     public string GetName(Type skillType) => _skillsName[skillType];

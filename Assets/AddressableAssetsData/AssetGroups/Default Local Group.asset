@@ -77,7 +77,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9080ce17d001a9947a6abb915a8d3788
+  - m_GUID: 7225508cbbaf083409958d27f8bdc027
     m_Address: SkillIconPassiveHeal
     m_ReadOnly: 0
     m_SerializedLabels: []
@@ -129,6 +129,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77ae5a82f4c2cd649870fb4e0fe4e726
     m_Address: SkillIconAttackSpeed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e3b99b7c979e864ea784f0c3c129fa5
+    m_Address: SkillIconMaxHealtUp
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

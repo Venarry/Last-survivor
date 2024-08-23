@@ -125,10 +125,8 @@ public class HealthModel
             }
         }
 
-        Debug.Log($"max {MaxValue}  multi {healthMultiplier}");
         float healthWithoutIncrease = MaxValue * healthMultiplier - (MaxValue - startMaxHealth) * healthMultiplier;
 
-        Debug.Log($"{Value} {MaxValue}");
         HealthChanged?.Invoke();
     }
 }

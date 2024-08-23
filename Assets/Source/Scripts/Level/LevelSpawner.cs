@@ -72,7 +72,7 @@ public class LevelSpawner : MonoBehaviour
 
         float healthPerTotalWave = _levelsStatistic.TotalLevel + 1;
         float healthPerCurrentWave;
-        float healthPerCurrentWaveMultiplier = 2;
+        float healthPerCurrentWaveMultiplier = 3;
 
         if (_levelsStatistic.NextWave != 0)
         {

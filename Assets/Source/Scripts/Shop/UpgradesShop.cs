@@ -21,18 +21,18 @@ public class UpgradesShop : MonoBehaviour
     {
         [typeof(DamageForEnemyUpgrade)] = new()
         {
-            [LootType.Wood] = 4,
+            [LootType.Wood] = 15,
         },
 
         [typeof(DamageForWoodUpgrade)] = new()
         {
-            [LootType.Wood] = 4,
+            [LootType.Wood] = 15,
         },
 
         [typeof(DamageForOreUpgrade)] = new()
         {
-            [LootType.Diamond] = 2,
-            [LootType.Wood] = 4,
+            [LootType.Diamond] = 4,
+            [LootType.Wood] = 15,
         },
     };
 

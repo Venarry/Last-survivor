@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class HealthModel
 {
@@ -24,7 +23,6 @@ public class HealthModel
 
     public float Value { get; private set; }
     public float MaxValue { get; private set; }
-
     public float HealthNormalized => (float)Value / MaxValue;
 
     public event Action HealthChanged;
@@ -36,37 +34,13 @@ public class HealthModel
         HealthChanged?.Invoke();
     }
 
-    public void SetHealth(float value)
-    {
-        if (value < 0)
-        {
-            value = 0;
-        }
-
-        Value = value;
-        HealthChanged?.Invoke();
-
-        if (Value <= 0)
-            HealthOver?.Invoke();
-    }
-
-    public void AddMaxHealh(float value, bool increaseCurrentHealth)
-    {
-        SetMaxHealth(MaxValue + value);
-
-        if (increaseCurrentHealth == false)
-            return;
-
-        Value += value;
-        HealthChanged?.Invoke();
-    }
-
     public void SetMaxHealth(float value)
     {
         if (value < 1)
             value = 1;
 
         _baseMaxValue = value;
+        ApplyMaxHealth();
     }
 
     public void TakeDamage(float value)
@@ -108,6 +82,9 @@ public class HealthModel
         Value = MaxValue * healthMultiplier;
 
         IMaxHealthBuff[] buffs = _characterBuffsModel.GetBuffs<IMaxHealthBuff>();
+
+        if (buffs.Length == 0)
+            return;
 
         foreach (IMaxHealthBuff buff in buffs)
         {

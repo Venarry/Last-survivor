@@ -132,8 +132,8 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
 
-        inventoryModel.Add(LootType.Wood, 2700);
-        inventoryModel.Add(LootType.Diamond, 160);
+        inventoryModel.Add(LootType.Wood, 700);
+        inventoryModel.Add(LootType.Diamond, 80);
     }
 
     private async Task<IInputProvider> GetInputProvider()

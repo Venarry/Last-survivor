@@ -14,12 +14,12 @@ public class ItemPriceFactory
 
     public async Task Load()
     {
-        await _assetsProvider.LoadGameObject<ItemPrice>(AssetsKeys.ItemPrice);
+        await _assetsProvider.LoadGameObject<ItemPriceView>(AssetsKeys.ItemPrice);
     }
 
-    public async Task<ItemPrice> Create(LootType lootType, Transform parent)
+    public async Task<ItemPriceView> Create(LootType lootType, Transform parent)
     {
-        ItemPrice itemPrice = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemPrice>(AssetsKeys.ItemPrice), parent);
+        ItemPriceView itemPrice = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemPriceView>(AssetsKeys.ItemPrice), parent);
 
         Sprite sprite = _spritesDataSouce.Get(lootType);
         itemPrice.SetIcon(sprite);

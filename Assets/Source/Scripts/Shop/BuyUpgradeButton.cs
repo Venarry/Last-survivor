@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public abstract class BuyUpgradeButton : MonoBehaviour
@@ -14,7 +12,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
     private Dictionary<LootType, int> _basePrice;
     private InventoryModel _inventoryModel;
-    private readonly Dictionary<LootType, ItemPrice> _priceView = new();
+    private readonly Dictionary<LootType, ItemPriceView> _priceView = new();
     private ItemPriceFactory _itemPriceFactory;
     private int _buyCount;
 
@@ -64,7 +62,8 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         {
             int minLootCount = 2;
             int lootCount = Mathf.Max(baseLootPrice.Value, minLootCount);
-            int lootPrice = (int)Mathf.Pow(lootCount, _buyCount + 1);
+            //int lootPrice = (int)Mathf.Pow(lootCount, _buyCount + 1);
+            int lootPrice = (int)Mathf.Ceil(lootCount * (_buyCount + 1) * GameParamenters.PriceMultiplier);
             targetPrice.Add(baseLootPrice.Key, lootPrice);
         }
 
@@ -77,7 +76,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         {
             if (_priceView.ContainsKey(currentLoot.Key) == false)
             {
-                ItemPrice itemPrice = await _itemPriceFactory.Create(currentLoot.Key, _priceParent);
+                ItemPriceView itemPrice = await _itemPriceFactory.Create(currentLoot.Key, _priceParent);
                 _priceView.Add(currentLoot.Key, itemPrice);
             }
 

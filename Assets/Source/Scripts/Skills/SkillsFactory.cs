@@ -26,9 +26,9 @@ public class SkillsFactory
         _skills = new()
         {
             CreateSwordRoundAttackSkill,
-            //CreateCritAttackSkill,
-            //CreateSplashSkill,
-            //CreatePassiveHealSkill,
+            CreateCritAttackSkill,
+            CreateSplashSkill,
+            CreatePassiveHealSkill,
             CreateAttackSpeedSkill,
             CreateMaxHealthUpSkill,
         };

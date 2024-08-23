@@ -4,7 +4,7 @@
     private float _damage = 0;
 
     protected abstract DamageBuff DamageBuff { get; }
-    protected virtual float DamagePerLevel { get; } = 0.3f;
+    protected virtual float DamagePerLevel { get; } = 0.1f;
 
     public DamageUpgrade(CharacterBuffsModel characterBuffsModel)
     {

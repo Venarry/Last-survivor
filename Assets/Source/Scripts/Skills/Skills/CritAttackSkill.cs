@@ -3,10 +3,10 @@ using UnityEngine;
 public class CritAttackSkill : SkillBehaviour
 {
     private float _critDamageMultiplier = 1.5f;
-    private float _critDamageMultiplierForLevel = 0.5f;
+    private float _critDamageMultiplierPerLevel = 0.1f;
 
     private float _critChance = 30;
-    private float _critChanceForLevel = 5;
+    private float _critChancePerLevel = 5;
 
     private readonly PlayerAttackHandler _playerAttackHandler;
 
@@ -33,8 +33,8 @@ public class CritAttackSkill : SkillBehaviour
         if (CurrentLevel <= 1)
             return;
 
-        _critDamageMultiplier += _critDamageMultiplierForLevel;
-        _critChance += _critChanceForLevel;
+        _critDamageMultiplier += _critDamageMultiplierPerLevel;
+        _critChance += _critChancePerLevel;
     }
 
     private void OnAttackBegin(Target target, float damage)
@@ -60,8 +60,8 @@ public class CritAttackSkill : SkillBehaviour
 
         if (CurrentLevel > 0)
         {
-            critDamageUpgradeText = $"(+{GameParamenters.TextColorStart}{_critDamageMultiplierForLevel * 100}%{GameParamenters.TextColorEnd})";
-            critChanceUpgradeText = $"(+{GameParamenters.TextColorStart}{_critChanceForLevel}%{GameParamenters.TextColorEnd})";
+            critDamageUpgradeText = $"(+{GameParamenters.TextColorStart}{_critDamageMultiplierPerLevel * 100}%{GameParamenters.TextColorEnd})";
+            critChanceUpgradeText = $"(+{GameParamenters.TextColorStart}{_critChancePerLevel}%{GameParamenters.TextColorEnd})";
         }
 
         return $"Crit damage {_critDamageMultiplier * 100}% {critDamageUpgradeText}\n" +

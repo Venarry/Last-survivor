@@ -1,7 +1,8 @@
 public class GameParamenters
 {
-    public const int BaseExperienceForNextLevel = 20;
-    public const float ExperienceMultiplier = 1f;
+    public const int BaseExperienceForNextLevel = 30;
+    public const float ExperienceMultiplier = 0.9f;
+    public const float PriceMultiplier = 1.1f;
 
     public const int SkillsToChooseByLevel = 3;
     public const int SpawnedMapBufferCount = 3;

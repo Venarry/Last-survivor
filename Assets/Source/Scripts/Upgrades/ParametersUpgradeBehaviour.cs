@@ -1,6 +1,6 @@
 ﻿public abstract class ParametersUpgradeBehaviour : IUpgrade
 {
-    public int MaxLevel { get; private set; } = 5;
+    public int MaxLevel { get; private set; } = int.MaxValue;
     public int CurrentLevel { get; private set; } = 0;
     public SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public bool HasCooldown => false;

@@ -64,5 +64,7 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     {
         _healthModel.SetMaxHealth(health);
         _healthModel.Restore();
+
+        Debug.Log($"Target health = {_healthModel.Value}, {health} needed {gameObject.name}");
     }
 }

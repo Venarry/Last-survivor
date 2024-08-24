@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class CharacterAttackHandler : MonoBehaviour
 {
+    [SerializeField] private PlayerWeapon _swordPrefab;
+    [SerializeField] private PlayerWeapon _axePrefab;
+    [SerializeField] private PlayerWeapon _pickaxePrefab;
+
     private float _timeLeft = 0;
     private CharacterAttackParameters _characterAttackParameters;
-    private Dictionary<TargetType, Action<Target>> _playerViewAttackTypes;
+    private Dictionary<TargetType, Func<float, PlayerWeapon>> _playerViewAttackTypes;
     private Coroutine _activeAttack;
 
     public event Action<float> AttackBegin;
@@ -31,11 +35,6 @@ public class CharacterAttackHandler : MonoBehaviour
 
     private void Update()
     {
-        if (_activeAttack != null)
-        {
-            return;
-        }
-
         _timeLeft += Time.deltaTime;
     }
 
@@ -53,25 +52,7 @@ public class CharacterAttackHandler : MonoBehaviour
 
         if (_timeLeft >= attackCooldown)
         {
-            float damage;
-
-            switch (target.TargetType)
-            {
-                case TargetType.Enemy:
-                    damage = _characterAttackParameters.EnemyDamage;
-                    break;
-
-                case TargetType.Wood:
-                    damage = _characterAttackParameters.WoodDamage;
-                    break;
-
-                case TargetType.Ore:
-                    damage = _characterAttackParameters.OreDamage;
-                    break;
-
-                default:
-                    return;
-            }
+            float damage = _characterAttackParameters.GetDamage(target.TargetType);
 
             _activeAttack = StartCoroutine(AttackWithResetTimeLeft(target, damage));
         }
@@ -79,8 +60,8 @@ public class CharacterAttackHandler : MonoBehaviour
 
     public IEnumerator AttackWithResetTimeLeft(Target target, float damage)
     {
-        _playerViewAttackTypes[target.TargetType](target);
         float attackDelay = _characterAttackParameters.AttackDelay;
+        PlayerWeapon weapon = _playerViewAttackTypes[target.TargetType](attackDelay);
         AttackBegin?.Invoke(attackDelay);
 
         yield return new WaitForSeconds(attackDelay);
@@ -92,15 +73,17 @@ public class CharacterAttackHandler : MonoBehaviour
         _activeAttack = null;
     }
 
-    private void AttackEnemy(Target target)
-    {
-    }
+    private PlayerWeapon AttackEnemy(float duration) => CreateWeapon(_axePrefab, duration);
 
-    private void AttackWood(Target target)
+    private PlayerWeapon AttackWood(float duration) => CreateWeapon(_axePrefab, duration);
+
+    private PlayerWeapon AttackOre(float duration) => CreateWeapon(_axePrefab, duration);
+
+    private PlayerWeapon CreateWeapon(PlayerWeapon prefab, float duration)
     {
-    }
-    
-    private void AttackOre(Target target)
-    {
+        PlayerWeapon playerWeapon = Instantiate(prefab, transform.position, Quaternion.identity);
+        playerWeapon.Init(duration, transform);
+
+        return playerWeapon;
     }
 }

@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackHandler : MonoBehaviour
+public class CharacterAttackHandler : MonoBehaviour
 {
     private float _timeLeft = 0;
     private CharacterAttackParameters _characterAttackParameters;
     private Dictionary<TargetType, Action<Target>> _playerViewAttackTypes;
+    private Coroutine _activeAttack;
 
-    public event Action<Target, float> AttackBegin;
-    public event Action<Target, float> Attacked;
+    public event Action<float> AttackBegin;
+    public event Action<Target, float> AttackEnd;
 
     private void Awake()
     {
@@ -29,6 +31,11 @@ public class PlayerAttackHandler : MonoBehaviour
 
     private void Update()
     {
+        if (_activeAttack != null)
+        {
+            return;
+        }
+
         _timeLeft += Time.deltaTime;
     }
 
@@ -38,6 +45,11 @@ public class PlayerAttackHandler : MonoBehaviour
             return;
 
         float attackCooldown = _characterAttackParameters.AttackCooldown;
+
+        if(_activeAttack != null)
+        {
+            return;
+        }
 
         if (_timeLeft >= attackCooldown)
         {
@@ -60,19 +72,24 @@ public class PlayerAttackHandler : MonoBehaviour
                 default:
                     return;
             }
-        
-            AttackBegin?.Invoke(target, damage);
-            AttackWithResetTimeLeft(target, damage);
+
+            _activeAttack = StartCoroutine(AttackWithResetTimeLeft(target, damage));
         }
     }
 
-    public void AttackWithResetTimeLeft(Target target, float damage)
+    public IEnumerator AttackWithResetTimeLeft(Target target, float damage)
     {
         _playerViewAttackTypes[target.TargetType](target);
+        float attackDelay = _characterAttackParameters.AttackDelay;
+        AttackBegin?.Invoke(attackDelay);
+
+        yield return new WaitForSeconds(attackDelay);
+
         target.TakeDamage(damage);
         _timeLeft = 0;
 
-        Attacked?.Invoke(target, damage);
+        AttackEnd?.Invoke(target, damage);
+        _activeAttack = null;
     }
 
     private void AttackEnemy(Target target)

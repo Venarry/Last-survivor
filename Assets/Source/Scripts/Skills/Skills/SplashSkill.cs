@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class SplashSkill : SkillBehaviour
 {
-    private PlayerAttackHandler _playerAttackHandler;
+    private CharacterAttackHandler _playerAttackHandler;
     private TargetsProvider _targetsProvider;
     private readonly float _splashAngle = 90;
     private readonly float _splashDistance = 6;
     private readonly float _splashDamageMultiplierForLevel = 0.1f;
     private float _splashDamageMultiplier = 0.4f;
 
-    public SplashSkill(PlayerAttackHandler playerAttackHandler, TargetsProvider targetsProvider)
+    public SplashSkill(CharacterAttackHandler playerAttackHandler, TargetsProvider targetsProvider)
     {
         _playerAttackHandler = playerAttackHandler;
         _targetsProvider = targetsProvider;
@@ -21,12 +21,12 @@ public class SplashSkill : SkillBehaviour
 
     public override void Apply()
     {
-        _playerAttackHandler.Attacked += OnAttack;
+        _playerAttackHandler.AttackEnd += OnAttack;
     }
 
     public override void Disable()
     {
-        _playerAttackHandler.Attacked -= OnAttack;
+        _playerAttackHandler.AttackEnd -= OnAttack;
     }
 
     protected override void OnLevelAdd()

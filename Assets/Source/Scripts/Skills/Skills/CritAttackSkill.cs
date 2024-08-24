@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class CritAttackSkill : SkillBehaviour
 {
-    private float _critDamageMultiplier = 1.5f;
-    private float _critDamageMultiplierPerLevel = 0.1f;
+    private float _critDamageMultiplier = 1.3f;
+    private float _critDamageMultiplierPerLevel = 0.2f;
 
-    private float _critChance = 30;
-    private float _critChancePerLevel = 5;
+    private float _critChance = 20;
+    private float _critChancePerLevel = 10;
 
-    private readonly PlayerAttackHandler _playerAttackHandler;
+    private readonly CharacterAttackHandler _playerAttackHandler;
 
-    public CritAttackSkill(PlayerAttackHandler playerAttackHandler)
+    public CritAttackSkill(CharacterAttackHandler playerAttackHandler)
     {
         _playerAttackHandler = playerAttackHandler;
     }
@@ -20,12 +20,12 @@ public class CritAttackSkill : SkillBehaviour
 
     public override void Apply()
     {
-        _playerAttackHandler.AttackBegin += OnAttackBegin;
+        //_playerAttackHandler.AttackBegin += OnAttackBegin;
     }
 
     public override void Disable()
     {
-        _playerAttackHandler.AttackBegin -= OnAttackBegin;
+        //_playerAttackHandler.AttackBegin -= OnAttackBegin;
     }
 
     protected override void OnLevelAdd()

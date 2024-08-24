@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ThirdPersonRotation))]
 [RequireComponent(typeof(TargetSearcher))]
 [RequireComponent(typeof(InventroyView))]
-[RequireComponent(typeof(PlayerAttackHandler))]
+[RequireComponent(typeof(CharacterAttackHandler))]
 [RequireComponent(typeof(PlayerAttackStateMachine))]
 [RequireComponent(typeof(ExperienceView))]
 [RequireComponent(typeof(PlayerLootHolder))]
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     private PlayerHealthOverReaction _healthOverReaction;
     private CharacterSkillsView _characterSkillsView;
 
-    public PlayerAttackHandler AttackHandler { get; private set; }
+    public CharacterAttackHandler AttackHandler { get; private set; }
     public TargetSearcher TargetSearcher { get; private set; }
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         _thirdPersonMovement = GetComponent<ThirdPersonMovement>();
         _thirdPersonRotation = GetComponent<ThirdPersonRotation>();
         TargetSearcher = GetComponent<TargetSearcher>();
-        AttackHandler = GetComponent<PlayerAttackHandler>();
+        AttackHandler = GetComponent<CharacterAttackHandler>();
         _inventroyView = GetComponent<InventroyView>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
         _experienceView = GetComponent<ExperienceView>();

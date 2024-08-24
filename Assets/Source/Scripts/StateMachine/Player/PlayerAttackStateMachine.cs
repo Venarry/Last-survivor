@@ -6,7 +6,7 @@ public class PlayerAttackStateMachine : StateMachine, IPlayerAttackStateSwitcher
     public void Init(
         TargetSearcher targetSearcher,
         ThirdPersonRotation thirdPersonRotation,
-        PlayerAttackHandler playerAttackHandler,
+        CharacterAttackHandler playerAttackHandler,
         IPlayerAttackStateSwitcher playerAttackStateSwitcher)
     {
         _playerTargetSearchState = new(targetSearcher, playerAttackStateSwitcher);

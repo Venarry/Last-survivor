@@ -77,7 +77,7 @@ public class CharacterAttackHandler : MonoBehaviour
 
     private PlayerWeapon AttackWood(float duration) => CreateWeapon(_axePrefab, duration);
 
-    private PlayerWeapon AttackOre(float duration) => CreateWeapon(_axePrefab, duration);
+    private PlayerWeapon AttackOre(float duration) => CreateWeapon(_pickaxePrefab, duration);
 
     private PlayerWeapon CreateWeapon(PlayerWeapon prefab, float duration)
     {

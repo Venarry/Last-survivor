@@ -933,7 +933,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _swordPrefab: {fileID: 0}
   _axePrefab: {fileID: 1824924056232191725, guid: 08b08dfa156cb564fab105513371adb2, type: 3}
-  _pickaxePrefab: {fileID: 1824924056232191725, guid: 08b08dfa156cb564fab105513371adb2, type: 3}
+  _pickaxePrefab: {fileID: 1824924056232191725, guid: 3f70efae8422cd34493902f41f93b2d5, type: 3}
 --- !u!114 &8006311808137310505
 MonoBehaviour:
   m_ObjectHideFlags: 0

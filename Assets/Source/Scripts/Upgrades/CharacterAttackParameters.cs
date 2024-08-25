@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterAttackParameters
 {
+    public const float PlayerAttackDelayDivider = 1.2f; // 1.2
+
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly Dictionary<TargetType, Func<float>> _damages;
 
@@ -22,14 +24,14 @@ public class CharacterAttackParameters
     private readonly float _baseEnemyDamage = 1;
     private readonly float _baseWoodDamage = 1;
     private readonly float _baseOreDamage = 1;
-    private readonly float _baseAttackCooldown = 0.3f;
+    private readonly float _baseAttackCooldown = 0.3f; // 0.3f
     private readonly float _baseAttackRange = 3;
 
     public float EnemyDamage => ApplyDamage(_baseEnemyDamage, TargetType.Enemy);
     public float WoodDamage => ApplyDamage(_baseWoodDamage, TargetType.Wood);
     public float OreDamage => ApplyDamage(_baseOreDamage, TargetType.Ore);
     public float AttackCooldown => ApplyAttackCooldown();
-    public float AttackDelay => AttackCooldown / GameParamenters.PlayerAttackDelayDivider;
+    public float AttackDelay => AttackCooldown / PlayerAttackDelayDivider;
     public float AttackRange => _baseAttackRange;
 
     public float GetDamage(TargetType targetType) => _damages[targetType]();

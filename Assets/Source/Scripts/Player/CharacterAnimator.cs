@@ -14,12 +14,11 @@ public class CharacterAnimator : MonoBehaviour
     private string _animationNameIdle = "FightIdle";
     private string _animationNameAttack = "Attack";
 
-    private Vector3 _previousDirection = Vector3.zero;
     private string _currentAnimation;
     private bool _isAttacking;
     private bool _canMove;
     private float _defaultAnimationSpeed = 1f;
-    private Coroutine _attackAnimationSpeed;
+    private Coroutine _attackAnimationCoroutine;
 
     private float AnimationAttackPoint => _animationAttack.length * AnimationAttackPointPercent;
     private Vector3 MoveDirection => new(_thirdPersonMovement.Direction.x, 0, _thirdPersonMovement.Direction.z);
@@ -29,18 +28,13 @@ public class CharacterAnimator : MonoBehaviour
         if(MoveDirection != Vector3.zero && _isAttacking == false)
         {
             _canMove = true;
-            ResetAttackAnimationSpeed();
+            ResetAttackAnimation();
         }
 
         if (_canMove == true)
         {
-            if (MoveDirection != _previousDirection)
-            {
-                SetMoveAnimation();
-            }
+            SetMoveAnimation();
         }
-
-        _previousDirection = MoveDirection;
     }
 
     private void OnEnable()
@@ -57,14 +51,14 @@ public class CharacterAnimator : MonoBehaviour
 
     private void OnAttackBegin(float attackDelay)
     {
-        Debug.Log("attack");
+        ResetAttackAnimation();
         ChangeAnimation(_animationNameAttack, canRepeat: true);
-        ResetAttackAnimationSpeed();
 
         float animationSpeed = AnimationAttackPoint / attackDelay;
         _animator.speed = animationSpeed;
 
-        _attackAnimationSpeed = StartCoroutine(ApplyAttackAnimationSpeed(_animationAttack.length / animationSpeed));
+        float animationDuration = _animationAttack.length / animationSpeed;
+        _attackAnimationCoroutine = StartCoroutine(ApplyAttackAnimation(animationDuration));
 
         _isAttacking = true;
         _canMove = false;
@@ -84,27 +78,26 @@ public class CharacterAnimator : MonoBehaviour
         _currentAnimation = name;
     }
 
-    private IEnumerator ApplyAttackAnimationSpeed(float duration)
+    private IEnumerator ApplyAttackAnimation(float duration)
     {
         yield return new WaitForSeconds(duration);
 
-        ResetAttackAnimationSpeed();
+        ResetAttackAnimation();
     }
 
-    private void ResetAttackAnimationSpeed()
+    private void ResetAttackAnimation()
     {
-        if (_attackAnimationSpeed != null)
+        if (_attackAnimationCoroutine != null)
         {
-            StopCoroutine(_attackAnimationSpeed);
+            StopCoroutine(_attackAnimationCoroutine);
             _animator.speed = _defaultAnimationSpeed;
-            _attackAnimationSpeed = null;
+            _attackAnimationCoroutine = null;
             SetMoveAnimation();
         }
     }
 
     private void SetMoveAnimation()
     {
-        Debug.Log("Move");
         if (MoveDirection == Vector3.zero)
         {
             ChangeAnimation(_animationNameIdle, transitionDuration: 0.1f);

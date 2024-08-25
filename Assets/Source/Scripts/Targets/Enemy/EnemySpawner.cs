@@ -59,8 +59,8 @@ public class EnemySpawner
 
     private IEnumerator SpawningEnemy()
     {
-        float health = 3 + _levelsStatistic.TotalLevel;
-        float damage = 1 + (_levelsStatistic.TotalLevel * GameParamenters.EnemyDamageperLevelMultiplier);
+        float health = 3 + _levelsStatistic.TotalLevel + _levelsStatistic.CurrentLevel * 3;
+        float damage = 1 + (_levelsStatistic.CurrentLevel * GameParamenters.EnemyDamageperLevelMultiplier);
 
         float offsetX = Random.Range(-5f, 5f);
         float offsetZ = Random.Range(-2f, -5f);

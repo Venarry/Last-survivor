@@ -63,7 +63,9 @@ public abstract class BuyUpgradeButton : MonoBehaviour
             int minLootCount = 2;
             int lootCount = Mathf.Max(baseLootPrice.Value, minLootCount);
             //int lootPrice = (int)Mathf.Pow(lootCount, _buyCount + 1);
-            int lootPrice = (int)Mathf.Ceil(lootCount * (_buyCount + 1) * GameParamenters.PriceMultiplier);
+            float defaultLootPrice = lootCount * (_buyCount + 1);
+            //int lootPrice = (int)Mathf.Ceil(defaultLootPrice * GameParamenters.PriceMultiplier);
+            int lootPrice = (int)Mathf.Ceil(defaultLootPrice + Mathf.Pow(defaultLootPrice, 1.4f) * GameParamenters.PriceMultiplier);
             targetPrice.Add(baseLootPrice.Key, lootPrice);
         }
 

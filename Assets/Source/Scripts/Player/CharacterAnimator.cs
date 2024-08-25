@@ -22,35 +22,25 @@ public class CharacterAnimator : MonoBehaviour
     private Coroutine _attackAnimationSpeed;
 
     private float AnimationAttackPoint => _animationAttack.length * AnimationAttackPointPercent;
+    private Vector3 MoveDirection => new(_thirdPersonMovement.Direction.x, 0, _thirdPersonMovement.Direction.z);
 
     private void Update()
     {
-        Vector3 currentDirection = new(_thirdPersonMovement.Direction.x, 0, _thirdPersonMovement.Direction.z);
-
-        if(currentDirection != Vector3.zero && _isAttacking == false)
+        if(MoveDirection != Vector3.zero && _isAttacking == false)
         {
             _canMove = true;
             ResetAttackAnimationSpeed();
         }
 
-        if (_canMove == false)
-            return;
-
-        _animator.speed = _defaultAnimationSpeed;
-
-        if (currentDirection != _previousDirection)
+        if (_canMove == true)
         {
-            if (currentDirection == Vector3.zero)
+            if (MoveDirection != _previousDirection)
             {
-                ChangeAnimation(_animationNameIdle, transitionDuration: 0.1f);
-            }
-            else
-            {
-                ChangeAnimation(_animationNameCrouch, transitionDuration: 0.1f);
+                SetMoveAnimation();
             }
         }
 
-        _previousDirection = currentDirection;
+        _previousDirection = MoveDirection;
     }
 
     private void OnEnable()
@@ -67,6 +57,7 @@ public class CharacterAnimator : MonoBehaviour
 
     private void OnAttackBegin(float attackDelay)
     {
+        Debug.Log("attack");
         ChangeAnimation(_animationNameAttack, canRepeat: true);
         ResetAttackAnimationSpeed();
 
@@ -90,14 +81,14 @@ public class CharacterAnimator : MonoBehaviour
             return;
 
         _animator.CrossFade(name, transitionDuration);
+        _currentAnimation = name;
     }
 
     private IEnumerator ApplyAttackAnimationSpeed(float duration)
     {
         yield return new WaitForSeconds(duration);
 
-        _animator.speed = _defaultAnimationSpeed;
-        _attackAnimationSpeed = null;
+        ResetAttackAnimationSpeed();
     }
 
     private void ResetAttackAnimationSpeed()
@@ -107,6 +98,20 @@ public class CharacterAnimator : MonoBehaviour
             StopCoroutine(_attackAnimationSpeed);
             _animator.speed = _defaultAnimationSpeed;
             _attackAnimationSpeed = null;
+            SetMoveAnimation();
+        }
+    }
+
+    private void SetMoveAnimation()
+    {
+        Debug.Log("Move");
+        if (MoveDirection == Vector3.zero)
+        {
+            ChangeAnimation(_animationNameIdle, transitionDuration: 0.1f);
+        }
+        else
+        {
+            ChangeAnimation(_animationNameCrouch, transitionDuration: 0.1f);
         }
     }
 }

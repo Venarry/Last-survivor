@@ -38,7 +38,7 @@ public class SkillsFactory
         new(_roundSwordFactory, _player.transform, _player.TargetSearcher);
 
     public CritAttackSkill CreateCritAttackSkill() =>
-        new(_player.AttackHandler);
+        new(_characterBuffsModel);
 
     public SplashSkill CreateSplashSkill() =>
         new(_player.AttackHandler, _targetsProvider);

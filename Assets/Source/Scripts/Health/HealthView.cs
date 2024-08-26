@@ -6,9 +6,15 @@ public class HealthView : MonoBehaviour
 {
     [SerializeField] private Image _healthBar;
 
+    private DamageIndicator _damageIndicator;
     private HealthModel _healthModel;
 
     public event Action HealthOver;
+
+    private void Awake()
+    {
+        _damageIndicator = GetComponent<DamageIndicator>();
+    }
 
     public void Init(HealthModel healthModel)
     {
@@ -16,8 +22,14 @@ public class HealthView : MonoBehaviour
 
         _healthModel.HealthChanged += OnHealthChange;
         _healthModel.HealthOver += OnHealthOver;
+        _healthModel.DamageReceived += OnDamageReceive;
 
         OnHealthChange();
+    }
+
+    private void OnDamageReceive()
+    {
+        _damageIndicator?.Shake();
     }
 
     public void TakeDamage(float count)

@@ -1,18 +1,17 @@
-using UnityEngine;
-
 public class CritAttackSkill : SkillBehaviour
 {
+    private readonly CharacterBuffsModel _characterBuffsModel;
+    private readonly CritDamageBuff _critDamageBuff = new();
+
+    private readonly float _critDamageMultiplierPerLevel = 0.2f;
+    private readonly float _critChancePerLevel = 10;
+
     private float _critDamageMultiplier = 1.3f;
-    private float _critDamageMultiplierPerLevel = 0.2f;
-
     private float _critChance = 20;
-    private float _critChancePerLevel = 10;
 
-    private readonly CharacterAttackHandler _playerAttackHandler;
-
-    public CritAttackSkill(CharacterAttackHandler playerAttackHandler)
+    public CritAttackSkill(CharacterBuffsModel characterBuffsModel)
     {
-        _playerAttackHandler = playerAttackHandler;
+        _characterBuffsModel = characterBuffsModel;
     }
 
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
@@ -20,12 +19,13 @@ public class CritAttackSkill : SkillBehaviour
 
     public override void Apply()
     {
-        //_playerAttackHandler.AttackBegin += OnAttackBegin;
+        _characterBuffsModel.Add(_critDamageBuff);
+        _critDamageBuff.SetParameters(_critDamageMultiplier, _critChance);
     }
 
     public override void Disable()
     {
-        //_playerAttackHandler.AttackBegin -= OnAttackBegin;
+        _characterBuffsModel.Remove(_critDamageBuff);
     }
 
     protected override void OnLevelAdd()
@@ -35,22 +35,8 @@ public class CritAttackSkill : SkillBehaviour
 
         _critDamageMultiplier += _critDamageMultiplierPerLevel;
         _critChance += _critChancePerLevel;
-    }
 
-    private void OnAttackBegin(Target target, float damage)
-    {
-        if (TryAttackWithCrit() == true)
-        {
-            float critDamage = damage * _critDamageMultiplier;
-            _playerAttackHandler.AttackWithResetTimeLeft(target, critDamage);
-        }
-    }
-
-    private bool TryAttackWithCrit()
-    {
-        int roll = Random.Range(0, 101);
-
-        return _critChance >= roll;
+        _critDamageBuff.SetParameters(_critDamageMultiplier, _critChance);
     }
 
     public override string GetUpLevelDescription() 

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3528315976075890925}
   - component: {fileID: 4066302369579559869}
   - component: {fileID: 5031590401893312492}
+  - component: {fileID: 4721516260020979703}
   m_Layer: 0
   m_Name: Diamond
   m_TagString: Untagged
@@ -97,6 +98,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isFriendly: 0
+--- !u!114 &4721516260020979703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954777449557193973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aab10bff47309947a96454c3102a790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeTarget: {fileID: 6935423851269514095}
 --- !u!1001 &3605967852534276612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,6 +119,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8455231145084790314}
     m_Modifications:
+    - target: {fileID: 1234478240954871937, guid: a47c06453dc57fa47acc987ca702f7ed, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234478240954871937, guid: a47c06453dc57fa47acc987ca702f7ed, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3964035420249763091, guid: a47c06453dc57fa47acc987ca702f7ed, type: 3}
       propertyPath: m_Name
       value: TargetCanvas

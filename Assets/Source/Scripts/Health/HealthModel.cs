@@ -26,6 +26,7 @@ public class HealthModel
     public float HealthNormalized => (float)Value / MaxValue;
 
     public event Action HealthChanged;
+    public event Action DamageReceived;
     public event Action HealthOver;
 
     public void Restore()
@@ -53,6 +54,7 @@ public class HealthModel
 
         Value -= value;
         HealthChanged?.Invoke();
+        DamageReceived?.Invoke();
 
         if (Value <= 0)
         {

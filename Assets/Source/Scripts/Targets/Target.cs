@@ -41,7 +41,7 @@ public class Target : MonoBehaviour, IPoolObject<Target>
 
     public void TakeDamage(float damage)
     {
-        _healthView.TakeDamage(damage);
+        _healthModel.TakeDamage(damage);
     }
 
     public void PlaceInPool()
@@ -64,7 +64,5 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     {
         _healthModel.SetMaxHealth(health);
         _healthModel.Restore();
-
-        Debug.Log($"Target health = {_healthModel.Value}, {health} needed {gameObject.name}");
     }
 }

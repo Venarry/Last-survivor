@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterAttackHandler : MonoBehaviour
@@ -11,6 +12,7 @@ public class CharacterAttackHandler : MonoBehaviour
 
     private float _timeLeft = 0;
     private CharacterAttackParameters _characterAttackParameters;
+    private CharacterBuffsModel _characterBuffsModel;
     private Dictionary<TargetType, Func<float, PlayerWeapon>> _playerViewAttackTypes;
     private Coroutine _activeAttack;
 
@@ -27,9 +29,11 @@ public class CharacterAttackHandler : MonoBehaviour
         };
     }
 
-    public void Init(CharacterAttackParameters characterAttackParameters)
+    public void Init(CharacterAttackParameters characterAttackParameters, CharacterBuffsModel characterBuffsModel)
     {
         _characterAttackParameters = characterAttackParameters;
+        _characterBuffsModel = characterBuffsModel;
+
         _timeLeft = _characterAttackParameters.AttackCooldown;
     }
 
@@ -66,7 +70,19 @@ public class CharacterAttackHandler : MonoBehaviour
 
         yield return new WaitForSeconds(attackDelay);
 
-        target.TakeDamage(damage);
+        ICritDamageBuff[] critDamageBuffs = _characterBuffsModel.GetBuffs<ICritDamageBuff>();
+        critDamageBuffs = critDamageBuffs.OrderBy(c => c.DamageMultiplier).ToArray();
+        float buffedDamage = damage;
+
+        foreach (ICritDamageBuff buff in critDamageBuffs)
+        {
+            if(buff.TryGetCrit(damage, out buffedDamage) == true)
+            {
+                break;
+            }
+        }
+
+        target.TakeDamage(buffedDamage);
         _timeLeft = 0;
 
         AttackEnd?.Invoke(target, damage);

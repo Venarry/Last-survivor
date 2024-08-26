@@ -702,8 +702,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8568706875613776309}
   - component: {fileID: 4883166516279036973}
-  - component: {fileID: 3054929497815108457}
   - component: {fileID: 3167456572416402447}
+  - component: {fileID: 3054929497815108457}
   - component: {fileID: 3484879607318760594}
   - component: {fileID: 7836143132174488962}
   - component: {fileID: -1658016402348259575}
@@ -716,6 +716,7 @@ GameObject:
   - component: {fileID: 6602400875279511496}
   - component: {fileID: 1081765195313635527}
   - component: {fileID: 8006311808137310505}
+  - component: {fileID: 93789205756401839}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -767,19 +768,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &3054929497815108457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9089264288946607106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3112b924e81f8d4f9fe93b4e9fc0f6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 7
 --- !u!114 &3167456572416402447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,6 +781,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <DayBar>k__BackingField: {fileID: 283133470357356077}
+--- !u!114 &3054929497815108457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089264288946607106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3112b924e81f8d4f9fe93b4e9fc0f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 7
 --- !u!114 &3484879607318760594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,6 +951,19 @@ MonoBehaviour:
   _animator: {fileID: 4320112754038790099}
   _characterAttackHandler: {fileID: 1081765195313635527}
   _thirdPersonMovement: {fileID: 3054929497815108457}
+--- !u!114 &93789205756401839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089264288946607106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078e276fd9fc7bf4192245ea2f28308e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeTarget: {fileID: 2396196993848318239}
 --- !u!1001 &799611219023213629
 PrefabInstance:
   m_ObjectHideFlags: 0

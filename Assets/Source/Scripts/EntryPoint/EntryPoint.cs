@@ -80,7 +80,7 @@ public class EntryPoint : MonoBehaviour
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
         Player player = await playerFactory
-            .Create(new(0, 0, 5), experienceModel, healthModel, characterSkillsModel, inventoryModel, characterAttackParameters);
+            .Create(new(0, 0, 5), experienceModel, healthModel, characterBuffsModel, characterSkillsModel, inventoryModel, characterAttackParameters);
 
         player.SetBehaviour(false);
 
@@ -125,7 +125,7 @@ public class EntryPoint : MonoBehaviour
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
-        //_enemySpawner.StartSpawning();
+        _enemySpawner.StartSpawning();
 
         _mapGenerator.StartGenerator();
 

@@ -37,6 +37,7 @@ public class PlayerFactory
         Vector3 position,
         ExperienceModel experienceModel,
         HealthModel healthModel,
+        CharacterBuffsModel characterBuffsModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
         InventoryModel inventoryModel,
         CharacterAttackParameters characterAttackParameters)
@@ -53,6 +54,7 @@ public class PlayerFactory
             inventoryModel,
             experienceModel,
             healthModel,
+            characterBuffsModel,
             characterSkillsModel,
             _itemViewFactory,
             _skillsViewFactory,

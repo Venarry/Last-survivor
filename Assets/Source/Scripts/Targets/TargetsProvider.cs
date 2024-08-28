@@ -4,6 +4,7 @@ using UnityEngine;
 public class TargetsProvider
 {
     private readonly List<Target> _targets = new();
+    private RaycastHit[] _raycastHits = new RaycastHit[32];
 
     public Target[] Targets => _targets.ToArray();
 
@@ -43,5 +44,28 @@ public class TargetsProvider
         }
 
         return nearestTarget != null;
+    }
+
+    public bool TryGetRayTargets(Ray ray, float distance, out Target[] targets)
+    {
+        targets = new Target[0];
+        List<Target> listTargets = new();
+        int hitsCount = Physics.RaycastNonAlloc(ray, _raycastHits, distance);
+
+        if (hitsCount == 0)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < hitsCount; i++)
+        {
+            if (_raycastHits[i].collider.TryGetComponent(out Target target))
+            {
+                listTargets.Add(target);
+            }
+        }
+
+        targets = listTargets.ToArray();
+        return true;
     }
 }

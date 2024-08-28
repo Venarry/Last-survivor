@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(ThirdPersonMovement))]
 [RequireComponent(typeof(ThirdPersonRotation))]
-[RequireComponent(typeof(TargetSearcher))]
 [RequireComponent(typeof(InventroyView))]
 [RequireComponent(typeof(CharacterAttackHandler))]
 [RequireComponent(typeof(PlayerAttackStateMachine))]
@@ -25,7 +24,7 @@ public class Player : MonoBehaviour
     private CharacterSkillsView _characterSkillsView;
 
     public CharacterAttackHandler AttackHandler { get; private set; }
-    public TargetSearcher TargetSearcher { get; private set; }
+    public CharacterTargetSearcher TargetSearcher { get; private set; }
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
     public CharacterAttackParameters CharacterAttackParameters { get; private set; }
@@ -34,7 +33,6 @@ public class Player : MonoBehaviour
     {
         _thirdPersonMovement = GetComponent<ThirdPersonMovement>();
         _thirdPersonRotation = GetComponent<ThirdPersonRotation>();
-        TargetSearcher = GetComponent<TargetSearcher>();
         AttackHandler = GetComponent<CharacterAttackHandler>();
         _inventroyView = GetComponent<InventroyView>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
@@ -43,8 +41,6 @@ public class Player : MonoBehaviour
         LootHolder = GetComponent<PlayerLootHolder>();
         Target = GetComponent<Target>();
         _characterSkillsView = GetComponent<CharacterSkillsView>();
-
-        _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, AttackHandler, _playerAttackStateMachine);
     }
 
     public void Init(
@@ -64,7 +60,7 @@ public class Player : MonoBehaviour
     {
         _thirdPersonMovement.Init(inputProvider);
         _thirdPersonRotation.Init(inputProvider);
-        TargetSearcher.Init(targetsProvider);
+        TargetSearcher = new(transform, targetsProvider);
         _inventroyView.Init(inventoryModel, itemViewFactory, spritesDataSouce, lootParent);
         _experienceView.Init(experienceModel);
         _healthOverReaction.Init(healthModel);
@@ -73,6 +69,8 @@ public class Player : MonoBehaviour
         _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
 
         CharacterAttackParameters = characterAttackParameters;
+
+        _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, AttackHandler, _playerAttackStateMachine);
     }
 
     public void SetBehaviour(bool state)

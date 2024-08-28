@@ -5,6 +5,7 @@ public abstract class DamageIndicator : MonoBehaviour
 {
     [SerializeField] private Transform _shakeTarget;
     private float _defaultScale;
+    private Quaternion _defaultRotation;
 
     protected virtual float ShakeStrength { get; } = 1.0f;
     protected virtual float ScaleFactor { get; } = 1.2f;
@@ -15,6 +16,7 @@ public abstract class DamageIndicator : MonoBehaviour
         if(_shakeTarget != null)
         {
             _defaultScale = _shakeTarget.localScale.x;
+            _defaultRotation = _shakeTarget.localRotation;
         }
     }
 
@@ -49,31 +51,33 @@ public abstract class DamageIndicator : MonoBehaviour
     private IEnumerator ProcessRotation()
     {
         float tiltAngle = 15f;
-        Vector3 targetTilt = new(Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle));
+        Vector3 tilt = new(Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle));
         float timeLeft = 0;
-        float tiltpartDuration = Duration / 3;
+        float tiltPartDuration = Duration / 3;
 
         while (timeLeft < Duration)
         {
-            float lerpSpot = timeLeft / tiltpartDuration;
+            float lerpSpot = timeLeft / tiltPartDuration;
+            Quaternion targetTilt = _defaultRotation;
 
             switch (lerpSpot)
             {
                 case > 2:
                     lerpSpot = lerpSpot - 2;
-                    transform.rotation = Quaternion.Lerp(_shakeTarget.rotation, Quaternion.identity, lerpSpot);
+                    targetTilt = _defaultRotation;
                     break;
 
                 case > 1:
                     lerpSpot = lerpSpot - 1;
-                    transform.rotation = Quaternion.Lerp(_shakeTarget.rotation, Quaternion.Euler(-targetTilt * 0.5f), lerpSpot);
+                    targetTilt = Quaternion.Euler(-tilt * 0.5f);
                     break;
 
                 case > 0:
-                    transform.rotation = Quaternion.Lerp(_shakeTarget.rotation, Quaternion.Euler(targetTilt), lerpSpot);
+                    targetTilt = Quaternion.Euler(tilt);
                     break;
             }
-            Debug.Log(lerpSpot);
+
+            _shakeTarget.localRotation = Quaternion.Lerp(_shakeTarget.localRotation, targetTilt, lerpSpot);
             timeLeft += Time.deltaTime;
 
             yield return null;

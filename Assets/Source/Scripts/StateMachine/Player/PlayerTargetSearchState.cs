@@ -1,9 +1,9 @@
 public class PlayerTargetSearchState : IState
 {
-    private readonly TargetSearcher _targetSearcher;
+    private readonly CharacterTargetSearcher _targetSearcher;
     private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
 
-    public PlayerTargetSearchState(TargetSearcher targetSearcher, IPlayerAttackStateSwitcher playerAttackStateSwitcher)
+    public PlayerTargetSearchState(CharacterTargetSearcher targetSearcher, IPlayerAttackStateSwitcher playerAttackStateSwitcher)
     {
         _targetSearcher = targetSearcher;
         _playerAttackStateSwitcher = playerAttackStateSwitcher;

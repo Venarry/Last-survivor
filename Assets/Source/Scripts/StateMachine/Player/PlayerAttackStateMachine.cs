@@ -4,7 +4,7 @@ public class PlayerAttackStateMachine : StateMachine, IPlayerAttackStateSwitcher
     private PlayerAttackState _playerAttackState;
 
     public void Init(
-        TargetSearcher targetSearcher,
+        CharacterTargetSearcher targetSearcher,
         ThirdPersonRotation thirdPersonRotation,
         CharacterAttackHandler playerAttackHandler,
         IPlayerAttackStateSwitcher playerAttackStateSwitcher)

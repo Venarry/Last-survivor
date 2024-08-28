@@ -78,3 +78,39 @@ public class SplashSkill : SkillBehaviour
         $"Splash damage {_splashDamageMultiplier * 100}% {splashDamageText}";
     }
 }
+
+public class ThrowingAxesSkill : SkillBehaviour
+{
+    private float _damageMultiplier = 0.6f;
+    public override SkillTickType SkillTickType => SkillTickType.EveryTick;
+    public override bool HasCooldown => false;
+
+    public override void Apply()
+    {
+
+    }
+
+    protected override void OnLevelAdd()
+    {
+    }
+
+    public override string GetUpLevelDescription()
+    {
+        return "";
+    }
+}
+
+public class ThrowingAxesFactory
+{
+    private AssetsProvider _assetsProvider;
+
+    public ThrowingAxesFactory(AssetsProvider assetsProvider)
+    {
+        _assetsProvider = assetsProvider;
+    }
+
+    public void Create()
+    {
+
+    }
+}

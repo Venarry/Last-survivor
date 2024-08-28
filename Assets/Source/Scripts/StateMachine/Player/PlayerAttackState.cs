@@ -2,14 +2,14 @@ public class PlayerAttackState : IState
 {
     private readonly ThirdPersonRotation _thirdPersonRotation;
     private readonly CharacterAttackHandler _playerAttackHandler;
-    private readonly TargetSearcher _targetSearcher;
+    private readonly CharacterTargetSearcher _targetSearcher;
     private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
     private Target _target;
 
     public PlayerAttackState(
         ThirdPersonRotation thirdPersonRotation,
         CharacterAttackHandler playerAttackHandler,
-        TargetSearcher targetSearcher,
+        CharacterTargetSearcher targetSearcher,
         IPlayerAttackStateSwitcher playerAttackStateSwitcher)
     {
         _thirdPersonRotation = thirdPersonRotation;

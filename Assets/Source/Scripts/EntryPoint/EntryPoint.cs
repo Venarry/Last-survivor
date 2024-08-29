@@ -94,11 +94,10 @@ public class EntryPoint : MonoBehaviour
         _upgradesShop.Init(inventoryModel, characterParametersUpgradesModel, upgradesFactory, itemPriceFactory, _gameTimeScaler);
 
         RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
+        roundSwordFactory.Load();
 
-        SkillsFactory skillsFactory = new(player, targetsProvider, healthModel, characterBuffsModel, roundSwordFactory);
-        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
-
-        _gameLoadingPanel.ShowNext();
+        ThrowingAxesFactory throwingAxesFactory = new(_assetsProvider, characterAttackParameters);
+        throwingAxesFactory.Load();
 
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
         await diamondLootFactory.Load();
@@ -117,6 +116,13 @@ public class EntryPoint : MonoBehaviour
 
         StoneFactory stoneFactory = new(targetsProvider, _assetsProvider);
         await stoneFactory.Load();
+
+        SkillsFactory skillsFactory = new(
+            coroutineProvider, player, targetsProvider, healthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory);
+
+        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
+
+        _gameLoadingPanel.ShowNext();
 
         _targetFollower.Set(player.transform);
 

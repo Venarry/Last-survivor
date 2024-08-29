@@ -3,34 +3,41 @@ using System.Collections.Generic;
 
 public class SkillsFactory
 {
+    private readonly CoroutineProvider _coroutineProvider;
     private readonly Player _player;
     private readonly TargetsProvider _targetsProvider;
     private readonly HealthModel _playerHealthModel;
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly RoundSwordFactory _roundSwordFactory;
+    private readonly ThrowingAxesFactory _throwingAxesFactory;
     private readonly List<Func<SkillBehaviour>> _skills;
 
     public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек.
+        CoroutineProvider coroutineProvider,
         Player player,
         TargetsProvider targetsProvider,
         HealthModel playerHealthModel,
         CharacterBuffsModel characterBuffsModel,
-        RoundSwordFactory roundSwordFactory)
+        RoundSwordFactory roundSwordFactory,
+        ThrowingAxesFactory throwingAxesFactory)
     {
+        _coroutineProvider = coroutineProvider;
         _player = player;
         _targetsProvider = targetsProvider;
-        _roundSwordFactory = roundSwordFactory;
         _playerHealthModel = playerHealthModel;
         _characterBuffsModel = characterBuffsModel;
+        _roundSwordFactory = roundSwordFactory;
+        _throwingAxesFactory = throwingAxesFactory;
 
         _skills = new()
         {
             CreateSwordRoundAttackSkill,
-            CreateCritAttackSkill,
-            CreateSplashSkill,
-            CreatePassiveHealSkill,
+            //CreateCritAttackSkill,
+            //CreateSplashSkill,
+            //CreatePassiveHealSkill,
             CreateAttackSpeedSkill,
-            CreateMaxHealthUpSkill,
+            //CreateMaxHealthUpSkill,
+            CreateThrowingAxesSkill,
         };
     }
 
@@ -50,6 +57,9 @@ public class SkillsFactory
         new(_characterBuffsModel);
     public MaxHealthUpSkill CreateMaxHealthUpSkill() =>
        new(_playerHealthModel, _characterBuffsModel);
+
+    public ThrowingAxesSkill CreateThrowingAxesSkill() =>
+       new(_targetsProvider, _throwingAxesFactory, _player.transform, _coroutineProvider);
 
     public SkillBehaviour[] CreateAllSkills()
     {

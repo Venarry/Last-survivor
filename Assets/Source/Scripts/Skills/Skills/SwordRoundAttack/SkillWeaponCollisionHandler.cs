@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoundSwordCollisionHandler : MonoBehaviour
+public class SkillWeaponCollisionHandler : MonoBehaviour
 {
     private CharacterAttackParameters _characterAttackParameters;
     private Dictionary<TargetType, Action<Target>> _attackTypes;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RoundSword : MonoBehaviour
 {
-    [SerializeField] private List<RoundSwordCollisionHandler> _swords;
+    [SerializeField] private List<SkillWeaponCollisionHandler> _swords;
 
     private Transform _target;
     private float _duration = 2f;
@@ -15,7 +15,7 @@ public class RoundSword : MonoBehaviour
 
     public void Init(CharacterAttackParameters characterAttackParameters, Transform target, int swordCount, float damageMultiplier, float scale)
     {
-        foreach (RoundSwordCollisionHandler sword in _swords)
+        foreach (SkillWeaponCollisionHandler sword in _swords)
         {
             sword.Init(characterAttackParameters, damageMultiplier);
         }

@@ -65,6 +65,11 @@ public class TargetsProvider
             }
         }
 
+        if(listTargets.Count == 0)
+        {
+            return false;
+        }
+
         targets = listTargets.ToArray();
         return true;
     }

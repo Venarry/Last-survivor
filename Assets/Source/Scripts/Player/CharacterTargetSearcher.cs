@@ -16,12 +16,4 @@ public class CharacterTargetSearcher
 
     public bool TryGetNearestTarget(out Target target) =>
         _targetsProvider.TryGetNearest(_owner.position, _attackDistance, out target);
-
-    public bool HasFrowardTarget()
-    {
-        Ray ray = new(_owner.position + new Vector3(0, 1f, 0), Vector3.forward);
-        bool has = _targetsProvider.TryGetRayTargets(ray, _attackDistance, out Target[] targets);
-        Debug.Log(targets.Length);
-        return has;
-    }
 }

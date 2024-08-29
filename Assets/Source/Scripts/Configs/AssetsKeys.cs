@@ -20,8 +20,10 @@ public class AssetsKeys
     public const string SkillIconPassiveHeal = "SkillIconPassiveHeal";
     public const string SkillIconAttackSpeed = "SkillIconAttackSpeed";
     public const string SkillIconMaxHealtUp = "SkillIconMaxHealtUp";
+    public const string SkillIconThrowingAxes = "SkillIconThrowingAxes";
 
     public const string RoundSword = "RoundSword";
+    public const string ThrowingAxe = "ThrowingAxe";
 
     public const string ItemView = "ItemView";
 

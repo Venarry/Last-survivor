@@ -13,6 +13,11 @@ public class RoundSwordFactory
         _assetsProvider = assetsProvider;
     }
 
+    public async void Load()
+    {
+        await _assetsProvider.LoadGameObject<RoundSword>(AssetsKeys.RoundSword);
+    }
+
     public async Task<RoundSword> Create(Vector3 position, Transform target, int swordCount, float damageMultiplier, float swordScale)
     {
         _roundSwordPrefab = await _assetsProvider.LoadGameObject<RoundSword>(AssetsKeys.RoundSword);

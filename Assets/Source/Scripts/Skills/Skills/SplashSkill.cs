@@ -7,8 +7,8 @@ public class SplashSkill : SkillBehaviour
     private TargetsProvider _targetsProvider;
     private readonly float _splashAngle = 90;
     private readonly float _splashDistance = 6;
-    private readonly float _splashDamageMultiplierForLevel = 0.1f;
-    private float _splashDamageMultiplier = 0.4f;
+    private readonly float _splashDamageMultiplierPerLevel = 0.1f;
+    private float _splashDamageMultiplier = 0.5f;
 
     public SplashSkill(CharacterAttackHandler playerAttackHandler, TargetsProvider targetsProvider)
     {
@@ -34,7 +34,7 @@ public class SplashSkill : SkillBehaviour
         if (CurrentLevel <= 1)
             return;
 
-        _splashDamageMultiplier += _splashDamageMultiplierForLevel;
+        _splashDamageMultiplier += _splashDamageMultiplierPerLevel;
     }
 
     private void OnAttack(Target target, float damage)
@@ -69,12 +69,12 @@ public class SplashSkill : SkillBehaviour
 
         if(CurrentLevel > 0)
         {
-            decimal danage = Math.Round((decimal)_splashDamageMultiplierForLevel * 100, 0);
-            splashDamageText = $"(+{GameParamenters.TextColorStart}{danage}%{GameParamenters.TextColorEnd})";
+            decimal damagePerLevel = Math.Round((decimal)_splashDamageMultiplierPerLevel * 100, 0);
+            splashDamageText = $"(+{GameParamenters.TextColorStart}{damagePerLevel}%{GameParamenters.TextColorEnd})";
         }
 
         return $"Splash angle {_splashAngle}\n" +
         $"Splash distance {_splashDistance}\n" +
-        $"Splash damage {_splashDamageMultiplier * 100}% {splashDamageText}";
+        $"Splash damage {Math.Round((decimal)_splashDamageMultiplier * 100)}% {splashDamageText}";
     }
 }

@@ -22,9 +22,21 @@ public abstract class DamageIndicator : MonoBehaviour
 
     public abstract void Shake();
 
-    protected void ShakeSize() => StartCoroutine(ProcessSize());
+    protected void ShakeSize()
+    {
+        if (enabled == false)
+            return;
 
-    protected void ShakeRotation() => StartCoroutine(ProcessRotation());
+        StartCoroutine(ProcessSize());
+    }
+
+    protected void ShakeRotation() 
+    {
+        if (enabled == false)
+            return;
+
+        StartCoroutine(ProcessRotation());
+    } 
 
     private IEnumerator ProcessSize()
     {

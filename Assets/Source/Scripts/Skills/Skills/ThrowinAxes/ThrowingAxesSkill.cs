@@ -12,8 +12,8 @@ public class ThrowingAxesSkill : SkillBehaviour
     private readonly ThrowingAxesFactory _throwingAxesFactory;
     private readonly Transform _owner;
     private readonly CoroutineProvider _coroutineProvider;
-    private float _damageMultiplier = 0.6f;
-    private float _throwDistance = 14f;
+    private float _damageMultiplier = 0.4f;
+    private float _throwDistance = 10f;
     private float _axesCounter = 0;
 
     private Vector3 SpawnPosition => _owner.position + new Vector3(0, 1f, 0);

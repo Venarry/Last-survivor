@@ -6,14 +6,19 @@ public class CheckpointPart : MapPart
     [SerializeField] private StartLevelTrigger _startLevelTrigger;
     [SerializeField] private EndlLevelTrigger _endlLevelTrigger;
 
-    public void Init(DayCycle dayCycle, LevelsStatisticModel levelsStatisticModel, UpgradesShop upgradesShop, bool haveEndLevelTrigger)
+    public void Init(
+        DayCycle dayCycle,
+        LevelsStatisticModel levelsStatisticModel,
+        CharacterUpgradesModel<SkillBehaviour> characterSkills,
+        UpgradesShop upgradesShop,
+        bool haveEndLevelTrigger)
     {
-        _startLevelTrigger.Init(dayCycle);
+        _startLevelTrigger.Init(dayCycle, characterSkills);
         _upgradesShopTrigger.Init(upgradesShop);
         
         if(haveEndLevelTrigger == true)
         {
-            _endlLevelTrigger.Init(dayCycle, levelsStatisticModel);
+            _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills);
         }
     }
 }

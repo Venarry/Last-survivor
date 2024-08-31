@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class CharacterUpgradesModel<T> where T : IUpgrade
 {
     private readonly Dictionary<Type, IUpgrade> _upgrades = new();
+    private bool _canCast;
 
     public event Action<IUpgrade> Added;
     public event Action AllRemoved;
@@ -14,7 +15,10 @@ public class CharacterUpgradesModel<T> where T : IUpgrade
         {
             if(skill.Value.SkillTickType == SkillTickType.EveryTick)
             {
-                skill.Value.Apply();
+                if (_canCast == true)
+                {
+                    skill.Value.Apply();
+                }
             }
 
             if(skill.Value.HasCooldown == true)
@@ -89,5 +93,15 @@ public class CharacterUpgradesModel<T> where T : IUpgrade
         }
 
         return _upgrades[skillType].GetUpLevelDescription();
+    }
+
+    public void EnableCast()
+    {
+        _canCast = true;
+    }
+
+    public void DisableCast()
+    {
+        _canCast = false;
     }
 }

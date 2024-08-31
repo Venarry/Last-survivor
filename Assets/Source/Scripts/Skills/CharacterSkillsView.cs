@@ -7,6 +7,7 @@ public class CharacterSkillsView : MonoBehaviour
     private CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
     private SkillsViewFactory _skillsViewFactory;
     private Transform _skillsParent;
+    private bool _enabled = true;
 
     public void Init(CharacterUpgradesModel<SkillBehaviour> characterSkillsModel, SkillsViewFactory skillsViewFactory, Transform parent)
     {
@@ -16,6 +17,16 @@ public class CharacterSkillsView : MonoBehaviour
 
         _characterSkillsModel.Added += OnSkillAdd;
         _characterSkillsModel.AllRemoved += OnAllRemoved;
+    }
+
+    public void Enable()
+    {
+        _enabled = true;
+    }
+
+    public void Disable()
+    {
+        _enabled = false;
     }
 
     private void OnDestroy()

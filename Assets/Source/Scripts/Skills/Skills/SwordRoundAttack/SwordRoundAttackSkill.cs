@@ -7,7 +7,7 @@ public class SwordRoundAttackSkill : SkillBehaviour
     private readonly Transform _spawnTarget;
     private readonly CharacterTargetSearcher _targetSearcher;
     private readonly CooldownTimer _cooldownTimer = new(cooldown: 4);
-    private readonly float _damageMultiplier = 0.6f;
+    private readonly float _damageMultiplier = 0.5f;
 
     public SwordRoundAttackSkill(
         RoundSwordFactory roundSwordFactory,

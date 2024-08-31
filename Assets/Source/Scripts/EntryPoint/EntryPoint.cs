@@ -16,6 +16,8 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private LevelsStatisticView _levelsStatisticView;
 
+    [SerializeField] private PetBehaviour _petBehaviour;
+
     private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
     private CharacterParametersRefresher _characterUpgradesRefresher;
@@ -27,7 +29,7 @@ public class EntryPoint : MonoBehaviour
         string[] loadingLabels = new string[]
         {
             "Load skills",
-            "Load visual",
+            "Load map",
             "Load player",
             "Load shop",
             "Load targets",
@@ -47,8 +49,6 @@ public class EntryPoint : MonoBehaviour
         await itemViewFactory.Load();
         ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
         await itemPriceFactory.Load();
-        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel);
-        await mapPartsFactory.Load();
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
         await skillsViewFactory.Load();
 
@@ -128,6 +128,9 @@ public class EntryPoint : MonoBehaviour
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
 
+        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel);
+        await mapPartsFactory.Load();
+
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
@@ -140,6 +143,8 @@ public class EntryPoint : MonoBehaviour
 
         inventoryModel.Add(LootType.Wood, 1460 + 4300);
         inventoryModel.Add(LootType.Diamond, 200 + 326);
+
+        _petBehaviour.Init(player.TargetSearcher, player.Target);
     }
 
     private async Task<IInputProvider> GetInputProvider()

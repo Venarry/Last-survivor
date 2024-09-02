@@ -21,9 +21,11 @@ public class AssetsKeys
     public const string SkillIconAttackSpeed = "SkillIconAttackSpeed";
     public const string SkillIconMaxHealtUp = "SkillIconMaxHealtUp";
     public const string SkillIconThrowingAxes = "SkillIconThrowingAxes";
+    public const string SkillIconPet = "SkillIconPet";
 
     public const string RoundSword = "RoundSword";
     public const string ThrowingAxe = "ThrowingAxe";
+    public const string Pet = "Pet";
 
     public const string ItemView = "ItemView";
 

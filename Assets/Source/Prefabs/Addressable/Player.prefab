@@ -716,6 +716,7 @@ GameObject:
   - component: {fileID: 1081765195313635527}
   - component: {fileID: 8006311808137310505}
   - component: {fileID: 93789205756401839}
+  - component: {fileID: 75733533462058290}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -919,9 +920,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a25d9bc5c73e7043bb4e22ff4bbba5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _swordPrefab: {fileID: 1824924056232191725, guid: ac34730c28f658f488234de094908bc1, type: 3}
-  _axePrefab: {fileID: 1824924056232191725, guid: 08b08dfa156cb564fab105513371adb2, type: 3}
-  _pickaxePrefab: {fileID: 1824924056232191725, guid: 3f70efae8422cd34493902f41f93b2d5, type: 3}
 --- !u!114 &8006311808137310505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -951,6 +949,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shakeTarget: {fileID: 2396196993848318239}
+--- !u!114 &75733533462058290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089264288946607106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 608fb81c1506fcf4c8981ff46577785d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swordPrefab: {fileID: 1824924056232191725, guid: ac34730c28f658f488234de094908bc1, type: 3}
+  _axePrefab: {fileID: 1824924056232191725, guid: 08b08dfa156cb564fab105513371adb2, type: 3}
+  _pickaxePrefab: {fileID: 1824924056232191725, guid: 3f70efae8422cd34493902f41f93b2d5, type: 3}
 --- !u!1001 &799611219023213629
 PrefabInstance:
   m_ObjectHideFlags: 0

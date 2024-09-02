@@ -117,8 +117,11 @@ public class EntryPoint : MonoBehaviour
         StoneFactory stoneFactory = new(targetsProvider, _assetsProvider);
         await stoneFactory.Load();
 
+        PetFactory petFactory = new(_assetsProvider, characterAttackParameters, characterBuffsModel, player.TargetSearcher, player.transform);
+        await petFactory.Load();
+
         SkillsFactory skillsFactory = new(
-            coroutineProvider, player, targetsProvider, healthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory);
+            coroutineProvider, player, targetsProvider, healthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory, petFactory);
 
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
 
@@ -143,8 +146,6 @@ public class EntryPoint : MonoBehaviour
 
         inventoryModel.Add(LootType.Wood, 1460 + 4300);
         inventoryModel.Add(LootType.Diamond, 200 + 326);
-
-        _petBehaviour.Init(player.TargetSearcher, player.Target);
     }
 
     private async Task<IInputProvider> GetInputProvider()

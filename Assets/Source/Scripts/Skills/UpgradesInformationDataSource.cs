@@ -12,6 +12,7 @@ public class UpgradesInformationDataSource
         [typeof(AttackSpeedSkill)] = "Attack speed",
         [typeof(MaxHealthUpSkill)] = "Max health",
         [typeof(ThrowingAxesSkill)] = "Throwing axes",
+        [typeof(PetSkill)] = "Pet",
     };
 
     private readonly Dictionary<Type, string> _skillsDescription = new()
@@ -23,6 +24,7 @@ public class UpgradesInformationDataSource
         [typeof(AttackSpeedSkill)] = "Reduce attack cooldown",
         [typeof(MaxHealthUpSkill)] = "Increase your max health",
         [typeof(ThrowingAxesSkill)] = "Throw axes in forward",
+        [typeof(PetSkill)] = "Run around character and attack targets with player attack parameters",
     };
 
     public string GetName(Type skillType) => _skillsName[skillType];

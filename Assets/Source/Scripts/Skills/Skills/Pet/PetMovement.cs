@@ -1,19 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class PetMovement : MonoBehaviour
 {
-    private Target _followTarget;
+    private Transform _followTarget;
     private float _goToTargetDelay = 2;
     private float _stopDistance = 2;
     private Coroutine _activeMove;
 
     private bool _hasTarget;
 
-    private Vector3 FollowPosition => _followTarget.Position + new Vector3(3, 0, -1);
+    private Vector3 FollowPosition => _followTarget.position + new Vector3(3, 0, -1);
 
-    public void Init(Target followTarget)
+    public event Action Reached;
+
+    public void Init(Transform followTarget)
     {
         _followTarget = followTarget;
     }
@@ -26,7 +29,9 @@ public class PetMovement : MonoBehaviour
         if (_followTarget == null)
             return;
 
-        transform.position = FollowPosition;
+        float deltaPosition = 5;
+        transform.position = Vector3.MoveTowards(transform.position, FollowPosition, deltaPosition * Time.deltaTime);
+        RotateTo(FollowPosition);
     }
 
     public void SetParameters(float goToTargetDelay)
@@ -46,8 +51,6 @@ public class PetMovement : MonoBehaviour
     {
         _hasTarget = false;
         StopMovementCoroutine();
-
-        _activeMove = StartCoroutine(MoveToPosition(FollowPosition));
     }
 
     private IEnumerator MoveToPosition(Vector3 position)
@@ -70,12 +73,14 @@ public class PetMovement : MonoBehaviour
             }
 
             transform.position = Vector3.Lerp(transform.position, stopPosition, positionLerpSpot);
+            RotateTo(stopPosition);
 
             timeLeft += Time.deltaTime;
             yield return null;
         }
 
         _activeMove = null;
+        Reached?.Invoke();
     }
 
     private void StopMovementCoroutine()
@@ -85,5 +90,13 @@ public class PetMovement : MonoBehaviour
             StopCoroutine(_activeMove);
             _activeMove = null;
         }
+    }
+
+    private void RotateTo(Vector3 position)
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(position - transform.position);
+
+        float lerp = 8;
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, lerp * Time.deltaTime);
     }
 }

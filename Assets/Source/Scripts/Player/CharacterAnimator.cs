@@ -49,7 +49,7 @@ public class CharacterAnimator : MonoBehaviour
         _characterAttackHandler.AttackEnd -= OnAttackEnd;
     }
 
-    private void OnAttackBegin(float attackDelay)
+    private void OnAttackBegin(Target target, float attackDelay)
     {
         ResetAttackAnimation();
         ChangeAnimation(_animationNameAttack, canRepeat: true);

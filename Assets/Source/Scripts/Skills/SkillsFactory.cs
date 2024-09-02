@@ -10,6 +10,7 @@ public class SkillsFactory
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly ThrowingAxesFactory _throwingAxesFactory;
+    private readonly PetFactory _petFactory;
     private readonly List<Func<SkillBehaviour>> _skills;
 
     public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек.
@@ -19,7 +20,8 @@ public class SkillsFactory
         HealthModel playerHealthModel,
         CharacterBuffsModel characterBuffsModel,
         RoundSwordFactory roundSwordFactory,
-        ThrowingAxesFactory throwingAxesFactory)
+        ThrowingAxesFactory throwingAxesFactory,
+        PetFactory petFactory)
     {
         _coroutineProvider = coroutineProvider;
         _player = player;
@@ -28,16 +30,18 @@ public class SkillsFactory
         _characterBuffsModel = characterBuffsModel;
         _roundSwordFactory = roundSwordFactory;
         _throwingAxesFactory = throwingAxesFactory;
+        _petFactory = petFactory;
 
         _skills = new()
         {
             CreateSwordRoundAttackSkill,
             CreateCritAttackSkill,
-            CreateSplashSkill,
-            CreatePassiveHealSkill,
-            CreateAttackSpeedSkill,
-            CreateMaxHealthUpSkill,
-            CreateThrowingAxesSkill,
+            //CreateSplashSkill,
+            //CreatePassiveHealSkill,
+            //CreateAttackSpeedSkill,
+            //CreateMaxHealthUpSkill,
+            //CreateThrowingAxesSkill,
+            CreatePetSkill,
         };
     }
 
@@ -60,6 +64,9 @@ public class SkillsFactory
 
     public ThrowingAxesSkill CreateThrowingAxesSkill() =>
        new(_targetsProvider, _throwingAxesFactory, _player.transform, _coroutineProvider);
+
+    public PetSkill CreatePetSkill() =>
+       new(_petFactory, _player.transform);
 
     public SkillBehaviour[] CreateAllSkills()
     {

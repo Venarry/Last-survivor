@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class CharacterUpgradesModel<T> where T : IUpgrade
+public class CharacterUpgradesModel<T> where T : Upgrade
 {
-    private readonly Dictionary<Type, IUpgrade> _upgrades = new();
+    private readonly Dictionary<Type, Upgrade> _upgrades = new();
     private bool _canCast;
 
-    public event Action<IUpgrade> Added;
+    public event Action<Upgrade> Added;
     public event Action AllRemoved;
 
     public void OnUpdate()
     {
-        foreach (KeyValuePair<Type, IUpgrade> skill in _upgrades)
+        foreach (KeyValuePair<Type, Upgrade> skill in _upgrades)
         {
             if(skill.Value.SkillTickType == SkillTickType.EveryTick)
             {
@@ -42,7 +42,7 @@ public class CharacterUpgradesModel<T> where T : IUpgrade
             }
         }
 
-        _upgrades[type].IncreaseLevel();
+        _upgrades[type].TryIncreaseLevel();
 
         Added?.Invoke(skill);
     }
@@ -58,7 +58,7 @@ public class CharacterUpgradesModel<T> where T : IUpgrade
 
     public void RemoveAll()
     {
-        foreach (KeyValuePair<Type, IUpgrade> skill in _upgrades)
+        foreach (KeyValuePair<Type, Upgrade> skill in _upgrades)
         {
             skill.Value.Disable();
         }

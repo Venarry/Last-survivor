@@ -5,7 +5,7 @@ public class PetSkill : SkillBehaviour
 {
     private readonly float _baseDamageMultiplier = 0.6f;
     private readonly float _baseAttackCooldownMultiplier = 1.8f;
-    private readonly float _baseMoveToTargetDelay = 1.6f;
+    private readonly float _baseMoveToTargetDelay = 2f;
 
     private readonly float _damageMultiplierPerLevel = 0.1f;
     private readonly float _attackCooldownMultiplierPerLevel = -0.2f;

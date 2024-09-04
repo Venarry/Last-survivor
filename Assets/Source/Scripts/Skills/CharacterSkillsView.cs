@@ -35,7 +35,7 @@ public class CharacterSkillsView : MonoBehaviour
         _characterSkillsModel.AllRemoved -= OnAllRemoved;
     }
 
-    private async void OnSkillAdd(IUpgrade skill)
+    private async void OnSkillAdd(Upgrade skill)
     {
         SkillIcon skillIcon = await _skillsViewFactory.CreateSkillIcon(skill.GetType(), _skillsParent);
         _skillIcons.Add(skillIcon);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CharacterAttackHandler : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class CharacterAttackHandler : MonoBehaviour
     private CharacterAttackParameters _characterAttackParameters;
     private CharacterBuffsModel _characterBuffsModel;
     private Coroutine _activeAttack;
+    private Target _currentTarget;
     private float _attackDamageMultiplier = 1;
     private float _attackCooldownMultiplier = 1;
 
@@ -47,15 +49,34 @@ public class CharacterAttackHandler : MonoBehaviour
             return;
         }
 
-        if (ReadyToAttack)
+        if (ReadyToAttack == false)
         {
-            float damage = _characterAttackParameters.GetDamage(target.TargetType) * _attackDamageMultiplier;
-
-            _activeAttack = StartCoroutine(AttackWithResetTimeLeft(target, damage));
+            return;
         }
+
+        if (_currentTarget != target)
+        {
+            StopAttack();
+
+            if(_currentTarget != null)
+            {
+                _currentTarget.LifeCycleEnded -= OnTargetEnd;
+            }
+
+            _currentTarget = target;
+            _currentTarget.LifeCycleEnded += OnTargetEnd;
+        }
+
+        float damage = _characterAttackParameters.GetDamage(target.TargetType) * _attackDamageMultiplier;
+        _activeAttack = StartCoroutine(AttackWithResetTimeLeft(target, damage));
     }
 
-    public IEnumerator AttackWithResetTimeLeft(Target target, float damage)
+    private void OnTargetEnd(Target target)
+    {
+        _currentTarget.LifeCycleEnded -= OnTargetEnd;
+    }
+
+    private IEnumerator AttackWithResetTimeLeft(Target target, float damage)
     {
         float attackDelay = _characterAttackParameters.AttackDelay;
         AttackBegin?.Invoke(target, attackDelay);
@@ -79,5 +100,16 @@ public class CharacterAttackHandler : MonoBehaviour
 
         AttackEnd?.Invoke(target, damage);
         _activeAttack = null;
+    }
+
+    private void StopAttack()
+    {
+        if (_activeAttack == null)
+            return;
+
+        StopCoroutine(_activeAttack);
+        _activeAttack = null;
+
+        AttackEnd?.Invoke(_currentTarget, 0);
     }
 }

@@ -31,12 +31,12 @@ public class Target : MonoBehaviour, IPoolObject<Target>
         _healthModel = healthModel;
         _healthView.Init(healthModel);
 
-        _healthModel.HealthOver += OnHealthOver;
+        _healthModel.HealthOver += PlaceInPool;
     }
 
     private void OnDestroy()
     {
-        _healthModel.HealthOver -= OnHealthOver;
+        _healthModel.HealthOver -= PlaceInPool;
     }
 
     public void TakeDamage(float damage)
@@ -45,11 +45,6 @@ public class Target : MonoBehaviour, IPoolObject<Target>
     }
 
     public void PlaceInPool()
-    {
-        LifeCycleEnded?.Invoke(this);
-    }
-
-    private void OnHealthOver()
     {
         LifeCycleEnded?.Invoke(this);
     }

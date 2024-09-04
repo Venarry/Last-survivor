@@ -24,7 +24,7 @@ public abstract class DamageIndicator : MonoBehaviour
 
     protected void ShakeSize()
     {
-        if (enabled == false)
+        if (gameObject.activeInHierarchy == false)
             return;
 
         StartCoroutine(ProcessSize());
@@ -32,7 +32,7 @@ public abstract class DamageIndicator : MonoBehaviour
 
     protected void ShakeRotation() 
     {
-        if (enabled == false)
+        if (gameObject.activeInHierarchy == false)
             return;
 
         StartCoroutine(ProcessRotation());

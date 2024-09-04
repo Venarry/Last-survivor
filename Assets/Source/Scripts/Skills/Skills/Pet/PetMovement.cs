@@ -94,7 +94,12 @@ public class PetMovement : MonoBehaviour
 
     private void RotateTo(Vector3 position)
     {
-        Quaternion lookRotation = Quaternion.LookRotation(position - transform.position);
+        Vector3 lookDirection = position - transform.position;
+
+        if (lookDirection == Vector3.zero)
+            return;
+
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
 
         float lerp = 8;
         transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, lerp * Time.deltaTime);

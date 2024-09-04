@@ -15,10 +15,6 @@ public class PetSkill : SkillBehaviour
     private readonly Transform _owner;
     private Pet _pet;
 
-    //private float CurrentLevelDamageMultiplier => _baseDamageMultiplier + _damageMultiplierPerLevel * CurrentLevel;
-    //private float CurrentLevelAttackCooldown => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * CurrentLevel;
-    //private float CurrentLevelMoveToTargetDelay => _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * CurrentLevel;
-
     public PetSkill(PetFactory petFactory, Transform owner)
     {
         _petFactory = petFactory;
@@ -36,9 +32,11 @@ public class PetSkill : SkillBehaviour
 
     protected override void OnLevelAdd()
     {
-        float damageMultiplier = _baseDamageMultiplier + _damageMultiplierPerLevel * CurrentLevel;
-        float attackCooldownMultiplier = _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * CurrentLevel;
-        float moveToTargetDelay = _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * CurrentLevel;
+        int levelMultiplier = CurrentLevel - 1;
+
+        float damageMultiplier = _baseDamageMultiplier + _damageMultiplierPerLevel * levelMultiplier;
+        float attackCooldownMultiplier = _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * levelMultiplier;
+        float moveToTargetDelay = _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * levelMultiplier;
 
         _pet.SetParameters(damageMultiplier, attackCooldownMultiplier, moveToTargetDelay);
     }

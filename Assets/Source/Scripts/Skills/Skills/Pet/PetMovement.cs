@@ -63,7 +63,7 @@ public class PetMovement : MonoBehaviour
         {
             float positionLerpSpot;
 
-            if(_goToTargetDelay == 0)
+            if(_goToTargetDelay <= 0)
             {
                 positionLerpSpot = 1;
             }

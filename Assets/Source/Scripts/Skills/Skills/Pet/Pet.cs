@@ -26,4 +26,10 @@ public class Pet : MonoBehaviour
         _petMovement.Init(folllowTarget);
         _petBehaviour.Init(characterTargetSearcher);
     }
+
+    public void SetParameters(float attackDamageMultiplier, float attackCooldownMultiplier, float moveToTargetDelay)
+    {
+        _characterAttackHandler.SetParameters(attackDamageMultiplier, attackCooldownMultiplier);
+        _petMovement.SetParameters(moveToTargetDelay);
+    }
 }

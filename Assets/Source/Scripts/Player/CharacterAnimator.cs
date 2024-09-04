@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour
 {
+    private const string AnimationNameWalk = "Crouch";
+    private const string AnimationNameIdle = "FightIdle";
+    private const string AnimationNameAttack = "Attack";
     private const float AnimationAttackPointPercent = 0.5f;
 
     [SerializeField] private AnimationClip _animationAttack;
@@ -10,9 +13,6 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] private CharacterAttackHandler _characterAttackHandler;
     [SerializeField] private ThirdPersonMovement _thirdPersonMovement;
 
-    private string _animationNameCrouch = "Crouch";
-    private string _animationNameIdle = "FightIdle";
-    private string _animationNameAttack = "Attack";
 
     private string _currentAnimation;
     private bool _isAttacking;
@@ -52,7 +52,7 @@ public class CharacterAnimator : MonoBehaviour
     private void OnAttackBegin(Target target, float attackDelay)
     {
         ResetAttackAnimation();
-        ChangeAnimation(_animationNameAttack, canRepeat: true);
+        ChangeAnimation(AnimationNameAttack, canRepeat: true);
 
         float animationSpeed = AnimationAttackPoint / attackDelay;
         _animator.speed = animationSpeed;
@@ -100,11 +100,11 @@ public class CharacterAnimator : MonoBehaviour
     {
         if (MoveDirection == Vector3.zero)
         {
-            ChangeAnimation(_animationNameIdle, transitionDuration: 0.1f);
+            ChangeAnimation(AnimationNameIdle, transitionDuration: 0.1f);
         }
         else
         {
-            ChangeAnimation(_animationNameCrouch, transitionDuration: 0.1f);
+            ChangeAnimation(AnimationNameWalk, transitionDuration: 0.1f);
         }
     }
 }

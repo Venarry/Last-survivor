@@ -35,11 +35,11 @@ public class SkillsFactory
         _skills = new()
         {
             CreateSwordRoundAttackSkill,
-            CreateCritAttackSkill,
+            //CreateCritAttackSkill,
             //CreateSplashSkill,
             //CreatePassiveHealSkill,
             //CreateAttackSpeedSkill,
-            //CreateMaxHealthUpSkill,
+            CreateMaxHealthUpSkill,
             //CreateThrowingAxesSkill,
             CreatePetSkill,
         };

@@ -42,25 +42,6 @@ public class MaxHealthUpSkill : SkillBehaviour
 
     public override string GetUpLevelDescription()
     {
-        StringBuilder stringBuilder = new("Increase health:\n");
-
-        for (int i = 0; i < _healthPerLevel.Count; i++)
-        {
-            if(i == CurrentLevel)
-            {
-                stringBuilder.Append($"{GameParamenters.TextColorStart}{_healthPerLevel[i]}{GameParamenters.TextColorEnd}");
-            }
-            else
-            {
-                stringBuilder.Append($"{_healthPerLevel[i]}");
-            }
-
-            if(i != _healthPerLevel.Count - 1)
-            {
-                stringBuilder.Append("/");
-            }
-        }
-
-        return stringBuilder.ToString();
+        return $"Increase health:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray()) }";
     }
 }

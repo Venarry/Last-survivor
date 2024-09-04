@@ -10,11 +10,13 @@ public class CharacterAttackHandler : MonoBehaviour
     private CharacterAttackParameters _characterAttackParameters;
     private CharacterBuffsModel _characterBuffsModel;
     private Coroutine _activeAttack;
+    private float _attackDamageMultiplier = 1;
+    private float _attackCooldownMultiplier = 1;
 
     public event Action<Target, float> AttackBegin;
     public event Action<Target, float> AttackEnd;
 
-    public bool ReadyToAttack => _timeLeft >= _characterAttackParameters.AttackCooldown;
+    public bool ReadyToAttack => _timeLeft >= _characterAttackParameters.AttackCooldown * _attackCooldownMultiplier;
 
     public void Init(CharacterAttackParameters characterAttackParameters, CharacterBuffsModel characterBuffsModel)
     {
@@ -29,6 +31,12 @@ public class CharacterAttackHandler : MonoBehaviour
         _timeLeft += Time.deltaTime;
     }
 
+    public void SetParameters(float damageMultiplier, float cooldownMultiplier)
+    {
+        _attackDamageMultiplier = damageMultiplier;
+        _attackCooldownMultiplier = cooldownMultiplier;
+    }
+
     public void TryAttack(Target target)
     {
         if (target == null)
@@ -41,7 +49,7 @@ public class CharacterAttackHandler : MonoBehaviour
 
         if (ReadyToAttack)
         {
-            float damage = _characterAttackParameters.GetDamage(target.TargetType);
+            float damage = _characterAttackParameters.GetDamage(target.TargetType) * _attackDamageMultiplier;
 
             _activeAttack = StartCoroutine(AttackWithResetTimeLeft(target, damage));
         }

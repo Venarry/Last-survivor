@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 public abstract class SkillBehaviour : IUpgrade
 {
@@ -42,11 +43,11 @@ public abstract class SkillBehaviour : IUpgrade
         {
             if (CurrentLevel == 0 || i != CurrentLevel - 1)
             {
-                stringBuilder.Append($"{values[i]}");
+                stringBuilder.Append($"{Math.Round(values[i], 1)}");
             }
             else
             {
-                stringBuilder.Append($"{GameParamenters.TextColorStart}{values[i]}{GameParamenters.TextColorEnd}");
+                stringBuilder.Append($"{GameParamenters.TextColorStart}{Math.Round(values[i], 1)}{GameParamenters.TextColorEnd}");
             }
 
             if (i != MaxLevel - 1)

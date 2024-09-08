@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,19 +8,23 @@ public class EnemyBehaviour : MonoBehaviour
 {
     private const float AttackGapMultiply = 1.2f;
     private const float AttackDelay = 1.2f;
-    private const float AttackCooldown = 1f;
+    private const float AttackCooldown = 0.5f;
 
     private readonly CooldownTimer _cooldownTimer = new(AttackCooldown);
+    private readonly WaitForSeconds _waitAttackDelay = new(AttackDelay);
     private Target _target;
     private NavMeshAgent _agent;
-    private WaitForSeconds _waitAttackDelay = new(AttackDelay);
     private Coroutine _activeAttackCoroutine;
     private float _damage;
     private float _attackDistance;
 
+    public bool IsMoving { get; private set; }
     public bool IsReadyToAttack => _cooldownTimer.IsReady;
-    public bool TargetIsReached => Vector3.Distance(transform.position, _target.Position) <= _attackDistance;
-    public bool AttackGapIsBroken => Vector3.Distance(transform.position, _target.Position) > _attackDistance * AttackGapMultiply;
+    public bool TargetIsReach => Vector3.Distance(transform.position, _target.Position) <= _attackDistance;
+    public bool AttackIsOutRange => Vector3.Distance(transform.position, _target.Position) > _attackDistance * AttackGapMultiply;
+
+    public Action<float> AttackBegin;
+    public Action AttackEnd;
 
     private void Awake()
     {
@@ -46,6 +51,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void Follow()
     {
         _agent.SetDestination(_target.Position);
+        IsMoving = true;
     }
 
     public void RotateToTarget()
@@ -62,6 +68,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void RemoveDestination()
     {
         _agent.SetDestination(transform.position);
+        IsMoving = false;
     }
 
     public void TryAttack()
@@ -69,23 +76,25 @@ public class EnemyBehaviour : MonoBehaviour
         if (_cooldownTimer.IsReady == false)
             return;
 
-        if(_activeAttackCoroutine == null)
-        {
-            StartCoroutine(Attacking());
-        }
+        if(_activeAttackCoroutine != null)
+            return;
 
-        _cooldownTimer.Reset();
+        _activeAttackCoroutine = StartCoroutine(Attacking());
     }
 
     private IEnumerator Attacking()
     {
+        AttackBegin?.Invoke(AttackDelay);
+
         yield return _waitAttackDelay;
 
-        if (AttackGapIsBroken == false)
+        if (AttackIsOutRange == false)
         {
             _target.TakeDamage(_damage);
         }
 
         _activeAttackCoroutine = null;
+        _cooldownTimer.Reset();
+        AttackEnd?.Invoke();
     }
 }

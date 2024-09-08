@@ -67,12 +67,12 @@ public class EnemySpawner
 
         Vector3 spawnOffset = new(offsetX, 0, offsetZ);
 
-        while (true)
-        {
+        //while (true)
+        //{
             SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
 
             yield return _waitSpawnDelay;
-        }
+        //}
     }
 
     private async void SpawnEnemy(float health, float damage, Vector3 position, Quaternion rotation)

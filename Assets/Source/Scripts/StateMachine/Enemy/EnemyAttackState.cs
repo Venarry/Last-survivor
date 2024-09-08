@@ -1,4 +1,6 @@
-﻿public class EnemyAttackState : IState
+﻿using System;
+
+public class EnemyAttackState : IState
 {
     private readonly EnemyBehaviour _enemyBehaviour;
     private readonly IEnemyStateSwitcher _enemyStateSwitcher;
@@ -7,11 +9,17 @@
     {
         _enemyBehaviour = enemyBehaviour;
         _enemyStateSwitcher = enemyStateSwitcher;
+
+        _enemyBehaviour.AttackEnd += OnAttackEnd;
+    }
+
+    ~EnemyAttackState() 
+    {
+        _enemyBehaviour.AttackEnd -= OnAttackEnd;
     }
 
     public void OnEnter()
     {
-        
     }
 
     public void OnUpdate()
@@ -21,15 +29,18 @@
         if (_enemyBehaviour.IsReadyToAttack == false)
             return;
 
-        if (_enemyBehaviour.AttackGapIsBroken)
-        {
-            _enemyStateSwitcher.SetFollowState();
-        }
-
         _enemyBehaviour.TryAttack();
     }
 
     public void OnExit()
     {
+    }
+
+    private void OnAttackEnd()
+    {
+        if (_enemyBehaviour.AttackIsOutRange)
+        {
+            _enemyStateSwitcher.SetFollowState();
+        }
     }
 }

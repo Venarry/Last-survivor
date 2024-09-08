@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,24 +7,33 @@ public abstract class CharacterAnimator : MonoBehaviour
     private const string AnimationNameWalk = "Walk";
     private const string AnimationNameIdle = "Idle";
     private const string AnimationNameAttack = "Attack";
-    private const float AnimationAttackPointPercent = 0.5f;
 
     [SerializeField] private AnimationClip _animationAttack;
     [SerializeField] private Animator _animator;
-    [SerializeField] private CharacterAttackHandler _characterAttackHandler;
+    [SerializeField] private  float _animationAttackPointPercent = 0.5f;
 
+    //private CharacterAttackHandler _characterAttackHandler;
+    private readonly float _defaultAnimationSpeed = 1f;
     private string _currentAnimation;
     private bool _isAttacking;
     private bool _canMove;
-    private float _defaultAnimationSpeed = 1f;
-    private Coroutine _attackAnimationCoroutine;
+    private Coroutine _applyAttackAnimationCoroutine;
 
-    private float AnimationAttackPoint => _animationAttack.length * AnimationAttackPointPercent;
+    private float AnimationAttackPoint => _animationAttack.length * _animationAttackPointPercent;
     protected abstract bool IsMoving { get; }
+
+    protected void Awake()
+    {
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
+    {
+    }
 
     private void Update()
     {
-        if(IsMoving == true && _isAttacking == false)
+        if (IsMoving == true && _isAttacking == false)
         {
             _canMove = true;
             ResetAttackAnimation();
@@ -37,17 +47,11 @@ public abstract class CharacterAnimator : MonoBehaviour
 
     protected void OnEnable()
     {
-        _characterAttackHandler.AttackBegin += OnAttackBegin;
-        _characterAttackHandler.AttackEnd += OnAttackEnd;
-
         OnUnityEnable();
     }
 
     protected void OnDisable()
     {
-        _characterAttackHandler.AttackBegin -= OnAttackBegin;
-        _characterAttackHandler.AttackEnd -= OnAttackEnd;
-
         OnUnityDisable();
     }
 
@@ -59,7 +63,7 @@ public abstract class CharacterAnimator : MonoBehaviour
     {
     }
 
-    private void OnAttackBegin(Target target, float attackDelay)
+    protected void StartAttack(float attackDelay)
     {
         ResetAttackAnimation();
         ChangeAnimation(AnimationNameAttack, canRepeat: true);
@@ -68,23 +72,23 @@ public abstract class CharacterAnimator : MonoBehaviour
         _animator.speed = animationSpeed;
 
         float animationDuration = _animationAttack.length / animationSpeed;
-        _attackAnimationCoroutine = StartCoroutine(ApplyAttackAnimation(animationDuration));
+        _applyAttackAnimationCoroutine = StartCoroutine(ApplyAttackAnimation(animationDuration));
 
         _isAttacking = true;
         _canMove = false;
     }
 
-    private void OnAttackEnd(Target target, float damage)
+    protected void EndAttack()
     {
         _isAttacking = false;
     }
 
-    private void ChangeAnimation(string name, float transitionDuration = 0.2f, bool canRepeat = false)
+    private void ChangeAnimation(string name, float transitionDuration = 0.1f, bool canRepeat = false)
     {
         if (_currentAnimation == name && canRepeat == false)
             return;
 
-        _animator.CrossFade(name, transitionDuration);
+        _animator.CrossFadeInFixedTime(name, transitionDuration);
         _currentAnimation = name;
     }
 
@@ -93,28 +97,30 @@ public abstract class CharacterAnimator : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         ResetAttackAnimation();
+        SetMoveAnimation();
     }
 
     private void ResetAttackAnimation()
     {
-        if (_attackAnimationCoroutine != null)
-        {
-            StopCoroutine(_attackAnimationCoroutine);
-            _animator.speed = _defaultAnimationSpeed;
-            _attackAnimationCoroutine = null;
-            SetMoveAnimation();
-        }
+        if (_applyAttackAnimationCoroutine == null)
+            return;
+
+        StopCoroutine(_applyAttackAnimationCoroutine);
+        _applyAttackAnimationCoroutine = null;
+
+        _animator.speed = _defaultAnimationSpeed;
+        _currentAnimation = "";
     }
 
     private void SetMoveAnimation()
     {
         if (IsMoving == false)
         {
-            ChangeAnimation(AnimationNameIdle, transitionDuration: 0.1f);
+            ChangeAnimation(AnimationNameIdle);
         }
         else
         {
-            ChangeAnimation(AnimationNameWalk, transitionDuration: 0.1f);
+            ChangeAnimation(AnimationNameWalk);
         }
     }
 }

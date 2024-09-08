@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CharacterAttackHandler : MonoBehaviour
 {
+    [SerializeField] private bool _hasOutOfAttackRange;
+
     private float _timeLeft = 0;
     private CharacterAttackParameters _characterAttackParameters;
     private CharacterBuffsModel _characterBuffsModel;
@@ -14,6 +14,7 @@ public class CharacterAttackHandler : MonoBehaviour
     private Target _currentTarget;
     private float _attackDamageMultiplier = 1;
     private float _attackCooldownMultiplier = 1;
+    private float _outOfAttackRangeDistance;
 
     public event Action<Target, float> AttackBegin;
     public event Action<Target, float> AttackEnd;
@@ -37,6 +38,11 @@ public class CharacterAttackHandler : MonoBehaviour
     {
         _attackDamageMultiplier = damageMultiplier;
         _attackCooldownMultiplier = cooldownMultiplier;
+    }
+
+    public void SetOutOfAttackRange(float distance)
+    {
+        _outOfAttackRangeDistance = distance;
     }
 
     public void TryAttack(Target target)
@@ -95,7 +101,11 @@ public class CharacterAttackHandler : MonoBehaviour
             }
         }
 
-        target.TakeDamage(buffedDamage);
+        if(Vector3.Distance(transform.position, _currentTarget.Position) <= _outOfAttackRangeDistance || _hasOutOfAttackRange == false)
+        {
+            target.TakeDamage(buffedDamage);
+        }
+
         _timeLeft = 0;
 
         AttackEnd?.Invoke(target, damage);

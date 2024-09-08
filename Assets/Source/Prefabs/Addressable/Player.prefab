@@ -714,9 +714,9 @@ GameObject:
   - component: {fileID: 4553894755612824376}
   - component: {fileID: 6602400875279511496}
   - component: {fileID: 1081765195313635527}
-  - component: {fileID: 8006311808137310505}
   - component: {fileID: 93789205756401839}
   - component: {fileID: 75733533462058290}
+  - component: {fileID: 7813463413775154493}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -921,22 +921,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a25d9bc5c73e7043bb4e22ff4bbba5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8006311808137310505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9089264288946607106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5eb00b870663de44fa0d0838b1e3b03d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animationAttack: {fileID: -203655887218126122, guid: 79f9dadc67a980b499ad07edb8f9f5b7, type: 3}
-  _animator: {fileID: 4320112754038790099}
-  _characterAttackHandler: {fileID: 1081765195313635527}
-  _thirdPersonMovement: {fileID: 3054929497815108457}
 --- !u!114 &93789205756401839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -965,6 +949,22 @@ MonoBehaviour:
   _swordPrefab: {fileID: 1824924056232191725, guid: ac34730c28f658f488234de094908bc1, type: 3}
   _axePrefab: {fileID: 1824924056232191725, guid: 08b08dfa156cb564fab105513371adb2, type: 3}
   _pickaxePrefab: {fileID: 1824924056232191725, guid: 3f70efae8422cd34493902f41f93b2d5, type: 3}
+--- !u!114 &7813463413775154493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089264288946607106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67099db175099c43a7b072c7bd2d463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationAttack: {fileID: -203655887218126122, guid: e8b4cef8f2da27f4883ddd1ba2f04e4d, type: 3}
+  _animator: {fileID: 4320112754038790099}
+  _characterAttackHandler: {fileID: 1081765195313635527}
+  _thirdPersonMovement: {fileID: 3054929497815108457}
 --- !u!1001 &799611219023213629
 PrefabInstance:
   m_ObjectHideFlags: 0

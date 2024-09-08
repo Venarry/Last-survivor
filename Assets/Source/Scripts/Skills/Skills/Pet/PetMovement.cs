@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PetMovement : MonoBehaviour
 {
@@ -12,8 +11,10 @@ public class PetMovement : MonoBehaviour
 
     private bool _hasTarget;
 
+    public bool IsMoving => _hasTarget == true || (FollowPosition - transform.position).magnitude > 0.1f;
     private Vector3 FollowPosition => _followTarget.position + new Vector3(3, 0, -1);
 
+    public event Action<Vector3> PointToMoveSet;
     public event Action Reached;
 
     public void Init(Transform followTarget)
@@ -58,6 +59,8 @@ public class PetMovement : MonoBehaviour
         float timeLeft = 0;
         float epsilon = 0.1f;
         Vector3 stopPosition = position + (transform.position - position).normalized * _stopDistance;
+
+        PointToMoveSet?.Invoke(stopPosition);
 
         while (Vector3.Distance(transform.position, stopPosition) > epsilon)
         {

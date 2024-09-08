@@ -1,18 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class CharacterAnimator : MonoBehaviour
+public abstract class CharacterAnimator : MonoBehaviour
 {
-    private const string AnimationNameWalk = "Crouch";
-    private const string AnimationNameIdle = "FightIdle";
+    private const string AnimationNameWalk = "Walk";
+    private const string AnimationNameIdle = "Idle";
     private const string AnimationNameAttack = "Attack";
     private const float AnimationAttackPointPercent = 0.5f;
 
     [SerializeField] private AnimationClip _animationAttack;
     [SerializeField] private Animator _animator;
     [SerializeField] private CharacterAttackHandler _characterAttackHandler;
-    [SerializeField] private ThirdPersonMovement _thirdPersonMovement;
-
 
     private string _currentAnimation;
     private bool _isAttacking;
@@ -21,11 +19,11 @@ public class CharacterAnimator : MonoBehaviour
     private Coroutine _attackAnimationCoroutine;
 
     private float AnimationAttackPoint => _animationAttack.length * AnimationAttackPointPercent;
-    private Vector3 MoveDirection => new(_thirdPersonMovement.Direction.x, 0, _thirdPersonMovement.Direction.z);
+    protected abstract bool IsMoving { get; }
 
     private void Update()
     {
-        if(MoveDirection != Vector3.zero && _isAttacking == false)
+        if(IsMoving == true && _isAttacking == false)
         {
             _canMove = true;
             ResetAttackAnimation();
@@ -37,16 +35,28 @@ public class CharacterAnimator : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         _characterAttackHandler.AttackBegin += OnAttackBegin;
         _characterAttackHandler.AttackEnd += OnAttackEnd;
+
+        OnUnityEnable();
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         _characterAttackHandler.AttackBegin -= OnAttackBegin;
         _characterAttackHandler.AttackEnd -= OnAttackEnd;
+
+        OnUnityDisable();
+    }
+
+    protected virtual void OnUnityEnable()
+    {
+    }
+
+    protected virtual void OnUnityDisable()
+    {
     }
 
     private void OnAttackBegin(Target target, float attackDelay)
@@ -98,7 +108,7 @@ public class CharacterAnimator : MonoBehaviour
 
     private void SetMoveAnimation()
     {
-        if (MoveDirection == Vector3.zero)
+        if (IsMoving == false)
         {
             ChangeAnimation(AnimationNameIdle, transitionDuration: 0.1f);
         }

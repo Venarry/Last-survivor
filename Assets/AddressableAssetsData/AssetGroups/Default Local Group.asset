@@ -132,7 +132,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5e3b99b7c979e864ea784f0c3c129fa5
+  - m_GUID: 37daaed318db7c84098df966ba0eb709
     m_Address: SkillIconMaxHealtUp
     m_ReadOnly: 0
     m_SerializedLabels: []

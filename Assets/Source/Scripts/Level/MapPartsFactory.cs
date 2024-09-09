@@ -8,19 +8,22 @@ public class MapPartsFactory
     private readonly DayCycle _dayCycle;
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
+    private readonly HealthModel _playerHealthModel;
 
     public MapPartsFactory(
         AssetsProvider assetsProvider,
         UpgradesShop upgradesShop,
         DayCycle dayCycle,
         LevelsStatisticModel levelsStatisticModel,
-        CharacterUpgradesModel<SkillBehaviour> characterSkills)
+        CharacterUpgradesModel<SkillBehaviour> characterSkills,
+        HealthModel playerHealthModel)
     {
         _assetsProvider = assetsProvider;
         _upgradesShop = upgradesShop;
         _dayCycle = dayCycle;
         _levelsStatisticModel = levelsStatisticModel;
         _characterSkills = characterSkills;
+        _playerHealthModel = playerHealthModel;
     }
 
     public async Task Load()
@@ -43,7 +46,7 @@ public class MapPartsFactory
         CheckpointPart part = Object
             .Instantiate(await _assetsProvider.LoadGameObject<CheckpointPart>(AssetsKeys.CheckpointZone), spawnPosition, Quaternion.identity);
 
-        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _upgradesShop, haveEndLevelTrigger);
+        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _upgradesShop, _playerHealthModel, haveEndLevelTrigger);
 
         return part;
     }
@@ -53,7 +56,7 @@ public class MapPartsFactory
         BetweenLevelPart part = Object
             .Instantiate(await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone), spawnPosition, Quaternion.identity);
 
-        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills);
+        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _playerHealthModel);
 
         return part;
     }

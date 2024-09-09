@@ -7,27 +7,28 @@ public class EndlLevelTrigger : MonoBehaviour
     private LevelsStatisticModel _levelsStatisticModel;
     private DayCycle _dayCycle;
     private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
-    private bool _isEnabled = false;
+    private HealthModel _playerHealthModel;
 
-    public void Init(DayCycle dayCycle, LevelsStatisticModel levelsStatisticModel, CharacterUpgradesModel<SkillBehaviour> characterSkills)
+    public void Init(
+        DayCycle dayCycle,
+        LevelsStatisticModel levelsStatisticModel,
+        CharacterUpgradesModel<SkillBehaviour> characterSkills,
+        HealthModel playerHealthModel)
     {
         _dayCycle = dayCycle;
         _levelsStatisticModel = levelsStatisticModel;
         _characterSkills = characterSkills;
-
-        _isEnabled = true;
+        _playerHealthModel = playerHealthModel;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_isEnabled == false)
-            return;
-
         if(other.TryGetComponent(out Player _))
         {
             _levelsStatisticModel.Add();
             _dayCycle.ResetTime();
             _characterSkills.DisableCast();
+            _playerHealthModel.Restore();
 
             _endLevelCollider.enabled = true;
             Destroy(this);

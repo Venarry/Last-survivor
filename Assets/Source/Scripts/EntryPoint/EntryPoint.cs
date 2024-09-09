@@ -76,11 +76,11 @@ public class EntryPoint : MonoBehaviour
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
         CharacterBuffsModel characterBuffsModel = new();
         int playerHealth = 50;
-        HealthModel healthModel = new(characterBuffsModel, playerHealth);
+        HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
         Player player = await playerFactory
-            .Create(new(0, 0, 5), experienceModel, healthModel, characterBuffsModel, characterSkillsModel, inventoryModel, characterAttackParameters);
+            .Create(new(0, 0, 5), experienceModel, playerHealthModel, characterBuffsModel, characterSkillsModel, inventoryModel, characterAttackParameters);
 
         player.SetBehaviour(false);
 
@@ -121,7 +121,7 @@ public class EntryPoint : MonoBehaviour
         await petFactory.Load();
 
         SkillsFactory skillsFactory = new(
-            coroutineProvider, player, targetsProvider, healthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory, petFactory);
+            coroutineProvider, player, targetsProvider, playerHealthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory, petFactory);
 
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
 
@@ -131,7 +131,7 @@ public class EntryPoint : MonoBehaviour
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
 
-        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel);
+        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel);
         await mapPartsFactory.Load();
 
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);

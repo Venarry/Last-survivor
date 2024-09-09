@@ -5,9 +5,13 @@ public class BetweenLevelPart : MapPart
     [SerializeField] private StartLevelTrigger _startLevelTrigger;
     [SerializeField] private EndlLevelTrigger _endlLevelTrigger;
 
-    public void Init(DayCycle dayCycle, LevelsStatisticModel levelsStatisticModel, CharacterUpgradesModel<SkillBehaviour> characterSkills)
+    public void Init(
+        DayCycle dayCycle,
+        LevelsStatisticModel levelsStatisticModel,
+        CharacterUpgradesModel<SkillBehaviour> characterSkills,
+        HealthModel playerHealthModel)
     {
         _startLevelTrigger.Init(dayCycle, characterSkills);
-        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills);
+        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, playerHealthModel);
     }
 }

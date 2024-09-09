@@ -3,6 +3,7 @@
 public class StartLevelTrigger : MonoBehaviour
 {
     [SerializeField] private BoxCollider _startLevelCollider;
+
     private DayCycle _dayCycle;
     private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
 

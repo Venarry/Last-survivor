@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PetMovement : MonoBehaviour
+public class PetMovement : MonoBehaviour, IMoveProvider
 {
     private Transform _followTarget;
     private float _goToTargetDelay = 2;
@@ -11,8 +11,8 @@ public class PetMovement : MonoBehaviour
 
     private bool _hasTarget;
 
-    public bool IsMoving => _hasTarget == true || (FollowPosition - transform.position).magnitude > 0.1f;
-    private Vector3 FollowPosition => _followTarget.position + new Vector3(3, 0, -1);
+    public bool IsMoving => GetMovingState();//_activeMove != null || (FollowPosition - transform.position).magnitude > 0.1f;
+    private Vector3 FollowPosition => _followTarget.position + new Vector3(2, 0, -1);
 
     public event Action<Vector3> PointToMoveSet;
     public event Action Reached;
@@ -33,6 +33,22 @@ public class PetMovement : MonoBehaviour
         float deltaPosition = 5;
         transform.position = Vector3.MoveTowards(transform.position, FollowPosition, deltaPosition * Time.deltaTime);
         RotateTo(FollowPosition);
+    }
+
+    private bool GetMovingState()
+    {
+        if (_activeMove != null)
+        {
+            return true;
+        }
+        else if (_hasTarget == true)
+        {
+            return false;
+        }
+        else
+        {
+            return (FollowPosition - transform.position).magnitude > 0.1f;
+        }
     }
 
     public void SetParameters(float goToTargetDelay)

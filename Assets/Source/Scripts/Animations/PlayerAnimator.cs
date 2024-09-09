@@ -1,15 +1,13 @@
-﻿using UnityEngine;
-
-public class PlayerAnimator : CharacterAnimator
+﻿public class PlayerAnimator : CharacterAnimator
 {
-    private ThirdPersonMovement _thirdPersonMovement;
+    private IMoveProvider _moveProvider;
     private CharacterAttackHandler _characterAttackHandler;
 
-    protected override bool IsMoving => new Vector3(_thirdPersonMovement.Direction.x, 0, _thirdPersonMovement.Direction.z) != Vector3.zero;
+    protected override bool IsMoving => _moveProvider.IsMoving;
 
     protected override void OnAwake()
     {
-        _thirdPersonMovement = GetComponent<ThirdPersonMovement>();
+        _moveProvider = GetComponent<IMoveProvider>();
         _characterAttackHandler = GetComponent<CharacterAttackHandler>();
     }
 

@@ -12,7 +12,6 @@ public abstract class CharacterAnimator : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private  float _animationAttackPointPercent = 0.5f;
 
-    //private CharacterAttackHandler _characterAttackHandler;
     private readonly float _defaultAnimationSpeed = 1f;
     private string _currentAnimation;
     private bool _isAttacking;

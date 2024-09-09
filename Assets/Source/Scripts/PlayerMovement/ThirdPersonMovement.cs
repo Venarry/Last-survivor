@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class ThirdPersonMovement : MonoBehaviour
+public class ThirdPersonMovement : MonoBehaviour, IMoveProvider
 {
     [SerializeField] private float _speed = 7f;
     
@@ -12,6 +12,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     public Vector3 Direction => _moveDirection;
     public Vector3 Position => transform.position;
+    public bool IsMoving => new Vector3(Direction.x, 0, Direction.z) != Vector3.zero;
 
     private void Awake()
     {

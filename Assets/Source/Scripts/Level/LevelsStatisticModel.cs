@@ -14,4 +14,10 @@ public class LevelsStatisticModel
         TotalLevel++;
         Added?.Invoke();
     }
+
+    public void Set(int count )
+    {
+        TotalLevel = count;
+        Added?.Invoke();
+    }
 }

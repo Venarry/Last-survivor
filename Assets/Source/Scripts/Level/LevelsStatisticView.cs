@@ -15,7 +15,6 @@ public class LevelsStatisticView : MonoBehaviour
         _levelsStatisticModel = levelsStatisticModel;
 
         _levelsStatisticModel.Added += OnLevelAdded;
-        SpawnLevelsIcon();
     }
 
     private void OnDestroy()
@@ -23,7 +22,7 @@ public class LevelsStatisticView : MonoBehaviour
         _levelsStatisticModel.Added -= OnLevelAdded;
     }
 
-    private void SpawnLevelsIcon()
+    public void SpawnLevelsIcon()
     {
         int levelsToCheckpoint = GameParamenters.LevelsForCheckpoint;
         int startLevelCounter = _levelsStatisticModel.TotalLevel - _levelsStatisticModel.CurrentLevel;
@@ -36,7 +35,7 @@ public class LevelsStatisticView : MonoBehaviour
             _icons.Add(levelIcon);
         }
 
-        RefreshActiveIcon();
+        UpdateActiveIcon();
     }
 
     private void OnLevelAdded()
@@ -45,27 +44,39 @@ public class LevelsStatisticView : MonoBehaviour
         {
             _icons[_currentLevel].SetDectiveSize();
 
-            int startLevelCounter = _levelsStatisticModel.TotalLevel - _levelsStatisticModel.CurrentLevel;
+            int startLevelCounter = _levelsStatisticModel.TotalLevel;
 
             for (int i = 0; i < _icons.Count; i++)
             {
                 _icons[i].SetLevelNumber(startLevelCounter + i);
                 _icons[i].SetDectiveColor();
             }
-
-            RefreshActiveIcon();
         }
         else
         {
             _icons[_currentLevel].SetDectiveSize();
             _icons[_currentLevel].SetActiveColor();
-
-            RefreshActiveIcon();
         }
+
+        UpdateActiveIcon();
     }
 
-    private void RefreshActiveIcon()
+    private void SetComleteLevel(int index)
     {
+        _icons[index].SetDectiveSize();
+        _icons[index].SetActiveColor();
+    }
+
+    private void UpdateActiveIcon()
+    {
+        if(_levelsStatisticModel.CurrentLevel - _currentLevel > 1)
+        {
+            for (int i = _currentLevel; i < _levelsStatisticModel.CurrentLevel; i++)
+            {
+                SetComleteLevel(i);
+            }
+        }
+
         _currentLevel = _levelsStatisticModel.CurrentLevel;
         _icons[_currentLevel].SetActiveSize();
     }

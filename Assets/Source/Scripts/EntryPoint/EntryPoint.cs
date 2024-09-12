@@ -35,6 +35,8 @@ public class EntryPoint : MonoBehaviour
             "Load targets",
         };
 
+        
+
         _gameLoadingPanel.Set(loadingLabels);
         _gameLoadingPanel.ShowNext();
 
@@ -54,7 +56,6 @@ public class EntryPoint : MonoBehaviour
 
         DayCycleParameters dayCycleParameters = new();
         CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
-        _levelsStatisticView.Init(levelsStatisticModel);
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
@@ -83,6 +84,9 @@ public class EntryPoint : MonoBehaviour
             .Create(new(0, 0, 5), experienceModel, playerHealthModel, characterBuffsModel, characterSkillsModel, inventoryModel, characterAttackParameters);
 
         player.SetBehaviour(false);
+
+        SaveHandler saveHandler = new(inventoryModel, levelsStatisticModel);
+        saveHandler.Load();
 
         _gameLoadingPanel.ShowNext();
 
@@ -137,15 +141,17 @@ public class EntryPoint : MonoBehaviour
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
-        _enemySpawner.StartSpawning();
+        _levelsStatisticView.Init(levelsStatisticModel);
 
+        _levelsStatisticView.SpawnLevelsIcon();
+        _enemySpawner.StartSpawning();
         _mapGenerator.StartGenerator();
 
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
 
-        inventoryModel.Add(LootType.Wood, 1460 + 4300);
-        inventoryModel.Add(LootType.Diamond, 200 + 326);
+        //inventoryModel.Add(LootType.Wood, 1460 + 4300);
+        //inventoryModel.Add(LootType.Diamond, 200 + 326);
 
         //characterSkillsModel.Add(skillsFactory.CreateAttackSpeedSkill());
     }

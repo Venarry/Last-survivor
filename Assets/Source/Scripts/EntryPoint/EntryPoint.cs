@@ -86,7 +86,7 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.ShowNext();
 
-        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, characterSkillsModel, coroutineProvider);
+        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _characterUpgradesRefresher.Enable();
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 

@@ -46,7 +46,7 @@ public class MapPartsFactory
         CheckpointPart part = Object
             .Instantiate(await _assetsProvider.LoadGameObject<CheckpointPart>(AssetsKeys.CheckpointZone), spawnPosition, Quaternion.identity);
 
-        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _upgradesShop, _playerHealthModel, haveEndLevelTrigger);
+        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _upgradesShop, haveEndLevelTrigger);
 
         return part;
     }
@@ -56,7 +56,7 @@ public class MapPartsFactory
         BetweenLevelPart part = Object
             .Instantiate(await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone), spawnPosition, Quaternion.identity);
 
-        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _playerHealthModel);
+        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills);
 
         return part;
     }

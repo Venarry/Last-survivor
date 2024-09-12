@@ -8,10 +8,9 @@ public class BetweenLevelPart : MapPart
     public void Init(
         DayCycle dayCycle,
         LevelsStatisticModel levelsStatisticModel,
-        CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        HealthModel playerHealthModel)
+        CharacterUpgradesModel<SkillBehaviour> characterSkills)
     {
         _startLevelTrigger.Init(dayCycle, characterSkills);
-        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, playerHealthModel);
+        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills);
     }
 }

@@ -5,6 +5,7 @@ public class CharacterParametersRefresher
 {
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly ExperienceModel _experienceModel;
+    private readonly HealthModel _healthModel;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
     private readonly WaitForSeconds _waitForExperienceDisable = new(seconds: 2);
     private readonly CoroutineProvider _coroutineProvider;
@@ -12,11 +13,13 @@ public class CharacterParametersRefresher
     public CharacterParametersRefresher(
         LevelsStatisticModel levelsStatisticModel,
         ExperienceModel experienceModel,
+        HealthModel healthModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
         CoroutineProvider coroutineProvider)
     {
         _levelsStatisticModel = levelsStatisticModel;
         _experienceModel = experienceModel;
+        _healthModel = healthModel;
         _characterSkillsModel = characterSkillsModel;
         _coroutineProvider = coroutineProvider;
     }
@@ -38,6 +41,7 @@ public class CharacterParametersRefresher
 
         _characterSkillsModel.RemoveAll();
         _experienceModel.Reset();
+        _healthModel.Restore();
 
         _coroutineProvider.StartCoroutine(DisableExperienceBehaviour());
     }

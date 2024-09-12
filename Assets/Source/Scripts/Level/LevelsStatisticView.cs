@@ -69,12 +69,9 @@ public class LevelsStatisticView : MonoBehaviour
 
     private void UpdateActiveIcon()
     {
-        if(_levelsStatisticModel.CurrentLevel - _currentLevel > 1)
+        for (int i = _currentLevel; i < _levelsStatisticModel.CurrentLevel; i++)
         {
-            for (int i = _currentLevel; i < _levelsStatisticModel.CurrentLevel; i++)
-            {
-                SetComleteLevel(i);
-            }
+            SetComleteLevel(i);
         }
 
         _currentLevel = _levelsStatisticModel.CurrentLevel;

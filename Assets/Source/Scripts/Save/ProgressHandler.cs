@@ -1,23 +1,32 @@
 using System;
 using UnityEngine;
 
-public class SaveHandler
+public class ProgressHandler
 {
     private const string SaveName = "Save";
 
     private readonly InventoryModel _inventoryModel;
     private readonly LevelsStatisticModel _levelsStatisticModel;
+    private readonly CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private SaveData _data;
 
-    public SaveHandler(
+    public ProgressHandler(
         InventoryModel inventoryModel,
-        LevelsStatisticModel levelsStatisticModel)
+        LevelsStatisticModel levelsStatisticModel,
+        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades)
     {
         _inventoryModel = inventoryModel;
         _levelsStatisticModel = levelsStatisticModel;
+        _characterUpgrades = characterUpgrades;
 
         _inventoryModel.ItemChanged += OnItemChange;
         _levelsStatisticModel.Added += OnLevelChange;
+        _characterUpgrades.Added += OnLevelUpgradeAdd;
+    }
+
+    private void OnLevelUpgradeAdd(ParametersUpgradeBehaviour upgrade)
+    {
+
     }
 
     private void OnLevelChange()

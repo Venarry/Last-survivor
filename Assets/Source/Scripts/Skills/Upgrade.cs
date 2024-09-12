@@ -34,3 +34,8 @@ public abstract class Upgrade
 
     public abstract string GetUpLevelDescription();
 }
+
+public enum UpgradeType
+{
+    SwordAttack,
+}

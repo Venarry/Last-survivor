@@ -6,7 +6,7 @@ public class CharacterUpgradesModel<T> where T : Upgrade
     private readonly Dictionary<Type, Upgrade> _upgrades = new();
     private bool _canCast;
 
-    public event Action<Upgrade> Added;
+    public event Action<T> Added;
     public event Action AllRemoved;
 
     public void OnUpdate()

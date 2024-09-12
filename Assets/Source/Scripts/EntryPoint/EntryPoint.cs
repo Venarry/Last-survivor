@@ -28,14 +28,13 @@ public class EntryPoint : MonoBehaviour
 
         string[] loadingLabels = new string[]
         {
-            "Load skills",
             "Load map",
             "Load player",
             "Load shop",
             "Load targets",
         };
 
-        
+        CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
 
         _gameLoadingPanel.Set(loadingLabels);
         _gameLoadingPanel.ShowNext();
@@ -44,9 +43,19 @@ public class EntryPoint : MonoBehaviour
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);
         await spritesDataSouce.Load();
 
-        _gameLoadingPanel.ShowNext();
-
+        DayCycleParameters dayCycleParameters = new();
         LevelsStatisticModel levelsStatisticModel = new();
+        ExperienceModel experienceModel = new();
+        CharacterUpgradesModel<SkillBehaviour> characterSkillsModel = new();
+        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
+        CharacterBuffsModel characterBuffsModel = new();
+        int playerHealth = 50;
+        HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
+        InventoryModel inventoryModel = new();
+        CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
+
+        IInputProvider inputProvider = await GetInputProvider();
+        TargetsProvider targetsProvider = new();
         ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
         await itemViewFactory.Load();
         ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
@@ -54,11 +63,7 @@ public class EntryPoint : MonoBehaviour
         SkillsViewFactory skillsViewFactory = new(spritesDataSouce, skillsInformationDataSource, _assetsProvider);
         await skillsViewFactory.Load();
 
-        DayCycleParameters dayCycleParameters = new();
-        CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
-
-        IInputProvider inputProvider = await GetInputProvider();
-        TargetsProvider targetsProvider = new();
+        _gameLoadingPanel.ShowNext();
 
         PlayerFactory playerFactory = new(
             inputProvider,
@@ -70,34 +75,28 @@ public class EntryPoint : MonoBehaviour
             _itemsParent,
             _skillsParent);
 
-        _gameLoadingPanel.ShowNext();
-
-        ExperienceModel experienceModel = new();
-        CharacterUpgradesModel<SkillBehaviour> characterSkillsModel = new();
-        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
-        CharacterBuffsModel characterBuffsModel = new();
-        int playerHealth = 50;
-        HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
-        InventoryModel inventoryModel = new();
-        CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
-        Player player = await playerFactory
-            .Create(new(0, 0, 5), experienceModel, playerHealthModel, characterBuffsModel, characterSkillsModel, inventoryModel, characterAttackParameters);
+        Player player = await playerFactory.Create(
+            position: new(0, 0, 5),
+            experienceModel,
+            playerHealthModel,
+            characterBuffsModel,
+            characterSkillsModel,
+            inventoryModel,
+            characterAttackParameters);
 
         player.SetBehaviour(false);
 
-        SaveHandler saveHandler = new(inventoryModel, levelsStatisticModel);
-        saveHandler.Load();
+        ProgressHandler progressHandler = new(inventoryModel, levelsStatisticModel, characterParametersUpgradesModel);
+        progressHandler.Load();
 
         _gameLoadingPanel.ShowNext();
-
-        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
-        _characterUpgradesRefresher.Enable();
+        
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 
         ParameterUpgradesFactory upgradesFactory = new(characterBuffsModel);
         _upgradesShop.Init(inventoryModel, characterParametersUpgradesModel, upgradesFactory, itemPriceFactory, _gameTimeScaler);
 
-        RoundSwordFactory roundSwordFactory = new(player.CharacterAttackParameters, _assetsProvider);
+        RoundSwordFactory roundSwordFactory = new(characterAttackParameters, _assetsProvider);
         roundSwordFactory.Load();
 
         ThrowingAxesFactory throwingAxesFactory = new(_assetsProvider, characterAttackParameters);
@@ -127,22 +126,22 @@ public class EntryPoint : MonoBehaviour
         SkillsFactory skillsFactory = new(
             coroutineProvider, player, targetsProvider, playerHealthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory, petFactory);
 
-        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
-
         _gameLoadingPanel.ShowNext();
-
-        _targetFollower.Set(player.transform);
 
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
 
         MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel);
         await mapPartsFactory.Load();
 
+        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance, levelsStatisticModel);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
         _levelsStatisticView.Init(levelsStatisticModel);
+        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
 
+        _targetFollower.Set(player.transform);
+        _characterUpgradesRefresher.Enable();
         _levelsStatisticView.SpawnLevelsIcon();
         _enemySpawner.StartSpawning();
         _mapGenerator.StartGenerator();

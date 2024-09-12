@@ -8,6 +8,7 @@ public class SaveData
 {
     public List<LootData> Loots = new();
     public int TotalLevels = 0;
+    public List<Type> Upgrades = new() { typeof(SwordRoundAttackSkill) };
 
     public void SetLoot(LootType lootType, int count)
     {
@@ -21,6 +22,11 @@ public class SaveData
         {
             loot.Count = count;
         }
+    }
+
+    public void SetUpgrades(Type[] upgrades)
+    {
+        
     }
 
     public void SetLevels(int count)

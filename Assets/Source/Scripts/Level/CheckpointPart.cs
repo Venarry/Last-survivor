@@ -20,7 +20,6 @@ public class CheckpointPart : MapPart
 
         if (haveEndLevelTrigger == false)
         {
-            //_endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, playerHealthModel);
             _endlLevelTrigger.gameObject.SetActive(false);
             _barrierModelEnabler.gameObject.SetActive(false);
         }

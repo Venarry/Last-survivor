@@ -4,7 +4,7 @@ public class PassiveHealSkill : SkillBehaviour
 {
     private readonly HealthModel _targetHealthModel;
     private readonly float _healPercentPerSecondPerLevel = 0.0075f;
-    private float _baseHealPercentPerSecond = 0.015f;
+    private readonly float _baseHealPercentPerSecond = 0.015f;
 
     private float HealPercentPerSecond => _baseHealPercentPerSecond + _healPercentPerSecondPerLevel * (CurrentLevel - 1);
 

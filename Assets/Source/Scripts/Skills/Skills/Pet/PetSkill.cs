@@ -31,7 +31,6 @@ public class PetSkill : SkillBehaviour
     public override async void Apply()
     {
         _pet = await _petFactory.Create(_owner.transform.position);
-        _pet.SetParameters(DamageMultiplier, AttackCooldownMultiplier, MoveToTargetDelay);
     }
 
     protected override void OnLevelChange()

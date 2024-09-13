@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SplashSkill : SkillBehaviour
 {
-    private CharacterAttackHandler _playerAttackHandler;
-    private TargetsProvider _targetsProvider;
+    private readonly CharacterAttackHandler _playerAttackHandler;
+    private readonly TargetsProvider _targetsProvider;
     private readonly float _splashAngle = 90;
     private readonly float _splashDistance = 6;
     private readonly float _splashDamageMultiplierPerLevel = 0.1f;

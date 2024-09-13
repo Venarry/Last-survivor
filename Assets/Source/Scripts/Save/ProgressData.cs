@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class SaveData
+public class ProgressData
 {
     public List<LootData> Loots = new();
     public int TotalLevels = 0;
@@ -37,18 +37,5 @@ public class SaveData
     public override string ToString()
     {
         return JsonUtility.ToJson(this);
-    }
-}
-
-[Serializable]
-public class LootData
-{
-    public LootType LootType;
-    public int Count;
-
-    public LootData(LootType lootType, int count)
-    {
-        LootType = lootType;
-        Count = count;
     }
 }

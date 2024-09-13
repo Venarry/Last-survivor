@@ -8,7 +8,7 @@ public class ProgressHandler : ISaveService
     private readonly InventoryModel _inventoryModel;
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
-    private SaveData _data;
+    private ProgressData _data;
 
     public ProgressHandler(
         InventoryModel inventoryModel,
@@ -43,7 +43,7 @@ public class ProgressHandler : ISaveService
     {
         if(PlayerPrefs.HasKey(SaveName) == true)
         {
-            _data = JsonUtility.FromJson<SaveData>(PlayerPrefs.GetString(SaveName));
+            _data = JsonUtility.FromJson<ProgressData>(PlayerPrefs.GetString(SaveName));
             InjectData();
         }
         else

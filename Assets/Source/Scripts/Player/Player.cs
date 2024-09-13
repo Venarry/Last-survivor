@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
     public CharacterTargetSearcher TargetSearcher { get; private set; }
     public PlayerLootHolder LootHolder { get; private set; }
     public Target Target { get; private set; }
-    public CharacterAttackParameters CharacterAttackParameters { get; private set; }
 
     private void Awake()
     {
@@ -67,8 +66,6 @@ public class Player : MonoBehaviour
         Target.Init(TargetType.Enemy, healthModel);
         AttackHandler.Init(characterAttackParameters, characterBuffsModel);
         _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
-
-        CharacterAttackParameters = characterAttackParameters;
 
         _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, AttackHandler, _playerAttackStateMachine);
     }

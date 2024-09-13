@@ -17,7 +17,7 @@ public class UpgradesShop : MonoBehaviour
 
     private string GameTimeKey => nameof(UpgradesShop);
 
-    private readonly Dictionary<Type, Dictionary<LootType, int>> _upgradesPrice = new()
+    private readonly Dictionary<Type, Dictionary<LootType, int>> _baseUpgradesPrice = new()
     {
         [typeof(DamageForEnemyUpgrade)] = new()
         {
@@ -77,7 +77,7 @@ public class UpgradesShop : MonoBehaviour
 
     private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory)
     {
-        Dictionary<LootType, int> basePrice = _upgradesPrice[upgradeType].ToDictionary(x => x.Key, x => x.Value);
+        Dictionary<LootType, int> basePrice = _baseUpgradesPrice[upgradeType].ToDictionary(x => x.Key, x => x.Value);
         _upgradesButtons[upgradeType].Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, itemPriceFactory);
     }
 }

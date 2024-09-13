@@ -45,6 +45,7 @@ public class EntryPoint : MonoBehaviour
 
         DayCycleParameters dayCycleParameters = new();
         LevelsStatisticModel levelsStatisticModel = new();
+        LevelResourcesSpawnChance levelResourcesSpawnChance = new();
         ExperienceModel experienceModel = new();
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel = new();
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
@@ -53,6 +54,9 @@ public class EntryPoint : MonoBehaviour
         HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
+
+        ProgressHandler progressHandler = new(inventoryModel, levelsStatisticModel, characterParametersUpgradesModel);
+        progressHandler.Load();
 
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
@@ -86,9 +90,6 @@ public class EntryPoint : MonoBehaviour
 
         player.SetBehaviour(false);
 
-        ProgressHandler progressHandler = new(inventoryModel, levelsStatisticModel, characterParametersUpgradesModel);
-        progressHandler.Load();
-
         _gameLoadingPanel.ShowNext();
         
         _dayCycle.Init(dayCycleParameters, player.DayBar);
@@ -97,10 +98,10 @@ public class EntryPoint : MonoBehaviour
         _upgradesShop.Init(inventoryModel, characterParametersUpgradesModel, upgradesFactory, itemPriceFactory, _gameTimeScaler);
 
         RoundSwordFactory roundSwordFactory = new(characterAttackParameters, _assetsProvider);
-        roundSwordFactory.Load();
+        await roundSwordFactory.Load();
 
         ThrowingAxesFactory throwingAxesFactory = new(_assetsProvider, characterAttackParameters);
-        throwingAxesFactory.Load();
+        await throwingAxesFactory.Load();
 
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
         await diamondLootFactory.Load();
@@ -128,9 +129,8 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.ShowNext();
 
-        LevelResourcesSpawnChance levelResourcesSpawnChance = new();
-
-        MapPartsFactory mapPartsFactory = new(_assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel);
+        MapPartsFactory mapPartsFactory = new(
+            _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);
         await mapPartsFactory.Load();
 
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);

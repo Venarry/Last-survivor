@@ -12,11 +12,12 @@ public class CheckpointPart : MapPart
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         UpgradesShop upgradesShop,
+        ISaveService saveService,
         bool haveEndLevelTrigger)
     {
         _startLevelTrigger.Init(dayCycle, characterSkills);
         _upgradesShopTrigger.Init(upgradesShop);
-        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills);
+        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, saveService);
 
         if (haveEndLevelTrigger == false)
         {

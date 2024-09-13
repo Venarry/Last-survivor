@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ProgressHandler
+public class ProgressHandler : ISaveService
 {
     private const string SaveName = "Save";
 
@@ -32,13 +32,11 @@ public class ProgressHandler
     private void OnLevelChange()
     {
         _data.SetLevels(_levelsStatisticModel.TotalLevel);
-        Save();
     }
 
     private void OnItemChange(LootType type, int count)
     {
         _data.SetLoot(type, count);
-        Save();
     }
 
     public void Load()
@@ -64,7 +62,7 @@ public class ProgressHandler
         _levelsStatisticModel.Set(_data.TotalLevels);
     }
 
-    private void Save()
+    public void Save()
     {
         string data = JsonUtility.ToJson(_data);
 

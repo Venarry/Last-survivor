@@ -13,7 +13,7 @@ public class RoundSwordFactory
         _assetsProvider = assetsProvider;
     }
 
-    public async void Load()
+    public async Task Load()
     {
         await _assetsProvider.LoadGameObject<RoundSword>(AssetsKeys.RoundSword);
     }

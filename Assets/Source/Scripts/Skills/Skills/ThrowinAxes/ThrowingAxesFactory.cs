@@ -12,7 +12,7 @@ public class ThrowingAxesFactory
         _characterAttackParameters = characterAttackParameters;
     }
 
-    public async void Load()
+    public async Task Load()
     {
         await _assetsProvider.LoadGameObject<ThrowingAxe>(AssetsKeys.ThrowingAxe);
     }

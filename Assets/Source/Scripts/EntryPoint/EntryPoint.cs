@@ -149,8 +149,8 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
 
-        //inventoryModel.Add(LootType.Wood, 1460 + 4300);
-        //inventoryModel.Add(LootType.Diamond, 200 + 326);
+        inventoryModel.Add(LootType.Wood, 1460 + 4300);
+        inventoryModel.Add(LootType.Diamond, 200 + 326);
 
         //characterSkillsModel.Add(skillsFactory.CreateAttackSpeedSkill());
     }

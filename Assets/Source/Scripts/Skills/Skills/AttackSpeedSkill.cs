@@ -3,8 +3,9 @@
     private readonly AttackSpeedBuff _attackSpeedBuff = new();
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly float _attackCooldownMultiplierPerLevel = 0.1f;
+    private readonly float _baseAttackCooldownMultiplier;
 
-    private float _attackCooldownMultiplier;
+    private float AttackCooldownMultiplier => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * (CurrentLevel - 1);
 
     public AttackSpeedSkill(CharacterBuffsModel characterBuffsModel)
     {
@@ -19,10 +20,9 @@
         _characterBuffsModel.Add(_attackSpeedBuff);
     }
 
-    protected override void OnLevelAdd()
+    protected override void OnLevelChange()
     {
-        _attackCooldownMultiplier += _attackCooldownMultiplierPerLevel;
-        _attackSpeedBuff.SetParameters(_attackCooldownMultiplier);
+        _attackSpeedBuff.SetParameters(AttackCooldownMultiplier);
     }
 
     public override void Disable()

@@ -6,8 +6,11 @@ public class CritAttackSkill : SkillBehaviour
     private readonly float _critDamageMultiplierPerLevel = 0.2f;
     private readonly float _critChancePerLevel = 10;
 
-    private float _critDamageMultiplier = 1.3f;
-    private float _critChance = 20;
+    private readonly float _baseCritDamageMultiplier = 1.3f;
+    private readonly float _baseCritChance = 20;
+
+    private float CritDamage => _baseCritDamageMultiplier + _critDamageMultiplierPerLevel * (CurrentLevel - 1);
+    private float CritChance => _baseCritChance + _critChancePerLevel * (CurrentLevel - 1);
 
     public CritAttackSkill(CharacterBuffsModel characterBuffsModel)
     {
@@ -20,7 +23,6 @@ public class CritAttackSkill : SkillBehaviour
     public override void Apply()
     {
         _characterBuffsModel.Add(_critDamageBuff);
-        _critDamageBuff.SetParameters(_critDamageMultiplier, _critChance);
     }
 
     public override void Disable()
@@ -28,15 +30,9 @@ public class CritAttackSkill : SkillBehaviour
         _characterBuffsModel.Remove(_critDamageBuff);
     }
 
-    protected override void OnLevelAdd()
+    protected override void OnLevelChange()
     {
-        if (CurrentLevel <= 1)
-            return;
-
-        _critDamageMultiplier += _critDamageMultiplierPerLevel;
-        _critChance += _critChancePerLevel;
-
-        _critDamageBuff.SetParameters(_critDamageMultiplier, _critChance);
+        _critDamageBuff.SetParameters(CritDamage, CritChance);
     }
 
     public override string GetUpLevelDescription() 
@@ -50,8 +46,8 @@ public class CritAttackSkill : SkillBehaviour
             critChanceUpgradeText = $"(+{GameParamenters.TextColorStart}{_critChancePerLevel}%{GameParamenters.TextColorEnd})";
         }
 
-        return $"Crit damage {_critDamageMultiplier * 100}% {critDamageUpgradeText}\n" +
-        $"Crit chance {_critChance}% {critChanceUpgradeText}";
+        return $"Crit damage {CritDamage * 100}% {critDamageUpgradeText}\n" +
+            $"Crit chance {CritChance}% {critChanceUpgradeText}";
     }
         
 }

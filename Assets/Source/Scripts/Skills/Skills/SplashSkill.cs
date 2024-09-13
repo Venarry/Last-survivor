@@ -8,7 +8,9 @@ public class SplashSkill : SkillBehaviour
     private readonly float _splashAngle = 90;
     private readonly float _splashDistance = 6;
     private readonly float _splashDamageMultiplierPerLevel = 0.1f;
-    private float _splashDamageMultiplier = 0.5f;
+    private readonly float _baseSplashDamageMultiplier = 0.5f;
+
+    private float SplashDamageMultiplier => _baseSplashDamageMultiplier + _splashDamageMultiplierPerLevel * (CurrentLevel - 1);
 
     public SplashSkill(CharacterAttackHandler playerAttackHandler, TargetsProvider targetsProvider)
     {
@@ -27,14 +29,6 @@ public class SplashSkill : SkillBehaviour
     public override void Disable()
     {
         _playerAttackHandler.AttackEnd -= OnAttack;
-    }
-
-    protected override void OnLevelAdd()
-    {
-        if (CurrentLevel <= 1)
-            return;
-
-        _splashDamageMultiplier += _splashDamageMultiplierPerLevel;
     }
 
     private void OnAttack(Target target, float damage)
@@ -58,7 +52,7 @@ public class SplashSkill : SkillBehaviour
 
             if (Vector3.Angle(_playerAttackHandler.transform.forward, targetDirection) <= _splashAngle / 2)
             {
-                currentTarget.TakeDamage(damage * _splashDamageMultiplier);
+                currentTarget.TakeDamage(damage * SplashDamageMultiplier);
             }
         }
     }
@@ -74,7 +68,7 @@ public class SplashSkill : SkillBehaviour
         }
 
         return $"Splash angle {_splashAngle}\n" +
-        $"Splash distance {_splashDistance}\n" +
-        $"Splash damage {Math.Round((decimal)_splashDamageMultiplier * 100)}% {splashDamageText}";
+            $"Splash distance {_splashDistance}\n" +
+            $"Splash damage {Math.Round((decimal)SplashDamageMultiplier * 100)}% {splashDamageText}";
     }
 }

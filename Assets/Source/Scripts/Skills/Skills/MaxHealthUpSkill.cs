@@ -7,8 +7,8 @@ public class MaxHealthUpSkill : SkillBehaviour
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly MaxHealthUpBuff _maxHealthUpBuff = new();
     private readonly List<float> _healthPerLevel = new() { 25, 50, 80, 120, 160, 250 };
+    private readonly bool _increaseCurrentHealth = true;
     private float _health;
-    private bool _increaseCurrentHealth = true;
 
     public override int MaxLevel => _healthPerLevel.Count;
 
@@ -28,7 +28,7 @@ public class MaxHealthUpSkill : SkillBehaviour
         _characterBuffsModel.Add(_maxHealthUpBuff);
     }
 
-    protected override void OnLevelAdd()
+    protected override void OnLevelChange()
     {
         _health = _healthPerLevel[CurrentLevel - 1];
         _maxHealthUpBuff.SetParamenters(_health, _increaseCurrentHealth);

@@ -19,12 +19,12 @@ public abstract class Upgrade
             return false;
 
         CurrentLevel++;
-        OnLevelAdd();
+        OnLevelChange();
 
         return true;
     }
 
-    protected virtual void OnLevelAdd()
+    protected virtual void OnLevelChange()
     {
     }
 

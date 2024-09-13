@@ -15,6 +15,10 @@ public class PetSkill : SkillBehaviour
     private readonly Transform _owner;
     private Pet _pet;
 
+    private float DamageMultiplier => _baseDamageMultiplier + _damageMultiplierPerLevel * (CurrentLevel - 1);
+    private float AttackCooldownMultiplier => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * (CurrentLevel - 1);
+    private float MoveToTargetDelay => _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * (CurrentLevel - 1);
+
     public PetSkill(PetFactory petFactory, Transform owner)
     {
         _petFactory = petFactory;
@@ -27,18 +31,12 @@ public class PetSkill : SkillBehaviour
     public override async void Apply()
     {
         _pet = await _petFactory.Create(_owner.transform.position);
-        _pet.SetParameters(_baseDamageMultiplier, _baseAttackCooldownMultiplier, _baseMoveToTargetDelay);
+        _pet.SetParameters(DamageMultiplier, AttackCooldownMultiplier, MoveToTargetDelay);
     }
 
-    protected override void OnLevelAdd()
+    protected override void OnLevelChange()
     {
-        int levelMultiplier = CurrentLevel - 1;
-
-        float damageMultiplier = _baseDamageMultiplier + _damageMultiplierPerLevel * levelMultiplier;
-        float attackCooldownMultiplier = _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * levelMultiplier;
-        float moveToTargetDelay = _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * levelMultiplier;
-
-        _pet.SetParameters(damageMultiplier, attackCooldownMultiplier, moveToTargetDelay);
+        _pet.SetParameters(DamageMultiplier, AttackCooldownMultiplier, MoveToTargetDelay);
     }
 
     public override void Disable()

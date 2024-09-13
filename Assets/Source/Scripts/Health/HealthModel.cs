@@ -91,20 +91,20 @@ public class HealthModel
         foreach (IMaxHealthBuff buff in buffs)
         {
             float bufferHealth = MaxValue;
-            MaxValue = buff.Apply(MaxValue, out bool increaseCurrentHealth);
+            MaxValue = buff.Apply(MaxValue, out bool changeCurrentHealth);
             float deltaHealth = (MaxValue - bufferHealth) * healthMultiplier;
 
-            if (increaseCurrentHealth == true)
+            if (changeCurrentHealth == true)
             {
                 Value += deltaHealth;
             }
-            else
+            /*else
             {
                 Value -= deltaHealth;
-            }
+            }*/
         }
 
-        float healthWithoutIncrease = MaxValue * healthMultiplier - (MaxValue - startMaxHealth) * healthMultiplier;
+        //float healthWithoutIncrease = MaxValue * healthMultiplier - (MaxValue - startMaxHealth) * healthMultiplier;
 
         HealthChanged?.Invoke();
     }

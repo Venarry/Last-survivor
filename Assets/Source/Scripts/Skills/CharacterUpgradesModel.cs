@@ -61,8 +61,6 @@ public class CharacterUpgradesModel<T> where T : Upgrade
             {
                 upgrade.Apply();
             }
-
-            Added?.Invoke(upgrade);
         }
     }
 

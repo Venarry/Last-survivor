@@ -15,7 +15,8 @@ public class UpgradesShop : MonoBehaviour
     private ParameterUpgradesFactory _upgradesFactory;
     private GameTimeScaler _gameTimeScaler;
     private ItemPriceFactory _itemPriceFactory;
-    private Dictionary<Type, BuyUpgradeButton> _upgradesButtons;
+    private Dictionary<UpgradeType, BuyUpgradeButton> _upgradesButtons;
+    private readonly Dictionary<UpgradeType, int> _buyCountData = new();
 
     private string GameTimeKey => nameof(UpgradesShop);
 
@@ -36,9 +37,9 @@ public class UpgradesShop : MonoBehaviour
 
         _upgradesButtons = new()
         {
-            [typeof(DamageForEnemyUpgrade)] = _buyDamageForEnemyButton,
-            [typeof(DamageForWoodUpgrade)] = _buyDamageForWoodButton,
-            [typeof(DamageForOreUpgrade)] = _buyDamageForOreButton,
+            [UpgradeType.DamageForEnemy] = _buyDamageForEnemyButton,
+            [UpgradeType.DamageForWood] = _buyDamageForWoodButton,
+            [UpgradeType.DamageForOre] = _buyDamageForOreButton,
         };
     }
 
@@ -54,17 +55,38 @@ public class UpgradesShop : MonoBehaviour
         _gameTimeScaler.Remove(GameTimeKey);
     }
 
-    public void InitButtons()
+    public void Load(UpgradeData[] upgrades)
     {
-        foreach (Type upgradeType in _upgradesButtons.Keys)
+        foreach (UpgradeData upgradeData in upgrades)
         {
-            InitButton(upgradeType, _itemPriceFactory);
+            _buyCountData.Add(upgradeData.Type, upgradeData.Level);
         }
     }
 
-    private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory, int buyCount = 0)
+    public void InitButtons()
+    {
+        /*foreach (Type upgradeType in _upgradesButtons.Keys)
+        {
+            InitButton(upgradeType, _itemPriceFactory);
+        }*/
+
+        foreach (KeyValuePair<UpgradeType, BuyUpgradeButton> upgradeButton in _upgradesButtons)
+        {
+            Dictionary<LootType, int> basePrice = _priceDataSource.Get(upgradeButton.Key);
+            int buyCount = 0;
+
+            if (_buyCountData.ContainsKey(upgradeButton.Key))
+            {
+                buyCount = _buyCountData[upgradeButton.Key];
+            }
+
+            upgradeButton.Value.Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
+        }
+    }
+
+    /*private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory, int buyCount = 0)
     {
         Dictionary<LootType, int> basePrice = _priceDataSource.Get(upgradeType);
         _upgradesButtons[upgradeType].Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, itemPriceFactory, buyCount);
-    }
+    }*/
 }

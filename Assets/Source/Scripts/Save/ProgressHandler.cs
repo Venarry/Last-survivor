@@ -13,6 +13,7 @@ public class ProgressHandler : IProgressSaveService
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private readonly SkillsFactory _skillsFactory;
     private readonly ParameterUpgradesFactory _parameterUpgradesFactory;
+    private readonly UpgradesShop _upgradesShop;
     private ProgressData _data;
 
     public ProgressHandler(
@@ -21,7 +22,8 @@ public class ProgressHandler : IProgressSaveService
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         SkillsFactory skillsFactory,
-        ParameterUpgradesFactory parameterUpgradesFactory)
+        ParameterUpgradesFactory parameterUpgradesFactory,
+        UpgradesShop upgradesShop)
     {
         _inventoryModel = inventoryModel;
         _levelsStatisticModel = levelsStatisticModel;
@@ -29,6 +31,7 @@ public class ProgressHandler : IProgressSaveService
         _characterSkills = characterSkills;
         _skillsFactory = skillsFactory;
         _parameterUpgradesFactory = parameterUpgradesFactory;
+        _upgradesShop = upgradesShop;
 
         _inventoryModel.ItemChanged += OnItemChange;
         _levelsStatisticModel.Added += OnLevelChange;
@@ -52,8 +55,11 @@ public class ProgressHandler : IProgressSaveService
         _characterSkills.AllRemoved -= OnSkillsRemove;
     }
 
-    private void OnUpgradeAdd(ParametersUpgradeBehaviour upgrade) =>
+    private void OnUpgradeAdd(ParametersUpgradeBehaviour upgrade)
+    {
         _data.AddUpgrade(upgrade.UpgradeType, upgrade.CurrentLevel);
+        Save();
+    }
 
     private void OnUpgradesRemove() =>
         _data.ResetUpgrades();
@@ -101,6 +107,7 @@ public class ProgressHandler : IProgressSaveService
         LoadSkills();
         LoadUpgrades();
 
+        _upgradesShop.Load(_data.Upgrades.ToArray());
         _levelsStatisticModel.Set(_data.TotalLevels);
     }
 

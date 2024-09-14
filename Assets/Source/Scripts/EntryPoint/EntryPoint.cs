@@ -137,7 +137,8 @@ public class EntryPoint : MonoBehaviour
             characterParametersUpgradesModel,
             characterSkillsModel,
             skillsFactory,
-            parametersUpgradesFactory);
+            parametersUpgradesFactory,
+            _upgradesShop);
 
         progressHandler.Load();
 

@@ -91,8 +91,8 @@ public class EntryPoint : MonoBehaviour
         
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 
-        ParameterUpgradesFactory upgradesFactory = new(characterBuffsModel);
-        _upgradesShop.Init(inventoryModel, characterParametersUpgradesModel, upgradesFactory, itemPriceFactory, _gameTimeScaler);
+        ParameterUpgradesFactory parametersUpgradesFactory = new(characterBuffsModel);
+        _upgradesShop.Init(inventoryModel, characterParametersUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);
 
         RoundSwordFactory roundSwordFactory = new(characterAttackParameters, _assetsProvider);
         await roundSwordFactory.Load();
@@ -122,12 +122,25 @@ public class EntryPoint : MonoBehaviour
         await petFactory.Load();
 
         SkillsFactory skillsFactory = new(
-            coroutineProvider, player, targetsProvider, playerHealthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory, petFactory);
+            coroutineProvider,
+            player,
+            targetsProvider,
+            playerHealthModel,
+            characterBuffsModel,
+            roundSwordFactory,
+            throwingAxesFactory,
+            petFactory);
 
         _gameLoadingPanel.ShowNext();
 
         ProgressHandler progressHandler = new(
-            inventoryModel, levelsStatisticModel, characterParametersUpgradesModel, characterSkillsModel, skillsFactory);
+            inventoryModel,
+            levelsStatisticModel,
+            characterParametersUpgradesModel,
+            characterSkillsModel,
+            skillsFactory,
+            parametersUpgradesFactory);
+
         progressHandler.Load();
 
         MapPartsFactory mapPartsFactory = new(

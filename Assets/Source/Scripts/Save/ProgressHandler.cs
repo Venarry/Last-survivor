@@ -12,6 +12,7 @@ public class ProgressHandler : IProgressSaveService
     private readonly CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private readonly SkillsFactory _skillsFactory;
+    private readonly ParameterUpgradesFactory _parameterUpgradesFactory;
     private ProgressData _data;
 
     public ProgressHandler(
@@ -19,13 +20,15 @@ public class ProgressHandler : IProgressSaveService
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        SkillsFactory skillsFactory)
+        SkillsFactory skillsFactory,
+        ParameterUpgradesFactory parameterUpgradesFactory)
     {
         _inventoryModel = inventoryModel;
         _levelsStatisticModel = levelsStatisticModel;
         _characterUpgrades = characterUpgrades;
         _characterSkills = characterSkills;
         _skillsFactory = skillsFactory;
+        _parameterUpgradesFactory = parameterUpgradesFactory;
 
         _inventoryModel.ItemChanged += OnItemChange;
         _levelsStatisticModel.Added += OnLevelChange;
@@ -96,6 +99,7 @@ public class ProgressHandler : IProgressSaveService
     {
         LoadLoot();
         LoadSkills();
+        LoadUpgrades();
 
         _levelsStatisticModel.Set(_data.TotalLevels);
     }
@@ -114,11 +118,23 @@ public class ProgressHandler : IProgressSaveService
 
         foreach (UpgradeData upgrade in _data.Skills)
         {
-            SkillBehaviour skill = _skillsFactory.Create(upgrade.Type, upgrade.Level);
-            skill.SetLevel(upgrade.Level);
+            SkillBehaviour skill = _skillsFactory.CreateBy(upgrade.Type, upgrade.Level);
             skills.Add(skill);
         }
 
         _characterSkills.Load(skills.ToArray());
+    }
+
+    private void LoadUpgrades()
+    {
+        List<ParametersUpgradeBehaviour> upgrades = new();
+
+        foreach (UpgradeData upgradeData in _data.Upgrades)
+        {
+            ParametersUpgradeBehaviour upgrade = _parameterUpgradesFactory.CreateBy(upgradeData.Type, upgradeData.Level);
+            upgrades.Add(upgrade);
+        }
+
+        _characterUpgrades.Load(upgrades.ToArray());
     }
 }

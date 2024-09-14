@@ -68,9 +68,10 @@ public class SkillsFactory
     public PetSkill CreatePetSkill() =>
        new(_petFactory, _player.transform);
 
-    public SkillBehaviour Create(UpgradeType type, int level)
+    public SkillBehaviour CreateBy(UpgradeType type, int level)
     {
         SkillBehaviour skill = _skills[type]();
+        skill.SetLevel(level);
 
         return skill;
     }

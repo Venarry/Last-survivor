@@ -28,12 +28,7 @@ public class ProgressData
 
     public void AddUpgrade(UpgradeType upgradeType, int level)
     {
-        UpgradeData upgradeData = Upgrades.FirstOrDefault(c => c.Type == upgradeType);
-
-        if(upgradeData == null)
-            Upgrades.Add(new(upgradeType, level));
-        else
-            upgradeData.Level = level;
+        AddUpgradeTo(Upgrades, upgradeType, level);
     }
 
     public void ResetUpgrades()
@@ -43,12 +38,7 @@ public class ProgressData
 
     public void AddSkill(UpgradeType upgradeType, int level)
     {
-        UpgradeData upgradeData = Skills.FirstOrDefault(c => c.Type == upgradeType);
-
-        if (upgradeData == null)
-            Skills.Add(new(upgradeType, level));
-        else
-            upgradeData.Level = level;
+        AddUpgradeTo(Skills, upgradeType, level);
     }
 
     public void ResetSkills()
@@ -64,5 +54,15 @@ public class ProgressData
     public override string ToString()
     {
         return JsonUtility.ToJson(this);
+    }
+
+    private void AddUpgradeTo(List<UpgradeData> collection, UpgradeType upgradeType, int level)
+    {
+        UpgradeData upgradeData = collection.FirstOrDefault(c => c.Type == upgradeType);
+
+        if (upgradeData == null)
+            collection.Add(new(upgradeType, level));
+        else
+            upgradeData.Level = level;
     }
 }

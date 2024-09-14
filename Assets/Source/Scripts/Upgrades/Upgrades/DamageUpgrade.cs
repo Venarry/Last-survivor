@@ -14,6 +14,7 @@
     public override void Apply()
     {
         _characterBuffsModel.Add(DamageBuff);
+        DamageBuff.SetParameters(Damage);
     }
 
     protected override void OnLevelChange()

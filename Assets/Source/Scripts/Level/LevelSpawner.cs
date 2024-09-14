@@ -14,7 +14,6 @@ public class LevelSpawner : MonoBehaviour
     private StoneFactory _stoneFactory;
     private MapPartsFactory _mapPartsFactory;
     private LevelResourcesSpawnChance _levelResourcesSpawnChance;
-    private LevelsStatisticModel _levelsStatistic;
     private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new();
 
     private Vector3 _startResourcesOffseSpawnPoint = new(-20, 0, 10);
@@ -25,18 +24,16 @@ public class LevelSpawner : MonoBehaviour
         DiamondFactory diamondFactory,
         StoneFactory stoneFactory,
         MapPartsFactory mapPartsFactory,
-        LevelResourcesSpawnChance levelResourcesSpawnChance,
-        LevelsStatisticModel levelsStatistic)
+        LevelResourcesSpawnChance levelResourcesSpawnChance)
     {
         _woodFactory = woodFactory;
         _diamondFactory = diamondFactory;
         _stoneFactory = stoneFactory;
         _mapPartsFactory = mapPartsFactory;
         _levelResourcesSpawnChance = levelResourcesSpawnChance;
-        _levelsStatistic = levelsStatistic;
     }
 
-    public async Task<MapPart> Spawn(Vector3 position)
+    public async Task<MapPart> Spawn(Vector3 position, int levelDifficulty, int totalLevel)
     {
         MapPart map = await _mapPartsFactory.CreateLevelZone(position);
 
@@ -50,7 +47,7 @@ public class LevelSpawner : MonoBehaviour
         if (_targetsOnMap.Count != 0)
         {
             int spawnCountByWave = 7;
-            baseSpawnCount += _levelsStatistic.NextWave * spawnCountByWave;
+            baseSpawnCount += levelDifficulty * spawnCountByWave;
         }
 
         int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(baseSpawnCount));
@@ -70,13 +67,13 @@ public class LevelSpawner : MonoBehaviour
             }
         }
 
-        float healthPerTotalWave = _levelsStatistic.TotalLevel + 1;
+        float healthPerTotalWave = totalLevel + 1;
         float healthPerCurrentWave;
         float healthPerCurrentWaveMultiplier = 3;
 
-        if (_levelsStatistic.NextWave != 0)
+        if (levelDifficulty != 0)
         {
-            healthPerCurrentWave = _levelsStatistic.NextWave * healthPerCurrentWaveMultiplier;
+            healthPerCurrentWave = levelDifficulty * healthPerCurrentWaveMultiplier;
         }
         else
         {
@@ -84,6 +81,7 @@ public class LevelSpawner : MonoBehaviour
         }
 
         float health = 1 + healthPerTotalWave + healthPerCurrentWave;
+        Debug.Log(health);
         List<Target> targetsInLevel = new();
         _targetsOnMap.Enqueue(new(map, targetsInLevel));
 

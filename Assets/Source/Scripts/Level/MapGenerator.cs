@@ -49,9 +49,10 @@ public class MapGenerator : MonoBehaviour
         {
             Vector3 spawnPosition = new(0, 0, _currentPosition);
             MapPart part;
-            //(_levelsStatistic.CurrentLevel + 1) % GameParamenters.LevelsForCheckpoint == 0
 
             bool startInCheckpoint = _levelsStatistic.CurrentLevel == 0 && _mapParts.Count == 0;
+            int levelDifficulty = _mapParts.Count == 0 ? _levelsStatistic.CurrentLevel : _levelsStatistic.NextWave;
+            int totalLevelDifficulty = _mapParts.Count == 0 ? _levelsStatistic.TotalLevel : _levelsStatistic.TotalLevel + 1;
 
             if (_levelsStatistic.NextWave == 0 || startInCheckpoint)
             {
@@ -65,10 +66,9 @@ public class MapGenerator : MonoBehaviour
 
             RegisterPart(part, ref spawnPosition);
 
-            MapPart levelZone = await _levelSpawner.Spawn(spawnPosition);
+            MapPart levelZone = await _levelSpawner.Spawn(spawnPosition, levelDifficulty, totalLevelDifficulty);
             _currentPosition += levelZone.Length;
 
-            _levelSpawner.TryDeletePassedMap();
             TryDeletePassedPart();
         }
     }
@@ -85,6 +85,7 @@ public class MapGenerator : MonoBehaviour
         if (_mapParts.Count <= GameParamenters.SpawnedMapBufferCount)
             return;
 
+        _levelSpawner.TryDeletePassedMap();
         MapPart part = _mapParts.Dequeue();
         Destroy(part.gameObject);
     }

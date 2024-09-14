@@ -46,8 +46,8 @@ public class LevelSpawner : MonoBehaviour
 
         if (_targetsOnMap.Count != 0)
         {
-            int spawnCountByWave = 7;
-            baseSpawnCount += levelDifficulty * spawnCountByWave;
+            int spawnCountByLevel = 7;
+            baseSpawnCount += levelDifficulty * spawnCountByLevel;
         }
 
         int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(baseSpawnCount));

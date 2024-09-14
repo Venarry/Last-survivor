@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class UpgradesShop : MonoBehaviour
@@ -10,44 +9,29 @@ public class UpgradesShop : MonoBehaviour
     [SerializeField] private DamageForWoodBuyButton _buyDamageForWoodButton;
     [SerializeField] private DamageForOreBuyButton _buyDamageForOreButton;
 
+    private PricesDataSource _priceDataSource;
     private InventoryModel _inventoryModel;
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private ParameterUpgradesFactory _upgradesFactory;
     private GameTimeScaler _gameTimeScaler;
+    private ItemPriceFactory _itemPriceFactory;
+    private Dictionary<Type, BuyUpgradeButton> _upgradesButtons;
 
     private string GameTimeKey => nameof(UpgradesShop);
 
-    private readonly Dictionary<Type, Dictionary<LootType, int>> _baseUpgradesPrice = new()
-    {
-        [typeof(DamageForEnemyUpgrade)] = new()
-        {
-            [LootType.Wood] = 15,
-        },
-
-        [typeof(DamageForWoodUpgrade)] = new()
-        {
-            [LootType.Wood] = 15,
-        },
-
-        [typeof(DamageForOreUpgrade)] = new()
-        {
-            [LootType.Diamond] = 4,
-            [LootType.Wood] = 15,
-        },
-    };
-
-    private Dictionary<Type, BuyUpgradeButton> _upgradesButtons;
-
     public void Init(
+        PricesDataSource priceDataSource,
         InventoryModel inventoryModel,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         ParameterUpgradesFactory upgradesFactory,
         ItemPriceFactory itemPriceFactory,
         GameTimeScaler gameTimeScaler)
     {
+        _priceDataSource = priceDataSource;
         _inventoryModel = inventoryModel;
         _characterUpgrades = characterUpgrades;
         _upgradesFactory = upgradesFactory;
+        _itemPriceFactory = itemPriceFactory;
         _gameTimeScaler = gameTimeScaler;
 
         _upgradesButtons = new()
@@ -56,11 +40,6 @@ public class UpgradesShop : MonoBehaviour
             [typeof(DamageForWoodUpgrade)] = _buyDamageForWoodButton,
             [typeof(DamageForOreUpgrade)] = _buyDamageForOreButton,
         };
-
-        foreach (Type upgradeType in _upgradesButtons.Keys)
-        {
-            InitButton(upgradeType, itemPriceFactory);
-        }
     }
 
     public void Show()
@@ -75,9 +54,17 @@ public class UpgradesShop : MonoBehaviour
         _gameTimeScaler.Remove(GameTimeKey);
     }
 
-    private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory)
+    public void InitButtons()
     {
-        Dictionary<LootType, int> basePrice = _baseUpgradesPrice[upgradeType].ToDictionary(x => x.Key, x => x.Value);
-        _upgradesButtons[upgradeType].Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, itemPriceFactory);
+        foreach (Type upgradeType in _upgradesButtons.Keys)
+        {
+            InitButton(upgradeType, _itemPriceFactory);
+        }
+    }
+
+    private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory, int buyCount = 0)
+    {
+        Dictionary<LootType, int> basePrice = _priceDataSource.Get(upgradeType);
+        _upgradesButtons[upgradeType].Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, itemPriceFactory, buyCount);
     }
 }

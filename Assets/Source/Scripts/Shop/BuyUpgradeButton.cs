@@ -21,13 +21,15 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         ParameterUpgradesFactory upgradesFactory,
         InventoryModel inventoryModel,
         Dictionary<LootType, int> basePrice,
-        ItemPriceFactory itemPriceFactory)
+        ItemPriceFactory itemPriceFactory,
+        int buyCount = 0)
     {
         CharacterUpgrades = characterUpgrades;
         UpgradesFactory = upgradesFactory;
         _inventoryModel = inventoryModel;
         _itemPriceFactory = itemPriceFactory;
         _basePrice = basePrice;
+        _buyCount = buyCount;
 
         SetPriceView(GetActualPrice());
     }
@@ -62,10 +64,10 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         {
             int minLootCount = 2;
             int lootCount = Mathf.Max(baseLootPrice.Value, minLootCount);
-            //int lootPrice = (int)Mathf.Pow(lootCount, _buyCount + 1);
+
             float defaultLootPrice = lootCount * (_buyCount + 1);
-            //int lootPrice = (int)Mathf.Ceil(defaultLootPrice * GameParamenters.PriceMultiplier);
             int lootPrice = (int)Mathf.Ceil(defaultLootPrice + Mathf.Pow(defaultLootPrice, 1.4f) * GameParamenters.PriceMultiplier);
+
             targetPrice.Add(baseLootPrice.Key, lootPrice);
         }
 

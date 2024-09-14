@@ -40,6 +40,7 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.ShowNext();
 
         UpgradesInformationDataSource skillsInformationDataSource = new();
+        PricesDataSource priceDataSource = new();
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);
         await spritesDataSouce.Load();
 
@@ -88,11 +89,8 @@ public class EntryPoint : MonoBehaviour
         player.SetBehaviour(false);
 
         _gameLoadingPanel.ShowNext();
-        
-        _dayCycle.Init(dayCycleParameters, player.DayBar);
 
         ParameterUpgradesFactory parametersUpgradesFactory = new(characterBuffsModel);
-        _upgradesShop.Init(inventoryModel, characterParametersUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);
 
         RoundSwordFactory roundSwordFactory = new(characterAttackParameters, _assetsProvider);
         await roundSwordFactory.Load();
@@ -143,17 +141,23 @@ public class EntryPoint : MonoBehaviour
 
         progressHandler.Load();
 
+        inventoryModel.Add(LootType.Wood, 1460 + 4300);
+        inventoryModel.Add(LootType.Diamond, 200 + 326);
+
         MapPartsFactory mapPartsFactory = new(
             _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);
         await mapPartsFactory.Load();
 
+        _upgradesShop.Init(priceDataSource, inventoryModel, characterParametersUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
+        _dayCycle.Init(dayCycleParameters, player.DayBar);
 
+        _upgradesShop.InitButtons();
         _targetFollower.Set(player.transform);
         _characterUpgradesRefresher.Enable();
         _levelsStatisticView.SpawnLevelsIcon();
@@ -162,9 +166,6 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
-
-        inventoryModel.Add(LootType.Wood, 1460 + 4300);
-        inventoryModel.Add(LootType.Diamond, 200 + 326);
 
         //characterSkillsModel.Add(skillsFactory.CreateAttackSpeedSkill());
     }

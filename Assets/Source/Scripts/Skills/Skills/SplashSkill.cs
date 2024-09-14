@@ -18,6 +18,7 @@ public class SplashSkill : SkillBehaviour
         _targetsProvider = targetsProvider;
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.Splash;
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public override bool HasCooldown => false;
 

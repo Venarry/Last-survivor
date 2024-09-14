@@ -7,8 +7,10 @@ using UnityEngine;
 public class ProgressData
 {
     public List<LootData> Loots = new();
+    public List<UpgradeData> Upgrades = new();
+    public List<UpgradeData> Skills = new();
+
     public int TotalLevels = 0;
-    public List<Type> Upgrades = new() { typeof(SwordRoundAttackSkill) };
 
     public void SetLoot(LootType lootType, int count)
     {
@@ -24,9 +26,34 @@ public class ProgressData
         }
     }
 
-    public void SetUpgrades(Type[] upgrades)
+    public void AddUpgrade(UpgradeType upgradeType, int level)
     {
-        
+        UpgradeData upgradeData = Upgrades.FirstOrDefault(c => c.Type == upgradeType);
+
+        if(upgradeData == null)
+            Upgrades.Add(new(upgradeType, level));
+        else
+            upgradeData.Level = level;
+    }
+
+    public void ResetUpgrades()
+    {
+        Upgrades.Clear();
+    }
+
+    public void AddSkill(UpgradeType upgradeType, int level)
+    {
+        UpgradeData upgradeData = Skills.FirstOrDefault(c => c.Type == upgradeType);
+
+        if (upgradeData == null)
+            Skills.Add(new(upgradeType, level));
+        else
+            upgradeData.Level = level;
+    }
+
+    public void ResetSkills()
+    {
+        Skills.Clear();
     }
 
     public void SetLevels(int count)

@@ -17,6 +17,7 @@ public class CritAttackSkill : SkillBehaviour
         _characterBuffsModel = characterBuffsModel;
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.CritAttack;
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public override bool HasCooldown => false;
 

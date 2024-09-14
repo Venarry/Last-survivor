@@ -2,6 +2,6 @@
 {
     protected override void OnUpgradeBuy()
     {
-        CharacterUpgrades.Add(UpgradesFactory.CreateDamageForEnemy());
+        CharacterUpgrades.AddOrIncreaseLevel(UpgradesFactory.CreateDamageForEnemy());
     }
 }

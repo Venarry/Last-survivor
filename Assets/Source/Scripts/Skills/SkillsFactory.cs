@@ -11,7 +11,7 @@ public class SkillsFactory
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly ThrowingAxesFactory _throwingAxesFactory;
     private readonly PetFactory _petFactory;
-    private readonly List<Func<SkillBehaviour>> _skills;
+    private readonly Dictionary<UpgradeType, Func<SkillBehaviour>> _skills;
 
     public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек.
         CoroutineProvider coroutineProvider,
@@ -34,14 +34,14 @@ public class SkillsFactory
 
         _skills = new()
         {
-            CreateSwordRoundAttackSkill,
-            CreateCritAttackSkill,
-            CreateSplashSkill,
-            CreatePassiveHealSkill,
-            CreateAttackSpeedSkill,
-            CreateMaxHealthUpSkill,
-            CreateThrowingAxesSkill,
-            CreatePetSkill,
+            [UpgradeType.SwordRoundAttack] = CreateSwordRoundAttackSkill,
+            [UpgradeType.CritAttack] = CreateCritAttackSkill,
+            [UpgradeType.Splash] = CreateSplashSkill,
+            [UpgradeType.PassiveHealthRegen] = CreatePassiveHealSkill,
+            [UpgradeType.AttackCooldownReduce] = CreateAttackSpeedSkill,
+            [UpgradeType.MaxHealthUp] = CreateMaxHealthUpSkill,
+            [UpgradeType.ThrowingAxes] = CreateThrowingAxesSkill,
+            [UpgradeType.Pet] = CreatePetSkill,
         };
     }
 
@@ -68,11 +68,18 @@ public class SkillsFactory
     public PetSkill CreatePetSkill() =>
        new(_petFactory, _player.transform);
 
+    public SkillBehaviour Create(UpgradeType type, int level)
+    {
+        SkillBehaviour skill = _skills[type]();
+
+        return skill;
+    }
+
     public SkillBehaviour[] CreateAllSkills()
     {
         List<SkillBehaviour> skills = new();
 
-        foreach (Func<SkillBehaviour> skill in _skills) 
+        foreach (Func<SkillBehaviour> skill in _skills.Values) 
         {
             skills.Add(skill.Invoke());
         }

@@ -55,9 +55,6 @@ public class EntryPoint : MonoBehaviour
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
 
-        ProgressHandler progressHandler = new(inventoryModel, levelsStatisticModel, characterParametersUpgradesModel);
-        progressHandler.Load();
-
         IInputProvider inputProvider = await GetInputProvider();
         TargetsProvider targetsProvider = new();
         ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
@@ -128,6 +125,10 @@ public class EntryPoint : MonoBehaviour
             coroutineProvider, player, targetsProvider, playerHealthModel, characterBuffsModel, roundSwordFactory, throwingAxesFactory, petFactory);
 
         _gameLoadingPanel.ShowNext();
+
+        ProgressHandler progressHandler = new(
+            inventoryModel, levelsStatisticModel, characterParametersUpgradesModel, characterSkillsModel, skillsFactory);
+        progressHandler.Load();
 
         MapPartsFactory mapPartsFactory = new(
             _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);

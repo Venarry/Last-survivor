@@ -1,9 +1,13 @@
 public abstract class Upgrade
 {
+    public abstract UpgradeType UpgradeType { get; }
     public virtual SkillTickType SkillTickType { get; }
     public virtual bool HasCooldown { get; }
     public virtual int MaxLevel { get; }
     public int CurrentLevel { get; private set; }
+
+    public void SetLevel(int level) =>
+        CurrentLevel = level;
 
     public virtual void Apply()
     {
@@ -33,9 +37,4 @@ public abstract class Upgrade
     }
 
     public abstract string GetUpLevelDescription();
-}
-
-public enum UpgradeType
-{
-    SwordAttack,
 }

@@ -7,13 +7,13 @@ public class EndlLevelTrigger : MonoBehaviour
     private LevelsStatisticModel _levelsStatisticModel;
     private DayCycle _dayCycle;
     private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
-    private ISaveService _saveService;
+    private IProgressSaveService _saveService;
 
     public void Init(
         DayCycle dayCycle,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        ISaveService saveService)
+        IProgressSaveService saveService)
     {
         _dayCycle = dayCycle;
         _levelsStatisticModel = levelsStatisticModel;

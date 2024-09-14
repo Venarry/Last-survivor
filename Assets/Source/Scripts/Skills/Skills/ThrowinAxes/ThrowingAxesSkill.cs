@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -12,8 +11,8 @@ public class ThrowingAxesSkill : SkillBehaviour
     private readonly ThrowingAxesFactory _throwingAxesFactory;
     private readonly Transform _owner;
     private readonly CoroutineProvider _coroutineProvider;
-    private float _damageMultiplier = 0.4f;
-    private float _throwDistance = 10f;
+    private readonly float _damageMultiplier = 0.4f;
+    private readonly float _throwDistance = 10f;
     private float _axesCounter = 0;
 
     private Vector3 SpawnPosition => _owner.position + new Vector3(0, 1f, 0);
@@ -30,6 +29,7 @@ public class ThrowingAxesSkill : SkillBehaviour
         _coroutineProvider = coroutineProvider;
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.ThrowingAxes;
     public override SkillTickType SkillTickType => SkillTickType.EveryTick;
     public override bool HasCooldown => false;
 

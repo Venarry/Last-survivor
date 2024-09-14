@@ -2,6 +2,6 @@
 {
     protected override void OnUpgradeBuy()
     {
-        CharacterUpgrades.Add(UpgradesFactory.CreateDamageForWood());
+        CharacterUpgrades.AddOrIncreaseLevel(UpgradesFactory.CreateDamageForWood());
     }
 }

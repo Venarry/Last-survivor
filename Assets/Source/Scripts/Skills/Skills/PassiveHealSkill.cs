@@ -13,6 +13,7 @@ public class PassiveHealSkill : SkillBehaviour
         _targetHealthModel = targetHealthModel;
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.PassiveHealthRegen;
     public override SkillTickType SkillTickType => SkillTickType.EveryTick;
     public override bool HasCooldown => false;
 

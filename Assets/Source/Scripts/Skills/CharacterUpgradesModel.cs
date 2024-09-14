@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Experimental.GraphView;
 
 public class CharacterUpgradesModel<T> where T : Upgrade
 {
-    private readonly Dictionary<Type, Upgrade> _upgrades = new();
+    private readonly Dictionary<Type, T> _upgrades = new();
     private bool _canCast;
 
     public event Action<T> Added;
@@ -11,7 +13,7 @@ public class CharacterUpgradesModel<T> where T : Upgrade
 
     public void OnUpdate()
     {
-        foreach (KeyValuePair<Type, Upgrade> skill in _upgrades)
+        foreach (KeyValuePair<Type, T> skill in _upgrades)
         {
             if(skill.Value.SkillTickType == SkillTickType.EveryTick)
             {
@@ -28,23 +30,40 @@ public class CharacterUpgradesModel<T> where T : Upgrade
         }
     }
 
-    public void Add(T skill)
+    public void AddOrIncreaseLevel(T upgrade)
     {
-        Type type = skill.GetType();
+        Type type = upgrade.GetType();
 
         if (_upgrades.ContainsKey(type) == false)
         {
-            _upgrades.Add(type, skill);
+            _upgrades.Add(type, upgrade);
 
-            if (skill.SkillTickType == SkillTickType.AwakeTick)
+            if (upgrade.SkillTickType == SkillTickType.AwakeTick)
             {
-                skill.Apply();
+                upgrade.Apply();
             }
         }
 
         _upgrades[type].TryIncreaseLevel();
 
-        Added?.Invoke(skill);
+        Added?.Invoke(_upgrades[type]);
+    }
+
+    public void Load(T[] upgrades)
+    {
+        RemoveAll();
+
+        foreach (T upgrade in upgrades)
+        {
+            _upgrades.Add(upgrade.GetType(), upgrade);
+
+            if (upgrade.SkillTickType == SkillTickType.AwakeTick)
+            {
+                upgrade.Apply();
+            }
+
+            Added?.Invoke(upgrade);
+        }
     }
 
     public void Remove(Type skillType)
@@ -58,7 +77,10 @@ public class CharacterUpgradesModel<T> where T : Upgrade
 
     public void RemoveAll()
     {
-        foreach (KeyValuePair<Type, Upgrade> skill in _upgrades)
+        if (_upgrades.Count == 0)
+            return;
+
+        foreach (KeyValuePair<Type, T> skill in _upgrades)
         {
             skill.Value.Disable();
         }
@@ -94,6 +116,9 @@ public class CharacterUpgradesModel<T> where T : Upgrade
 
         return _upgrades[skillType].GetUpLevelDescription();
     }
+
+    public UpgradeType[] GetAllTypes() =>
+        _upgrades.Select(c => c.Value.UpgradeType).ToArray();
 
     public void EnableCast()
     {

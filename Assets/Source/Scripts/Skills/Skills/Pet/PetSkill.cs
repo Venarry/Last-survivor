@@ -25,6 +25,7 @@ public class PetSkill : SkillBehaviour
         _owner = owner;
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.Pet;
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public override bool HasCooldown => false;
 

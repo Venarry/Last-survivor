@@ -9,7 +9,7 @@ public class MapPartsFactory
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private readonly HealthModel _playerHealthModel;
-    private readonly ISaveService _saveService;
+    private readonly IProgressSaveService _saveService;
 
     public MapPartsFactory(
         AssetsProvider assetsProvider,
@@ -18,7 +18,7 @@ public class MapPartsFactory
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         HealthModel playerHealthModel,
-        ISaveService saveService)
+        IProgressSaveService saveService)
     {
         _assetsProvider = assetsProvider;
         _upgradesShop = upgradesShop;

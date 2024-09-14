@@ -6,5 +6,6 @@
     {
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.DamageForWood;
     protected override DamageBuff DamageBuff => _buff;
 }

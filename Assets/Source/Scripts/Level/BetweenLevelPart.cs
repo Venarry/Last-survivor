@@ -9,7 +9,7 @@ public class BetweenLevelPart : MapPart
         DayCycle dayCycle,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        ISaveService saveService)
+        IProgressSaveService saveService)
     {
         _startLevelTrigger.Init(dayCycle, characterSkills);
         _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, saveService);

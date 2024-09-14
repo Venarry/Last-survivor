@@ -12,6 +12,7 @@
         _characterBuffsModel = characterBuffsModel;
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.AttackCooldownReduce;
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public override bool HasCooldown => false;
 

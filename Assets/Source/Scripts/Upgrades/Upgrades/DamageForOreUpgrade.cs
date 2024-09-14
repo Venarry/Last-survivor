@@ -6,5 +6,6 @@
     {
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.DamageForOre;
     protected override DamageBuff DamageBuff => _buff;
 }

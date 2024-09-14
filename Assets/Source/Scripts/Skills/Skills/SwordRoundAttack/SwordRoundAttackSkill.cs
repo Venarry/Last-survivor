@@ -19,6 +19,7 @@ public class SwordRoundAttackSkill : SkillBehaviour
         _targetSearcher = targetSearcher;
     }
 
+    public override UpgradeType UpgradeType => UpgradeType.SwordRoundAttack;
     public override SkillTickType SkillTickType => SkillTickType.EveryTick;
     public override bool HasCooldown => true;
 

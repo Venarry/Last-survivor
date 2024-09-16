@@ -24,16 +24,17 @@ public class HealthModel
 
     public float Value { get; private set; }
     public float MaxValue { get; private set; }
+    public float BaseMaxValue => _baseMaxValue;
     public float HealthNormalized => (float)Value / MaxValue;
 
-    public event Action HealthChanged;
+    public event Action Changed;
     public event Action DamageReceived;
     public event Action HealthOver;
 
     public void Restore()
     {
         Value = MaxValue;
-        HealthChanged?.Invoke();
+        Changed?.Invoke();
     }
 
     public void SetMaxHealth(float value)
@@ -42,7 +43,7 @@ public class HealthModel
             value = 1;
 
         _baseMaxValue = value;
-        ApplyMaxHealth();
+        ApplyMaxHealthBuffs();
     }
 
     public void TakeDamage(float value)
@@ -54,7 +55,7 @@ public class HealthModel
             value = 0;
 
         Value -= value;
-        HealthChanged?.Invoke();
+        Changed?.Invoke();
         DamageReceived?.Invoke();
 
         if (Value <= 0)
@@ -74,13 +75,13 @@ public class HealthModel
         if(Value > MaxValue)
             Value = MaxValue;
 
-        HealthChanged?.Invoke();
+        Changed?.Invoke();
     }
 
-    public void ApplyMaxHealth()
+    public void ApplyMaxHealthBuffs()
     {
         float healthMultiplier = HealthNormalized;
-        float startMaxHealth = MaxValue;
+        //float healthBeforeReset = Value;
         MaxValue = _baseMaxValue;
         Value = MaxValue * healthMultiplier;
 
@@ -92,21 +93,35 @@ public class HealthModel
         foreach (IMaxHealthBuff buff in buffs)
         {
             float bufferHealth = MaxValue;
-            MaxValue = buff.Apply(MaxValue, out bool changeCurrentHealth);
-            float deltaHealth = (MaxValue - bufferHealth) * healthMultiplier;
+            MaxValue = buff.Apply(MaxValue);
+            //float maxHealthMultiplier = MaxValue / bufferHealth;
+            float deltaMaxHealth = MaxValue - bufferHealth;
+            float deltaMaxHealthWithMultiplier = deltaMaxHealth * healthMultiplier;
 
-            if (changeCurrentHealth == true)
-            {
-                Value += deltaHealth;
-            }
-            /*else
-            {
-                Value -= deltaHealth;
-            }*/
+            Value += deltaMaxHealthWithMultiplier;
+
+            healthMultiplier = HealthNormalized;
         }
 
-        //float healthWithoutIncrease = MaxValue * healthMultiplier - (MaxValue - startMaxHealth) * healthMultiplier;
+        if(Value > MaxValue)
+        {
+            Value = MaxValue;
+        }
 
-        HealthChanged?.Invoke();
+        if(Value < 1)
+        {
+            Value = 1;
+        }
+
+        Debug.Log(Value);
+        Changed?.Invoke();
+    }
+
+    public void SetNormalizedHealth(float multiplier)
+    {
+        Value = MaxValue * multiplier;
+        Debug.Log(Value);
+
+        Changed?.Invoke();
     }
 }

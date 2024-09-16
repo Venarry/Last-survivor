@@ -20,7 +20,7 @@ public class HealthView : MonoBehaviour
     {
         _healthModel = healthModel;
 
-        _healthModel.HealthChanged += OnHealthChange;
+        _healthModel.Changed += OnHealthChange;
         _healthModel.HealthOver += OnHealthOver;
         _healthModel.DamageReceived += OnDamageReceive;
 

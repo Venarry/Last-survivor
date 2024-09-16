@@ -10,6 +10,7 @@ public class ProgressData
     public List<UpgradeData> Upgrades = new();
     public List<UpgradeData> Skills = new();
 
+    public float HealthNormalized = 1.0f;
     public int TotalLevels = 0;
 
     public void SetLoot(LootType lootType, int count)

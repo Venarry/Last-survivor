@@ -81,7 +81,7 @@ public class LevelSpawner : MonoBehaviour
         }
 
         float health = 1 + healthPerTotalWave + healthPerCurrentWave;
-        Debug.Log(health);
+
         List<Target> targetsInLevel = new();
         _targetsOnMap.Enqueue(new(map, targetsInLevel));
 

@@ -52,7 +52,7 @@ public class EntryPoint : MonoBehaviour
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
         CharacterBuffsModel characterBuffsModel = new();
         int playerHealth = 50;
-        HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
+        HealthModel playerHealthModel = new(characterBuffsModel, playerHealth, 20);
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
 
@@ -133,6 +133,7 @@ public class EntryPoint : MonoBehaviour
 
         ProgressHandler progressHandler = new(
             inventoryModel,
+            playerHealthModel,
             levelsStatisticModel,
             characterParametersUpgradesModel,
             characterSkillsModel,
@@ -162,7 +163,7 @@ public class EntryPoint : MonoBehaviour
         _targetFollower.Set(player.transform);
         _characterUpgradesRefresher.Enable();
         _levelsStatisticView.SpawnLevelsIcon();
-        _enemySpawner.StartSpawning();
+        //_enemySpawner.StartSpawning();
         _mapGenerator.StartGenerator();
 
         _gameLoadingPanel.Disable();

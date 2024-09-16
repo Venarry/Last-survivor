@@ -8,6 +8,7 @@ public class ProgressHandler : IProgressSaveService
     private const string SaveName = "Save";
 
     private readonly InventoryModel _inventoryModel;
+    private readonly HealthModel _healthModel;
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
@@ -18,6 +19,7 @@ public class ProgressHandler : IProgressSaveService
 
     public ProgressHandler(
         InventoryModel inventoryModel,
+        HealthModel healthModel,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
@@ -26,6 +28,7 @@ public class ProgressHandler : IProgressSaveService
         UpgradesShop upgradesShop)
     {
         _inventoryModel = inventoryModel;
+        _healthModel = healthModel;
         _levelsStatisticModel = levelsStatisticModel;
         _characterUpgrades = characterUpgrades;
         _characterSkills = characterSkills;
@@ -34,6 +37,7 @@ public class ProgressHandler : IProgressSaveService
         _upgradesShop = upgradesShop;
 
         _inventoryModel.ItemChanged += OnItemChange;
+        _healthModel.Changed += OnHealthChange;
         _levelsStatisticModel.Added += OnLevelChange;
 
         _characterUpgrades.Added += OnUpgradeAdd;
@@ -42,6 +46,7 @@ public class ProgressHandler : IProgressSaveService
         _characterSkills.Added += OnSkillAdd;
         _characterSkills.AllRemoved += OnSkillsRemove;
     }
+
 
     ~ProgressHandler()
     {
@@ -55,10 +60,37 @@ public class ProgressHandler : IProgressSaveService
         _characterSkills.AllRemoved -= OnSkillsRemove;
     }
 
+    public void Load()
+    {
+        if (PlayerPrefs.HasKey(SaveName) == true)
+        {
+            _data = JsonUtility.FromJson<ProgressData>(PlayerPrefs.GetString(SaveName));
+            InjectData();
+        }
+        else
+        {
+            _data = new();
+        }
+    }
+
+    public void Save()
+    {
+        _data.HealthNormalized = _healthModel.HealthNormalized;
+
+        string data = JsonUtility.ToJson(_data);
+
+        PlayerPrefs.SetString(SaveName, data);
+        Debug.Log(PlayerPrefs.GetString(SaveName));
+    }
+
+    private void OnHealthChange()
+    {
+    }
+
     private void OnUpgradeAdd(ParametersUpgradeBehaviour upgrade)
     {
         _data.AddUpgrade(upgrade.UpgradeType, upgrade.CurrentLevel);
-        Save();
+        //Save();
     }
 
     private void OnUpgradesRemove() =>
@@ -80,27 +112,6 @@ public class ProgressHandler : IProgressSaveService
         _data.SetLoot(type, count);
     }
 
-    public void Load()
-    {
-        if(PlayerPrefs.HasKey(SaveName) == true)
-        {
-            _data = JsonUtility.FromJson<ProgressData>(PlayerPrefs.GetString(SaveName));
-            InjectData();
-        }
-        else
-        {
-            _data = new();
-        }
-    }
-
-    public void Save()
-    {
-        string data = JsonUtility.ToJson(_data);
-
-        PlayerPrefs.SetString(SaveName, data);
-        Debug.Log(PlayerPrefs.GetString(SaveName));
-    }
-
     private void InjectData()
     {
         LoadLoot();
@@ -109,6 +120,7 @@ public class ProgressHandler : IProgressSaveService
 
         _upgradesShop.Load(_data.Upgrades.ToArray());
         _levelsStatisticModel.Set(_data.TotalLevels);
+        _healthModel.SetNormalizedHealth(_data.HealthNormalized);
     }
 
     private void LoadLoot()

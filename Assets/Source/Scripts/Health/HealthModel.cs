@@ -113,14 +113,12 @@ public class HealthModel
             Value = 1;
         }
 
-        Debug.Log(Value);
         Changed?.Invoke();
     }
 
     public void SetNormalizedHealth(float multiplier)
     {
         Value = MaxValue * multiplier;
-        Debug.Log(Value);
 
         Changed?.Invoke();
     }

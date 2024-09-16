@@ -19,6 +19,7 @@
     public override void Apply()
     {
         _characterBuffsModel.Add(_attackSpeedBuff);
+        _attackSpeedBuff.SetParameters(AttackCooldownMultiplier);
     }
 
     protected override void OnLevelChange()

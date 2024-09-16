@@ -17,6 +17,11 @@ public class PassiveHealSkill : SkillBehaviour
     public override SkillTickType SkillTickType => SkillTickType.EveryTick;
     public override bool HasCooldown => false;
 
+    public override void Apply()
+    {
+        _targetHealthModel.Add(_targetHealthModel.MaxValue * HealPercentPerSecond * Time.deltaTime);
+    }
+
     public override string GetUpLevelDescription()
     {
         string upgradeText = "";
@@ -27,10 +32,5 @@ public class PassiveHealSkill : SkillBehaviour
         }
 
         return $"Health per second {HealPercentPerSecond * 100}% {upgradeText}";
-    }
-
-    public override void Apply()
-    {
-        _targetHealthModel.Add(_targetHealthModel.MaxValue * HealPercentPerSecond * Time.deltaTime);
     }
 }

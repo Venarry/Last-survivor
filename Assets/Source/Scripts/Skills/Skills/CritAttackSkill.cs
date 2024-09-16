@@ -24,6 +24,7 @@ public class CritAttackSkill : SkillBehaviour
     public override void Apply()
     {
         _characterBuffsModel.Add(_critDamageBuff);
+        _critDamageBuff.SetParameters(CritDamage, CritChance);
     }
 
     public override void Disable()

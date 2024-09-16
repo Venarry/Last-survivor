@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryModel
@@ -43,6 +44,8 @@ public class InventoryModel
         
         return true;
     }
+
+    public Dictionary<LootType, int> GetAll() => _loot.ToDictionary(c => c.Key, c => c.Value);
 
     private bool HasItems(Dictionary<LootType, int> items)
     {

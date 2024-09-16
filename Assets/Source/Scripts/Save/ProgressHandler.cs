@@ -38,13 +38,6 @@ public class ProgressHandler : IProgressSaveService
         _skillsFactory = skillsFactory;
         _parameterUpgradesFactory = parameterUpgradesFactory;
         _upgradesShop = upgradesShop;
-
-        _inventoryModel.ItemChanged += OnItemChange;
-    }
-
-    ~ProgressHandler()
-    {
-        _inventoryModel.ItemChanged -= OnItemChange;
     }
 
     public void Load()
@@ -66,6 +59,11 @@ public class ProgressHandler : IProgressSaveService
         _data.SetLevels(_levelsStatisticModel.TotalLevel);
         _data.SetExperienceData(_experienceModel.CurrentLevel, _experienceModel.CurrentExperience);
 
+        foreach (KeyValuePair<LootType, int> loot in _inventoryModel.GetAll())
+        {
+            _data.SetLoot(loot.Key, loot.Value);
+        }
+
         foreach (ParametersUpgradeBehaviour upgrade in _characterUpgrades.GetAll())
         {
             _data.AddUpgrade(upgrade.UpgradeType, upgrade.CurrentLevel);
@@ -80,11 +78,6 @@ public class ProgressHandler : IProgressSaveService
 
         PlayerPrefs.SetString(SaveName, data);
         Debug.Log(PlayerPrefs.GetString(SaveName));
-    }
-
-    private void OnItemChange(LootType type, int count)
-    {
-        _data.SetLoot(type, count);
     }
 
     private void InjectData()

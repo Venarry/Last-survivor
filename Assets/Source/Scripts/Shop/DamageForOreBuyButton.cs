@@ -1,7 +1,5 @@
-﻿public class DamageForOreBuyButton : BuyUpgradeButton
+﻿public class DamageForOreBuyButton : BuyDamageButton
 {
-    protected override void OnUpgradeBuy()
-    {
-        CharacterUpgrades.AddOrIncreaseLevel(UpgradesFactory.CreateDamageForOre());
-    }
+    protected override DamageUpgrade CreateUpgrade() =>
+        UpgradesFactory.CreateDamageForOre();
 }

@@ -8,4 +8,5 @@
 
     public override UpgradeType UpgradeType => UpgradeType.DamageForEnemy;
     protected override DamageBuff DamageBuff => _buff;
+    protected override string TargetName => "enemy";
 }

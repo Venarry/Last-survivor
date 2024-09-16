@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +8,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
     [SerializeField] private Transform _priceParent;
+    [SerializeField] private TMP_Text _upgradeDescription;
 
     protected CharacterUpgradesModel<ParametersUpgradeBehaviour> CharacterUpgrades;
     protected ParameterUpgradesFactory UpgradesFactory;
@@ -31,7 +34,13 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _basePrice = basePrice;
         _buyCount = buyCount;
 
+        OnInit();
         SetPriceView(GetActualPrice());
+        SetDescription();
+    }
+
+    protected virtual void OnInit()
+    {
     }
 
     private void OnEnable()
@@ -54,9 +63,10 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         OnUpgradeBuy();
         _buyCount++;
         SetPriceView(GetActualPrice());
+        SetDescription();
     }
 
-    protected Dictionary<LootType, int> GetActualPrice()
+    private Dictionary<LootType, int> GetActualPrice()
     {
         Dictionary<LootType, int> targetPrice = new();
 
@@ -74,7 +84,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         return targetPrice;
     }
 
-    protected async void SetPriceView(Dictionary<LootType, int> price)
+    private async void SetPriceView(Dictionary<LootType, int> price)
     {
         foreach (KeyValuePair<LootType, int> currentLoot in price)
         {
@@ -88,7 +98,24 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         }
     }
 
-    protected bool TryRemoveCharacterItems(Dictionary<LootType, int> price) => _inventoryModel.TryRemove(price);
+    private void SetDescription()
+    {
+        Type upgradeType = GetUpgradeType();
+
+        if(CharacterUpgrades.TryGetUpLevelDescription(upgradeType, out string description))
+        {
+            _upgradeDescription.text = description;
+        }
+        else
+        {
+            _upgradeDescription.text = "Error";
+        }
+    }
+
+    protected bool TryRemoveCharacterItems(Dictionary<LootType, int> price) =>
+        _inventoryModel.TryRemove(price);
 
     protected abstract void OnUpgradeBuy();
+
+    protected abstract Type GetUpgradeType();
 }

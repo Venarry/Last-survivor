@@ -4,6 +4,7 @@
 
     protected abstract DamageBuff DamageBuff { get; }
     protected virtual float DamagePerLevel { get; } = 0.1f;
+    protected abstract string TargetName { get; }
     private float Damage => DamagePerLevel * CurrentLevel;
 
     public DamageUpgrade(CharacterBuffsModel characterBuffsModel)
@@ -29,6 +30,8 @@
 
     public override string GetUpLevelDescription()
     {
-        return "";
+        string description = $"Damage for {TargetName}:\n{CurrentLevel * DamagePerLevel} + {DamagePerLevel}";
+
+        return description;
     }
 }

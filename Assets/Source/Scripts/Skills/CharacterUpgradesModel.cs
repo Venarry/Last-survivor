@@ -30,6 +30,23 @@ public class CharacterUpgradesModel<T> where T : Upgrade
         }
     }
 
+    public void AddWithoutIncreaseLevel(T upgrade)
+    {
+        Type type = upgrade.GetType();
+
+        if (_upgrades.ContainsKey(type) == true)
+            return;
+
+        _upgrades.Add(type, upgrade);
+
+        if (upgrade.SkillTickType == SkillTickType.AwakeTick)
+        {
+            upgrade.Apply();
+        }
+
+        Added?.Invoke(_upgrades[type]);
+    }
+
     public void AddOrIncreaseLevel(T upgrade)
     {
         Type type = upgrade.GetType();
@@ -48,6 +65,8 @@ public class CharacterUpgradesModel<T> where T : Upgrade
 
         Added?.Invoke(_upgrades[type]);
     }
+
+    public T[] GetAll() => _upgrades.Values.ToArray();
 
     public void Load(T[] upgrades)
     {
@@ -105,14 +124,18 @@ public class CharacterUpgradesModel<T> where T : Upgrade
         return true;
     }
 
-    public string GetUpLevelDescription(Type skillType)
+    public bool TryGetUpLevelDescription(Type skillType, out string description)
     {
+        description = "";
+
         if (_upgrades.ContainsKey(skillType) == false)
         {
-            return "";
+            return false;
         }
 
-        return _upgrades[skillType].GetUpLevelDescription();
+        description = _upgrades[skillType].GetUpLevelDescription();
+
+        return true;
     }
 
     public UpgradeType[] GetAllTypes() =>

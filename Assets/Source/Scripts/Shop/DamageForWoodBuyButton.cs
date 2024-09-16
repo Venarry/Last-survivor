@@ -1,7 +1,5 @@
-﻿public class DamageForWoodBuyButton : BuyUpgradeButton
+﻿public class DamageForWoodBuyButton : BuyDamageButton
 {
-    protected override void OnUpgradeBuy()
-    {
-        CharacterUpgrades.AddOrIncreaseLevel(UpgradesFactory.CreateDamageForWood());
-    }
+    protected override DamageUpgrade CreateUpgrade() =>
+        UpgradesFactory.CreateDamageForWood();
 }

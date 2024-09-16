@@ -37,27 +37,11 @@ public class ProgressHandler : IProgressSaveService
         _upgradesShop = upgradesShop;
 
         _inventoryModel.ItemChanged += OnItemChange;
-        _healthModel.Changed += OnHealthChange;
-        _levelsStatisticModel.Added += OnLevelChange;
-
-        _characterUpgrades.Added += OnUpgradeAdd;
-        _characterUpgrades.AllRemoved += OnUpgradesRemove;
-
-        _characterSkills.Added += OnSkillAdd;
-        _characterSkills.AllRemoved += OnSkillsRemove;
     }
-
 
     ~ProgressHandler()
     {
         _inventoryModel.ItemChanged -= OnItemChange;
-        _levelsStatisticModel.Added -= OnLevelChange;
-
-        _characterUpgrades.Added -= OnUpgradeAdd;
-        _characterUpgrades.AllRemoved -= OnUpgradesRemove;
-
-        _characterSkills.Added -= OnSkillAdd;
-        _characterSkills.AllRemoved -= OnSkillsRemove;
     }
 
     public void Load()
@@ -76,35 +60,22 @@ public class ProgressHandler : IProgressSaveService
     public void Save()
     {
         _data.HealthNormalized = _healthModel.HealthNormalized;
+        _data.SetLevels(_levelsStatisticModel.TotalLevel);
+
+        foreach (ParametersUpgradeBehaviour upgrade in _characterUpgrades.GetAll())
+        {
+            _data.AddUpgrade(upgrade.UpgradeType, upgrade.CurrentLevel);
+        }
+
+        foreach (SkillBehaviour skill in _characterSkills.GetAll())
+        {
+            _data.AddSkill(skill.UpgradeType, skill.CurrentLevel);
+        }
 
         string data = JsonUtility.ToJson(_data);
 
         PlayerPrefs.SetString(SaveName, data);
         Debug.Log(PlayerPrefs.GetString(SaveName));
-    }
-
-    private void OnHealthChange()
-    {
-    }
-
-    private void OnUpgradeAdd(ParametersUpgradeBehaviour upgrade)
-    {
-        _data.AddUpgrade(upgrade.UpgradeType, upgrade.CurrentLevel);
-        //Save();
-    }
-
-    private void OnUpgradesRemove() =>
-        _data.ResetUpgrades();
-
-    private void OnSkillAdd(SkillBehaviour skill) =>
-        _data.AddSkill(skill.UpgradeType, skill.CurrentLevel);
-
-    private void OnSkillsRemove() =>
-        _data.ResetSkills();
-
-    private void OnLevelChange()
-    {
-        _data.SetLevels(_levelsStatisticModel.TotalLevel);
     }
 
     private void OnItemChange(LootType type, int count)

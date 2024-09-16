@@ -78,7 +78,7 @@ public class SkillsOpener : MonoBehaviour
             if (_characterSkills.HasUpgrade(skillType))
             {
                 _characterSkills.TryGetUpgradeLevel(skillType, out int level, out int maxLevel);
-                string upgradeDescription = _characterSkills.GetUpLevelDescription(skillType);
+                _characterSkills.TryGetUpLevelDescription(skillType, out string upgradeDescription);
                 
                 if (level < maxLevel)
                 {

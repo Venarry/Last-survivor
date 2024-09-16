@@ -9,6 +9,7 @@ public class ProgressData
     public List<LootData> Loots = new();
     public List<UpgradeData> Upgrades = new();
     public List<UpgradeData> Skills = new();
+    public ExperienceData ExperienceData = new(0, 0);
 
     public float HealthNormalized = 1.0f;
     public int TotalLevels = 0;
@@ -25,6 +26,11 @@ public class ProgressData
         {
             loot.Count = count;
         }
+    }
+
+    public void SetExperienceData(int level, float experience)
+    {
+        ExperienceData = new(level, experience);
     }
 
     public void AddUpgrade(UpgradeType upgradeType, int level)

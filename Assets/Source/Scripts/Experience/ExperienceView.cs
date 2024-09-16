@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +14,13 @@ public class ExperienceView : MonoBehaviour
     public void Init(ExperienceModel experienceModel)
     {
         _experienceModel = experienceModel;
+
         _experienceModel.ExperienceChanged += OnExperienceChange;
         _experienceModel.LevelAdded += OnLevelAdd;
         _experienceModel.LevelsRemoved += OnLevelRemove;
+        _experienceModel.DataLoaded += RefreshAllInforamtion;
 
-        OnExperienceChange();
-        RefreshLevelLabel();
+        RefreshAllInforamtion();
     }
 
     private void OnDestroy()
@@ -26,6 +28,7 @@ public class ExperienceView : MonoBehaviour
         _experienceModel.ExperienceChanged -= OnExperienceChange;
         _experienceModel.LevelAdded -= OnLevelAdd;
         _experienceModel.LevelsRemoved -= OnLevelRemove;
+        _experienceModel.DataLoaded -= RefreshAllInforamtion;
     }
 
     public void Add(float experience)
@@ -42,6 +45,12 @@ public class ExperienceView : MonoBehaviour
     {
         RefreshLevelLabel();
         Instantiate(_levelUpParticlePrefab, transform.position, Quaternion.identity);
+    }
+
+    private void RefreshAllInforamtion()
+    {
+        OnExperienceChange();
+        RefreshLevelLabel();
     }
 
     private void OnLevelRemove()

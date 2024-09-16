@@ -47,7 +47,7 @@ public class EntryPoint : MonoBehaviour
         DayCycleParameters dayCycleParameters = new();
         LevelsStatisticModel levelsStatisticModel = new();
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
-        ExperienceModel experienceModel = new();
+        ExperienceModel playerExperienceModel = new();
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel = new();
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
         CharacterBuffsModel characterBuffsModel = new();
@@ -79,7 +79,7 @@ public class EntryPoint : MonoBehaviour
 
         Player player = await playerFactory.Create(
             position: new(0, 0, 5),
-            experienceModel,
+            playerExperienceModel,
             playerHealthModel,
             characterBuffsModel,
             characterSkillsModel,
@@ -134,6 +134,7 @@ public class EntryPoint : MonoBehaviour
         ProgressHandler progressHandler = new(
             inventoryModel,
             playerHealthModel,
+            playerExperienceModel,
             levelsStatisticModel,
             characterParametersUpgradesModel,
             characterSkillsModel,
@@ -141,22 +142,22 @@ public class EntryPoint : MonoBehaviour
             parametersUpgradesFactory,
             _upgradesShop);
 
-        progressHandler.Load();
-
         inventoryModel.Add(LootType.Wood, 1460 + 4300);
         inventoryModel.Add(LootType.Diamond, 200 + 326);
+
+        progressHandler.Load();
 
         MapPartsFactory mapPartsFactory = new(
             _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);
         await mapPartsFactory.Load();
 
         _upgradesShop.Init(priceDataSource, inventoryModel, characterParametersUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);
-        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, experienceModel, skillsFactory, _gameTimeScaler);
+        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, playerExperienceModel, skillsFactory, _gameTimeScaler);
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
         _levelsStatisticView.Init(levelsStatisticModel);
-        _characterUpgradesRefresher = new(levelsStatisticModel, experienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
+        _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _dayCycle.Init(dayCycleParameters, player.DayBar);
 
         _upgradesShop.InitButtons();

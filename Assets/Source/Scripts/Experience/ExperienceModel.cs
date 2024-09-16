@@ -8,11 +8,11 @@ public class ExperienceModel
     public float CurrentExperience { get; private set; }
     public int CurrentLevel { get; private set; }
     public float ExperienceForNextLevel => Mathf.Pow(CurrentLevel + 1, 2) * GameParamenters.BaseExperienceForNextLevel;
-    //public float ExperienceForNextLevel => (CurrentLevel + 1) * GameParamenters.BaseExperienceForNextLevel;
 
     public event Action ExperienceChanged;
     public event Action LevelAdded;
     public event Action LevelsRemoved;
+    public event Action DataLoaded;
 
     public void Add(float experience)
     {
@@ -33,6 +33,14 @@ public class ExperienceModel
     public void DisableBehaviour()
     {
         _disabled = true;
+    }
+
+    public void Load(int level, float experience)
+    {
+        CurrentLevel = level;
+        CurrentExperience = experience;
+
+        DataLoaded?.Invoke();
     }
 
     public void Reset()

@@ -9,6 +9,7 @@ public class ProgressHandler : IProgressSaveService
 
     private readonly InventoryModel _inventoryModel;
     private readonly HealthModel _healthModel;
+    private readonly ExperienceModel _experienceModel;
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
@@ -20,6 +21,7 @@ public class ProgressHandler : IProgressSaveService
     public ProgressHandler(
         InventoryModel inventoryModel,
         HealthModel healthModel,
+        ExperienceModel experienceModel,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
@@ -29,6 +31,7 @@ public class ProgressHandler : IProgressSaveService
     {
         _inventoryModel = inventoryModel;
         _healthModel = healthModel;
+        _experienceModel = experienceModel;
         _levelsStatisticModel = levelsStatisticModel;
         _characterUpgrades = characterUpgrades;
         _characterSkills = characterSkills;
@@ -61,6 +64,7 @@ public class ProgressHandler : IProgressSaveService
     {
         _data.HealthNormalized = _healthModel.HealthNormalized;
         _data.SetLevels(_levelsStatisticModel.TotalLevel);
+        _data.SetExperienceData(_experienceModel.CurrentLevel, _experienceModel.CurrentExperience);
 
         foreach (ParametersUpgradeBehaviour upgrade in _characterUpgrades.GetAll())
         {
@@ -92,6 +96,7 @@ public class ProgressHandler : IProgressSaveService
         _upgradesShop.Load(_data.Upgrades.ToArray());
         _levelsStatisticModel.Set(_data.TotalLevels);
         _healthModel.SetNormalizedHealth(_data.HealthNormalized);
+        _experienceModel.Load(_data.ExperienceData.Level, _data.ExperienceData.Experience);
     }
 
     private void LoadLoot()

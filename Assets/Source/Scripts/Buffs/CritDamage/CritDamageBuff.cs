@@ -4,6 +4,9 @@ public class CritDamageBuff : ICritDamageBuff
 {
     public float DamageMultiplier { get; private set; }
     private float _chance;
+
+    public event Action<IBuff> ParametersChanged;
+
     public Type Type => typeof(CritDamageBuff);
     public bool CanRepeat => true;
 
@@ -21,5 +24,7 @@ public class CritDamageBuff : ICritDamageBuff
     {
         DamageMultiplier = critDamageMultiplier;
         _chance = chance;
+
+        ParametersChanged?.Invoke(this);
     }
 }

@@ -6,6 +6,8 @@ public class DayIncreaseBuff : IDayDurationBuff
     public Type Type => GetType();
     public bool CanRepeat => true;
 
+    public event Action<IBuff> ParametersChanged;
+
     public float Apply(float dayDuration)
     {
         return _dayDurationIncrease + dayDuration;
@@ -14,5 +16,6 @@ public class DayIncreaseBuff : IDayDurationBuff
     public void SetParameters(float duration)
     {
         _dayDurationIncrease = duration;
+        ParametersChanged?.Invoke(this);
     }
 }

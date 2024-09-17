@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 public class CharacterBuffsModel
 {
     private readonly List<IBuff> _buffs = new();
+
+    public event Action<IBuff> Changed;
 
     public void Add(IBuff buff)
     {
@@ -18,6 +21,13 @@ public class CharacterBuffsModel
                 _buffs.Add(buff);
             }
         }
+
+        buff.ParametersChanged += OnBuffParameterChange;
+    }
+
+    private void OnBuffParameterChange(IBuff buff)
+    {
+        Changed?.Invoke(buff);
     }
 
     public void Remove(IBuff buff)

@@ -7,6 +7,8 @@ public abstract class DamageBuff : IDamageBuff
     public bool CanRepeat => true;
     public abstract TargetType TargetType { get; }
 
+    public event Action<IBuff> ParametersChanged;
+
     public float ApplyDamage(float damage)
     {
         return damage += _damage;
@@ -15,5 +17,6 @@ public abstract class DamageBuff : IDamageBuff
     public void SetParameters(float damage)
     {
         _damage = damage;
+        ParametersChanged?.Invoke(this);
     }
 }

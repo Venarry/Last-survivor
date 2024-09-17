@@ -6,11 +6,14 @@ public class AttackSpeedBuff : IAttackSpeedBuff
     public Type Type => typeof(AttackSpeedBuff);
     public bool CanRepeat => true;
 
+    public event Action<IBuff> ParametersChanged;
+
     public float ApplyCooldown(float attackCooldown) =>
         attackCooldown - (attackCooldown * _attackCooldownMultiplier);
 
     public void SetParameters(float attackCooldownMultiplier)
     {
         _attackCooldownMultiplier = attackCooldownMultiplier;
+        ParametersChanged?.Invoke(this);
     }
 }

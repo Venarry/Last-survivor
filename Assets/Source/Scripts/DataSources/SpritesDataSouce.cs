@@ -33,6 +33,7 @@ public class SpritesDataSouce
         {
             [LootType.Wood] = await _assetProvider.Load<Sprite>(AssetsKeys.ItemWood),
             [LootType.Diamond] = await _assetProvider.Load<Sprite>(AssetsKeys.ItemDiamond),
+            [LootType.Prestige] = await _assetProvider.Load<Sprite>(AssetsKeys.ItemPrestige),
         };
     }
 

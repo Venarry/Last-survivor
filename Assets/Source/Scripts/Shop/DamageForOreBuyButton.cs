@@ -1,5 +1,5 @@
-﻿public class DamageForOreBuyButton : BuyDamageButton
+﻿public class DamageForOreBuyButton : BuyUpgradeButton
 {
-    protected override DamageUpgrade CreateUpgrade() =>
+    protected override ParametersUpgradeBehaviour CreateUpgrade() =>
         UpgradesFactory.CreateDamageForOre();
 }

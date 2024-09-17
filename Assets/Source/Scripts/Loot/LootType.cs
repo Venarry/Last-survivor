@@ -2,4 +2,5 @@
 {
     Wood,
     Diamond,
+    Prestige,
 }

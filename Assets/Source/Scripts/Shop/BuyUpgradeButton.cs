@@ -13,6 +13,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
     protected CharacterUpgradesModel<ParametersUpgradeBehaviour> CharacterUpgrades;
     protected ParameterUpgradesFactory UpgradesFactory;
 
+    private ParametersUpgradeBehaviour _upgrade; 
     private Dictionary<LootType, int> _basePrice;
     private InventoryModel _inventoryModel;
     private readonly Dictionary<LootType, ItemPriceView> _priceView = new();
@@ -34,13 +35,9 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _basePrice = basePrice;
         _buyCount = buyCount;
 
-        OnInit();
+        InitUpgrade();
         SetPriceView(GetActualPrice());
         SetDescription();
-    }
-
-    protected virtual void OnInit()
-    {
     }
 
     private void OnEnable()
@@ -52,6 +49,14 @@ public abstract class BuyUpgradeButton : MonoBehaviour
     {
         _button.onClick.RemoveListener(OnButtonClick);
     }
+
+    private void InitUpgrade()
+    {
+        _upgrade = CreateUpgrade();
+        CharacterUpgrades.AddWithoutIncreaseLevel(_upgrade);
+    }
+
+    protected abstract ParametersUpgradeBehaviour CreateUpgrade();
 
     protected virtual void OnButtonClick()
     {
@@ -100,7 +105,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
     private void SetDescription()
     {
-        Type upgradeType = GetUpgradeType();
+        Type upgradeType = _upgrade.GetType();
 
         if(CharacterUpgrades.TryGetUpLevelDescription(upgradeType, out string description))
         {
@@ -115,7 +120,8 @@ public abstract class BuyUpgradeButton : MonoBehaviour
     protected bool TryRemoveCharacterItems(Dictionary<LootType, int> price) =>
         _inventoryModel.TryRemove(price);
 
-    protected abstract void OnUpgradeBuy();
-
-    protected abstract Type GetUpgradeType();
+    private void OnUpgradeBuy()
+    {
+        _upgrade.TryIncreaseLevel();
+    }
 }

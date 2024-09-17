@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public class PricesDataSource
@@ -20,6 +19,11 @@ public class PricesDataSource
         {
             [LootType.Diamond] = 4,
             [LootType.Wood] = 15,
+        },
+
+        [UpgradeType.DayDuration] = new()
+        {
+            [LootType.Prestige] = 1,
         },
     };
 

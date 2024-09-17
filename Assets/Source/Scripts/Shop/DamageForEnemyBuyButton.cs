@@ -1,19 +1,5 @@
-﻿public class DamageForEnemyBuyButton : BuyDamageButton
+﻿public class DamageForEnemyBuyButton : BuyUpgradeButton
 {
-    /*private DamageForEnemyUpgrade _damageForEnemyUpgrade;
-    protected override Type GetUpgradeType() => typeof(DamageForEnemyUpgrade);
-
-    protected override void OnInit()
-    {
-        _damageForEnemyUpgrade = UpgradesFactory.CreateDamageForEnemy();
-        CharacterUpgrades.AddWithoutIncreaseLevel(_damageForEnemyUpgrade);
-    }
-
-    protected override void OnUpgradeBuy()
-    {
-        _damageForEnemyUpgrade.TryIncreaseLevel();
-    }*/
-
-    protected override DamageUpgrade CreateUpgrade() => 
+    protected override ParametersUpgradeBehaviour CreateUpgrade() => 
         UpgradesFactory.CreateDamageForEnemy();
 }

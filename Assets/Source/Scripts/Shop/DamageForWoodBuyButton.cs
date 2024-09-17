@@ -1,5 +1,5 @@
-﻿public class DamageForWoodBuyButton : BuyDamageButton
+﻿public class DamageForWoodBuyButton : BuyUpgradeButton
 {
-    protected override DamageUpgrade CreateUpgrade() =>
+    protected override ParametersUpgradeBehaviour CreateUpgrade() =>
         UpgradesFactory.CreateDamageForWood();
 }

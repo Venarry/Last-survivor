@@ -31,6 +31,7 @@ public class AssetsKeys
 
     public const string ItemWood = "ItemWood";
     public const string ItemDiamond = "ItemDiamond";
+    public const string ItemPrestige = "ItemPrestige";
 
     public const string ItemPrice = "ItemPrice";
 

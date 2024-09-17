@@ -50,9 +50,10 @@ public class EntryPoint : MonoBehaviour
         ExperienceModel playerExperienceModel = new();
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel = new();
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
+        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterPrestigeUpgradesModel = new();
         CharacterBuffsModel characterBuffsModel = new();
         int playerHealth = 50;
-        HealthModel playerHealthModel = new(characterBuffsModel, playerHealth, 20);
+        HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
         InventoryModel inventoryModel = new();
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
 
@@ -169,8 +170,6 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
-
-        //characterSkillsModel.Add(skillsFactory.CreateAttackSpeedSkill());
     }
 
     private async Task<IInputProvider> GetInputProvider()

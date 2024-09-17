@@ -27,7 +27,9 @@ public class SkillWeaponCollisionHandler : MonoBehaviour
         {
             if(target.IsFriendly == false)
             {
-                _attackTypes[target.TargetType](target);
+                float damage = _characterAttackParameters.GetDamage(target.TargetType);
+                target.TakeDamage(damage * _damageMultiplier);
+                //_attackTypes[target.TargetType](target);
             }
         }
     }

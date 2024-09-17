@@ -44,7 +44,6 @@ public class EntryPoint : MonoBehaviour
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);
         await spritesDataSouce.Load();
 
-        DayCycleParameters dayCycleParameters = new();
         LevelsStatisticModel levelsStatisticModel = new();
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
         ExperienceModel playerExperienceModel = new();
@@ -52,6 +51,7 @@ public class EntryPoint : MonoBehaviour
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterPrestigeUpgradesModel = new();
         CharacterBuffsModel characterBuffsModel = new();
+        DayCycleParameters dayCycleParameters = new(characterBuffsModel);
         int playerHealth = 50;
         HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
         InventoryModel inventoryModel = new();

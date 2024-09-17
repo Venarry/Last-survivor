@@ -9,9 +9,7 @@ public abstract class Upgrade
     public void SetLevel(int level) =>
         CurrentLevel = level;
 
-    public virtual void Apply()
-    {
-    }
+    public abstract void Apply();
 
     public virtual void Disable()
     {

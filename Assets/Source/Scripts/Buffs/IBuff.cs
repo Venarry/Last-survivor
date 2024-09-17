@@ -3,5 +3,5 @@
 public interface IBuff
 {
     public Type Type { get; }
-    public bool IsUnique { get; }
+    public bool CanRepeat { get; }
 }

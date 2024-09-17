@@ -20,6 +20,8 @@ public abstract class BuyUpgradeButton : MonoBehaviour
     private ItemPriceFactory _itemPriceFactory;
     private int _buyCount;
 
+    public abstract UpgradeType UpgradeType { get; }
+
     public void Init(
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         ParameterUpgradesFactory upgradesFactory,
@@ -77,13 +79,13 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
         foreach (KeyValuePair<LootType, int> baseLootPrice in _basePrice)
         {
-            int minLootCount = 2;
+            int minLootCount = 1;
             int lootCount = Mathf.Max(baseLootPrice.Value, minLootCount);
 
             float defaultLootPrice = lootCount * (_buyCount + 1);
-            int lootPrice = (int)Mathf.Ceil(defaultLootPrice + Mathf.Pow(defaultLootPrice, 1.4f) * GameParamenters.PriceMultiplier);
+            int progressiveLootPrice = (int)Mathf.Ceil(defaultLootPrice + Mathf.Pow(defaultLootPrice, 1.4f) * GameParamenters.PriceMultiplier);
 
-            targetPrice.Add(baseLootPrice.Key, lootPrice);
+            targetPrice.Add(baseLootPrice.Key, progressiveLootPrice);
         }
 
         return targetPrice;

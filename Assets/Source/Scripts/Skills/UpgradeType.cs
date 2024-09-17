@@ -12,5 +12,5 @@
     DamageForEnemy,
     DamageForWood,
     DamageForOre,
-    DayDuration,
+    DayIncrease,
 }

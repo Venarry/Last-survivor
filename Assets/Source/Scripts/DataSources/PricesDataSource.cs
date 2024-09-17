@@ -21,7 +21,7 @@ public class PricesDataSource
             [LootType.Wood] = 15,
         },
 
-        [UpgradeType.DayDuration] = new()
+        [UpgradeType.DayIncrease] = new()
         {
             [LootType.Prestige] = 1,
         },

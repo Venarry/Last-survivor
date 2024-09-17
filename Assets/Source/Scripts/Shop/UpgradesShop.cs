@@ -5,9 +5,7 @@ using UnityEngine;
 public class UpgradesShop : MonoBehaviour
 {
     [SerializeField] private GameObject _shopMenu;
-    [SerializeField] private DamageForEnemyBuyButton _buyDamageForEnemyButton;
-    [SerializeField] private DamageForWoodBuyButton _buyDamageForWoodButton;
-    [SerializeField] private DamageForOreBuyButton _buyDamageForOreButton;
+    [SerializeField] private List<BuyUpgradeButton> _buttons;
 
     private PricesDataSource _priceDataSource;
     private InventoryModel _inventoryModel;
@@ -15,7 +13,6 @@ public class UpgradesShop : MonoBehaviour
     private ParameterUpgradesFactory _upgradesFactory;
     private GameTimeScaler _gameTimeScaler;
     private ItemPriceFactory _itemPriceFactory;
-    private Dictionary<UpgradeType, BuyUpgradeButton> _upgradesButtons;
     private readonly Dictionary<UpgradeType, int> _buyCountData = new();
 
     private string GameTimeKey => nameof(UpgradesShop);
@@ -34,13 +31,6 @@ public class UpgradesShop : MonoBehaviour
         _upgradesFactory = upgradesFactory;
         _itemPriceFactory = itemPriceFactory;
         _gameTimeScaler = gameTimeScaler;
-
-        _upgradesButtons = new()
-        {
-            [UpgradeType.DamageForEnemy] = _buyDamageForEnemyButton,
-            [UpgradeType.DamageForWood] = _buyDamageForWoodButton,
-            [UpgradeType.DamageForOre] = _buyDamageForOreButton,
-        };
     }
 
     public void Show()
@@ -65,12 +55,7 @@ public class UpgradesShop : MonoBehaviour
 
     public void InitButtons()
     {
-        /*foreach (Type upgradeType in _upgradesButtons.Keys)
-        {
-            InitButton(upgradeType, _itemPriceFactory);
-        }*/
-
-        foreach (KeyValuePair<UpgradeType, BuyUpgradeButton> upgradeButton in _upgradesButtons)
+        /*foreach (KeyValuePair<UpgradeType, BuyUpgradeButton> upgradeButton in _upgradesButtons)
         {
             Dictionary<LootType, int> basePrice = _priceDataSource.Get(upgradeButton.Key);
             int buyCount = 0;
@@ -81,12 +66,20 @@ public class UpgradesShop : MonoBehaviour
             }
 
             upgradeButton.Value.Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
+        }*/
+
+        foreach (BuyUpgradeButton button in _buttons)
+        {
+            Dictionary<LootType, int> basePrice = _priceDataSource.Get(button.UpgradeType);
+
+            int buyCount = 0;
+
+            if (_buyCountData.ContainsKey(button.UpgradeType))
+            {
+                buyCount = _buyCountData[button.UpgradeType];
+            }
+
+            button.Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
         }
     }
-
-    /*private void InitButton(Type upgradeType, ItemPriceFactory itemPriceFactory, int buyCount = 0)
-    {
-        Dictionary<LootType, int> basePrice = _priceDataSource.Get(upgradeType);
-        _upgradesButtons[upgradeType].Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, itemPriceFactory, buyCount);
-    }*/
 }

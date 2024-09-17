@@ -6,7 +6,7 @@ public class CharacterBuffsModel
 
     public void Add(IBuff buff)
     {
-        if(buff.IsUnique == true)
+        if(buff.CanRepeat == true)
         {
             _buffs.Add(buff);
         }

@@ -5,7 +5,7 @@ public class CritDamageBuff : ICritDamageBuff
     public float DamageMultiplier { get; private set; }
     private float _chance;
     public Type Type => typeof(CritDamageBuff);
-    public bool IsUnique => true;
+    public bool CanRepeat => true;
 
     public bool TryGetCrit(float damage, out float buffedDamage)
     {

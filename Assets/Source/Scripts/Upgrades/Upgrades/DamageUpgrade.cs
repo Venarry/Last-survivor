@@ -1,20 +1,17 @@
 ﻿public abstract class DamageUpgrade : ParametersUpgradeBehaviour
 {
-    private readonly CharacterBuffsModel _characterBuffsModel;
+    protected DamageUpgrade(CharacterBuffsModel characterBuffsModel) : base(characterBuffsModel)
+    {
+    }
 
     protected abstract DamageBuff DamageBuff { get; }
     protected virtual float DamagePerLevel { get; } = 0.1f;
     protected abstract string TargetName { get; }
     private float Damage => DamagePerLevel * CurrentLevel;
 
-    public DamageUpgrade(CharacterBuffsModel characterBuffsModel)
-    {
-        _characterBuffsModel = characterBuffsModel;
-    }
-
     public override void Apply()
     {
-        _characterBuffsModel.Add(DamageBuff);
+        CharacterBuffsModel.Add(DamageBuff);
         DamageBuff.SetParameters(Damage);
     }
 
@@ -25,7 +22,7 @@
 
     public override void Disable()
     {
-        _characterBuffsModel.Remove(DamageBuff);
+        CharacterBuffsModel.Remove(DamageBuff);
     }
 
     public override string GetUpLevelDescription()

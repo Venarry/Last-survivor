@@ -4,7 +4,7 @@ public class AttackSpeedBuff : IAttackSpeedBuff
 {
     private float _attackCooldownMultiplier;
     public Type Type => typeof(AttackSpeedBuff);
-    public bool IsUnique => true;
+    public bool CanRepeat => true;
 
     public float ApplyCooldown(float attackCooldown) =>
         attackCooldown - (attackCooldown * _attackCooldownMultiplier);

@@ -21,6 +21,7 @@ public class ParameterUpgradesFactory
     public DamageForEnemyUpgrade CreateDamageForEnemy() => new(_characterBuffsModel);
     public DamageForWoodUpgrade CreateDamageForWood() => new(_characterBuffsModel);
     public DamageForOreUpgrade CreateDamageForOre() => new(_characterBuffsModel);
+    public DayIncreaseUpgrade CreateDayIncrease() => new(_characterBuffsModel);
 
     public ParametersUpgradeBehaviour CreateBy(UpgradeType upgradeType, int level)
     {

@@ -4,7 +4,7 @@ public abstract class DamageBuff : IDamageBuff
 {
     private float _damage;
     public Type Type => typeof(DamageBuff);
-    public bool IsUnique => true;
+    public bool CanRepeat => true;
     public abstract TargetType TargetType { get; }
 
     public float ApplyDamage(float damage)

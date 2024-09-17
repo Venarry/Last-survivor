@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class MaxHealthUpSkill : SkillBehaviour
 {
-    private readonly HealthModel _healthModel;
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly MaxHealthUpBuff _maxHealthUpBuff = new();
     private readonly List<float> _healthPerLevel = new() { 25, 50, 80, 120, 160, 250 };
@@ -12,10 +10,8 @@ public class MaxHealthUpSkill : SkillBehaviour
     public override int MaxLevel => _healthPerLevel.Count;
 
     public MaxHealthUpSkill(
-        HealthModel healthModel,
         CharacterBuffsModel characterBuffsModel)
     {
-        _healthModel = healthModel;
         _characterBuffsModel = characterBuffsModel;
     }
 
@@ -38,7 +34,6 @@ public class MaxHealthUpSkill : SkillBehaviour
         _maxHealthUpBuff.SetParameters(_health);
 
         //_healthModel.TakeDamage(_health * _healthModel.HealthNormalized);
-        //Debug.Log(_healthModel.Value);
     }
 
     public override void Disable()

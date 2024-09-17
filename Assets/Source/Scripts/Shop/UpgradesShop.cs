@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,19 +54,6 @@ public class UpgradesShop : MonoBehaviour
 
     public void InitButtons()
     {
-        /*foreach (KeyValuePair<UpgradeType, BuyUpgradeButton> upgradeButton in _upgradesButtons)
-        {
-            Dictionary<LootType, int> basePrice = _priceDataSource.Get(upgradeButton.Key);
-            int buyCount = 0;
-
-            if (_buyCountData.ContainsKey(upgradeButton.Key))
-            {
-                buyCount = _buyCountData[upgradeButton.Key];
-            }
-
-            upgradeButton.Value.Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
-        }*/
-
         foreach (BuyUpgradeButton button in _buttons)
         {
             Dictionary<LootType, int> basePrice = _priceDataSource.Get(button.UpgradeType);

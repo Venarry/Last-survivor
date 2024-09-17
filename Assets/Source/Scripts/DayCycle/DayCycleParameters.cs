@@ -37,7 +37,6 @@ public class DayCycleParameters
             _dayDurationWithBuffs = buff.Apply(_dayDurationWithBuffs);
         }
 
-        Debug.Log(_dayDurationWithBuffs);
         return _dayDurationWithBuffs;
     }
 }

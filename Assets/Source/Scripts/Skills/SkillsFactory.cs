@@ -34,8 +34,8 @@ public class SkillsFactory
 
         _skills = new()
         {
-            //[UpgradeType.SwordRoundAttack] = CreateSwordRoundAttackSkill,
-            [UpgradeType.CritAttack] = CreateCritAttackSkill,
+            [UpgradeType.SwordRoundAttack] = CreateSwordRoundAttackSkill,
+            //[UpgradeType.CritAttack] = CreateCritAttackSkill,
             //[UpgradeType.Splash] = CreateSplashSkill,
             //[UpgradeType.PassiveHealthRegen] = CreatePassiveHealSkill,
             [UpgradeType.AttackCooldownReduce] = CreateAttackSpeedSkill,
@@ -60,7 +60,7 @@ public class SkillsFactory
     public AttackSpeedSkill CreateAttackSpeedSkill() =>
         new(_characterBuffsModel);
     public MaxHealthUpSkill CreateMaxHealthUpSkill() =>
-       new(_playerHealthModel, _characterBuffsModel);
+       new(_characterBuffsModel);
 
     public ThrowingAxesSkill CreateThrowingAxesSkill() =>
        new(_targetsProvider, _throwingAxesFactory, _player.transform, _coroutineProvider);

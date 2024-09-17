@@ -53,15 +53,15 @@ public class MapGenerator : MonoBehaviour
             bool startInCheckpoint = _levelsStatistic.CurrentLevel == 0 && _mapParts.Count == 0;
             int levelDifficulty = _mapParts.Count == 0 ? _levelsStatistic.CurrentLevel : _levelsStatistic.NextWave;
             int totalLevelDifficulty = _mapParts.Count == 0 ? _levelsStatistic.TotalLevel : _levelsStatistic.TotalLevel + 1;
+            bool haveEndLevelTrigger = _mapParts.Count > 0;
 
             if (_levelsStatistic.NextWave == 0 || startInCheckpoint)
             {
-                bool haveEndLevelTrigger = _mapParts.Count > 0;
                 part = await _mapPartsFactory.CreateCheckPointZone(spawnPosition, haveEndLevelTrigger);
             }
             else
             {
-                part = await _mapPartsFactory.CreateBetweenLevelZone(spawnPosition);
+                part = await _mapPartsFactory.CreateBetweenLevelZone(spawnPosition, haveEndLevelTrigger);
             }
 
             RegisterPart(part, ref spawnPosition);

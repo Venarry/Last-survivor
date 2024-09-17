@@ -15,6 +15,7 @@ public class ParameterUpgradesFactory
             [UpgradeType.DamageForEnemy] = CreateDamageForEnemy,
             [UpgradeType.DamageForWood] = CreateDamageForWood,
             [UpgradeType.DamageForOre] = CreateDamageForOre,
+            [UpgradeType.DayIncrease] = CreateDayIncrease,
         };
     }
 

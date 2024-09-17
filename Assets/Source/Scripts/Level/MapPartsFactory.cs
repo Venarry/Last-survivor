@@ -54,12 +54,12 @@ public class MapPartsFactory
         return part;
     }
 
-    public async Task<MapPart> CreateBetweenLevelZone(Vector3 spawnPosition) 
+    public async Task<MapPart> CreateBetweenLevelZone(Vector3 spawnPosition, bool haveEndLevelTrigger) 
     {
         BetweenLevelPart part = Object
             .Instantiate(await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone), spawnPosition, Quaternion.identity);
 
-        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _saveService);
+        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _saveService, haveEndLevelTrigger);
 
         return part;
     }

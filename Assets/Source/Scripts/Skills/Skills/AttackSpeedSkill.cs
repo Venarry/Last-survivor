@@ -3,9 +3,8 @@
     private readonly AttackSpeedBuff _attackSpeedBuff = new();
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly float _attackCooldownMultiplierPerLevel = 0.1f;
-    private readonly float _baseAttackCooldownMultiplier;
 
-    private float AttackCooldownMultiplier => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * (CurrentLevel - 1);
+    private float AttackCooldownMultiplier => _attackCooldownMultiplierPerLevel * CurrentLevel;
 
     public AttackSpeedSkill(CharacterBuffsModel characterBuffsModel)
     {

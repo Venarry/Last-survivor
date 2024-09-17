@@ -301,6 +301,7 @@ MonoBehaviour:
   _groundCollider: {fileID: 271180363745126932}
   _startLevelTrigger: {fileID: 2583460927383042552}
   _endlLevelTrigger: {fileID: 918108049306227771}
+  _barrierModelEnabler: {fileID: 1745240994914642316}
 --- !u!1001 &159122551512314694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -376,6 +377,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac15422fc50bc7a45a74e40f4d9a00ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1745240994914642316 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1877163690205321930, guid: 42105656eb41b9f43986540ad494bbd3, type: 3}
+  m_PrefabInstance: {fileID: 159122551512314694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7471559fc621a714f98cfbcab42f1d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2583460927383042552 stripped

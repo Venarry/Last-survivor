@@ -145,7 +145,7 @@ public class EntryPoint : MonoBehaviour
 
         progressHandler.Load();
 
-        inventoryModel.Add(LootType.Wood, 1460 + 4300);
+        inventoryModel.Add(LootType.Wood, 5760);
         inventoryModel.Add(LootType.Diamond, 526);
         inventoryModel.Add(LootType.Prestige, 500);
 
@@ -166,7 +166,7 @@ public class EntryPoint : MonoBehaviour
         _targetFollower.Set(player.transform);
         _characterUpgradesRefresher.Enable();
         _levelsStatisticView.SpawnLevelsIcon();
-        //_enemySpawner.StartSpawning();
+        _enemySpawner.StartSpawning();
         _mapGenerator.StartGenerator();
 
         _gameLoadingPanel.Disable();

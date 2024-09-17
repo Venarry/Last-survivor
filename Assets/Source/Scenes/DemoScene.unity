@@ -2001,7 +2001,19 @@ PrefabInstance:
     - target: {fileID: 3480395885873140407, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 08b72aec7a8901442af1e2f33a5eaeb5, type: 3}
+      objectReference: {fileID: 21300000, guid: c68144e00a98ce54d9176c1490dc09eb, type: 3}
+    - target: {fileID: 3480395885873140407, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 0.30704877
+      objectReference: {fileID: 0}
+    - target: {fileID: 3480395885873140407, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5925855
+      objectReference: {fileID: 0}
+    - target: {fileID: 3480395885873140407, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8679245
+      objectReference: {fileID: 0}
     - target: {fileID: 7655013201601625461, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2040,7 +2052,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7655013201601625461, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1688266876}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8668724141186321651, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
       insertIndex: -1
@@ -3098,6 +3113,81 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 641182580544279357, guid: e87ec14bdfddcbc4889c5e83ec9d93be, type: 3}
   m_PrefabInstance: {fileID: 5069117562286352617}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1688266875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688266876}
+  - component: {fileID: 1688266878}
+  - component: {fileID: 1688266877}
+  m_Layer: 5
+  m_Name: UpgradeTarget (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1688266876
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688266875}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1772908325}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -30, y: -30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1688266877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688266875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 31b37ee1d49cac54cb7dda4da44a7b0e, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1688266878
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688266875}
+  m_CullTransparentMesh: 1
 --- !u!1 &1690508944 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8668724141186321651, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
@@ -3134,6 +3224,11 @@ MonoBehaviour:
   _button: {fileID: 1690508946}
   _priceParent: {fileID: 1212502138}
   _upgradeDescription: {fileID: 358696801505889468}
+--- !u!224 &1772908325 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7655013201601625461, guid: bdde9b74ebbd41f48928f6453ce58ac5, type: 3}
+  m_PrefabInstance: {fileID: 1214185817}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1796042453
 GameObject:
   m_ObjectHideFlags: 0
@@ -3589,9 +3684,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shopMenu: {fileID: 1314147361}
-  _buyDamageForEnemyButton: {fileID: 1690508949}
-  _buyDamageForWoodButton: {fileID: 1162192462}
-  _buyDamageForOreButton: {fileID: 1335069422}
   _buttons:
   - {fileID: 1690508949}
   - {fileID: 1162192462}

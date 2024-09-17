@@ -36,7 +36,6 @@ public class MaxHealthUpSkill : SkillBehaviour
 
         _health = _healthPerLevel[CurrentLevel - 1];
         _maxHealthUpBuff.SetParameters(_health);
-        _healthModel.ApplyMaxHealthBuffs();
 
         //_healthModel.TakeDamage(_health * _healthModel.HealthNormalized);
         //Debug.Log(_healthModel.Value);

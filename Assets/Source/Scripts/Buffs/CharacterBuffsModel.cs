@@ -23,6 +23,7 @@ public class CharacterBuffsModel
         }
 
         buff.ParametersChanged += OnBuffParameterChange;
+        Changed?.Invoke(buff);
     }
 
     private void OnBuffParameterChange(IBuff buff)

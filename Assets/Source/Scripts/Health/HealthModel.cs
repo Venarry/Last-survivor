@@ -3,23 +3,32 @@ using UnityEngine;
 
 public class HealthModel
 {
-    private readonly CharacterBuffsModel _characterBuffsModel;
+    private CharacterBuffsModel _characterBuffsModel;
     private float _baseMaxValue;
 
     public HealthModel(CharacterBuffsModel characterBuffsModel, float maxValue)
     {
-        _characterBuffsModel = characterBuffsModel;
-        _baseMaxValue = maxValue;
-        MaxValue = maxValue;
-        Value = maxValue;
+        Init(characterBuffsModel, maxValue, maxValue);
     }
 
     public HealthModel(CharacterBuffsModel characterBuffsModel, float maxValue, float value)
+    {
+        Init(characterBuffsModel, maxValue, value);
+    }
+
+    ~HealthModel()
+    {
+        _characterBuffsModel.Changed -= OnBuffChange;
+    }
+
+    private void Init(CharacterBuffsModel characterBuffsModel, float maxValue, float value)
     {
         _characterBuffsModel = characterBuffsModel;
         _baseMaxValue = maxValue;
         MaxValue = maxValue;
         Value = value;
+
+        _characterBuffsModel.Changed += OnBuffChange;
     }
 
     public float Value { get; private set; }
@@ -78,10 +87,16 @@ public class HealthModel
         Changed?.Invoke();
     }
 
-    public void ApplyMaxHealthBuffs()
+    public void SetNormalizedHealth(float multiplier)
+    {
+        Value = MaxValue * multiplier;
+
+        Changed?.Invoke();
+    }
+
+    private void ApplyMaxHealthBuffs()
     {
         float healthMultiplier = HealthNormalized;
-        //float healthBeforeReset = Value;
         MaxValue = _baseMaxValue;
         Value = MaxValue * healthMultiplier;
 
@@ -116,10 +131,11 @@ public class HealthModel
         Changed?.Invoke();
     }
 
-    public void SetNormalizedHealth(float multiplier)
+    private void OnBuffChange(IBuff buff)
     {
-        Value = MaxValue * multiplier;
-
-        Changed?.Invoke();
+        if (buff is IMaxHealthBuff)
+        {
+            ApplyMaxHealthBuffs();
+        }
     }
 }

@@ -23,7 +23,7 @@ public class PricesDataSource
 
         [UpgradeType.DayIncrease] = new()
         {
-            [LootType.Prestige] = 1,
+            [LootType.Prestige] = 2,
         },
     };
 

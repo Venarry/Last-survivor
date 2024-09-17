@@ -41,7 +41,7 @@ public class SkillsOpener : MonoBehaviour
         _experienceModel.LevelAdded -= OnLevelAdd;
     }
 
-    public void CloseMenu()
+    public void CloseMenuAndRemoveSkills()
     {
         foreach (SkillToChoose spawnedSkill in _spawnedSkill)
         {

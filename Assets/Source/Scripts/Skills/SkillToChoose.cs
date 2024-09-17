@@ -58,7 +58,7 @@ public class SkillToChoose : MonoBehaviour
 
     private void OnButtonClick()
     {
-        _characterSkills.AddOrIncreaseLevel(_skill);
-        _skillOpener.CloseMenu();
+        _characterSkills.AddWithAwakeIncreaseLevelOrIncreaseLevel(_skill);
+        _skillOpener.CloseMenuAndRemoveSkills();
     }
 }

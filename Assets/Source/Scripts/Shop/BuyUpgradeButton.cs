@@ -55,7 +55,11 @@ public abstract class BuyUpgradeButton : MonoBehaviour
     private void InitUpgrade()
     {
         _upgrade = CreateUpgrade();
-        CharacterUpgrades.AddWithoutIncreaseLevel(_upgrade);
+
+        if(CharacterUpgrades.TryAddWithoutIncreaseLevel(_upgrade) == false)
+        {
+            CharacterUpgrades.TryGet(_upgrade.GetType(), out _upgrade);
+        }
     }
 
     protected abstract ParametersUpgradeBehaviour CreateUpgrade();
@@ -83,7 +87,10 @@ public abstract class BuyUpgradeButton : MonoBehaviour
             int lootCount = Mathf.Max(baseLootPrice.Value, minLootCount);
 
             float defaultLootPrice = lootCount * (_buyCount + 1);
-            int progressiveLootPrice = (int)Mathf.Ceil(defaultLootPrice + Mathf.Pow(defaultLootPrice, 1.4f) * GameParamenters.PriceMultiplier);
+            float pricePow = 1.4f;
+            float priceMultiplier = 0.01f;
+            int progressiveLootPrice = Mathf.FloorToInt(defaultLootPrice +
+                Mathf.Pow(defaultLootPrice, pricePow) * priceMultiplier * GameParamenters.PriceMultiplier);
 
             targetPrice.Add(baseLootPrice.Key, progressiveLootPrice);
         }

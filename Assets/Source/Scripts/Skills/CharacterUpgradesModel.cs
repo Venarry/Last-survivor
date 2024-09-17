@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 
 public class CharacterUpgradesModel<T> where T : Upgrade
 {
@@ -30,12 +29,14 @@ public class CharacterUpgradesModel<T> where T : Upgrade
         }
     }
 
-    public void AddWithoutIncreaseLevel(T upgrade)
+    public bool TryAddWithoutIncreaseLevel(T upgrade)
     {
         Type type = upgrade.GetType();
 
         if (_upgrades.ContainsKey(type) == true)
-            return;
+        {
+            return false;
+        }
 
         _upgrades.Add(type, upgrade);
 
@@ -45,9 +46,11 @@ public class CharacterUpgradesModel<T> where T : Upgrade
         }
 
         Added?.Invoke(_upgrades[type]);
+
+        return true;
     }
 
-    public void AddOrIncreaseLevel(T upgrade)
+    public void AddWithAwakeIncreaseLevelOrIncreaseLevel(T upgrade)
     {
         Type type = upgrade.GetType();
 
@@ -64,6 +67,11 @@ public class CharacterUpgradesModel<T> where T : Upgrade
         _upgrades[type].TryIncreaseLevel();
 
         Added?.Invoke(_upgrades[type]);
+    }
+
+    public bool TryGet(Type type, out T upgrade)
+    {
+        return _upgrades.TryGetValue(type, out upgrade);
     }
 
     public T[] GetAll() => _upgrades.Values.ToArray();
@@ -137,9 +145,6 @@ public class CharacterUpgradesModel<T> where T : Upgrade
 
         return true;
     }
-
-    public UpgradeType[] GetAllTypes() =>
-        _upgrades.Select(c => c.Value.UpgradeType).ToArray();
 
     public void EnableCast()
     {

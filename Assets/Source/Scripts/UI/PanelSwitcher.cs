@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,7 +32,7 @@ public class PanelSwitcher : MonoBehaviour
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class PanelSwitchConnection
 {
     [SerializeField] private Button _button;

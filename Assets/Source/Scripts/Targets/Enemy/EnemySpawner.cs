@@ -6,15 +6,19 @@ public class EnemySpawner
 {
     private readonly WaitForSeconds _waitSpawnDelay = new(GameParamenters.EnemySpawnDelay);
     private readonly List<Enemy> _enemys = new();
-
-    private DayCycle _dayCycleView;
-    private EnemyFactory _enemyFactory;
-    private LevelsStatisticModel _levelsStatistic;
-    private Target _attackTarget;
-    private CoroutineProvider _coroutineProvider;
+    private readonly DayCycle _dayCycleView;
+    private readonly EnemyFactory _enemyFactory;
+    private readonly LevelsStatisticModel _levelsStatistic;
+    private readonly Target _attackTarget;
+    private readonly CoroutineProvider _coroutineProvider;
     private Coroutine _activeSpawner;
 
-    public EnemySpawner(DayCycle dayCycle, EnemyFactory enemyFactory, LevelsStatisticModel levelsStatistic, Target attackTarget, CoroutineProvider coroutineProvider)
+    public EnemySpawner(
+        DayCycle dayCycle,
+        EnemyFactory enemyFactory,
+        LevelsStatisticModel levelsStatistic,
+        Target attackTarget,
+        CoroutineProvider coroutineProvider)
     {
         _dayCycleView = dayCycle;
         _enemyFactory = enemyFactory;
@@ -69,9 +73,9 @@ public class EnemySpawner
 
         while (true)
         {
-            SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
-
             yield return _waitSpawnDelay;
+
+            SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
         }
     }
 

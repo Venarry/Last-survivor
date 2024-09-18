@@ -35,13 +35,13 @@ public class SkillsFactory
         _skills = new()
         {
             [UpgradeType.SwordRoundAttack] = CreateSwordRoundAttackSkill,
-            //[UpgradeType.CritAttack] = CreateCritAttackSkill,
-            //[UpgradeType.Splash] = CreateSplashSkill,
-            //[UpgradeType.PassiveHealthRegen] = CreatePassiveHealSkill,
+            [UpgradeType.CritAttack] = CreateCritAttackSkill,
+            [UpgradeType.Splash] = CreateSplashSkill,
+            [UpgradeType.PassiveHealthRegen] = CreatePassiveHealSkill,
             [UpgradeType.AttackCooldownReduce] = CreateAttackSpeedSkill,
             [UpgradeType.MaxHealthUp] = CreateMaxHealthUpSkill,
-            //[UpgradeType.ThrowingAxes] = CreateThrowingAxesSkill,
-            //[UpgradeType.Pet] = CreatePetSkill,
+            [UpgradeType.ThrowingAxes] = CreateThrowingAxesSkill,
+            [UpgradeType.Pet] = CreatePetSkill,
         };
     }
 

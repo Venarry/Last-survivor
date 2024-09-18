@@ -43,6 +43,11 @@ public class EnemyBehaviour : MonoBehaviour
         _cooldownTimer.Tick();
     }
 
+    private void OnEnable()
+    {
+        EndAttack();
+    }
+
     public void SetDamage(float damage)
     {
         _damage = damage;
@@ -93,8 +98,18 @@ public class EnemyBehaviour : MonoBehaviour
             _target.TakeDamage(_damage);
         }
 
-        _activeAttackCoroutine = null;
-        _cooldownTimer.Reset();
-        AttackEnd?.Invoke();
+        EndAttack();
+    }
+
+    private void EndAttack()
+    {
+        if (_activeAttackCoroutine != null)
+        {
+            StopCoroutine(_activeAttackCoroutine);
+            _activeAttackCoroutine = null;
+            _cooldownTimer.Reset();
+
+            AttackEnd?.Invoke();
+        }
     }
 }

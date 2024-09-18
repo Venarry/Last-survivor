@@ -10,7 +10,7 @@ public class SplashSkill : SkillBehaviour
     private readonly float _splashDamageMultiplierPerLevel = 0.1f;
     private readonly float _baseSplashDamageMultiplier = 0.5f;
 
-    private float SplashDamageMultiplier => _baseSplashDamageMultiplier + _splashDamageMultiplierPerLevel * (CurrentLevel - 1);
+    private float SplashDamageMultiplier => _baseSplashDamageMultiplier + _splashDamageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
     public SplashSkill(CharacterAttackHandler playerAttackHandler, TargetsProvider<Target> targetsProvider)
     {

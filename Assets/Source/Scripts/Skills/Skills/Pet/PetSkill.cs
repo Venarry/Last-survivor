@@ -15,9 +15,9 @@ public class PetSkill : SkillBehaviour
     private readonly Transform _owner;
     private Pet _pet;
 
-    private float DamageMultiplier => _baseDamageMultiplier + _damageMultiplierPerLevel * (CurrentLevel - 1);
-    private float AttackCooldownMultiplier => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * (CurrentLevel - 1);
-    private float MoveToTargetDelay => _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * (CurrentLevel - 1);
+    private float DamageMultiplier => _baseDamageMultiplier + _damageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
+    private float AttackCooldownMultiplier => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
+    private float MoveToTargetDelay => _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
     public PetSkill(PetFactory petFactory, Transform owner)
     {

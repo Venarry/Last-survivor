@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class CritAttackSkill : SkillBehaviour
 {
     private readonly CharacterBuffsModel _characterBuffsModel;
@@ -9,8 +11,8 @@ public class CritAttackSkill : SkillBehaviour
     private readonly float _baseCritDamageMultiplier = 1.3f;
     private readonly float _baseCritChance = 20;
 
-    private float CritDamage => _baseCritDamageMultiplier + _critDamageMultiplierPerLevel * (CurrentLevel - 1);
-    private float CritChance => _baseCritChance + _critChancePerLevel * (CurrentLevel - 1);
+    private float CritDamage => _baseCritDamageMultiplier + _critDamageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
+    private float CritChance => _baseCritChance + _critChancePerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
     public CritAttackSkill(CharacterBuffsModel characterBuffsModel)
     {

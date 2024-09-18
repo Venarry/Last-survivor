@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -13,12 +13,13 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float _betweenLevelsZoneLength;
 
     private readonly Queue<MapPart> _mapParts = new();
+    private readonly float _playerPositionOffsetToSpawnPart = -30f;
+
     private Transform _player;
     private LevelsStatisticModel _levelsStatistic;
     private MapPartsFactory _mapPartsFactory;
     private bool _isEnabled;
     private float _currentPosition;
-    private float _spawnOffsetPosition = -30f;
 
     public void Init(
         Transform player,
@@ -30,11 +31,6 @@ public class MapGenerator : MonoBehaviour
         _mapPartsFactory = mapPartsFactory;
     }
 
-    public void StartGenerator()
-    {
-        _isEnabled = true;
-    }
-
     private async void Update()
     {
         if (_isEnabled == false)
@@ -43,9 +39,26 @@ public class MapGenerator : MonoBehaviour
         await TrySpawnMap();
     }
 
+    public void StartGenerator()
+    {
+        _isEnabled = true;
+    }
+
+    public void ResetLevels()
+    {
+        foreach (MapPart part in _mapParts)
+        {
+            Destroy(part.gameObject);
+        }
+
+        _mapParts.Clear();
+        _levelSpawner.RemoveAll();
+        _currentPosition = 0;
+    }
+
     private async Task TrySpawnMap()
     {
-        if(_player.position.z >= _currentPosition + _spawnOffsetPosition)
+        if(_player.position.z >= _currentPosition + _playerPositionOffsetToSpawnPart)
         {
             Vector3 spawnPosition = new(0, 0, _currentPosition);
             MapPart part;

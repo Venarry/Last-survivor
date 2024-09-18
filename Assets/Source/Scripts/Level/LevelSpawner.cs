@@ -113,6 +113,22 @@ public class LevelSpawner : MonoBehaviour
         return map;
     }
 
+    public void RemoveAll()
+    {
+        foreach (KeyValuePair<MapPart, List<Target>> map in _targetsOnMap)
+        {
+            foreach (Target obstacle in map.Value)
+            {
+                obstacle.PlaceInPool();
+            }
+
+            map.Value.Clear();
+            Destroy(map.Key);
+        }
+
+        _targetsOnMap.Clear();
+    }
+
     public void TryDeletePassedMap()
     {
         if (_targetsOnMap.Count <= GameParamenters.SpawnedMapBufferCount)
@@ -125,6 +141,7 @@ public class LevelSpawner : MonoBehaviour
             target.PlaceInPool();
         }
 
+        zeroMap.Value.Clear();
         Destroy(zeroMap.Key.gameObject);
     }
 
@@ -133,12 +150,12 @@ public class LevelSpawner : MonoBehaviour
         Target obstacle = (await targetFactory.Create(health, position, rotation)).Result;
         pool.Add(obstacle);
 
-        obstacle.LifeCycleEnded += OnTargetLifeCycleEnd;
+        obstacle.LifeCycleEnded += RemoveTargetFromMapPool;
     }
 
-    private void OnTargetLifeCycleEnd(Target removedTarget)
+    private void RemoveTargetFromMapPool(Target removedTarget)
     {
-        removedTarget.LifeCycleEnded -= OnTargetLifeCycleEnd;
+        removedTarget.LifeCycleEnded -= RemoveTargetFromMapPool;
 
         List<Target> listWithRemovedTarget = new();
 
@@ -149,6 +166,8 @@ public class LevelSpawner : MonoBehaviour
                 if(removedTarget == target)
                 {
                     listWithRemovedTarget = targets.Value;
+
+                    break;
                 }
             }
         }

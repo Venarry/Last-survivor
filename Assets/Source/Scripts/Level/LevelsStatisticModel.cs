@@ -18,4 +18,9 @@ public class LevelsStatisticModel
     {
         TotalLevel = count;
     }
+
+    public void ResetToCheckpoint()
+    {
+        TotalLevel -= CurrentLevel;
+    }
 }

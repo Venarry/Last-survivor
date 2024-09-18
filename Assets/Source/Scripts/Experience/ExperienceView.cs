@@ -44,7 +44,9 @@ public class ExperienceView : MonoBehaviour
     private void OnLevelAdd()
     {
         RefreshLevelLabel();
-        Instantiate(_levelUpParticlePrefab, transform.position, Quaternion.identity);
+
+        if(_levelUpParticlePrefab != null)
+            Instantiate(_levelUpParticlePrefab, transform.position, Quaternion.identity);
     }
 
     private void RefreshAllInforamtion()

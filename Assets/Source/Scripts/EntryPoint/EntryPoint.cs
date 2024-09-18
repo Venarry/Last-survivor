@@ -1,3 +1,5 @@
+using Agava.YandexGames;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -21,10 +23,17 @@ public class EntryPoint : MonoBehaviour
     private AssetsProvider _assetsProvider;
     private CharacterParametersRefresher _characterUpgradesRefresher;
 
+    private IEnumerator InitYandexSDK()
+    {
+        yield return YandexGamesSdk.Initialize();
+        Debug.Log("SDK inited");
+    }
+
     private async void Awake()
     {
-        _assetsProvider = new();
-
+#if UNITY_WEBGL && !UNITY_EDITOR
+        StartCoroutine(InitYandexSDK());
+#endif
         string[] loadingLabels = new string[]
         {
             "Load map",
@@ -33,11 +42,11 @@ public class EntryPoint : MonoBehaviour
             "Load targets",
         };
 
-        CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
-
         _gameLoadingPanel.Set(loadingLabels);
         _gameLoadingPanel.ShowNext();
 
+        _assetsProvider = new();
+        CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
         UpgradesInformationDataSource skillsInformationDataSource = new();
         PricesDataSource priceDataSource = new();
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);

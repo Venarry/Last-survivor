@@ -70,7 +70,6 @@ public class LevelSpawner : MonoBehaviour
 
         float healthPerTotalWaveMultiplier = 1f;
         float healthPerTotalWave = (totalLevel + 1) * healthPerTotalWaveMultiplier;
-        Debug.Log(totalLevel);
         float healthPerCurrentWave;
 
         if (currentLevel != 0)

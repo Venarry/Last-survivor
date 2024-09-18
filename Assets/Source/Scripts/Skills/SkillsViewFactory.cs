@@ -40,8 +40,8 @@ public class SkillsViewFactory
         string description = _skillsInformationDataSource.GetDescription(skillType);
 
         SkillToChoose skillToChooseButton = Object.Instantiate(skillToChoosePrefab, parent);
-        skillToChooseButton.Init(upgradable, skillsOpener, icon, skill);
-        skillToChooseButton.SetSkillInformation(skillLevel, maxSkillLevel, name, description, upgradeDescription);
+        skillToChooseButton.Init(upgradable, skillsOpener, skill);
+        skillToChooseButton.SetSkillInformation(icon, skillLevel, maxSkillLevel, name, description, upgradeDescription);
 
         return skillToChooseButton;
     }

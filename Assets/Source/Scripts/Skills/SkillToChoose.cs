@@ -23,22 +23,22 @@ public class SkillToChoose : MonoBehaviour
     public void Init(
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         SkillsOpener skillsOpener,
-        Sprite icon,
         SkillBehaviour skill)
     {
         _characterSkills = characterSkills;
         _skillOpener = skillsOpener;
-        _skillIcon.sprite = icon;
         _skill = skill;
     }
 
     public void SetSkillInformation(
+        Sprite icon,
         int currentLevel,
         int maxLevel,
         string name,
         string description,
         string upgradeDescription)
     {
+        _skillIcon.sprite = icon;
         _skillName.text = name;
         _skillDescription.text = description;
         _skillUpgradeDescription.text = upgradeDescription;
@@ -54,6 +54,11 @@ public class SkillToChoose : MonoBehaviour
     private void OnEnable()
     {
         _button.onClick.AddListener(OnButtonClick);
+    }
+
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(OnButtonClick);
     }
 
     private void OnButtonClick()

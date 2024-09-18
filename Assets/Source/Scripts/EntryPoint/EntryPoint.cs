@@ -41,6 +41,8 @@ public class EntryPoint : MonoBehaviour
         UpgradesInformationDataSource skillsInformationDataSource = new();
         PricesDataSource priceDataSource = new();
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);
+        TargetsProvider<Target> targetsProvider = new();
+        TargetsProvider<Loot> lootViewProvider = new();
         await spritesDataSouce.Load();
 
         LevelsStatisticModel levelsStatisticModel = new();
@@ -57,7 +59,6 @@ public class EntryPoint : MonoBehaviour
         CharacterAttackParameters characterAttackParameters = new(characterBuffsModel);
 
         IInputProvider inputProvider = await GetInputProvider();
-        TargetsProvider targetsProvider = new();
         ItemViewFactory itemViewFactory = new(_assetsProvider, spritesDataSouce);
         await itemViewFactory.Load();
         ItemPriceFactory itemPriceFactory = new(_assetsProvider, spritesDataSouce);
@@ -99,13 +100,13 @@ public class EntryPoint : MonoBehaviour
         ThrowingAxesFactory throwingAxesFactory = new(_assetsProvider, characterAttackParameters);
         await throwingAxesFactory.Load();
 
-        DiamondLootFactory diamondLootFactory = new(player.LootHolder, _assetsProvider);
+        DiamondLootFactory diamondLootFactory = new(player.LootHolder, lootViewProvider, _assetsProvider);
         await diamondLootFactory.Load();
 
         DiamondFactory diamondFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, diamondLootFactory);
         await diamondFactory.Load();
 
-        WoodLootFactory woodLootFactory = new(player.LootHolder, _assetsProvider);
+        WoodLootFactory woodLootFactory = new(player.LootHolder, lootViewProvider, _assetsProvider);
         await woodLootFactory.Load();
 
         WoodFactory woodFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, woodLootFactory);
@@ -157,7 +158,7 @@ public class EntryPoint : MonoBehaviour
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, playerExperienceModel, skillsFactory, _gameTimeScaler);
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
-        _deathMenu.Init(characterSkillsModel, playerExperienceModel, player.ThirdPersonMovement, levelsStatisticModel, playerHealthModel, progressHandler);
+        _deathMenu.Init(characterSkillsModel, playerExperienceModel, player.ThirdPersonMovement, levelsStatisticModel, playerHealthModel, lootViewProvider, progressHandler);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);

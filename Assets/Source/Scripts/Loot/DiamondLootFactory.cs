@@ -1,6 +1,7 @@
 public class DiamondLootFactory : LootFactory
 {
-    public DiamondLootFactory(ILootHolder lootHolder, AssetsProvider assetsProvider) : base(lootHolder, assetsProvider)
+    public DiamondLootFactory(ILootHolder lootHolder, TargetsProvider<Loot> lootProvider, AssetsProvider assetsProvider) 
+        : base(lootHolder, lootProvider, assetsProvider)
     {
     }
 

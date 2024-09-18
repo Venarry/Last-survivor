@@ -3,9 +3,9 @@ using UnityEngine;
 
 public abstract class TargetFactory : ObjectPoolBehaviour<Target>
 {
-    private readonly TargetsProvider _targetsProvider;
+    private readonly TargetsProvider<Target> _targetsProvider;
 
-    protected TargetFactory(TargetsProvider targetsProvider, AssetsProvider assetsProvider) : base(assetsProvider)
+    protected TargetFactory(TargetsProvider<Target> targetsProvider, AssetsProvider assetsProvider) : base(assetsProvider)
     {
         _targetsProvider = targetsProvider;
     }

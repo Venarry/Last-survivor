@@ -5,7 +5,7 @@ public class SkillsFactory
 {
     private readonly CoroutineProvider _coroutineProvider;
     private readonly Player _player;
-    private readonly TargetsProvider _targetsProvider;
+    private readonly TargetsProvider<Target> _targetsProvider;
     private readonly HealthModel _playerHealthModel;
     private readonly CharacterBuffsModel _characterBuffsModel;
     private readonly RoundSwordFactory _roundSwordFactory;
@@ -16,7 +16,7 @@ public class SkillsFactory
     public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек.
         CoroutineProvider coroutineProvider,
         Player player,
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         HealthModel playerHealthModel,
         CharacterBuffsModel characterBuffsModel,
         RoundSwordFactory roundSwordFactory,

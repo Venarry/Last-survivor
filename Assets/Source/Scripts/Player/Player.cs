@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     public void Init(
         IInputProvider inputProvider,
         CharacterAttackParameters characterAttackParameters,
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         InventoryModel inventoryModel,
         ExperienceModel experienceModel,
         HealthModel healthModel,

@@ -8,7 +8,7 @@ public abstract class TargetWithLootFactory : TargetFactory
 
     public TargetWithLootFactory(
         LevelsStatisticModel levelsStatisticModel,
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         AssetsProvider assetsProvider,
         LootFactory lootFactory)
         : base(targetsProvider, assetsProvider)

@@ -13,6 +13,7 @@ public class GameRestartMenu : MonoBehaviour
     private ThirdPersonMovement _thirdPersonMovement;
     private LevelsStatisticModel _levelsStatisticModel;
     private HealthModel _healthModel;
+    private TargetsProvider<Loot> _lootProvider;
     private IProgressSaveService _progressSaveService;
 
     public void Init(
@@ -21,6 +22,7 @@ public class GameRestartMenu : MonoBehaviour
         ThirdPersonMovement thirdPersonMovement,
         LevelsStatisticModel levelsStatisticModel,
         HealthModel healthModel,
+        TargetsProvider<Loot> lootProvider,
         IProgressSaveService progressSaveService)
     {
         _characterSkills = characterSkills;
@@ -28,6 +30,7 @@ public class GameRestartMenu : MonoBehaviour
         _thirdPersonMovement = thirdPersonMovement;
         _levelsStatisticModel = levelsStatisticModel;
         _healthModel = healthModel;
+        _lootProvider = lootProvider;
         _progressSaveService = progressSaveService;
     }
 
@@ -59,6 +62,11 @@ public class GameRestartMenu : MonoBehaviour
         _characterExperience.Reset();
         _characterSkills.RemoveAll();
         _healthModel.Restore();
+
+        foreach (Loot target in _lootProvider.GetAll())
+        {
+            target.PlaceInPool();
+        } 
 
         _thirdPersonMovement.gameObject.SetActive(true);
         _thirdPersonMovement.SetPosition(position: new(0, 0, 5));

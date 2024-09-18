@@ -1,6 +1,6 @@
 public class StoneFactory : TargetFactory
 {
-    public StoneFactory(TargetsProvider targetsProvider, AssetsProvider assetsProvider) : base(targetsProvider, assetsProvider)
+    public StoneFactory(TargetsProvider<Target> targetsProvider, AssetsProvider assetsProvider) : base(targetsProvider, assetsProvider)
     {
     }
 

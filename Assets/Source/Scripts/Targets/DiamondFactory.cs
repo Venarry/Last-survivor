@@ -1,11 +1,8 @@
-using System.Threading.Tasks;
-using UnityEngine;
-
 public class DiamondFactory : TargetWithLootFactory
 {
     public DiamondFactory(
         LevelsStatisticModel levelsStatisticModel,
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         AssetsProvider assetsProvider,
         DiamondLootFactory lootFactory) 
         : base(levelsStatisticModel, targetsProvider, assetsProvider, lootFactory)

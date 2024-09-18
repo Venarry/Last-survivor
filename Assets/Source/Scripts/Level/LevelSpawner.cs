@@ -34,7 +34,7 @@ public class LevelSpawner : MonoBehaviour
         _levelResourcesSpawnChance = levelResourcesSpawnChance;
     }
 
-    public async Task<MapPart> Spawn(Vector3 position, int levelDifficulty, int totalLevel)
+    public async Task<MapPart> Spawn(Vector3 position, int currentLevel, int totalLevel)
     {
         MapPart map = await _mapPartsFactory.CreateLevelZone(position);
 
@@ -48,7 +48,7 @@ public class LevelSpawner : MonoBehaviour
         if (_targetsOnMap.Count != 0)
         {
             int spawnCountByLevel = 7;
-            baseSpawnCount += levelDifficulty * spawnCountByLevel;
+            baseSpawnCount += currentLevel * spawnCountByLevel;
         }
 
         int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(baseSpawnCount));
@@ -68,20 +68,25 @@ public class LevelSpawner : MonoBehaviour
             }
         }
 
-        float healthPerTotalWave = totalLevel + 1;
+        float healthPerTotalWaveMultiplier = 1f;
+        float healthPerTotalWave = (totalLevel * healthPerTotalWaveMultiplier) + 1;
         float healthPerCurrentWave;
-        float healthPerCurrentWaveMultiplier = 3;
+        float healthPerCurrentWaveMultiplier = 0.1f; //3
 
-        if (levelDifficulty != 0)
+        if (currentLevel != 0)
         {
-            healthPerCurrentWave = levelDifficulty * healthPerCurrentWaveMultiplier;
+            healthPerCurrentWave = 1 + currentLevel * healthPerCurrentWaveMultiplier;
+            //healthPerCurrentWave = Mathf.Pow(currentLevel, 1.8f);
         }
         else
         {
-            healthPerCurrentWave = healthPerCurrentWaveMultiplier / 2;
+            healthPerCurrentWave = 1;
+            //healthPerCurrentWave = healthPerCurrentWaveMultiplier / 2;
         }
 
-        float health = 1 + healthPerTotalWave + healthPerCurrentWave;
+        float basehealth = 1;
+        //float health = basehealth + healthPerTotalWave + healthPerCurrentWave;
+        float health = (basehealth + healthPerTotalWave) * healthPerCurrentWave;
 
         List<Target> targetsInLevel = new();
         _targetsOnMap.Enqueue(new(map, targetsInLevel));

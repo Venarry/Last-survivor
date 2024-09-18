@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerFactory
 {
     private readonly IInputProvider _inputProviderl;
-    private readonly TargetsProvider _targetsProvider;
+    private readonly TargetsProvider<Target> _targetsProvider;
     private readonly AssetsProvider _assetProvider;
     private readonly ItemViewFactory _itemViewFactory;
     private readonly SkillsViewFactory _skillsViewFactory;
@@ -16,7 +16,7 @@ public class PlayerFactory
 
     public PlayerFactory(
         IInputProvider inputProvider,
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         AssetsProvider assetProvider,
         ItemViewFactory itemViewFactory,
         SkillsViewFactory skillsViewFactory,

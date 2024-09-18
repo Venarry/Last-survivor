@@ -60,6 +60,11 @@ public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
         LifeCycleEnded?.Invoke(this);
     }
 
+    public void PlaceInPool()
+    {
+        LifeCycleEnded?.Invoke(this);
+    }
+
     public void Respawn(Vector3 spawnPosition, Quaternion rotation)
     {
         transform.position = spawnPosition;

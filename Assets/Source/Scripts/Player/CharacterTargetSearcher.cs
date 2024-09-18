@@ -3,12 +3,12 @@ using UnityEngine;
 public class CharacterTargetSearcher
 {
     private readonly Transform _owner;
-    private readonly TargetsProvider _targetsProvider;
+    private readonly TargetsProvider<Target> _targetsProvider;
     private float _attackDistance = 3f;
 
     public CharacterTargetSearcher(
         Transform owner,
-        TargetsProvider targetsProvider)
+        TargetsProvider<Target> targetsProvider)
     {
         _owner = owner;
         _targetsProvider = targetsProvider;

@@ -6,7 +6,7 @@ public class EnemyFactory : TargetFactory
     private readonly float _attackDistance;
 
     public EnemyFactory(
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         AssetsProvider assetsProvider,
         float attackDistance) : base(targetsProvider, assetsProvider)
     {

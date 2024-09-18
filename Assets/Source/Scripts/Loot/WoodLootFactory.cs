@@ -1,6 +1,6 @@
 ﻿public class WoodLootFactory : LootFactory
 {
-    public WoodLootFactory(ILootHolder lootHolder, AssetsProvider assetsProvider) : base(lootHolder, assetsProvider)
+    public WoodLootFactory(ILootHolder lootHolder, TargetsProvider<Loot> lootProvider, AssetsProvider assetsProvider) : base(lootHolder, lootProvider, assetsProvider)
     {
     }
 

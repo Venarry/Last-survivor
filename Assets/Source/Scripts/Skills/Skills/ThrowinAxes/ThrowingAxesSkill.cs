@@ -7,7 +7,7 @@ public class ThrowingAxesSkill : SkillBehaviour
     private const float SpawnDelay = 0.2f;
 
     private readonly WaitForSeconds _spawnDelay = new(SpawnDelay);
-    private readonly TargetsProvider _targetsProvider;
+    private readonly TargetsProvider<Target> _targetsProvider;
     private readonly ThrowingAxesFactory _throwingAxesFactory;
     private readonly Transform _owner;
     private readonly CoroutineProvider _coroutineProvider;
@@ -18,7 +18,7 @@ public class ThrowingAxesSkill : SkillBehaviour
     private Vector3 SpawnPosition => _owner.position + new Vector3(0, 1f, 0);
 
     public ThrowingAxesSkill(
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         ThrowingAxesFactory throwingAxesFactory,
         Transform owner,
         CoroutineProvider coroutineProvider)

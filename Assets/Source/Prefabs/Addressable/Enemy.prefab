@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7950520085929197782}
   - component: {fileID: 3234093968273368761}
   - component: {fileID: -301251637405496147}
+  - component: {fileID: 3907921746523682696}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -141,6 +142,29 @@ MonoBehaviour:
   _animationAttack: {fileID: 1942785488916213143, guid: ab4848588350b45408ed2912e02b54dd, type: 3}
   _animator: {fileID: 6740830643478270261}
   _animationAttackPointPercent: 0.27
+--- !u!136 &3907921746523682696
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198342774510512658}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &929615539881880740
 PrefabInstance:
   m_ObjectHideFlags: 0

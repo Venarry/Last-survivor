@@ -4,7 +4,7 @@ using UnityEngine;
 public class SplashSkill : SkillBehaviour
 {
     private readonly CharacterAttackHandler _playerAttackHandler;
-    private readonly TargetsProvider _targetsProvider;
+    private readonly TargetsProvider<Target> _targetsProvider;
     private readonly float _splashAngle = 90;
     private readonly float _splashDistance = 6;
     private readonly float _splashDamageMultiplierPerLevel = 0.1f;
@@ -12,7 +12,7 @@ public class SplashSkill : SkillBehaviour
 
     private float SplashDamageMultiplier => _baseSplashDamageMultiplier + _splashDamageMultiplierPerLevel * (CurrentLevel - 1);
 
-    public SplashSkill(CharacterAttackHandler playerAttackHandler, TargetsProvider targetsProvider)
+    public SplashSkill(CharacterAttackHandler playerAttackHandler, TargetsProvider<Target> targetsProvider)
     {
         _playerAttackHandler = playerAttackHandler;
         _targetsProvider = targetsProvider;

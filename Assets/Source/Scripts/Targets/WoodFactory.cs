@@ -2,7 +2,7 @@
 {
     public WoodFactory(
         LevelsStatisticModel levelsStatisticModel,
-        TargetsProvider targetsProvider,
+        TargetsProvider<Target> targetsProvider,
         AssetsProvider assetsProvider,
         WoodLootFactory lootFactory) 
         : base(levelsStatisticModel, targetsProvider, assetsProvider, lootFactory)

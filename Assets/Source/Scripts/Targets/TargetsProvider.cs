@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetsProvider
+public class TargetsProvider<T> where T : MonoBehaviour
 {
-    private readonly List<Target> _targets = new();
-    private RaycastHit[] _raycastHits = new RaycastHit[32];
+    private readonly List<T> _targets = new();
+    private readonly RaycastHit[] _raycastHits = new RaycastHit[32];
 
-    public Target[] Targets => _targets.ToArray();
+    public T[] Targets => _targets.ToArray();
 
-    public void Add(Target target)
+    public void Add(T target)
     {
         if (_targets.Contains(target) == true)
             return;
@@ -16,7 +16,7 @@ public class TargetsProvider
         _targets.Add(target);
     }
 
-    public void Remove(Target target)
+    public void Remove(T target)
     {
         if (_targets.Contains(target) == false)
             return;
@@ -24,14 +24,16 @@ public class TargetsProvider
         _targets.Remove(target);
     }
 
-    public bool TryGetNearest(Vector3 position, float maxDistance, out Target nearestTarget)
+    public T[] GetAll() => _targets.ToArray();
+
+    public bool TryGetNearest(Vector3 position, float maxDistance, out T nearestTarget)
     {
-        nearestTarget = null;
+        nearestTarget = default;
         float nearestDistance = Mathf.Infinity;
 
-        foreach (Target currentTarget in _targets)
+        foreach (T currentTarget in _targets)
         {
-            float distance = Vector3.Distance(currentTarget.Position, position);
+            float distance = Vector3.Distance(currentTarget.transform.position, position);
 
             if (distance > maxDistance)
                 continue;
@@ -46,10 +48,10 @@ public class TargetsProvider
         return nearestTarget != null;
     }
 
-    public bool TryGetRayTargets(Ray ray, float distance, out Target[] targets)
+    public bool TryGetRayTargets(Ray ray, float distance, out T[] targets)
     {
-        targets = new Target[0];
-        List<Target> listTargets = new();
+        targets = new T[0];
+        List<T> listTargets = new();
         int hitsCount = Physics.RaycastNonAlloc(ray, _raycastHits, distance);
 
         if (hitsCount == 0)
@@ -59,7 +61,7 @@ public class TargetsProvider
 
         for (int i = 0; i < hitsCount; i++)
         {
-            if (_raycastHits[i].collider.TryGetComponent(out Target target))
+            if (_raycastHits[i].collider.TryGetComponent(out T target))
             {
                 listTargets.Add(target);
             }

@@ -12,7 +12,7 @@ public class PricesDataSource
 
         [UpgradeType.DamageForWood] = new()
         {
-            [LootType.Wood] = 15,
+            [LootType.Wood] = 30,
         },
 
         [UpgradeType.DamageForOre] = new()

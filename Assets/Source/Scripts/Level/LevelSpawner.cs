@@ -69,24 +69,22 @@ public class LevelSpawner : MonoBehaviour
         }
 
         float healthPerTotalWaveMultiplier = 1f;
-        float healthPerTotalWave = (totalLevel * healthPerTotalWaveMultiplier) + 1;
+        float healthPerTotalWave = (totalLevel + 1) * healthPerTotalWaveMultiplier;
+        Debug.Log(totalLevel);
         float healthPerCurrentWave;
-        float healthPerCurrentWaveMultiplier = 0.1f; //3
 
         if (currentLevel != 0)
         {
+            float healthPerCurrentWaveMultiplier = 0.1f; //3
             healthPerCurrentWave = 1 + currentLevel * healthPerCurrentWaveMultiplier;
-            //healthPerCurrentWave = Mathf.Pow(currentLevel, 1.8f);
         }
         else
         {
             healthPerCurrentWave = 1;
-            //healthPerCurrentWave = healthPerCurrentWaveMultiplier / 2;
         }
 
         float basehealth = 1;
-        //float health = basehealth + healthPerTotalWave + healthPerCurrentWave;
-        float health = (basehealth + healthPerTotalWave) * healthPerCurrentWave;
+        float health = basehealth + healthPerTotalWave * healthPerCurrentWave;
 
         List<Target> targetsInLevel = new();
         _targetsOnMap.Enqueue(new(map, targetsInLevel));

@@ -34,6 +34,11 @@ public class CharacterAttackHandler : MonoBehaviour
         _timeLeft += Time.deltaTime;
     }
 
+    private void OnEnable()
+    {
+        StopAttack();
+    }
+
     public void SetParameters(float damageMultiplier, float cooldownMultiplier)
     {
         _attackDamageMultiplier = damageMultiplier;

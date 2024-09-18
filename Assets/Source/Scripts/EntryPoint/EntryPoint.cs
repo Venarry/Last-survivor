@@ -145,8 +145,8 @@ public class EntryPoint : MonoBehaviour
 
         progressHandler.Load();
 
-        inventoryModel.Add(LootType.Wood, 5760);
-        inventoryModel.Add(LootType.Diamond, 526);
+        //inventoryModel.Add(LootType.Wood, 5760);
+        //inventoryModel.Add(LootType.Diamond, 526);
         //inventoryModel.Add(LootType.Prestige, 500);
 
         MapPartsFactory mapPartsFactory = new(

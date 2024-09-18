@@ -26,12 +26,12 @@ public class CharacterParametersRefresher
 
     public void Enable()
     {
-        _levelsStatisticModel.Added += OnWaveAdd;
+        _levelsStatisticModel.Changed += OnWaveAdd;
     }
 
     public void Disable()
     {
-        _levelsStatisticModel.Added -= OnWaveAdd;
+        _levelsStatisticModel.Changed -= OnWaveAdd;
     }
 
     private void OnWaveAdd()

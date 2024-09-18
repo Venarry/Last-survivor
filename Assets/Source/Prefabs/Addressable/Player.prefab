@@ -711,7 +711,6 @@ GameObject:
   - component: {fileID: 4468057806859689677}
   - component: {fileID: 2707608783866809151}
   - component: {fileID: 4706717776109421603}
-  - component: {fileID: 4553894755612824376}
   - component: {fileID: 6602400875279511496}
   - component: {fileID: 1081765195313635527}
   - component: {fileID: 93789205756401839}
@@ -885,18 +884,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isFriendly: 1
---- !u!114 &4553894755612824376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9089264288946607106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5f1e13b2269e3943a90be41ba10b63b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6602400875279511496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,6 +908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a25d9bc5c73e7043bb4e22ff4bbba5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hasOutOfAttackRange: 0
 --- !u!114 &93789205756401839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,8 +951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animationAttack: {fileID: -203655887218126122, guid: e8b4cef8f2da27f4883ddd1ba2f04e4d, type: 3}
   _animator: {fileID: 4320112754038790099}
-  _characterAttackHandler: {fileID: 1081765195313635527}
-  _thirdPersonMovement: {fileID: 3054929497815108457}
+  _animationAttackPointPercent: 0.5
 --- !u!1001 &799611219023213629
 PrefabInstance:
   m_ObjectHideFlags: 0

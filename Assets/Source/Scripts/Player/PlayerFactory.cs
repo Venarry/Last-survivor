@@ -11,6 +11,7 @@ public class PlayerFactory
     private readonly SpritesDataSouce _spritesDataSouce;
     private readonly Transform _itemsParent;
     private readonly Transform _skillsParent;
+    private readonly GameRestartMenu _deathMenu;
     private Player _playerPrefab;
 
     public PlayerFactory(
@@ -21,7 +22,8 @@ public class PlayerFactory
         SkillsViewFactory skillsViewFactory,
         SpritesDataSouce spritesDataSouce,
         Transform itemsParent,
-        Transform skillsParent)
+        Transform skillsParent,
+        GameRestartMenu deathMenu)
     {
         _inputProviderl = inputProvider;
         _targetsProvider = targetsProvider;
@@ -31,6 +33,7 @@ public class PlayerFactory
         _spritesDataSouce = spritesDataSouce;
         _itemsParent = itemsParent;
         _skillsParent = skillsParent;
+        _deathMenu = deathMenu;
     }
 
     public async Task<Player> Create(
@@ -60,7 +63,8 @@ public class PlayerFactory
             _skillsViewFactory,
             _spritesDataSouce,
             _itemsParent,
-            _skillsParent);
+            _skillsParent,
+            _deathMenu);
 
         return player;
     }

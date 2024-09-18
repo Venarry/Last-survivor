@@ -6,12 +6,12 @@ public class LevelsStatisticModel
     public int CurrentLevel => TotalLevel % GameParamenters.LevelsForCheckpoint;
     public int NextWave => (CurrentLevel + 1) % GameParamenters.LevelsForCheckpoint;
 
-    public event Action Added;
+    public event Action Changed;
 
     public void Add()
     {
         TotalLevel++;
-        Added?.Invoke();
+        Changed?.Invoke();
     }
 
     public void Set(int count )
@@ -22,5 +22,6 @@ public class LevelsStatisticModel
     public void ResetToCheckpoint()
     {
         TotalLevel -= CurrentLevel;
+        Changed?.Invoke();
     }
 }

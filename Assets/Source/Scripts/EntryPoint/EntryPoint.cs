@@ -15,8 +15,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private Transform _skillsParent;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private LevelsStatisticView _levelsStatisticView;
-
-    [SerializeField] private PetBehaviour _petBehaviour;
+    [SerializeField] private GameRestartMenu _deathMenu;
 
     private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
@@ -76,7 +75,8 @@ public class EntryPoint : MonoBehaviour
             skillsViewFactory,
             spritesDataSouce,
             _itemsParent,
-            _skillsParent);
+            _skillsParent,
+            _deathMenu);
 
         Player player = await playerFactory.Create(
             position: new(0, 0, 5),
@@ -147,7 +147,7 @@ public class EntryPoint : MonoBehaviour
 
         inventoryModel.Add(LootType.Wood, 5760);
         inventoryModel.Add(LootType.Diamond, 526);
-        inventoryModel.Add(LootType.Prestige, 500);
+        //inventoryModel.Add(LootType.Prestige, 500);
 
         MapPartsFactory mapPartsFactory = new(
             _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);
@@ -157,6 +157,7 @@ public class EntryPoint : MonoBehaviour
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, playerExperienceModel, skillsFactory, _gameTimeScaler);
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
+        _deathMenu.Init(characterSkillsModel, playerExperienceModel, player.ThirdPersonMovement, levelsStatisticModel, playerHealthModel, progressHandler);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);

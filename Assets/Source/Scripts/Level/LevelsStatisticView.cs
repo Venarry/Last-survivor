@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ public class LevelsStatisticView : MonoBehaviour
     {
         _levelsStatisticModel = levelsStatisticModel;
 
-        _levelsStatisticModel.Added += OnLevelAdded;
+        _levelsStatisticModel.Changed += OnLevelChange;
     }
 
     private void OnDestroy()
     {
-        _levelsStatisticModel.Added -= OnLevelAdded;
+        _levelsStatisticModel.Changed -= OnLevelChange;
     }
 
     public void SpawnLevelsIcon()
@@ -38,7 +39,7 @@ public class LevelsStatisticView : MonoBehaviour
         UpdateActiveIcon();
     }
 
-    private void OnLevelAdded()
+    private void OnLevelChange()
     {
         if(_levelsStatisticModel.CurrentLevel == 0)
         {
@@ -54,27 +55,37 @@ public class LevelsStatisticView : MonoBehaviour
         }
         else
         {
-            _icons[_currentLevel].SetDectiveSize();
-            _icons[_currentLevel].SetActiveColor();
+            SetComleteLevelView(_currentLevel);
         }
 
         UpdateActiveIcon();
     }
 
-    private void SetComleteLevel(int index)
-    {
-        _icons[index].SetDectiveSize();
-        _icons[index].SetActiveColor();
-    }
-
     private void UpdateActiveIcon()
     {
-        for (int i = _currentLevel; i < _levelsStatisticModel.CurrentLevel; i++)
+        if(_levelsStatisticModel.CurrentLevel >= _currentLevel)
         {
-            SetComleteLevel(i);
+            for (int i = _currentLevel; i < _levelsStatisticModel.CurrentLevel; i++)
+            {
+                SetComleteLevelView(i);
+            }
+        }
+        else
+        {
+            for (int i = _levelsStatisticModel.CurrentLevel; i < _currentLevel; i++)
+            {
+                _icons[i].SetDectiveSize();
+                _icons[i].SetDectiveColor();
+            }
         }
 
         _currentLevel = _levelsStatisticModel.CurrentLevel;
         _icons[_currentLevel].SetActiveSize();
+    }
+
+    private void SetComleteLevelView(int index)
+    {
+        _icons[index].SetDectiveSize();
+        _icons[index].SetActiveColor();
     }
 }

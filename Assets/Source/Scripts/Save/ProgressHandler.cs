@@ -56,6 +56,8 @@ public class ProgressHandler : IProgressSaveService
         _data.HealthNormalized = _healthModel.HealthNormalized;
         _data.SetLevels(_levelsStatisticModel.TotalLevel);
         _data.SetExperienceData(_experienceModel.CurrentLevel, _experienceModel.CurrentExperience);
+        _data.ResetUpgrades();
+        _data.ResetSkills();
 
         foreach (KeyValuePair<LootType, int> loot in _inventoryModel.GetAll())
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class LevelSpawner : MonoBehaviour
 {
@@ -117,13 +118,14 @@ public class LevelSpawner : MonoBehaviour
     {
         foreach (KeyValuePair<MapPart, List<Target>> map in _targetsOnMap)
         {
-            foreach (Target obstacle in map.Value)
+            foreach (Target target in map.Value)
             {
-                obstacle.PlaceInPool();
+                target.LifeCycleEnded -= RemoveTargetFromMapPool;
+                target.PlaceInPool();
             }
 
             map.Value.Clear();
-            Destroy(map.Key);
+            Destroy(map.Key.gameObject);
         }
 
         _targetsOnMap.Clear();
@@ -138,6 +140,7 @@ public class LevelSpawner : MonoBehaviour
 
         foreach (Target target in zeroMap.Value)
         {
+            target.LifeCycleEnded -= RemoveTargetFromMapPool;
             target.PlaceInPool();
         }
 

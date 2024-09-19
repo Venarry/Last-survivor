@@ -1,7 +1,7 @@
 ﻿public class DayIncreaseUpgrade : ParametersUpgradeBehaviour
 {
     private readonly DayIncreaseBuff _dayIncreaseBuff = new();
-    private readonly float _durationByLevel = 0.2f;
+    private readonly float _durationByLevel = 10.2f;
 
     public DayIncreaseUpgrade(CharacterBuffsModel characterBuffsModel) : base(characterBuffsModel)
     {

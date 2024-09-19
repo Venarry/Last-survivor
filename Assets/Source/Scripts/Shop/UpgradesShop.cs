@@ -5,10 +5,12 @@ public class UpgradesShop : MonoBehaviour
 {
     [SerializeField] private GameObject _shopMenu;
     [SerializeField] private List<BuyUpgradeButton> _buttons;
+    [SerializeField] private List<BuyUpgradeButton> _prestigeButtons;
 
     private PricesDataSource _priceDataSource;
     private InventoryModel _inventoryModel;
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
+    private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterPrestigeUpgrades;
     private ParameterUpgradesFactory _upgradesFactory;
     private GameTimeScaler _gameTimeScaler;
     private ItemPriceFactory _itemPriceFactory;
@@ -20,6 +22,7 @@ public class UpgradesShop : MonoBehaviour
         PricesDataSource priceDataSource,
         InventoryModel inventoryModel,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
+        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterPrestigeUpgrades,
         ParameterUpgradesFactory upgradesFactory,
         ItemPriceFactory itemPriceFactory,
         GameTimeScaler gameTimeScaler)
@@ -27,6 +30,7 @@ public class UpgradesShop : MonoBehaviour
         _priceDataSource = priceDataSource;
         _inventoryModel = inventoryModel;
         _characterUpgrades = characterUpgrades;
+        _characterPrestigeUpgrades = characterPrestigeUpgrades;
         _upgradesFactory = upgradesFactory;
         _itemPriceFactory = itemPriceFactory;
         _gameTimeScaler = gameTimeScaler;
@@ -56,7 +60,7 @@ public class UpgradesShop : MonoBehaviour
     {
         foreach (BuyUpgradeButton button in _buttons)
         {
-            Dictionary<LootType, int> basePrice = _priceDataSource.Get(button.UpgradeType);
+            /*Dictionary<LootType, int> basePrice = _priceDataSource.Get(button.UpgradeType);
 
             int buyCount = 0;
 
@@ -65,7 +69,28 @@ public class UpgradesShop : MonoBehaviour
                 buyCount = _buyCountData[button.UpgradeType];
             }
 
-            button.Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
+            button.Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);*/
+
+            InitButton(button, _characterUpgrades);
         }
+
+        foreach (BuyUpgradeButton button in _prestigeButtons)
+        {
+            InitButton(button, _characterPrestigeUpgrades);
+        }
+    }
+
+    private void InitButton(BuyUpgradeButton button, CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades)
+    {
+        Dictionary<LootType, int> basePrice = _priceDataSource.Get(button.UpgradeType);
+
+        int buyCount = 0;
+
+        if (_buyCountData.ContainsKey(button.UpgradeType))
+        {
+            buyCount = _buyCountData[button.UpgradeType];
+        }
+
+        button.Init(characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
     }
 }

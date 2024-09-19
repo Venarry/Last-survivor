@@ -18,6 +18,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private LevelsStatisticView _levelsStatisticView;
     [SerializeField] private GameRestartMenu _deathMenu;
+    [SerializeField] private ResetProgressHandler _resetProgressHandler;
 
     private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
@@ -88,8 +89,10 @@ public class EntryPoint : MonoBehaviour
             _skillsParent,
             _deathMenu);
 
+        Vector3 spawnPosition = new(0, 0, 5);
+
         Player player = await playerFactory.Create(
-            position: new(0, 0, 5),
+            position: spawnPosition,
             playerExperienceModel,
             playerHealthModel,
             characterBuffsModel,
@@ -148,6 +151,7 @@ public class EntryPoint : MonoBehaviour
             playerExperienceModel,
             levelsStatisticModel,
             characterParametersUpgradesModel,
+            characterPrestigeUpgradesModel,
             characterSkillsModel,
             skillsFactory,
             parametersUpgradesFactory,
@@ -155,23 +159,24 @@ public class EntryPoint : MonoBehaviour
 
         progressHandler.Load();
 
-        //inventoryModel.Add(LootType.Wood, 5760);
-        //inventoryModel.Add(LootType.Diamond, 526);
-        //inventoryModel.Add(LootType.Prestige, 500);
+        inventoryModel.Add(LootType.Wood, 5760);
+        inventoryModel.Add(LootType.Diamond, 526);
+        inventoryModel.Add(LootType.Prestige, 500);
 
         MapPartsFactory mapPartsFactory = new(
             _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);
         await mapPartsFactory.Load();
 
-        _upgradesShop.Init(priceDataSource, inventoryModel, characterParametersUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);
+        _upgradesShop.Init(priceDataSource, inventoryModel, characterParametersUpgradesModel, characterPrestigeUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);
         _skillsOpener.Init(skillsViewFactory, characterSkillsModel, playerExperienceModel, skillsFactory, _gameTimeScaler);
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
-        _deathMenu.Init(characterSkillsModel, playerExperienceModel, player.ThirdPersonMovement, levelsStatisticModel, playerHealthModel, lootViewProvider, progressHandler);
+        _deathMenu.Init(characterSkillsModel, playerExperienceModel, player.ThirdPersonMovement, levelsStatisticModel, playerHealthModel, lootViewProvider, progressHandler, spawnPosition);
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _dayCycle.Init(dayCycleParameters, player.DayBar);
+        _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, spawnPosition);
 
         _upgradesShop.InitButtons();
         _targetFollower.Set(player.transform);

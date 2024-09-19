@@ -44,6 +44,27 @@ public class InventoryModel
         return true;
     }
 
+    public void RemoveWithNotIncluding(List<LootType> lootTypes)
+    {
+        List<LootType> lootsForRemove = new();
+
+        foreach (KeyValuePair<LootType, int> loot in _loot)
+        {
+            if(lootTypes.Contains(loot.Key) == false)
+            {
+                lootsForRemove.Add(loot.Key);
+            }
+        }
+
+        foreach (LootType lootType in lootsForRemove)
+        {
+            _loot[lootType] = 0;
+
+            ItemChanged(lootType, _loot[lootType]);
+            _loot.Remove(lootType);
+        }
+    }
+
     public Dictionary<LootType, int> GetAll() => _loot.ToDictionary(c => c.Key, c => c.Value);
 
     private bool HasItems(Dictionary<LootType, int> items)

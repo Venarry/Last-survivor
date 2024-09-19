@@ -14,9 +14,10 @@ public class LevelsStatisticModel
         Changed?.Invoke();
     }
 
-    public void Set(int count )
+    public void Set(int count)
     {
         TotalLevel = count;
+        Changed?.Invoke();
     }
 
     public void ResetToCheckpoint()

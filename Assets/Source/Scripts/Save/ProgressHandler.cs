@@ -10,6 +10,7 @@ public class ProgressHandler : IProgressSaveService
     private readonly ExperienceModel _experienceModel;
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
+    private readonly CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterPrestigeUpgrades;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private readonly SkillsFactory _skillsFactory;
     private readonly ParameterUpgradesFactory _parameterUpgradesFactory;
@@ -22,6 +23,7 @@ public class ProgressHandler : IProgressSaveService
         ExperienceModel experienceModel,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
+        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterPrestigeUpgrades,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         SkillsFactory skillsFactory,
         ParameterUpgradesFactory parameterUpgradesFactory,
@@ -32,6 +34,7 @@ public class ProgressHandler : IProgressSaveService
         _experienceModel = experienceModel;
         _levelsStatisticModel = levelsStatisticModel;
         _characterUpgrades = characterUpgrades;
+        _characterPrestigeUpgrades = characterPrestigeUpgrades;
         _characterSkills = characterSkills;
         _skillsFactory = skillsFactory;
         _parameterUpgradesFactory = parameterUpgradesFactory;
@@ -57,6 +60,7 @@ public class ProgressHandler : IProgressSaveService
         _data.SetLevels(_levelsStatisticModel.TotalLevel);
         _data.SetExperienceData(_experienceModel.CurrentLevel, _experienceModel.CurrentExperience);
         _data.ResetUpgrades();
+        _data.ResetPrestigeUpgrades();
         _data.ResetSkills();
 
         foreach (KeyValuePair<LootType, int> loot in _inventoryModel.GetAll())
@@ -67,6 +71,11 @@ public class ProgressHandler : IProgressSaveService
         foreach (ParametersUpgradeBehaviour upgrade in _characterUpgrades.GetAll())
         {
             _data.AddUpgrade(upgrade.UpgradeType, upgrade.CurrentLevel);
+        }
+
+        foreach (ParametersUpgradeBehaviour upgrade in _characterPrestigeUpgrades.GetAll())
+        {
+            _data.AddPrestigeUpgrade(upgrade.UpgradeType, upgrade.CurrentLevel);
         }
 
         foreach (SkillBehaviour skill in _characterSkills.GetAll())

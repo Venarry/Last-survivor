@@ -15,6 +15,7 @@ public class GameRestartMenu : MonoBehaviour
     private HealthModel _healthModel;
     private TargetsProvider<Loot> _lootProvider;
     private IProgressSaveService _progressSaveService;
+    private Vector3 _spawnPosition;
 
     public void Init(
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
@@ -23,7 +24,8 @@ public class GameRestartMenu : MonoBehaviour
         LevelsStatisticModel levelsStatisticModel,
         HealthModel healthModel,
         TargetsProvider<Loot> lootProvider,
-        IProgressSaveService progressSaveService)
+        IProgressSaveService progressSaveService,
+        Vector3 spawnPosition)
     {
         _characterSkills = characterSkills;
         _characterExperience = characterExperience;
@@ -32,6 +34,7 @@ public class GameRestartMenu : MonoBehaviour
         _healthModel = healthModel;
         _lootProvider = lootProvider;
         _progressSaveService = progressSaveService;
+        _spawnPosition = spawnPosition;
     }
 
     private void OnEnable()
@@ -69,7 +72,7 @@ public class GameRestartMenu : MonoBehaviour
         } 
 
         _thirdPersonMovement.gameObject.SetActive(true);
-        _thirdPersonMovement.SetPosition(position: new(0, 0, 5));
+        _thirdPersonMovement.SetPosition(_spawnPosition);
         _thirdPersonMovement.SetBehaviour(state: true);
 
         Hide();

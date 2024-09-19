@@ -8,6 +8,7 @@ public class ProgressData
 {
     public List<LootData> Loots = new();
     public List<UpgradeData> Upgrades = new();
+    public List<UpgradeData> PrestigeUpgrades = new();
     public List<UpgradeData> Skills = new();
     public ExperienceData ExperienceData = new(0, 0);
 
@@ -38,14 +39,24 @@ public class ProgressData
         AddUpgradeTo(Upgrades, upgradeType, level);
     }
 
-    public void ResetUpgrades()
+    public void AddPrestigeUpgrade(UpgradeType upgradeType, int level)
     {
-        Upgrades.Clear();
+        AddUpgradeTo(PrestigeUpgrades, upgradeType, level);
     }
 
     public void AddSkill(UpgradeType upgradeType, int level)
     {
         AddUpgradeTo(Skills, upgradeType, level);
+    }
+
+    public void ResetUpgrades()
+    {
+        Upgrades.Clear();
+    }
+
+    public void ResetPrestigeUpgrades()
+    {
+        PrestigeUpgrades.Clear();
     }
 
     public void ResetSkills()

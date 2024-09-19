@@ -8,6 +8,7 @@ public class CharacterUpgradesModel<T> where T : Upgrade
     private bool _canCast;
 
     public event Action<T> Added;
+    public event Action<Type> Removed;
     public event Action AllRemoved;
 
     public void OnUpdate()
@@ -88,6 +89,8 @@ public class CharacterUpgradesModel<T> where T : Upgrade
             {
                 upgrade.Apply();
             }
+
+            Added?.Invoke(upgrade);
         }
     }
 
@@ -98,6 +101,8 @@ public class CharacterUpgradesModel<T> where T : Upgrade
 
         _upgrades[skillType].Disable();
         _upgrades.Remove(skillType);
+
+        Removed?.Invoke(skillType);
     }
 
     public void RemoveAll()

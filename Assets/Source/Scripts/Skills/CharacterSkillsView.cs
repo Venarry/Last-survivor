@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterSkillsView : MonoBehaviour
 {
-    private readonly List<SkillIcon> _skillIcons = new();
+    private readonly Dictionary<Type, SkillIcon> _skillsIcon = new();
     private CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
     private SkillsViewFactory _skillsViewFactory;
     private Transform _skillsParent;
@@ -26,18 +27,27 @@ public class CharacterSkillsView : MonoBehaviour
 
     private async void OnSkillAdd(Upgrade skill)
     {
-        SkillIcon skillIcon = await _skillsViewFactory.CreateSkillIcon(skill.GetType(), _skillsParent);
-        _skillIcons.Add(skillIcon);
+        Type skillType = skill.GetType();
+
+        if(_skillsIcon.ContainsKey(skillType) == false)
+        {
+            SkillIcon skillIcon = await _skillsViewFactory.CreateSkillIcon(skillType, _skillsParent, skill.CurrentLevel);
+            _skillsIcon.Add(skillType, skillIcon);
+        }
+        else
+        {
+            _skillsIcon[skillType].Set(skill.CurrentLevel);
+        }
     }
 
     private void OnAllRemoved()
     {
-        foreach (SkillIcon icon in _skillIcons)
+        foreach (KeyValuePair<Type, SkillIcon> icon in _skillsIcon)
         {
-            Destroy(icon.gameObject);
+            Destroy(icon.Value.gameObject);
         }
 
-        _skillIcons.Clear();
+        _skillsIcon.Clear();
     }
 
     private void Update()

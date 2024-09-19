@@ -1,10 +1,12 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthView : MonoBehaviour
 {
     [SerializeField] private Image _healthBar;
+    [SerializeField] private TMP_Text _healthLabel;
 
     private DamageIndicator _damageIndicator;
     private HealthModel _healthModel;
@@ -50,6 +52,7 @@ public class HealthView : MonoBehaviour
     private void OnHealthChange()
     {
         _healthBar.fillAmount = _healthModel.HealthNormalized;
+        _healthLabel.text = $"{_healthModel.Value}/{_healthModel.MaxValue}";
     }
 
     private void OnHealthOver()

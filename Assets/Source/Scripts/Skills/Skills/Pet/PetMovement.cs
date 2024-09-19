@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PetMovement : MonoBehaviour, IMoveProvider
 {
-    private Transform _followTarget;
     private float _goToTargetDelay = 2;
-    private float _stopDistance = 2;
+    private readonly float _stopDistance = 2;
+    private Transform _followTarget;
     private Coroutine _activeMove;
 
     private bool _hasTarget;
+    private Vector3 _targetPosition;
 
     public bool IsMoving => GetMovingState();//_activeMove != null || (FollowPosition - transform.position).magnitude > 0.1f;
     private Vector3 FollowPosition => _followTarget.position + new Vector3(2, 0, -1);
@@ -25,10 +26,15 @@ public class PetMovement : MonoBehaviour, IMoveProvider
     private void Update()
     {
         if (_hasTarget == true || _activeMove != null)
+        {
+            RotateTo(_targetPosition);
             return;
+        }
 
         if (_followTarget == null)
+        {
             return;
+        }
 
         float deltaPosition = 5;
         transform.position = Vector3.MoveTowards(transform.position, FollowPosition, deltaPosition * Time.deltaTime);
@@ -59,6 +65,7 @@ public class PetMovement : MonoBehaviour, IMoveProvider
     public void GoTo(Vector3 position)
     {
         _hasTarget = true;
+        _targetPosition = position;
         StopMovementCoroutine();
 
         _activeMove = StartCoroutine(MoveToPosition(position));

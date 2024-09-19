@@ -49,6 +49,12 @@ public class PetBehaviour : MonoBehaviour
     private void OnTargetEnd(Target target)
     {
         _currentTarget.LifeCycleEnded -= OnTargetEnd;
+
+        if (enabled == false)
+        {
+            return;
+        }
+
         _petMovement.Reached -= OnTargetReach;
         _currentTarget = null;
 

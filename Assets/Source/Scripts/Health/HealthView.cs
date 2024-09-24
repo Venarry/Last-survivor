@@ -52,7 +52,7 @@ public class HealthView : MonoBehaviour
     private void OnHealthChange()
     {
         _healthBar.fillAmount = _healthModel.HealthNormalized;
-        _healthLabel.text = $"{_healthModel.Value}/{_healthModel.MaxValue}";
+        _healthLabel.text = $"{Math.Round(_healthModel.Value, 1)}/{_healthModel.MaxValue}";
     }
 
     private void OnHealthOver()

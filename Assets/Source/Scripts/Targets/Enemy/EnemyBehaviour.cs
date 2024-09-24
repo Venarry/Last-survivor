@@ -55,6 +55,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Follow()
     {
+        if (_agent.isOnNavMesh == false)
+            return;
+
         _agent.SetDestination(_target.Position);
         IsMoving = true;
     }
@@ -72,6 +75,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void RemoveDestination()
     {
+        if (_agent.isOnNavMesh == false)
+            return;
+
         _agent.SetDestination(transform.position);
         IsMoving = false;
     }

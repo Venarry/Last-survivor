@@ -176,7 +176,7 @@ public class EntryPoint : MonoBehaviour
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _dayCycle.Init(dayCycleParameters, player.DayBar);
-        _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, spawnPosition);
+        _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, progressHandler, spawnPosition);
 
         _upgradesShop.InitButtons();
         _targetFollower.Set(player.transform);

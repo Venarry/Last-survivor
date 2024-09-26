@@ -34,6 +34,8 @@ public class UpgradesShop : MonoBehaviour
         _upgradesFactory = upgradesFactory;
         _itemPriceFactory = itemPriceFactory;
         _gameTimeScaler = gameTimeScaler;
+
+        Hide();
     }
 
     public void Show()

@@ -89,6 +89,11 @@ public class ProgressHandler : IProgressSaveService
         Debug.Log(PlayerPrefs.GetString(SaveName));
     }
 
+    public void ReloadShop()
+    {
+        _upgradesShop.ReloadButtons(_data.Upgrades.ToArray());
+    }
+
     private void InjectData()
     {
         LoadLoot();

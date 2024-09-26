@@ -6,8 +6,11 @@ public abstract class Upgrade
     public virtual int MaxLevel { get; }
     public int CurrentLevel { get; private set; }
 
-    public void SetLevel(int level) =>
+    public void SetLevel(int level)
+    {
         CurrentLevel = level;
+        OnLevelChange();
+    }
 
     public abstract void Apply();
 

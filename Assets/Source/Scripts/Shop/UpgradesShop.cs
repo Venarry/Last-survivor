@@ -14,7 +14,7 @@ public class UpgradesShop : MonoBehaviour
     private ParameterUpgradesFactory _upgradesFactory;
     private GameTimeScaler _gameTimeScaler;
     private ItemPriceFactory _itemPriceFactory;
-    private readonly Dictionary<UpgradeType, int> _buyCountData = new();
+    private Dictionary<UpgradeType, int> _buyCountData = new();
 
     private string GameTimeKey => nameof(UpgradesShop);
 
@@ -50,8 +50,16 @@ public class UpgradesShop : MonoBehaviour
         _gameTimeScaler.Remove(GameTimeKey);
     }
 
+    public void ReloadButtons(UpgradeData[] upgrades)
+    {
+        Load(upgrades);
+        ResetButtonsBuyCount();
+    }
+
     public void Load(UpgradeData[] upgrades)
     {
+        _buyCountData = new();
+
         foreach (UpgradeData upgradeData in upgrades)
         {
             _buyCountData.Add(upgradeData.Type, upgradeData.Level);
@@ -62,17 +70,6 @@ public class UpgradesShop : MonoBehaviour
     {
         foreach (BuyUpgradeButton button in _buttons)
         {
-            /*Dictionary<LootType, int> basePrice = _priceDataSource.Get(button.UpgradeType);
-
-            int buyCount = 0;
-
-            if (_buyCountData.ContainsKey(button.UpgradeType))
-            {
-                buyCount = _buyCountData[button.UpgradeType];
-            }
-
-            button.Init(_characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);*/
-
             InitButton(button, _characterUpgrades);
         }
 
@@ -86,13 +83,29 @@ public class UpgradesShop : MonoBehaviour
     {
         Dictionary<LootType, int> basePrice = _priceDataSource.Get(button.UpgradeType);
 
-        int buyCount = 0;
-
-        if (_buyCountData.ContainsKey(button.UpgradeType))
-        {
-            buyCount = _buyCountData[button.UpgradeType];
-        }
+        int buyCount = GetBuyCount(button.UpgradeType);
 
         button.Init(characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
+    }
+
+    private void ResetButtonsBuyCount()
+    {
+        foreach (BuyUpgradeButton button in _buttons)
+        {
+            int buyCount = GetBuyCount(button.UpgradeType);
+            button.SetBuyCount(buyCount);
+        }
+    }
+
+    private int GetBuyCount(UpgradeType upgradeType)
+    {
+        int buyCount = 0;
+
+        if (_buyCountData.ContainsKey(upgradeType))
+        {
+            buyCount = _buyCountData[upgradeType];
+        }
+
+        return buyCount;
     }
 }

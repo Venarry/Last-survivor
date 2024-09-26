@@ -70,23 +70,25 @@ public class ResetProgressHandler : MonoBehaviour
         else
         {
             _prestigeToAddCountLabel.text = $"You need {minLevelForResetPreogress} level or highter for reset progress";
-            _confirmButton.gameObject.SetActive(false);
+            //_confirmButton.gameObject.SetActive(false);
         }
     }
 
     private void ResetProgress()
     {
+        _characterInventory.Add(LootType.Prestige, PrestigeToAdd);
+
         _levelsStatisticModel.Set(0);
         _thirdPersonMovement.SetPosition(_respawnPosition);
         _characterUpgrades.RemoveAll();
         _mapGenerator.ResetLevels();
         _characterInventory.RemoveWithNotIncluding(new List<LootType>() { LootType.Prestige });
-        _characterInventory.Add(LootType.Prestige, PrestigeToAdd);
 
         Hide();
         _upgradesShop.Hide();
 
         _progressSaveService.Save();
+        _progressSaveService.ReloadShop();
     }
 
     private void Hide()

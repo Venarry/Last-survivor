@@ -37,6 +37,8 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _basePrice = basePrice;
         _buyCount = buyCount;
 
+        _upgrade = CreateUpgrade();
+
         InitUpgrade();
         SetPriceView(GetActualPrice());
         SetDescription();
@@ -52,14 +54,22 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _button.onClick.RemoveListener(OnButtonClick);
     }
 
-    private void InitUpgrade()
+    private void InitUpgrade() // лучше переделать и сделать чтобы при покупке апгрейда добавлялся
     {
-        _upgrade = CreateUpgrade();
-
         if(CharacterUpgrades.TryAddWithoutIncreaseLevel(_upgrade) == false)
         {
             CharacterUpgrades.TryGet(_upgrade.GetType(), out _upgrade);
         }
+    }
+
+    public void SetBuyCount(int buyCount)
+    {
+        _buyCount = buyCount;
+        _upgrade.SetLevel(buyCount);
+
+        InitUpgrade();
+        SetPriceView(GetActualPrice());
+        SetDescription();
     }
 
     protected abstract ParametersUpgradeBehaviour CreateUpgrade();
@@ -76,6 +86,9 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         SetPriceView(GetActualPrice());
         SetDescription();
     }
+
+    protected bool TryRemoveCharacterItems(Dictionary<LootType, int> price) =>
+        _inventoryModel.TryRemove(price);
 
     private Dictionary<LootType, int> GetActualPrice()
     {
@@ -125,9 +138,6 @@ public abstract class BuyUpgradeButton : MonoBehaviour
             _upgradeDescription.text = "Error";
         }
     }
-
-    protected bool TryRemoveCharacterItems(Dictionary<LootType, int> price) =>
-        _inventoryModel.TryRemove(price);
 
     private void OnUpgradeBuy()
     {

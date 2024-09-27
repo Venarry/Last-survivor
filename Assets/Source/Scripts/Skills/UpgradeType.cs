@@ -13,4 +13,5 @@
     DamageForWood,
     DamageForOre,
     DayIncrease,
+    ExperienceMultiplier,
 }

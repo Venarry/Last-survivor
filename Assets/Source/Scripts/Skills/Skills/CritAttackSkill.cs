@@ -46,8 +46,8 @@ public class CritAttackSkill : SkillBehaviour
 
         if (CurrentLevel > 0)
         {
-            critDamageUpgradeText = $"(+{GameParamenters.TextColorStart}{_critDamageMultiplierPerLevel * 100}%{GameParamenters.TextColorEnd})";
-            critChanceUpgradeText = $"(+{GameParamenters.TextColorStart}{_critChancePerLevel}%{GameParamenters.TextColorEnd})";
+            critDamageUpgradeText = $"(+{Decorate((_critDamageMultiplierPerLevel * 100).ToString())})";
+            critChanceUpgradeText = $"(+{Decorate(_critChancePerLevel.ToString())})";
         }
 
         return $"Crit damage {CritDamage * 100}% {critDamageUpgradeText}\n" +

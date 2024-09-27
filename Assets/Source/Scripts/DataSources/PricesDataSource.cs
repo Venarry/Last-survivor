@@ -25,6 +25,11 @@ public class PricesDataSource
         {
             [LootType.Prestige] = 2,
         },
+
+        [UpgradeType.ExperienceMultiplier] = new()
+        {
+            [LootType.Prestige] = 2,
+        },
     };
 
     public Dictionary<LootType, int> Get(UpgradeType upgradeType) => _baseUpgradesPrice[upgradeType].ToDictionary(x => x.Key, x => x.Value);

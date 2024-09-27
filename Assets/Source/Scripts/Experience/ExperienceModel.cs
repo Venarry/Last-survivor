@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class ExperienceModel
 {
+    private readonly CharacterBuffsModel _characterBuffsModel;
+
+    public ExperienceModel(CharacterBuffsModel characterBuffsModel)
+    {
+        _characterBuffsModel = characterBuffsModel;
+    }
+
     private bool _disabled = false;
 
     public float CurrentExperience { get; private set; }
@@ -19,7 +26,14 @@ public class ExperienceModel
         if (_disabled == true)
             return;
 
-        CurrentExperience += experience;
+        float buffedExperience = experience;
+
+        foreach (IExperienceBuff buff in _characterBuffsModel.GetBuffs<IExperienceBuff>())
+        {
+            buffedExperience = buff.Apply(buffedExperience);
+        }
+
+        CurrentExperience += buffedExperience;
         TryUpLevel();
 
         ExperienceChanged.Invoke();

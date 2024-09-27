@@ -39,7 +39,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
         _upgrade = CreateUpgrade();
 
-        InitUpgrade();
+        GetActualUpgrade();
         SetPriceView(GetActualPrice());
         SetDescription();
     }
@@ -54,7 +54,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _button.onClick.RemoveListener(OnButtonClick);
     }
 
-    private void InitUpgrade() // лучше переделать и сделать чтобы при покупке апгрейда добавлялся
+    private void GetActualUpgrade() // лучше переделать и сделать чтобы при покупке апгрейда добавлялся
     {
         if(CharacterUpgrades.TryAddWithoutIncreaseLevel(_upgrade) == false)
         {
@@ -67,7 +67,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _buyCount = buyCount;
         _upgrade.SetLevel(buyCount);
 
-        InitUpgrade();
+        GetActualUpgrade();
         SetPriceView(GetActualPrice());
         SetDescription();
     }

@@ -98,7 +98,8 @@ public class ProgressHandler : IProgressSaveService
     {
         LoadLoot();
         LoadSkills();
-        LoadUpgrades();
+        LoadUpgrades(_characterUpgrades, _data.Upgrades);
+        LoadUpgrades(_characterPrestigeUpgrades, _data.PrestigeUpgrades);
 
         _upgradesShop.Load(_data.Upgrades.ToArray());
         _levelsStatisticModel.Set(_data.TotalLevels);
@@ -127,16 +128,16 @@ public class ProgressHandler : IProgressSaveService
         _characterSkills.Load(skills.ToArray());
     }
 
-    private void LoadUpgrades()
+    private void LoadUpgrades(CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgradesModel, List<UpgradeData> source)
     {
         List<ParametersUpgradeBehaviour> upgrades = new();
 
-        foreach (UpgradeData upgradeData in _data.Upgrades)
+        foreach (UpgradeData upgradeData in source)
         {
             ParametersUpgradeBehaviour upgrade = _parameterUpgradesFactory.CreateBy(upgradeData.Type, upgradeData.Level);
             upgrades.Add(upgrade);
         }
 
-        _characterUpgrades.Load(upgrades.ToArray());
+        characterUpgradesModel.Load(upgrades.ToArray());
     }
 }

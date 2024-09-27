@@ -16,6 +16,7 @@ public class ParameterUpgradesFactory
             [UpgradeType.DamageForWood] = CreateDamageForWood,
             [UpgradeType.DamageForOre] = CreateDamageForOre,
             [UpgradeType.DayIncrease] = CreateDayIncrease,
+            [UpgradeType.ExperienceMultiplier] = CreateExperienceMultiplier,
         };
     }
 
@@ -23,6 +24,7 @@ public class ParameterUpgradesFactory
     public DamageForWoodUpgrade CreateDamageForWood() => new(_characterBuffsModel);
     public DamageForOreUpgrade CreateDamageForOre() => new(_characterBuffsModel);
     public DayIncreaseUpgrade CreateDayIncrease() => new(_characterBuffsModel);
+    public ExperienceMultiplierUpgrade CreateExperienceMultiplier() => new(_characterBuffsModel);
 
     public ParametersUpgradeBehaviour CreateBy(UpgradeType upgradeType, int level)
     {

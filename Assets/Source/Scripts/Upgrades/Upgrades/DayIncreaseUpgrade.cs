@@ -1,7 +1,7 @@
 ﻿public class DayIncreaseUpgrade : ParametersUpgradeBehaviour
 {
     private readonly DayIncreaseBuff _dayIncreaseBuff = new();
-    private readonly float _durationByLevel = 10.2f;
+    private readonly float _durationByLevel = 0.2f;
 
     public DayIncreaseUpgrade(CharacterBuffsModel characterBuffsModel) : base(characterBuffsModel)
     {
@@ -22,6 +22,6 @@
 
     public override string GetUpLevelDescription()
     {
-        return $"Increase day duration:\n{_durationByLevel * CurrentLevel} + {_durationByLevel}";
+        return $"Increase day duration:\n{_durationByLevel * CurrentLevel} + {Decorate(_durationByLevel.ToString())}";
     }
 }

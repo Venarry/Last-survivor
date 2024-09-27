@@ -57,11 +57,11 @@ public class EntryPoint : MonoBehaviour
 
         LevelsStatisticModel levelsStatisticModel = new();
         LevelResourcesSpawnChance levelResourcesSpawnChance = new();
-        ExperienceModel playerExperienceModel = new();
         CharacterUpgradesModel<SkillBehaviour> characterSkillsModel = new();
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterParametersUpgradesModel = new();
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterPrestigeUpgradesModel = new();
         CharacterBuffsModel characterBuffsModel = new();
+        ExperienceModel playerExperienceModel = new(characterBuffsModel);
         DayCycleParameters dayCycleParameters = new(characterBuffsModel);
         int playerHealth = 50;
         HealthModel playerHealthModel = new(characterBuffsModel, playerHealth);
@@ -161,7 +161,7 @@ public class EntryPoint : MonoBehaviour
 
         inventoryModel.Add(LootType.Wood, 5760);
         inventoryModel.Add(LootType.Diamond, 526);
-        //inventoryModel.Add(LootType.Prestige, 500);
+        inventoryModel.Add(LootType.Prestige, 500);
 
         MapPartsFactory mapPartsFactory = new(
             _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);

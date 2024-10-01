@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCollider: {fileID: 2531728905398904255}
-  _upgradesShopTrigger: {fileID: 7245319263054684156}
+  <UpgradesShopTrigger>k__BackingField: {fileID: 7245319263054684156}
   _startLevelTrigger: {fileID: 3061155240483367042}
   _endlLevelTrigger: {fileID: 368417855613519169}
   _barrierModelEnabler: {fileID: 1268171275285854454}

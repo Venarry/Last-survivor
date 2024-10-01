@@ -21,6 +21,8 @@ public class MapGenerator : MonoBehaviour
     private bool _isEnabled;
     private float _currentPosition;
 
+    public event Action<CheckpointPart> CheckpointZoneSpawned;
+
     public void Init(
         Transform player,
         LevelsStatisticModel levelsStatistic,
@@ -70,7 +72,10 @@ public class MapGenerator : MonoBehaviour
 
             if (_levelsStatistic.NextWave == 0 || startInCheckpoint)
             {
-                part = await _mapPartsFactory.CreateCheckPointZone(spawnPosition, haveEndLevelTrigger);
+                CheckpointPart checkpointPart = await _mapPartsFactory.CreateCheckPointZone(spawnPosition, haveEndLevelTrigger);
+                part = checkpointPart;
+
+                CheckpointZoneSpawned?.Invoke(checkpointPart);
             }
             else
             {

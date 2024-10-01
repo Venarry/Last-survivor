@@ -11,7 +11,7 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
     private Vector3 _moveDirection;
     private IInputProvider _inputProvider;
     private bool _isEnabled;
-    private Vector3 _startPosition;
+    private Vector3 _startTutorialPosition;
 
     public event Action<ITutorialAction> Happened;
     public Vector3 Direction => _moveDirection;
@@ -21,12 +21,6 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-    }
-
-    private void Start()
-    {
-        _startPosition = transform.position;
-
     }
 
     public void Init(IInputProvider inputProvider)
@@ -46,6 +40,7 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
 
     public void BeginMoveTutorial()
     {
+        _startTutorialPosition = transform.position;
         StartCoroutine(MakeTutorial());
     }
 
@@ -55,7 +50,7 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
 
         while(Happened != null)
         {
-            if (Vector3.Distance(_startPosition, transform.position) >= tutorialMoveRange)
+            if (Vector3.Distance(_startTutorialPosition, transform.position) >= tutorialMoveRange)
             {
                 Happened?.Invoke(this);
             }

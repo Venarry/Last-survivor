@@ -1,4 +1,5 @@
 using Agava.YandexGames;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -189,7 +190,16 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
 
-        _tutorial.Init(player.ThirdPersonMovement);
+        _tutorial.InitBase();
+        _tutorial.InitMovement(player.ThirdPersonMovement);
+
+        _mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
+    }
+
+    private void OnCheckpointZoneSpawn(CheckpointPart part)
+    {
+        _mapGenerator.CheckpointZoneSpawned -= OnCheckpointZoneSpawn;
+        _tutorial.InitShop(part.UpgradesShopTrigger);
     }
 
     private async Task<IInputProvider> GetInputProvider()

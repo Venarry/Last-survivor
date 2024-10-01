@@ -2,10 +2,11 @@
 
 public class CheckpointPart : MapPart
 {
-    [SerializeField] private UpgradesShopTrigger _upgradesShopTrigger;
     [SerializeField] private StartLevelTrigger _startLevelTrigger;
     [SerializeField] private EndlLevelTrigger _endlLevelTrigger;
     [SerializeField] private BarrierModelEnabler _barrierModelEnabler;
+
+    [field: SerializeField] public UpgradesShopTrigger UpgradesShopTrigger { get; private set; }
 
     public void Init(
         DayCycle dayCycle,
@@ -16,7 +17,7 @@ public class CheckpointPart : MapPart
         bool haveEndLevelTrigger)
     {
         _startLevelTrigger.Init(dayCycle, characterSkills);
-        _upgradesShopTrigger.Init(upgradesShop);
+        UpgradesShopTrigger.Init(upgradesShop);
         _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, saveService);
 
         if (haveEndLevelTrigger == false)

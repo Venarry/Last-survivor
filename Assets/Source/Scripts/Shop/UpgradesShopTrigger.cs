@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradesShopTrigger : MonoBehaviour
+public class UpgradesShopTrigger : MonoBehaviour, ITutorialAction
 {
     private const float TimeToOpenShop = 2f;
 
@@ -10,6 +11,8 @@ public class UpgradesShopTrigger : MonoBehaviour
     private UpgradesShop _upgradesShop;
     private bool _inTrigger;
     private float _timeInTrigger;
+
+    public event Action<ITutorialAction> Happened;
 
     private bool TimerIsReach => _timeInTrigger >= TimeToOpenShop;
 
@@ -30,6 +33,8 @@ public class UpgradesShopTrigger : MonoBehaviour
         if (TimerIsReach == true)
         {
             _upgradesShop.Show();
+
+            Happened?.Invoke(this);
         }
     }
 

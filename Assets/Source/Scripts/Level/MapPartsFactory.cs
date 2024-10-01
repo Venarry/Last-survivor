@@ -44,7 +44,7 @@ public class MapPartsFactory
         return part;
     }
 
-    public async Task<MapPart> CreateCheckPointZone(Vector3 spawnPosition, bool haveEndLevelTrigger)
+    public async Task<CheckpointPart> CreateCheckPointZone(Vector3 spawnPosition, bool haveEndLevelTrigger)
     {
         CheckpointPart part = Object
             .Instantiate(await _assetsProvider.LoadGameObject<CheckpointPart>(AssetsKeys.CheckpointZone), spawnPosition, Quaternion.identity);
@@ -54,7 +54,7 @@ public class MapPartsFactory
         return part;
     }
 
-    public async Task<MapPart> CreateBetweenLevelZone(Vector3 spawnPosition, bool haveEndLevelTrigger) 
+    public async Task<BetweenLevelPart> CreateBetweenLevelZone(Vector3 spawnPosition, bool haveEndLevelTrigger) 
     {
         BetweenLevelPart part = Object
             .Instantiate(await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone), spawnPosition, Quaternion.identity);

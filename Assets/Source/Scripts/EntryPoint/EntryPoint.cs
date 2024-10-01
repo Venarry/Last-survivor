@@ -19,6 +19,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private LevelsStatisticView _levelsStatisticView;
     [SerializeField] private GameRestartMenu _deathMenu;
     [SerializeField] private ResetProgressHandler _resetProgressHandler;
+    [SerializeField] private Tutorial _tutorial;
 
     private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
@@ -187,6 +188,8 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
+
+        _tutorial.Init(player.ThirdPersonMovement);
     }
 
     private async Task<IInputProvider> GetInputProvider()

@@ -1,63 +1,112 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
     [SerializeField] private GameTimeScaler _timeScaler;
-    [SerializeField] private List<GameObject> _screens;
+    [SerializeField] private GameObject _startTutorialObject;
+    [SerializeField] private List<TutorialPart> _tutorialParts;
 
-    private List<TutorialPart> _tutorialParts;
-    private int _partsCounter = 0;
+    [SerializeField] private GameObject _moveTutorialBeginAction;
+    [SerializeField] private GameObject _moveTutorialScreen;
 
-    public void Init(params ITutorialAction[] tutorialActions)
+    public void Init(ThirdPersonMovement thirdPersonMovement) //params ITutorialAction[] tutorialActions
     {
-        int partsCount = Math.Min(tutorialActions.Length, _screens.Count);
-        _tutorialParts = new();
+        ITutorialAction moveBeginAction = _moveTutorialBeginAction.GetComponent<ITutorialAction>();
+        TutorialPart movementTutorial = new(moveBeginAction, thirdPersonMovement, _moveTutorialScreen);
+        _tutorialParts.Add(movementTutorial);
 
-        for (int i = 0; i < partsCount; i++)
+        for (int i = 0; i < _tutorialParts.Count; i++)
         {
-            _tutorialParts.Add(new(tutorialActions[i], _screens[i]));
-            _screens[i].SetActive(false);
+            if(_tutorialParts[i].BeginAction != null)
+                _tutorialParts[i].BeginAction.Happened += OnBeginActionHappen;
+
+            if(_tutorialParts[i].EndAction != null)
+                _tutorialParts[i].EndAction.Happened += OnEndActionHappen;
         }
+
+        _tutorialParts[0].Screen.SetActive(true);
+
+        thirdPersonMovement.BeginMoveTutorial();
     }
 
-    public void ShowNext()
+    private void OnEndActionHappen(ITutorialAction tutorialAction)
     {
-        if (_partsCounter > 0)
-        {
-            _tutorialParts[_partsCounter - 1].Screen.SetActive(false);
-        }
+        tutorialAction.Happened -= OnEndActionHappen;
 
-        if(_partsCounter == _tutorialParts.Count)
-        {
-
-
-            return;
-        }
-
-        _tutorialParts[_partsCounter].Screen.SetActive(true);
-        _tutorialParts[_partsCounter].Action.Happened += OnActionHappen;
+        TutorialPart tutorialPart = _tutorialParts.FirstOrDefault(c => c.EndAction == tutorialAction);
+        tutorialPart.Screen.SetActive(false);
     }
 
-    private void OnActionHappen(ITutorialAction tutorialAction)
+    private void OnBeginActionHappen(ITutorialAction tutorialAction)
     {
-        tutorialAction.Happened -= OnActionHappen;
+        tutorialAction.Happened -= OnBeginActionHappen;
 
-        _partsCounter++;
-        ShowNext();
+        TutorialPart tutorialPart = _tutorialParts.FirstOrDefault(c => c.BeginAction == tutorialAction);
+        tutorialPart.Screen.SetActive(true);
     }
 }
 
+[Serializable]
 public class TutorialPart
 {
-    public readonly ITutorialAction Action;
-    public readonly GameObject Screen;
+    [SerializeField] private GameObject _beginTutorialAction;
+    [SerializeField] private GameObject _screen;
+    [SerializeField] private GameObject _endTutorialAction;
+    [SerializeField] private bool _disableTime = false;
 
-    public TutorialPart(ITutorialAction action, GameObject screen)
+    private readonly ITutorialAction _beginAction;
+    private readonly ITutorialAction _endAction;
+
+    public GameObject Screen => _screen;
+
+    public ITutorialAction BeginAction
     {
-        Action = action;
-        Screen = screen;
+        get
+        {
+            if(_beginAction != null)
+            {
+                return _beginAction;
+            }
+
+            if (_beginTutorialAction != null && _beginTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
+            {
+                return tutorialAction;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public ITutorialAction EndAction
+    {
+        get
+        {
+            if (_endAction != null)
+            {
+                return _endAction;
+            }
+
+            if (_endTutorialAction != null && _endTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
+            {
+                return tutorialAction;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public TutorialPart(ITutorialAction beginAction, ITutorialAction endAction, GameObject screen)
+    {
+        _beginAction = beginAction;
+        _endAction = endAction;
+        _screen = screen;
     }
 }
 

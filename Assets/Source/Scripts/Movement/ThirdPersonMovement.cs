@@ -1,7 +1,9 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class ThirdPersonMovement : MonoBehaviour, IMoveProvider
+public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
 {
     [SerializeField] private float _speed = 7f;
     
@@ -9,7 +11,9 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider
     private Vector3 _moveDirection;
     private IInputProvider _inputProvider;
     private bool _isEnabled;
+    private Vector3 _startPosition;
 
+    public event Action<ITutorialAction> Happened;
     public Vector3 Direction => _moveDirection;
     public Vector3 Position => transform.position;
     public bool IsMoving => new Vector3(Direction.x, 0, Direction.z) != Vector3.zero;
@@ -17,6 +21,12 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+    }
+
+    private void Start()
+    {
+        _startPosition = transform.position;
+
     }
 
     public void Init(IInputProvider inputProvider)
@@ -32,6 +42,28 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider
         SetDirection(_inputProvider.MoveDirection);
 
         _characterController.Move(_speed * Time.deltaTime * _moveDirection);
+    }
+
+    public void BeginMoveTutorial()
+    {
+        StartCoroutine(MakeTutorial());
+    }
+
+    private IEnumerator MakeTutorial()
+    {
+        float tutorialMoveRange = 2f;
+
+        while(Happened != null)
+        {
+            if (Vector3.Distance(_startPosition, transform.position) >= tutorialMoveRange)
+            {
+                Happened?.Invoke(this);
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("End move tut");
     }
 
     public void SetBehaviour(bool state)

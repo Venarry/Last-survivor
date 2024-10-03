@@ -7,6 +7,7 @@ public class CheckpointPart : MapPart
     [SerializeField] private BarrierModelEnabler _barrierModelEnabler;
 
     [field: SerializeField] public UpgradesShopTrigger UpgradesShopTrigger { get; private set; }
+    [field: SerializeField] public GameObject ShopPoint { get; private set; }
 
     public void Init(
         DayCycle dayCycle,

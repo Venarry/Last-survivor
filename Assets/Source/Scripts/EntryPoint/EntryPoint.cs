@@ -199,7 +199,7 @@ public class EntryPoint : MonoBehaviour
     private void OnCheckpointZoneSpawn(CheckpointPart part)
     {
         _mapGenerator.CheckpointZoneSpawned -= OnCheckpointZoneSpawn;
-        _tutorial.InitShop(part.UpgradesShopTrigger);
+        _tutorial.InitShop(part.UpgradesShopTrigger, part.ShopPoint);
     }
 
     private async Task<IInputProvider> GetInputProvider()

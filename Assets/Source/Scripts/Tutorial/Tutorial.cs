@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,23 +12,13 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject _moveTutorialScreen;
 
     [SerializeField] private GameObject _shopTutorialScreen;
-    [SerializeField] private GameObject _shopPoint;
 
-    private ITutorialAction _movementAction;
+    private ThirdPersonMovement _thirdPersonMovement;
 
-    public void InitBase() //params ITutorialAction[] tutorialActions
+    public void InitBase()
     {
-        //ITutorialAction moveBeginAction = _moveTutorialBeginAction.GetComponent<ITutorialAction>();
-        //TutorialPart movementTutorial = new(moveBeginAction, thirdPersonMovement, _moveTutorialScreen);
-        //_tutorialParts.Add(movementTutorial);
-
         for (int i = 0; i < _tutorialParts.Count; i++)
         {
-            //if(_tutorialParts[i].BeginAction != null)
-            //    _tutorialParts[i].BeginAction.Happened += OnBeginActionHappen;
-
-            //if(_tutorialParts[i].EndAction != null)
-            //    _tutorialParts[i].EndAction.Happened += OnEndActionHappen;
             ActivateTutorial(_tutorialParts[i]);
         }
 
@@ -42,35 +31,35 @@ public class Tutorial : MonoBehaviour
     public void InitMovement(ThirdPersonMovement thirdPersonMovement)
     {
         ITutorialAction beginAction = _moveTutorialBeginAction.GetComponent<ITutorialAction>();
-        TutorialPart movementTutorial = new(beginAction, thirdPersonMovement, _moveTutorialScreen);
-        _movementAction = thirdPersonMovement;
+        TutorialPart tutorialPart = new(beginAction, thirdPersonMovement, _moveTutorialScreen);
+        _thirdPersonMovement = thirdPersonMovement;
 
-        ActivateTutorial(movementTutorial);
-        thirdPersonMovement.BeginMoveTutorial();
+        ActivateTutorial(tutorialPart);
     }
 
-    public void InitShop(UpgradesShopTrigger upgradesShopTrigger)
+    public void InitShop(UpgradesShopTrigger upgradesShopTrigger, GameObject shopPoint)
     {
         ITutorialAction endAction = upgradesShopTrigger;
 
-        TutorialPart tutorialPart = new(_movementAction, endAction, _shopTutorialScreen, _shopPoint);
+        TutorialPart tutorialPart = new(_thirdPersonMovement, endAction, _shopTutorialScreen, shopPoint);
         ActivateTutorial(tutorialPart);
+    }
+
+    public void BeginMovementTutorial()
+    {
+        _thirdPersonMovement.BeginMoveTutorial();
     }
 
     private void ActivateTutorial(TutorialPart tutorialPart)
     {
+        if(_tutorialParts.Contains(tutorialPart) == false)
+            _tutorialParts.Add(tutorialPart);
+
         if (tutorialPart.BeginAction != null)
             tutorialPart.BeginAction.Happened += OnBeginActionHappen;
 
         if (tutorialPart.EndAction != null)
             tutorialPart.EndAction.Happened += OnEndActionHappen;
-    }
-
-    private void OnEndActionHappen(ITutorialAction tutorialAction)
-    {
-        tutorialAction.Happened -= OnEndActionHappen;
-
-        SetTutorialObjectsState(tutorialAction, false);
     }
 
     private void OnBeginActionHappen(ITutorialAction tutorialAction)
@@ -80,80 +69,29 @@ public class Tutorial : MonoBehaviour
         SetTutorialObjectsState(tutorialAction, true);
     }
 
+    private void OnEndActionHappen(ITutorialAction tutorialAction)
+    {
+        tutorialAction.Happened -= OnEndActionHappen;
+
+        SetTutorialObjectsState(tutorialAction, false);
+    }
+
     private void SetTutorialObjectsState(ITutorialAction tutorialAction, bool state)
     {
-        TutorialPart tutorialPart = _tutorialParts.FirstOrDefault(c => c.BeginAction == tutorialAction);
+        TutorialPart tutorialPart;
+
+        if (state == true)
+        {
+            tutorialPart = _tutorialParts.FirstOrDefault(c => c.BeginAction == tutorialAction);
+        }
+        else
+        {
+            tutorialPart = _tutorialParts.FirstOrDefault(c => c.EndAction == tutorialAction);
+        }
 
         foreach (GameObject tutorialObject in tutorialPart.TutorialObjects)
         {
             tutorialObject.SetActive(state);
         }
     }
-}
-
-[Serializable]
-public class TutorialPart
-{
-    [SerializeField] private string _name;
-    [SerializeField] private GameObject _beginTutorialAction;
-    [SerializeField] private List<GameObject> _tutorialObjects;
-    [SerializeField] private GameObject _endTutorialAction;
-    [SerializeField] private bool _disableTime = false;
-
-    private readonly ITutorialAction _beginAction;
-    private readonly ITutorialAction _endAction;
-
-    public GameObject[] TutorialObjects => _tutorialObjects.ToArray();
-
-    public ITutorialAction BeginAction
-    {
-        get
-        {
-            if(_beginAction != null)
-            {
-                return _beginAction;
-            }
-
-            if (_beginTutorialAction != null && _beginTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
-            {
-                return tutorialAction;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
-
-    public ITutorialAction EndAction
-    {
-        get
-        {
-            if (_endAction != null)
-            {
-                return _endAction;
-            }
-
-            if (_endTutorialAction != null && _endTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
-            {
-                return tutorialAction;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
-
-    public TutorialPart(ITutorialAction beginAction, ITutorialAction endAction, params GameObject[] screen)
-    {
-        _beginAction = beginAction;
-        _endAction = endAction;
-        _tutorialObjects = screen.ToList();
-    }
-}
-
-public interface ITutorialAction
-{
-    public event Action<ITutorialAction> Happened;
 }

@@ -11,9 +11,14 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject _moveTutorialBeginAction;
     [SerializeField] private GameObject _moveTutorialScreen;
 
+    [SerializeField] private GameObject _moveCongratulationScreen;
+    [SerializeField] private GameObject _moveCongratulationEndAction;
+
     [SerializeField] private GameObject _shopTutorialScreen;
 
     private ThirdPersonMovement _thirdPersonMovement;
+
+    private ITutorialAction MoveCongratulationEndAction => _moveCongratulationEndAction.GetComponent<ITutorialAction>();
 
     public void InitBase()
     {
@@ -35,13 +40,14 @@ public class Tutorial : MonoBehaviour
         _thirdPersonMovement = thirdPersonMovement;
 
         ActivateTutorial(tutorialPart);
+        InitMovementCongratualtion();
     }
 
     public void InitShop(UpgradesShopTrigger upgradesShopTrigger, GameObject shopPoint)
     {
         ITutorialAction endAction = upgradesShopTrigger;
 
-        TutorialPart tutorialPart = new(_thirdPersonMovement, endAction, _shopTutorialScreen, shopPoint);
+        TutorialPart tutorialPart = new(MoveCongratulationEndAction, endAction, _shopTutorialScreen, shopPoint);
         ActivateTutorial(tutorialPart);
     }
 
@@ -50,10 +56,18 @@ public class Tutorial : MonoBehaviour
         _thirdPersonMovement.BeginMoveTutorial();
     }
 
+    private void InitMovementCongratualtion()
+    {
+        TutorialPart tutorialPart = new(_thirdPersonMovement, MoveCongratulationEndAction, _moveCongratulationScreen);
+        ActivateTutorial(tutorialPart);
+    }
+
     private void ActivateTutorial(TutorialPart tutorialPart)
     {
         if(_tutorialParts.Contains(tutorialPart) == false)
+        {
             _tutorialParts.Add(tutorialPart);
+        }
 
         if (tutorialPart.BeginAction != null)
             tutorialPart.BeginAction.Happened += OnBeginActionHappen;

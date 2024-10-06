@@ -13,14 +13,18 @@ public class Tutorial : MonoBehaviour
 
     [Header("Move congratualtion")]
     [SerializeField] private GameObject _moveCongratulationScreen;
-    [SerializeField] private GameObject _moveCongratulationNextButton;
+    [SerializeField] private TutorialNextButton _moveCongratulationNextButton;
 
     [Header("Shop")]
     [SerializeField] private GameObject _goToShopTutorialScreen;
     [SerializeField] private GameObject _prepareToBuyScreen;
-    [SerializeField] private GameObject _prepareToBuyNextButton;
+    [SerializeField] private TutorialNextButton _prepareToBuyNextButton;
     [SerializeField] private GameObject _buyTutorialScreen;
     [SerializeField] private UpgradesShop _upgradeShop;
+
+    [Header("Buy congratulation")]
+    [SerializeField] private GameObject _buyCongratulationScreen;
+    [SerializeField] private TutorialNextButton _buyCongratulationNextButton;
 
     private ThirdPersonMovement _thirdPersonMovement;
 
@@ -47,7 +51,7 @@ public class Tutorial : MonoBehaviour
         _thirdPersonMovement = thirdPersonMovement;
 
         ActivateTutorial(tutorialPart);
-        InitMovementCongratualtion();
+        InitMovementCongratulation();
     }
 
     public void InitGoToShop(UpgradesShopTrigger upgradesShopTrigger, GameObject shopPoint)
@@ -65,7 +69,7 @@ public class Tutorial : MonoBehaviour
         _thirdPersonMovement.BeginMoveTutorial();
     }
 
-    private void InitMovementCongratualtion()
+    private void InitMovementCongratulation()
     {
         TutorialPart tutorialPart = new(_thirdPersonMovement, MoveCongratulationEndAction, _moveCongratulationScreen);
         ActivateTutorial(tutorialPart);
@@ -83,6 +87,14 @@ public class Tutorial : MonoBehaviour
     private void InitBuyUpgrade(ITutorialAction startAction)
     {
         TutorialPart tutorialPart = new(startAction, _upgradeShop, _buyTutorialScreen);
+
+        ActivateTutorial(tutorialPart);
+        InitBuyCongratulation(_upgradeShop);
+    }
+
+    private void InitBuyCongratulation(ITutorialAction startAction)
+    {
+        TutorialPart tutorialPart = new(startAction, _buyCongratulationNextButton, _buyCongratulationScreen);
         ActivateTutorial(tutorialPart);
     }
 

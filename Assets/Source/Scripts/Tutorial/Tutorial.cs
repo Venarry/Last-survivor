@@ -19,16 +19,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject _goToShopTutorialScreen;
     [SerializeField] private GameObject _prepareToBuyScreen;
     [SerializeField] private TutorialNextButton _prepareToBuyNextButton;
-    [SerializeField] private GameObject _buyTutorialScreen;
-    [SerializeField] private UpgradesShop _upgradeShop;
-
-    [Header("Buy congratulation")]
-    [SerializeField] private GameObject _buyCongratulationScreen;
-    [SerializeField] private TutorialNextButton _buyCongratulationNextButton;
 
     private ThirdPersonMovement _thirdPersonMovement;
-
-    private ITutorialAction MoveCongratulationEndAction => _moveCongratulationNextButton.GetComponent<ITutorialAction>();
 
     public void InitBase()
     {
@@ -41,7 +33,6 @@ public class Tutorial : MonoBehaviour
         {
             tutorialObject.SetActive(true);
         }
-
     }
 
     public void InitMovement(ThirdPersonMovement thirdPersonMovement)
@@ -58,7 +49,7 @@ public class Tutorial : MonoBehaviour
     {
         ITutorialAction endAction = upgradesShopTrigger;
 
-        TutorialPart tutorialPart = new(MoveCongratulationEndAction, endAction, _goToShopTutorialScreen, shopPoint);
+        TutorialPart tutorialPart = new(_moveCongratulationNextButton, endAction, _goToShopTutorialScreen, shopPoint);
 
         ActivateTutorial(tutorialPart);
         InitPrepareToBuy(endAction);
@@ -71,7 +62,7 @@ public class Tutorial : MonoBehaviour
 
     private void InitMovementCongratulation()
     {
-        TutorialPart tutorialPart = new(_thirdPersonMovement, MoveCongratulationEndAction, _moveCongratulationScreen);
+        TutorialPart tutorialPart = new(_thirdPersonMovement, _moveCongratulationNextButton, _moveCongratulationScreen);
         ActivateTutorial(tutorialPart);
     }
 
@@ -80,21 +71,6 @@ public class Tutorial : MonoBehaviour
         ITutorialAction endAction = _prepareToBuyNextButton.GetComponent<ITutorialAction>();
         TutorialPart tutorialPart = new(startAction, endAction, _prepareToBuyScreen);
 
-        ActivateTutorial(tutorialPart);
-        InitBuyUpgrade(endAction);
-    }
-
-    private void InitBuyUpgrade(ITutorialAction startAction)
-    {
-        TutorialPart tutorialPart = new(startAction, _upgradeShop, _buyTutorialScreen);
-
-        ActivateTutorial(tutorialPart);
-        InitBuyCongratulation(_upgradeShop);
-    }
-
-    private void InitBuyCongratulation(ITutorialAction startAction)
-    {
-        TutorialPart tutorialPart = new(startAction, _buyCongratulationNextButton, _buyCongratulationScreen);
         ActivateTutorial(tutorialPart);
     }
 

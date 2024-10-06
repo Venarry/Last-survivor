@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradesShop : MonoBehaviour
+public class UpgradesShop : MonoBehaviour, ITutorialAction
 {
     [SerializeField] private GameObject _shopMenu;
     [SerializeField] private List<BuyUpgradeButton> _buttons;
@@ -15,6 +16,8 @@ public class UpgradesShop : MonoBehaviour
     private GameTimeScaler _gameTimeScaler;
     private ItemPriceFactory _itemPriceFactory;
     private Dictionary<UpgradeType, int> _buyCountData = new();
+
+    public event Action<ITutorialAction> Happened;
 
     private string GameTimeKey => nameof(UpgradesShop);
 
@@ -86,6 +89,22 @@ public class UpgradesShop : MonoBehaviour
         int buyCount = GetBuyCount(button.UpgradeType);
 
         button.Init(characterUpgrades, _upgradesFactory, _inventoryModel, basePrice, _itemPriceFactory, buyCount);
+        button.AddListener(OnAnyButtonClick);
+    }
+
+    private void OnAnyButtonClick()
+    {
+        Happened?.Invoke(this);
+
+        foreach (BuyUpgradeButton button in _buttons)
+        {
+            button.RemoveListener(OnAnyButtonClick);
+        }
+
+        foreach (BuyUpgradeButton button in _prestigeButtons)
+        {
+            button.RemoveListener(OnAnyButtonClick);
+        }
     }
 
     private void ResetButtonsBuyCount()
@@ -93,7 +112,7 @@ public class UpgradesShop : MonoBehaviour
         foreach (BuyUpgradeButton button in _buttons)
         {
             int buyCount = GetBuyCount(button.UpgradeType);
-            button.SetBuyCount(buyCount);
+            button.ReloadButton(buyCount);
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public abstract class BuyUpgradeButton : MonoBehaviour
@@ -39,7 +40,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
         _upgrade = CreateUpgrade();
 
-        GetActualUpgrade();
+        SetOrAddActualUpgrade();
         SetPriceView(GetActualPrice());
         SetDescription();
     }
@@ -54,20 +55,16 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         _button.onClick.RemoveListener(OnButtonClick);
     }
 
-    private void GetActualUpgrade() // лучше переделать и сделать чтобы при покупке апгрейда добавлялся
-    {
-        if(CharacterUpgrades.TryAddWithoutIncreaseLevel(_upgrade) == false)
-        {
-            CharacterUpgrades.TryGet(_upgrade.GetType(), out _upgrade);
-        }
-    }
+    public void AddListener(UnityAction call) => _button.onClick.AddListener(call);
+    public void RemoveListener(UnityAction call) => _button.onClick.RemoveListener(call);
 
-    public void SetBuyCount(int buyCount)
+    public void ReloadButton(int buyCount)
     {
+        SetOrAddActualUpgrade();
+
         _buyCount = buyCount;
         _upgrade.SetLevel(buyCount);
 
-        GetActualUpgrade();
         SetPriceView(GetActualPrice());
         SetDescription();
     }
@@ -81,7 +78,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         if (TryRemoveCharacterItems(targetPrice) == false)
             return;
 
-        OnUpgradeBuy();
+        _upgrade.TryIncreaseLevel();
         _buyCount++;
         SetPriceView(GetActualPrice());
         SetDescription();
@@ -89,6 +86,14 @@ public abstract class BuyUpgradeButton : MonoBehaviour
 
     protected bool TryRemoveCharacterItems(Dictionary<LootType, int> price) =>
         _inventoryModel.TryRemove(price);
+
+    private void SetOrAddActualUpgrade() // лучше переделать и сделать чтобы при покупке апгрейда добавлялся
+    {
+        if (CharacterUpgrades.TryAddWithoutIncreaseLevel(_upgrade) == false)
+        {
+            CharacterUpgrades.TryGet(_upgrade.GetType(), out _upgrade);
+        }
+    }
 
     private Dictionary<LootType, int> GetActualPrice()
     {
@@ -137,10 +142,5 @@ public abstract class BuyUpgradeButton : MonoBehaviour
         {
             _upgradeDescription.text = "Error";
         }
-    }
-
-    private void OnUpgradeBuy()
-    {
-        _upgrade.TryIncreaseLevel();
     }
 }

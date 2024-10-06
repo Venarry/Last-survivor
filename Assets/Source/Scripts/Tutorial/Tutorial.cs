@@ -20,6 +20,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject _prepareToBuyScreen;
     [SerializeField] private GameObject _prepareToBuyNextButton;
     [SerializeField] private GameObject _buyTutorialScreen;
+    [SerializeField] private UpgradesShop _upgradeShop;
 
     private ThirdPersonMovement _thirdPersonMovement;
 
@@ -59,11 +60,6 @@ public class Tutorial : MonoBehaviour
         InitPrepareToBuy(endAction);
     }
 
-    public void InitBuyUpgrade()
-    {
-        //TutorialPart tutorialPart = new();
-    }
-
     public void BeginMovementTutorial()
     {
         _thirdPersonMovement.BeginMoveTutorial();
@@ -79,6 +75,14 @@ public class Tutorial : MonoBehaviour
     {
         ITutorialAction endAction = _prepareToBuyNextButton.GetComponent<ITutorialAction>();
         TutorialPart tutorialPart = new(startAction, endAction, _prepareToBuyScreen);
+
+        ActivateTutorial(tutorialPart);
+        InitBuyUpgrade(endAction);
+    }
+
+    private void InitBuyUpgrade(ITutorialAction startAction)
+    {
+        TutorialPart tutorialPart = new(startAction, _upgradeShop, _buyTutorialScreen);
         ActivateTutorial(tutorialPart);
     }
 

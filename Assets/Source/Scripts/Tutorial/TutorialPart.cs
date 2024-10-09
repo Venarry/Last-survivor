@@ -15,7 +15,18 @@ public class TutorialPart
     private readonly ITutorialAction _beginAction;
     private readonly ITutorialAction _endAction;
 
+    public TutorialPart(string name, bool disableTime, ITutorialAction beginAction, ITutorialAction endAction, GameObject[] screen)
+    {
+        _name = name;
+        _beginAction = beginAction;
+        _endAction = endAction;
+        _disableTime = disableTime;
+        _tutorialObjects = screen.ToList();
+    }
+
     public GameObject[] TutorialObjects => _tutorialObjects.ToArray();
+    public string Name => _name;
+    public bool DisableTime => _disableTime;
 
     public ITutorialAction BeginAction
     {
@@ -55,12 +66,5 @@ public class TutorialPart
                 return null;
             }
         }
-    }
-
-    public TutorialPart(ITutorialAction beginAction, ITutorialAction endAction, params GameObject[] screen)
-    {
-        _beginAction = beginAction;
-        _endAction = endAction;
-        _tutorialObjects = screen.ToList();
     }
 }

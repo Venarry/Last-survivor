@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
-    private GameTimeScaler _timeScaler;
     [SerializeField] private List<TutorialPart> _tutorialParts;
 
     [Header("Move tutorial")]
@@ -20,10 +19,13 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject _prepareToBuyScreen;
     [SerializeField] private TutorialNextButton _prepareToBuyNextButton;
 
+    private GameTimeScaler _timeScaler;
     private ThirdPersonMovement _thirdPersonMovement;
 
-    public void InitBase()
+    public void InitBase(GameTimeScaler timeScaler)
     {
+        _timeScaler = timeScaler;
+
         for (int i = 0; i < _tutorialParts.Count; i++)
         {
             ActivateTutorial(_tutorialParts[i]);
@@ -33,12 +35,17 @@ public class Tutorial : MonoBehaviour
         {
             tutorialObject.SetActive(true);
         }
+
+        if (_tutorialParts[0].DisableTime == true)
+        {
+            _timeScaler.Add(_tutorialParts[0].Name, 0);
+        }
     }
 
     public void InitMovement(ThirdPersonMovement thirdPersonMovement)
     {
         ITutorialAction beginAction = _moveTutorialBeginAction.GetComponent<ITutorialAction>();
-        TutorialPart tutorialPart = new(beginAction, thirdPersonMovement, _moveTutorialScreen);
+        TutorialPart tutorialPart = new(name: "Movement", disableTime: false, beginAction, thirdPersonMovement, new GameObject[] { _moveTutorialScreen });
         _thirdPersonMovement = thirdPersonMovement;
 
         ActivateTutorial(tutorialPart);
@@ -49,7 +56,7 @@ public class Tutorial : MonoBehaviour
     {
         ITutorialAction endAction = upgradesShopTrigger;
 
-        TutorialPart tutorialPart = new(_moveCongratulationNextButton, endAction, _goToShopTutorialScreen, shopPoint);
+        TutorialPart tutorialPart = new(name: "GoToShop", disableTime: false, _moveCongratulationNextButton, endAction, new GameObject[] { _goToShopTutorialScreen , shopPoint });
 
         ActivateTutorial(tutorialPart);
         InitPrepareToBuy(endAction);
@@ -62,14 +69,14 @@ public class Tutorial : MonoBehaviour
 
     private void InitMovementCongratulation()
     {
-        TutorialPart tutorialPart = new(_thirdPersonMovement, _moveCongratulationNextButton, _moveCongratulationScreen);
+        TutorialPart tutorialPart = new(name: "MovementCongratulation", disableTime: true, _thirdPersonMovement, _moveCongratulationNextButton, new GameObject[] { _moveCongratulationScreen });
         ActivateTutorial(tutorialPart);
     }
 
     private void InitPrepareToBuy(ITutorialAction startAction)
     {
         ITutorialAction endAction = _prepareToBuyNextButton.GetComponent<ITutorialAction>();
-        TutorialPart tutorialPart = new(startAction, endAction, _prepareToBuyScreen);
+        TutorialPart tutorialPart = new(name: "PrepareToBuy", disableTime: true, startAction, endAction, new GameObject[] { _prepareToBuyScreen });
 
         ActivateTutorial(tutorialPart);
     }
@@ -118,6 +125,18 @@ public class Tutorial : MonoBehaviour
         foreach (GameObject tutorialObject in tutorialPart.TutorialObjects)
         {
             tutorialObject.SetActive(state);
+        }
+
+        if (tutorialPart.DisableTime == false)
+            return;
+
+        if(state == true)
+        {
+            _timeScaler.Add(tutorialPart.Name, 0);
+        }
+        else
+        {
+            _timeScaler.Remove(tutorialPart.Name);
         }
     }
 }

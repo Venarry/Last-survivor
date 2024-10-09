@@ -190,7 +190,7 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
 
-        _tutorial.InitBase();
+        _tutorial.InitBase(_gameTimeScaler);
         _tutorial.InitMovement(player.ThirdPersonMovement);
 
         _mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;

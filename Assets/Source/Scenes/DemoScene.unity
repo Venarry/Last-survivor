@@ -4869,19 +4869,19 @@ MonoBehaviour:
     _tutorialObjects:
     - {fileID: 1202502180}
     _endTutorialAction: {fileID: 2033122712}
-    _disableTime: 0
+    _disableTime: 1
   - _name: Welcome2
     _beginTutorialAction: {fileID: 2033122712}
     _tutorialObjects:
     - {fileID: 229627637}
     _endTutorialAction: {fileID: 229627636}
-    _disableTime: 0
+    _disableTime: 1
   - _name: StartToMovement
     _beginTutorialAction: {fileID: 229627636}
     _tutorialObjects:
     - {fileID: 130303534}
     _endTutorialAction: {fileID: 130303533}
-    _disableTime: 0
+    _disableTime: 1
   - _name: Buy
     _beginTutorialAction: {fileID: 636334314}
     _tutorialObjects:
@@ -4905,19 +4905,19 @@ MonoBehaviour:
     _tutorialObjects:
     - {fileID: 1415030116}
     _endTutorialAction: {fileID: 1415030115}
-    _disableTime: 0
+    _disableTime: 1
   - _name: PrepareToLeaveBase2
     _beginTutorialAction: {fileID: 1415030115}
     _tutorialObjects:
     - {fileID: 1255104543}
     _endTutorialAction: {fileID: 1255104542}
-    _disableTime: 0
+    _disableTime: 1
   - _name: BaseEnd
     _beginTutorialAction: {fileID: 1255104542}
     _tutorialObjects:
     - {fileID: 1865470458}
     _endTutorialAction: {fileID: 1865470457}
-    _disableTime: 0
+    _disableTime: 1
   _moveTutorialBeginAction: {fileID: 130303533}
   _moveTutorialScreen: {fileID: 1492026438}
   _moveCongratulationScreen: {fileID: 2049488687}

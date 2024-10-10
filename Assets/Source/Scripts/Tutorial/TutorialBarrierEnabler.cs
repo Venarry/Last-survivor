@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class TutorialBarrierEnabler : MonoBehaviour
 {
-    [SerializeField] private Collider _collider;
+    [SerializeField] private GameObject _barrier;
 
     private void OnEnable()
     {
-        _collider.enabled = true;
+        _barrier.SetActive(true);
     }
 }

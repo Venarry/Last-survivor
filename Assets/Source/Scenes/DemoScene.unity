@@ -437,6 +437,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3475e4cc26932d8418b1c7e0e5a7a749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &85580511
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1082252754}
+    m_Modifications:
+    - target: {fileID: 1986399309499684, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_Name
+      value: SM_Env_Sandbag_Wall_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 622599c83103abd419883699ed85d093, type: 3}
+--- !u!4 &85580512 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4020220699231564, guid: 622599c83103abd419883699ed85d093, type: 3}
+  m_PrefabInstance: {fileID: 85580511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &95321262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2964,7 +3026,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1082252753
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2982,7 +3044,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 50, y: 15, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2998,7 +3060,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 85580512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093613296
@@ -3399,7 +3462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef14cd58b6edbbf46b9210562df87e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 1082252753}
+  _barrier: {fileID: 1082252752}
 --- !u!1 &1208259516
 GameObject:
   m_ObjectHideFlags: 0
@@ -5712,7 +5775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1125386a1e202498a52f81131163d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 1082252753}
+  _barrier: {fileID: 1082252752}
 --- !u!1 &1884146515
 GameObject:
   m_ObjectHideFlags: 0

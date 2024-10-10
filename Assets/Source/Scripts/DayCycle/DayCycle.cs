@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class DayCycle : MonoBehaviour
@@ -7,7 +8,9 @@ public class DayCycle : MonoBehaviour
     [SerializeField] private Light _light;
     [SerializeField] private Color _targetColor;
 
-    private GameObject _dayBar;
+    private GameObject _uiParent;
+    private Transform _dayBar;
+    private TMP_Text _timeLabel;
     private DayCycleParameters _dayCycleParameters;
     private Color _startLightColor;
     private Coroutine _activeLightTransition;
@@ -18,13 +21,15 @@ public class DayCycle : MonoBehaviour
     public event Action TimeReset;
     public event Action NightCome;
 
-    public void Init(DayCycleParameters dayCycleParameters, GameObject dayBar)
+    public void Init(DayCycleParameters dayCycleParameters, GameObject dayUIParent, Transform dayBar, TMP_Text timeLabel)
     {
         _dayCycleParameters = dayCycleParameters;
+        _uiParent = dayUIParent;
         _dayBar = dayBar;
+        _timeLabel = timeLabel;
         _startLightColor = _light.color;
 
-        _dayBar.SetActive(false);
+        _uiParent.SetActive(false);
     }
 
     private void Update()
@@ -48,7 +53,7 @@ public class DayCycle : MonoBehaviour
     {
         _timeLeft = 0;
         _isDayTimeStarted = true;
-        _dayBar.SetActive(true);
+        _uiParent.SetActive(true);
 
         //DayTimeStarted?.Invoke();
     }
@@ -58,7 +63,7 @@ public class DayCycle : MonoBehaviour
         _timeLeft = 0;
         _isDayTimeStarted = false;
         RefreshBar();
-        _dayBar.SetActive(false);
+        _uiParent.SetActive(false);
         StartLightTransition(_startLightColor);
 
         TimeReset?.Invoke();
@@ -67,6 +72,32 @@ public class DayCycle : MonoBehaviour
     private void RefreshBar()
     {
         _dayBar.transform.localRotation = Quaternion.Euler(0, 0, _timeLeft / _dayCycleParameters.DayDuration * 180);
+
+        float timerRemained = _dayCycleParameters.DayDuration - _timeLeft;
+
+        int minutesCount = (int)Math.Floor(timerRemained / 60);
+        string minutesLabel;
+
+        int secondsCount;
+
+        if (timerRemained % 60 <= 59)
+        {
+            secondsCount = (int)Math.Ceiling(timerRemained % 60);
+        }
+        else
+        {
+            secondsCount = 0;
+            minutesCount++;
+        }
+
+        string secondsLabel = secondsCount >= 10 ? secondsCount.ToString() : $"0{secondsCount}";
+
+        if (minutesCount > 0)
+            minutesLabel = minutesCount >= 10 ? minutesCount.ToString() : $"0{minutesCount}";
+        else
+            minutesLabel = "00";
+
+        _timeLabel.text = $"{minutesLabel}:{secondsLabel}";
     }
 
     private void StartLightTransition(Color targetColor)

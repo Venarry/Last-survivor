@@ -57,8 +57,6 @@ public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
 
             yield return null;
         }
-
-        Debug.Log("End move tut");
     }
 
     public void SetBehaviour(bool state)

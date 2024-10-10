@@ -177,7 +177,7 @@ public class EntryPoint : MonoBehaviour
         _enemySpawner = new(_dayCycle, enemyFactory, levelsStatisticModel, player.Target, coroutineProvider);
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
-        _dayCycle.Init(dayCycleParameters, player.DayBar);
+        _dayCycle.Init(dayCycleParameters, player.DayUIParent, player.DayBar, player.DayTimeLabel);
         _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, progressHandler, spawnPosition);
 
         _upgradesShop.InitButtons();
@@ -190,8 +190,8 @@ public class EntryPoint : MonoBehaviour
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
 
-        _tutorial.InitBase(_gameTimeScaler);
-        _tutorial.InitMovement(player.ThirdPersonMovement);
+        //_tutorial.InitBase(_gameTimeScaler);
+        //_tutorial.InitMovement(player.ThirdPersonMovement);
 
         _mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
     }

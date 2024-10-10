@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterSkillsView))]
 public class Player : MonoBehaviour
 {
-    [field: SerializeField] public GameObject DayBar { get; private set; }
+    [field: SerializeField] public GameObject DayUIParent { get; private set; }
+    [field: SerializeField] public Transform DayBar { get; private set; }
+    [field: SerializeField] public TMP_Text DayTimeLabel { get; private set; }
 
     private ThirdPersonRotation _thirdPersonRotation;
     private PlayerAttackStateMachine _playerAttackStateMachine;

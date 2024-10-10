@@ -12,7 +12,7 @@ public class GameParamenters
     public const int BaseDayDuration = 20;
 
     public const float EnemySpawnDelay = 2f;
-    public const float EnemyDamageperLevelMultiplier = 0.2f;
+    public const float EnemyDamagePerLevelMultiplier = 0.2f;
 
     public const string TextColorStart = "<color=yellow>";
     public const string TextColorEnd = "</color>";

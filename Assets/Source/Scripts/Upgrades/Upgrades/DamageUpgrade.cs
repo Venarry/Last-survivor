@@ -27,7 +27,7 @@
 
     public override string GetUpLevelDescription()
     {
-        string description = $"Damage for {TargetName}:\n{CurrentLevel * DamagePerLevel} + {DamagePerLevel}";
+        string description = $"Additional damage for {TargetName}:\n{CurrentLevel * DamagePerLevel} + {Decorate(DamagePerLevel.ToString())}";
 
         return description;
     }

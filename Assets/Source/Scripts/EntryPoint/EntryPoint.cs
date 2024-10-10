@@ -193,7 +193,7 @@ public class EntryPoint : MonoBehaviour
         //_tutorial.InitBase(_gameTimeScaler);
         //_tutorial.InitMovement(player.ThirdPersonMovement);
 
-        _mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
+        //_mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
     }
 
     private void OnCheckpointZoneSpawn(CheckpointPart part)

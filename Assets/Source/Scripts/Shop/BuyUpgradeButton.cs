@@ -87,7 +87,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
     protected bool TryRemoveCharacterItems(Dictionary<LootType, int> price) =>
         _inventoryModel.TryRemove(price);
 
-    private void SetOrAddActualUpgrade() // лучше переделать и сделать чтобы при покупке апгрейда добавлялся
+    private void SetOrAddActualUpgrade() // При загрузке данных уже имеется этот апгрейд на персе, поэтому берем имеющийся или создаем новый
     {
         if (CharacterUpgrades.TryAddWithoutIncreaseLevel(_upgrade) == false)
         {

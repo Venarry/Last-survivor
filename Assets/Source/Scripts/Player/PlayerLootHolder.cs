@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class PlayerLootHolder : MonoBehaviour, ILootHolder
 {
-    private InventroyView _inventroyView;
-    private ExperienceView _experienceView;
+    private InventoryModel _inventroyModel;
+    private ExperienceModel _experienceModel;
 
-    private void Awake()
+    public void Init(InventoryModel inventoryModel, ExperienceModel experienceModel)
     {
-        _inventroyView = GetComponent<InventroyView>();
-        _experienceView = GetComponent<ExperienceView>();
+        _inventroyModel = inventoryModel;
+        _experienceModel = experienceModel;
     }
 
     public Vector3 ReceivingPosition => transform.position + Vector3.up;
 
     public void Add(LootType lootType, int count)
     {
-        _inventroyView.Add(lootType, count);
+        _inventroyModel.Add(lootType, count);
     }
 
     public void Add(float experience)
     {
-        _experienceView.Add(experience);
+        _experienceModel.Add(experience);
     }
 }

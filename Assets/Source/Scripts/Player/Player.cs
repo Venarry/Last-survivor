@@ -1,10 +1,8 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(ThirdPersonMovement))]
 [RequireComponent(typeof(ThirdPersonRotation))]
-[RequireComponent(typeof(InventroyView))]
 [RequireComponent(typeof(CharacterAttackHandler))]
 [RequireComponent(typeof(PlayerAttackStateMachine))]
 [RequireComponent(typeof(ExperienceView))]
@@ -35,7 +33,6 @@ public class Player : MonoBehaviour
         ThirdPersonMovement = GetComponent<ThirdPersonMovement>();
         _thirdPersonRotation = GetComponent<ThirdPersonRotation>();
         AttackHandler = GetComponent<CharacterAttackHandler>();
-        _inventroyView = GetComponent<InventroyView>();
         _playerAttackStateMachine = GetComponent<PlayerAttackStateMachine>();
         _experienceView = GetComponent<ExperienceView>();
         LootHolder = GetComponent<PlayerLootHolder>();
@@ -55,18 +52,21 @@ public class Player : MonoBehaviour
         ItemViewFactory itemViewFactory,
         SkillsViewFactory skillsViewFactory,
         SpritesDataSouce spritesDataSouce,
-        Transform lootParent,
+        Transform mainWindowInventoryParent,
+        Transform shopInventoryParent,
         Transform skillsParent,
         GameRestartMenu deathMenu)
     {
         ThirdPersonMovement.Init(inputProvider);
         _thirdPersonRotation.Init(inputProvider);
         TargetSearcher = new(transform, targetsProvider);
-        _inventroyView.Init(inventoryModel, itemViewFactory, spritesDataSouce, lootParent);
+        _inventroyView = new(inventoryModel, itemViewFactory, spritesDataSouce);
+        _inventroyView.SpawnIcons(mainWindowInventoryParent, shopInventoryParent);
         _experienceView.Init(experienceModel);
+        _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
         Target.Init(TargetType.Enemy, healthModel);
         AttackHandler.Init(characterAttackParameters, characterBuffsModel);
-        _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
+        LootHolder.Init(inventoryModel, experienceModel);
 
         _playerAttackStateMachine.Init(TargetSearcher, _thirdPersonRotation, AttackHandler, _playerAttackStateMachine);
 

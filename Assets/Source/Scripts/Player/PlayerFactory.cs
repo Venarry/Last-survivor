@@ -9,7 +9,8 @@ public class PlayerFactory
     private readonly ItemViewFactory _itemViewFactory;
     private readonly SkillsViewFactory _skillsViewFactory;
     private readonly SpritesDataSouce _spritesDataSouce;
-    private readonly Transform _itemsParent;
+    private readonly Transform _mainWindowInventoryParent;
+    private readonly Transform _shopInventoryParent;
     private readonly Transform _skillsParent;
     private readonly GameRestartMenu _deathMenu;
     private Player _playerPrefab;
@@ -21,7 +22,8 @@ public class PlayerFactory
         ItemViewFactory itemViewFactory,
         SkillsViewFactory skillsViewFactory,
         SpritesDataSouce spritesDataSouce,
-        Transform itemsParent,
+        Transform mainWindowInventoryParent,
+        Transform shopInventoryParent,
         Transform skillsParent,
         GameRestartMenu deathMenu)
     {
@@ -31,7 +33,8 @@ public class PlayerFactory
         _itemViewFactory = itemViewFactory;
         _skillsViewFactory = skillsViewFactory;
         _spritesDataSouce = spritesDataSouce;
-        _itemsParent = itemsParent;
+        _mainWindowInventoryParent = mainWindowInventoryParent;
+        _shopInventoryParent = shopInventoryParent;
         _skillsParent = skillsParent;
         _deathMenu = deathMenu;
     }
@@ -62,7 +65,8 @@ public class PlayerFactory
             _itemViewFactory,
             _skillsViewFactory,
             _spritesDataSouce,
-            _itemsParent,
+            _mainWindowInventoryParent,
+            _shopInventoryParent,
             _skillsParent,
             _deathMenu);
 

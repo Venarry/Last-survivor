@@ -28,6 +28,7 @@ public class AssetsKeys
     public const string Pet = "Pet";
 
     public const string ItemView = "ItemView";
+    public const string ShopItemView = "ShopItemView";
 
     public const string ItemWood = "ItemWood";
     public const string ItemDiamond = "ItemDiamond";

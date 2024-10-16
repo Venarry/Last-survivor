@@ -15,6 +15,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private UpgradesShop _upgradesShop;
     [SerializeField] private DayCycle _dayCycle;
     [SerializeField] private Transform _itemsParent;
+    [SerializeField] private Transform _shopItemsParent;
     [SerializeField] private Transform _skillsParent;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private LevelsStatisticView _levelsStatisticView;
@@ -88,6 +89,7 @@ public class EntryPoint : MonoBehaviour
             skillsViewFactory,
             spritesDataSouce,
             _itemsParent,
+            _shopItemsParent,
             _skillsParent,
             _deathMenu);
 

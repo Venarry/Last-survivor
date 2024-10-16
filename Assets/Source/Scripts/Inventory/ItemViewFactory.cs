@@ -27,9 +27,19 @@ public class ItemViewFactory
         return itemView;
     }
 
-    public async Task<ItemView> Create(Sprite icon, Transform parent)
+    public async Task<ItemView> CreateMainWindowItem(Sprite icon, Transform parent)
     {
-        ItemView itemView = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemView>(AssetsKeys.ItemView), parent);
+        return await Create(icon, parent, AssetsKeys.ItemView);
+    }
+
+    public async Task<ItemView> CreateShopWindowItem(Sprite icon, Transform parent)
+    {
+        return await Create(icon, parent, AssetsKeys.ShopItemView);
+    }
+
+    private async Task<ItemView> Create(Sprite icon, Transform parent, string key)
+    {
+        ItemView itemView = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemView>(key), parent);
         itemView.Init(icon);
 
         return itemView;

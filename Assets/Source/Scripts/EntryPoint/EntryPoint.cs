@@ -1,5 +1,3 @@
-using Agava.YandexGames;
-using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -29,7 +27,7 @@ public class EntryPoint : MonoBehaviour
 
     private IEnumerator InitYandexSDK()
     {
-        yield return YandexGamesSdk.Initialize();
+        yield return null;//YandexGamesSdk.Initialize();
         Debug.Log("SDK inited");
     }
 

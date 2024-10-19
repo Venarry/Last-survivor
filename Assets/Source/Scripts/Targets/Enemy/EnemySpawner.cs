@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemySpawner
 {
@@ -11,6 +12,7 @@ public class EnemySpawner
     private readonly LevelsStatisticModel _levelsStatistic;
     private readonly Target _attackTarget;
     private readonly CoroutineProvider _coroutineProvider;
+    private readonly int _maxEnemyCount = 12;
     private Coroutine _activeSpawner;
 
     public EnemySpawner(
@@ -53,6 +55,7 @@ public class EnemySpawner
 
             foreach (Enemy enemy in _enemys)
             {
+                enemy.LifeCycleEnded -= OnLifeCycleEnd;
                 enemy.PlaceInPool();
             }
 
@@ -75,7 +78,10 @@ public class EnemySpawner
         {
             yield return _waitSpawnDelay;
 
-            SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
+            if(_enemys.Count < _maxEnemyCount)
+            {
+                SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
+            }
         }
     }
 
@@ -83,5 +89,14 @@ public class EnemySpawner
     {
         Enemy target = await _enemyFactory.Create(_attackTarget, health, damage, position, rotation);
         _enemys.Add(target);
+
+        target.LifeCycleEnded += OnLifeCycleEnd;
+    }
+
+    private void OnLifeCycleEnd(Target target)
+    {
+        target.LifeCycleEnded -= OnLifeCycleEnd;
+
+        _enemys.Remove(target as Enemy);
     }
 }

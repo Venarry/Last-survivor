@@ -118,6 +118,7 @@ MonoBehaviour:
   _hitSounds:
   - {fileID: 8300000, guid: d4652574593188b4fb7fd0cb32153a8e, type: 3}
   - {fileID: 8300000, guid: b31bcd132ef5ad6478bf05c325066c8d, type: 3}
+  _destroyParticle: {fileID: 7351851860721985127, guid: ac85a45d2009a7544b75d29bb4244b37, type: 3}
 --- !u!1001 &4300821792169000037
 PrefabInstance:
   m_ObjectHideFlags: 0

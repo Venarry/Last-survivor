@@ -6,6 +6,7 @@ public abstract class HitView : MonoBehaviour
 {
     [SerializeField] private Transform _shakeTarget;
     [SerializeField] private List<AudioClip> _hitSounds;
+    [SerializeField] private ParticleSystem _destroyParticle;
 
     private AudioSource _audioSource;
     private HealthModel _healthModel;
@@ -30,11 +31,13 @@ public abstract class HitView : MonoBehaviour
         _healthModel = healthModel;
         _audioSource = audioSource;
         _healthModel.DamageReceived += Shake;
+        _healthModel.HealthOver += OnHealthOver;
     }
 
     private void OnDestroy()
     {
         _healthModel.DamageReceived -= Shake;
+        _healthModel.HealthOver -= OnHealthOver;
     }
 
     public abstract void Shake();
@@ -62,6 +65,13 @@ public abstract class HitView : MonoBehaviour
 
         float volumeScale = Random.Range(0.9f, 1.1f);
         _audioSource.PlayOneShot(audioClip, volumeScale);
+    }
+
+    private void OnHealthOver()
+    {
+        Vector3 particleOffset = new(0f, 0.2f, 0f);
+        ParticleSystem destroyParticle = Instantiate(_destroyParticle, transform.position + particleOffset, _destroyParticle.transform.localRotation);
+        destroyParticle.Play();
     }
 
     private IEnumerator ProcessSize()

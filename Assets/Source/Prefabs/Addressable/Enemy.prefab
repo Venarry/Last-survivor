@@ -130,6 +130,7 @@ MonoBehaviour:
   _shakeTarget: {fileID: 823051618070743887}
   _hitSounds:
   - {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
+  _destroyParticle: {fileID: 7351851860721985127, guid: ac85a45d2009a7544b75d29bb4244b37, type: 3}
 --- !u!114 &-301251637405496147
 MonoBehaviour:
   m_ObjectHideFlags: 0

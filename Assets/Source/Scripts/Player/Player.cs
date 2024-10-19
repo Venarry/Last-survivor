@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public GameObject DayUIParent { get; private set; }
     [field: SerializeField] public Transform DayBar { get; private set; }
     [field: SerializeField] public TMP_Text DayTimeLabel { get; private set; }
+    [field: SerializeField] public AudioSource AudioSource { get; private set; }
 
     private ThirdPersonRotation _thirdPersonRotation;
     private PlayerAttackStateMachine _playerAttackStateMachine;
@@ -67,7 +68,7 @@ public class Player : MonoBehaviour
         _inventroyView.SpawnIcons(mainWindowInventoryParent, shopInventoryParent);
         _experienceView.Init(experienceModel);
         _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
-        _hitView.Init(healthModel);
+        _hitView.Init(healthModel, AudioSource);
         Target.Init(TargetType.Enemy, healthModel);
         AttackHandler.Init(characterAttackParameters, characterBuffsModel);
         LootHolder.Init(inventoryModel, experienceModel);

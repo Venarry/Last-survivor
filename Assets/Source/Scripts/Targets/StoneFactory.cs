@@ -1,6 +1,11 @@
+using UnityEngine;
+
 public class StoneFactory : TargetFactory
 {
-    public StoneFactory(TargetsProvider<Target> targetsProvider, AssetsProvider assetsProvider) : base(targetsProvider, assetsProvider)
+    public StoneFactory(
+        TargetsProvider<Target> targetsProvider,
+        AssetsProvider assetsProvider,
+        AudioSource audioSource) : base(targetsProvider, assetsProvider, audioSource)
     {
     }
 

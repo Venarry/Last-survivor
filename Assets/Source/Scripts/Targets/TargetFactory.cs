@@ -4,10 +4,15 @@ using UnityEngine;
 public abstract class TargetFactory : ObjectPoolBehaviour<Target>
 {
     private readonly TargetsProvider<Target> _targetsProvider;
+    private readonly AudioSource _audioSource;
 
-    protected TargetFactory(TargetsProvider<Target> targetsProvider, AssetsProvider assetsProvider) : base(assetsProvider)
+    protected TargetFactory(
+        TargetsProvider<Target> targetsProvider,
+        AssetsProvider assetsProvider,
+        AudioSource audioSource) : base(assetsProvider)
     {
         _targetsProvider = targetsProvider;
+        _audioSource = audioSource;
     }
 
     protected abstract TargetType TargetType { get; }
@@ -22,7 +27,7 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
             CharacterBuffsModel characterBuffsModel = new();
             HealthModel healthModel = new(characterBuffsModel, health);
             target.Init(TargetType, healthModel);
-            target.GetComponent<HitView>().Init(healthModel);
+            target.GetComponent<HitView>().Init(healthModel, _audioSource);
             OnCreated(target, healthModel);
         }
         else

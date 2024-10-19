@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class TargetWithLootFactory : TargetFactory
 {
@@ -10,8 +9,9 @@ public abstract class TargetWithLootFactory : TargetFactory
         LevelsStatisticModel levelsStatisticModel,
         TargetsProvider<Target> targetsProvider,
         AssetsProvider assetsProvider,
+        AudioSource audioSource,
         LootFactory lootFactory)
-        : base(targetsProvider, assetsProvider)
+        : base(targetsProvider, assetsProvider, audioSource)
     {
         _levelsStatisticModel = levelsStatisticModel;
         _lootFactory = lootFactory;

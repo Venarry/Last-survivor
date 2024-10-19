@@ -5,8 +5,8 @@ public abstract class HitView : MonoBehaviour
 {
     [SerializeField] private Transform _shakeTarget;
     [SerializeField] private AudioClip _hitSound;
-    [SerializeField] private AudioSource _audioSource;
 
+    private AudioSource _audioSource;
     private HealthModel _healthModel;
     private float _defaultScale;
     private Quaternion _defaultRotation;
@@ -24,9 +24,10 @@ public abstract class HitView : MonoBehaviour
         }
     }
 
-    public void Init(HealthModel healthModel)
+    public void Init(HealthModel healthModel, AudioSource audioSource)
     {
         _healthModel = healthModel;
+        _audioSource = audioSource;
         _healthModel.DamageReceived += Shake;
     }
 
@@ -55,8 +56,8 @@ public abstract class HitView : MonoBehaviour
 
     protected void ActivateSound()
     {
-        //float volumeScale = Random.Range(0.9f, 1.1f);
-        //_audioSource.PlayOneShot(_hitSound, volumeScale);
+        float volumeScale = Random.Range(0.9f, 1.1f);
+        _audioSource.PlayOneShot(_hitSound, volumeScale);
     }
 
     private IEnumerator ProcessSize()

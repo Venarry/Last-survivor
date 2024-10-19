@@ -117,19 +117,19 @@ public class EntryPoint : MonoBehaviour
         DiamondLootFactory diamondLootFactory = new(player.LootHolder, lootViewProvider, _assetsProvider);
         await diamondLootFactory.Load();
 
-        DiamondFactory diamondFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, diamondLootFactory);
+        DiamondFactory diamondFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, player.AudioSource, diamondLootFactory);
         await diamondFactory.Load();
 
         WoodLootFactory woodLootFactory = new(player.LootHolder, lootViewProvider, _assetsProvider);
         await woodLootFactory.Load();
 
-        WoodFactory woodFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, woodLootFactory);
+        WoodFactory woodFactory = new(levelsStatisticModel, targetsProvider, _assetsProvider, player.AudioSource, woodLootFactory);
         await woodFactory.Load();
 
-        EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider, attackDistance: 3);
+        EnemyFactory enemyFactory = new(targetsProvider, _assetsProvider, player.AudioSource, attackDistance: 3);
         await enemyFactory.Load();
 
-        StoneFactory stoneFactory = new(targetsProvider, _assetsProvider);
+        StoneFactory stoneFactory = new(targetsProvider, _assetsProvider, player.AudioSource);
         await stoneFactory.Load();
 
         PetFactory petFactory = new(_assetsProvider, characterAttackParameters, characterBuffsModel, player.TargetSearcher, player.transform);

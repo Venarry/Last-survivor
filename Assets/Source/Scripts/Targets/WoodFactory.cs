@@ -1,11 +1,14 @@
-﻿public class WoodFactory : TargetWithLootFactory
+﻿using UnityEngine;
+
+public class WoodFactory : TargetWithLootFactory
 {
     public WoodFactory(
         LevelsStatisticModel levelsStatisticModel,
         TargetsProvider<Target> targetsProvider,
         AssetsProvider assetsProvider,
+        AudioSource audioSource,
         WoodLootFactory lootFactory) 
-        : base(levelsStatisticModel, targetsProvider, assetsProvider, lootFactory)
+        : base(levelsStatisticModel, targetsProvider, assetsProvider, audioSource, lootFactory)
     {
     }
 

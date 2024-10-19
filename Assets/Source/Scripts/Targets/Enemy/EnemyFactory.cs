@@ -8,7 +8,8 @@ public class EnemyFactory : TargetFactory
     public EnemyFactory(
         TargetsProvider<Target> targetsProvider,
         AssetsProvider assetsProvider,
-        float attackDistance) : base(targetsProvider, assetsProvider)
+        AudioSource audioSource,
+        float attackDistance) : base(targetsProvider, assetsProvider, audioSource)
     {
         _attackDistance = attackDistance;
     }

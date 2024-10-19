@@ -22,6 +22,7 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
             CharacterBuffsModel characterBuffsModel = new();
             HealthModel healthModel = new(characterBuffsModel, health);
             target.Init(TargetType, healthModel);
+            target.GetComponent<HitView>().Init(healthModel);
             OnCreated(target, healthModel);
         }
         else

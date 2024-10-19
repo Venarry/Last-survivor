@@ -1,4 +1,4 @@
-﻿public class PlayerDamageIndicator : DamageIndicator
+﻿public class PlayerDamageIndicator : HitView
 {
     public override void Shake()
     {

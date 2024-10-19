@@ -8,14 +8,14 @@ public class HealthView : MonoBehaviour
     [SerializeField] private Image _healthBar;
     [SerializeField] private TMP_Text _healthLabel;
 
-    private DamageIndicator _damageIndicator;
+    //private DamageIndicator _damageIndicator;
     private HealthModel _healthModel;
 
     public event Action HealthOver;
 
     private void Awake()
     {
-        _damageIndicator = GetComponent<DamageIndicator>();
+        //_damageIndicator = GetComponent<DamageIndicator>();
     }
 
     public void Init(HealthModel healthModel)
@@ -31,7 +31,7 @@ public class HealthView : MonoBehaviour
 
     private void OnDamageReceive()
     {
-        _damageIndicator?.Shake();
+        //_damageIndicator?.Shake();
     }
 
     public void TakeDamage(float count)

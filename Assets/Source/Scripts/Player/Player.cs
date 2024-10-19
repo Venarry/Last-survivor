@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerLootHolder))]
 [RequireComponent(typeof(Target))]
 [RequireComponent(typeof(CharacterSkillsView))]
+[RequireComponent(typeof(HitView))]
 public class Player : MonoBehaviour
 {
     [field: SerializeField] public GameObject DayUIParent { get; private set; }
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     private InventroyView _inventroyView;
     private CharacterSkillsView _characterSkillsView;
     private PlayerHealthOverReaction _playerHealthOverReaction;
+    private HitView _hitView;
 
     public ThirdPersonMovement ThirdPersonMovement { get; private set; }
     public CharacterAttackHandler AttackHandler { get; private set; }
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour
         LootHolder = GetComponent<PlayerLootHolder>();
         Target = GetComponent<Target>();
         _characterSkillsView = GetComponent<CharacterSkillsView>();
+        _hitView = GetComponent<HitView>();
     }
 
     public void Init(
@@ -64,6 +67,7 @@ public class Player : MonoBehaviour
         _inventroyView.SpawnIcons(mainWindowInventoryParent, shopInventoryParent);
         _experienceView.Init(experienceModel);
         _characterSkillsView.Init(characterSkillsModel, skillsViewFactory, skillsParent);
+        _hitView.Init(healthModel);
         Target.Init(TargetType.Enemy, healthModel);
         AttackHandler.Init(characterAttackParameters, characterBuffsModel);
         LootHolder.Init(inventoryModel, experienceModel);

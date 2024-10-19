@@ -7,7 +7,7 @@
     {
     }
 
-    private float ExperienceMultiplier => CurrentLevel * _multiplierByLevel;
+    private float ExperienceMultiplier => 1 + CurrentLevel * _multiplierByLevel;
 
     public override UpgradeType UpgradeType => UpgradeType.ExperienceMultiplier;
 

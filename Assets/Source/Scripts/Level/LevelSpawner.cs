@@ -140,13 +140,13 @@ public class LevelSpawner : MonoBehaviour
 
         KeyValuePair<MapPart, List<Target>> zeroMap = _targetsOnMap.Dequeue();
 
-        foreach (Target target in zeroMap.Value)
+        /*foreach (Target target in zeroMap.Value)
         {
             target.LifeCycleEnded -= RemoveTargetFromMapPool;
             target.PlaceInPool();
         }
 
-        zeroMap.Value.Clear();
+        zeroMap.Value.Clear();*/
         Destroy(zeroMap.Key.gameObject);
 
         return true;
@@ -164,6 +164,8 @@ public class LevelSpawner : MonoBehaviour
             target.LifeCycleEnded -= RemoveTargetFromMapPool;
             target.PlaceInPool();
         }
+
+        previousLevel.Value.Clear();
     }
 
     private async Task SpawnObstacle(

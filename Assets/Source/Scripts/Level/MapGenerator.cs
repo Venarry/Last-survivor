@@ -100,12 +100,12 @@ public class MapGenerator : MonoBehaviour
 
     private void TryDeletePassedPart()
     {
-        _levelSpawner.TryDeleteLevelObstacle();
-
         if (_levelSpawner.TryDeletePassedMap())
         {
             MapPart part = _mapParts.Dequeue();
             Destroy(part.gameObject);
         }
+
+        _levelSpawner.TryDeleteLevelObstacle();
     }
 }

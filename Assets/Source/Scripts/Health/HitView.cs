@@ -55,8 +55,8 @@ public abstract class HitView : MonoBehaviour
 
     protected void ActivateSound()
     {
-        float volumeScale = Random.Range(0.9f, 1.1f);
-        _audioSource.PlayOneShot(_hitSound, volumeScale);
+        //float volumeScale = Random.Range(0.9f, 1.1f);
+        //_audioSource.PlayOneShot(_hitSound, volumeScale);
     }
 
     private IEnumerator ProcessSize()

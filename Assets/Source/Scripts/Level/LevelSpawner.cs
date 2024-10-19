@@ -133,10 +133,10 @@ public class LevelSpawner : MonoBehaviour
         _targetsOnMap.Clear();
     }
 
-    public void TryDeletePassedMap()
+    public bool TryDeletePassedMap()
     {
         if (_targetsOnMap.Count <= GameParamenters.SpawnedMapBufferCount)
-            return;
+            return false;
 
         KeyValuePair<MapPart, List<Target>> zeroMap = _targetsOnMap.Dequeue();
 
@@ -148,9 +148,26 @@ public class LevelSpawner : MonoBehaviour
 
         zeroMap.Value.Clear();
         Destroy(zeroMap.Key.gameObject);
+
+        return true;
     }
 
-    private async Task SpawnObstacle(TargetFactory targetFactory, float health, Vector3 position, Quaternion rotation, List<Target> pool)
+    public void TryDeleteLevelObstacle()
+    {
+        if (_targetsOnMap.Count <= GameParamenters.SpawnedMapBufferCount - 1)
+            return;
+
+        KeyValuePair<MapPart, List<Target>> previousLevel = _targetsOnMap.Peek();
+
+        foreach (Target target in previousLevel.Value)
+        {
+            target.LifeCycleEnded -= RemoveTargetFromMapPool;
+            target.PlaceInPool();
+        }
+    }
+
+    private async Task SpawnObstacle(
+        TargetFactory targetFactory, float health, Vector3 position, Quaternion rotation, List<Target> pool)
     {
         Target obstacle = (await targetFactory.Create(health, position, rotation)).Result;
         pool.Add(obstacle);

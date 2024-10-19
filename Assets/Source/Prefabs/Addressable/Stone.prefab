@@ -78,8 +78,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shakeTarget: {fileID: 2716543903937931074}
-  _hitSound: {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
-  _audioSource: {fileID: 0}
+  _hitSounds:
+  - {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
+  - {fileID: 8300000, guid: fc43896ce624fdc47a7895c78d5e70ac, type: 3}
+  - {fileID: 8300000, guid: fe2e8b593ed1a1a46a54b77cd3ccf81d, type: 3}
+  - {fileID: 8300000, guid: 8c1a66d8b0cd788469eba04f05e6709c, type: 3}
 --- !u!136 &2797952872559264586
 CapsuleCollider:
   m_ObjectHideFlags: 0

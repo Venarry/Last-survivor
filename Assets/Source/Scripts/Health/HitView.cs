@@ -1,10 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class HitView : MonoBehaviour
 {
     [SerializeField] private Transform _shakeTarget;
-    [SerializeField] private AudioClip _hitSound;
+    [SerializeField] private List<AudioClip> _hitSounds;
 
     private AudioSource _audioSource;
     private HealthModel _healthModel;
@@ -56,8 +57,11 @@ public abstract class HitView : MonoBehaviour
 
     protected void ActivateSound()
     {
+        int soundIndex = Random.Range(0, _hitSounds.Count);
+        AudioClip audioClip = _hitSounds[soundIndex];
+
         float volumeScale = Random.Range(0.9f, 1.1f);
-        _audioSource.PlayOneShot(_hitSound, volumeScale);
+        _audioSource.PlayOneShot(audioClip, volumeScale);
     }
 
     private IEnumerator ProcessSize()

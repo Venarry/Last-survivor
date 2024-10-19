@@ -115,8 +115,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shakeTarget: {fileID: 8316269214567813838}
-  _hitSound: {fileID: 8300000, guid: b31bcd132ef5ad6478bf05c325066c8d, type: 3}
-  _audioSource: {fileID: 0}
+  _hitSounds:
+  - {fileID: 8300000, guid: d4652574593188b4fb7fd0cb32153a8e, type: 3}
+  - {fileID: 8300000, guid: b31bcd132ef5ad6478bf05c325066c8d, type: 3}
 --- !u!1001 &4300821792169000037
 PrefabInstance:
   m_ObjectHideFlags: 0

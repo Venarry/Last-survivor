@@ -43,7 +43,7 @@ public class EntryPoint : MonoBehaviour
             "Load shop",
             "Load targets",
         };
-
+        
         _gameLoadingPanel.Set(loadingLabels);
         _gameLoadingPanel.ShowNext();
 

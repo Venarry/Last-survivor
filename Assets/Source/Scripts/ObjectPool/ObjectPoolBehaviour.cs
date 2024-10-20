@@ -16,7 +16,7 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
 
     protected abstract string AssetKey { get; }
 
-    public event Action ActiveObjectsChanged;
+    //public event Action ActiveObjectsChanged;
 
     public async Task Load()
     {
@@ -44,7 +44,7 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
             poolResult.IsInstantiatedObject = false;
         }
 
-        ActiveObjectsChanged?.Invoke();
+        //ActiveObjectsChanged?.Invoke();
         foundedObject.LifeCycleEnded += OnObjectDestroy;
 
         poolResult.Result = foundedObject;
@@ -56,7 +56,7 @@ public abstract class ObjectPoolBehaviour<T> where T : MonoBehaviour, IPoolObjec
     {
         target.LifeCycleEnded -= OnObjectDestroy;
         target.gameObject.SetActive(false);
-        ActiveObjectsChanged?.Invoke();
+        //ActiveObjectsChanged?.Invoke();
     }
 }
 

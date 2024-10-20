@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class HitView : MonoBehaviour
+public class MapObstacleHitView : MonoBehaviour
 {
     [SerializeField] private Transform _shakeTarget;
     [SerializeField] private List<AudioClip> _hitSounds;
@@ -13,17 +13,13 @@ public abstract class HitView : MonoBehaviour
     private float _defaultScale;
     private Quaternion _defaultRotation;
 
-    protected virtual float ShakeStrength { get; } = 1.0f;
-    protected virtual float ScaleFactor { get; } = 1.2f;
-    protected virtual float Duration { get; } = 0.3f;
+    private readonly float _scaleFactor = 1.2f;
+    private readonly float _duration = 0.3f;
 
     private void Awake()
     {
-        if(_shakeTarget != null)
-        {
-            _defaultScale = _shakeTarget.localScale.x;
-            _defaultRotation = _shakeTarget.localRotation;
-        }
+        _defaultScale = _shakeTarget.localScale.x;
+        _defaultRotation = _shakeTarget.localRotation;
     }
 
     public void Init(HealthModel healthModel, AudioSource audioSource)
@@ -40,14 +36,19 @@ public abstract class HitView : MonoBehaviour
         _healthModel.HealthOver -= OnHealthOver;
     }
 
-    public abstract void Shake();
+    public void Shake()
+    {
+        ShakeSize();
+        ShakeRotation();
+        ActivateSound();
+    }
 
     protected void ShakeSize()
     {
         if (gameObject.activeInHierarchy == false)
             return;
 
-        StartCoroutine(ProcessSize());
+        StartCoroutine(ChangeSize());
     }
 
     protected void ShakeRotation() 
@@ -55,7 +56,7 @@ public abstract class HitView : MonoBehaviour
         if (gameObject.activeInHierarchy == false)
             return;
 
-        StartCoroutine(ProcessRotation());
+        StartCoroutine(ChangeRotation());
     }
 
     protected void ActivateSound()
@@ -74,12 +75,12 @@ public abstract class HitView : MonoBehaviour
         destroyParticle.Play();
     }
 
-    private IEnumerator ProcessSize()
+    private IEnumerator ChangeSize()
     {
         float timeLeft = 0;
-        float middleTimeSpot = Duration / 2;
+        float middleTimeSpot = _duration / 2;
 
-        while (timeLeft < Duration)
+        while (timeLeft < _duration)
         {
             float lerpSpot = timeLeft / middleTimeSpot;
 
@@ -88,7 +89,7 @@ public abstract class HitView : MonoBehaviour
                 lerpSpot = 2 - lerpSpot;
             }
 
-            float scale = Mathf.Lerp(_defaultScale, _defaultScale * ScaleFactor, lerpSpot);
+            float scale = Mathf.Lerp(_defaultScale, _defaultScale * _scaleFactor, lerpSpot);
             _shakeTarget.localScale = new(scale, scale, scale);
             timeLeft += Time.deltaTime;
 
@@ -96,14 +97,14 @@ public abstract class HitView : MonoBehaviour
         }
     }
 
-    private IEnumerator ProcessRotation()
+    private IEnumerator ChangeRotation()
     {
         float tiltAngle = 15f;
         Vector3 tilt = new(Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle));
         float timeLeft = 0;
-        float tiltPartDuration = Duration / 3;
+        float tiltPartDuration = _duration / 3;
 
-        while (timeLeft < Duration)
+        while (timeLeft < _duration)
         {
             float lerpSpot = timeLeft / tiltPartDuration;
             Quaternion targetTilt = _defaultRotation;

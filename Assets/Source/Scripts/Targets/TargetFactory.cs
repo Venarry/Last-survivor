@@ -27,7 +27,7 @@ public abstract class TargetFactory : ObjectPoolBehaviour<Target>
             CharacterBuffsModel characterBuffsModel = new();
             HealthModel healthModel = new(characterBuffsModel, health);
             target.Init(TargetType, healthModel);
-            target.GetComponent<HitView>().Init(healthModel, _audioSource);
+            target.GetComponent<MapObstacleHitView>().Init(healthModel, _audioSource);
             OnCreated(target, healthModel);
         }
         else

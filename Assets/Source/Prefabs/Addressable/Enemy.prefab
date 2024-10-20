@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 510640931066841596}
   - component: {fileID: 1939692167468500862}
   - component: {fileID: 7950520085929197782}
-  - component: {fileID: 3234093968273368761}
   - component: {fileID: -301251637405496147}
   - component: {fileID: 3907921746523682696}
+  - component: {fileID: 5758508086481310669}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -115,22 +115,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isFriendly: 0
---- !u!114 &3234093968273368761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198342774510512658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aab10bff47309947a96454c3102a790, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shakeTarget: {fileID: 823051618070743887}
-  _hitSounds:
-  - {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
-  _destroyParticle: {fileID: 7351851860721985127, guid: ac85a45d2009a7544b75d29bb4244b37, type: 3}
 --- !u!114 &-301251637405496147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +153,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5758508086481310669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198342774510512658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ed8ca1ff465dd45882811a0a0e7957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeTarget: {fileID: 823051618070743887}
+  _hitSounds:
+  - {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
+  _destroyParticle: {fileID: 7351851860721985127, guid: ac85a45d2009a7544b75d29bb4244b37, type: 3}
 --- !u!1001 &929615539881880740
 PrefabInstance:
   m_ObjectHideFlags: 0

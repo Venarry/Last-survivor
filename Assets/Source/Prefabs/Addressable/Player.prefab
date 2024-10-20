@@ -1040,8 +1040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078e276fd9fc7bf4192245ea2f28308e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shakeTarget: {fileID: 2396196993848318239}
-  _hitSound: {fileID: 0}
+  _targetColor: {r: 1, g: 0, b: 0, a: 0}
+  _meshRenderer: {fileID: 5916534235054832490}
 --- !u!114 &75733533462058290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1423,6 +1423,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!137 &5916534235054832490 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 2a91c68f7eadbf648997a7d6bd4121c8, type: 3}
+  m_PrefabInstance: {fileID: 2795531425251426036}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6824880113841157183
 PrefabInstance:
   m_ObjectHideFlags: 0

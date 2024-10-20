@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3528315976075890925}
   - component: {fileID: 4066302369579559869}
   - component: {fileID: 5031590401893312492}
-  - component: {fileID: 4721516260020979703}
   - component: {fileID: 3579957057515802625}
+  - component: {fileID: 4024065316487212470}
   m_Layer: 0
   m_Name: Diamond
   m_TagString: Untagged
@@ -79,25 +79,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isFriendly: 0
---- !u!114 &4721516260020979703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1954777449557193973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aab10bff47309947a96454c3102a790, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shakeTarget: {fileID: 6935423851269514095}
-  _hitSounds:
-  - {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
-  - {fileID: 8300000, guid: fc43896ce624fdc47a7895c78d5e70ac, type: 3}
-  - {fileID: 8300000, guid: fe2e8b593ed1a1a46a54b77cd3ccf81d, type: 3}
-  - {fileID: 8300000, guid: 8c1a66d8b0cd788469eba04f05e6709c, type: 3}
-  _destroyParticle: {fileID: 7351851860721985127, guid: ac85a45d2009a7544b75d29bb4244b37, type: 3}
 --- !u!136 &3579957057515802625
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -121,6 +102,25 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4024065316487212470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954777449557193973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ed8ca1ff465dd45882811a0a0e7957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeTarget: {fileID: 6935423851269514095}
+  _hitSounds:
+  - {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
+  - {fileID: 8300000, guid: fc43896ce624fdc47a7895c78d5e70ac, type: 3}
+  - {fileID: 8300000, guid: fe2e8b593ed1a1a46a54b77cd3ccf81d, type: 3}
+  - {fileID: 8300000, guid: 8c1a66d8b0cd788469eba04f05e6709c, type: 3}
+  _destroyParticle: {fileID: 7351851860721985127, guid: ac85a45d2009a7544b75d29bb4244b37, type: 3}
 --- !u!1001 &3605967852534276612
 PrefabInstance:
   m_ObjectHideFlags: 0

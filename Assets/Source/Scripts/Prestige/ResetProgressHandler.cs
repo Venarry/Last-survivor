@@ -70,7 +70,7 @@ public class ResetProgressHandler : MonoBehaviour
         else
         {
             _prestigeToAddCountLabel.text = $"You need {minLevelForResetPreogress} level or highter for reset progress";
-            //_confirmButton.gameObject.SetActive(false);
+            _confirmButton.gameObject.SetActive(false);
         }
     }
 

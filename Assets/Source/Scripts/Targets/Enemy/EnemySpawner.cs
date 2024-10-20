@@ -69,7 +69,7 @@ public class EnemySpawner
         float damage = 1 + (_levelsStatistic.CurrentLevel * GameParamenters.EnemyDamagePerLevelMultiplier);
 
         float offsetX = Random.Range(-5f, 5f);
-        float offsetZ = Random.Range(-2f, -5f);
+        float offsetZ = Random.Range(-3f, -8f);
 
         Vector3 spawnOffset = new(offsetX, 0, offsetZ);
 

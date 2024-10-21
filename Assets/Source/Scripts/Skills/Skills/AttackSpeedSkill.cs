@@ -1,4 +1,7 @@
-﻿public class AttackSpeedSkill : SkillBehaviour
+﻿using System;
+using YG;
+
+public class AttackSpeedSkill : SkillBehaviour
 {
     private readonly AttackSpeedBuff _attackSpeedBuff = new();
     private readonly CharacterBuffsModel _characterBuffsModel;
@@ -33,6 +36,26 @@
 
     public override string GetUpLevelDescription()
     {
-        return "";
+        string attackCooldownText;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                attackCooldownText = "Уменьшение время между атакми";
+                break;
+
+            case GameParameters.CodeEn:
+                attackCooldownText = "Increase health";
+                break;
+
+            case GameParameters.CodeTr:
+                attackCooldownText = "Sağlığı artırın";
+                break;
+
+            default:
+                throw new ArgumentNullException(nameof(YandexGame.lang));
+        }
+
+        return $"{attackCooldownText}: {AttackCooldownMultiplier} + {Decorate(_attackCooldownMultiplierPerLevel.ToString())}";
     }
 }

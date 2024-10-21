@@ -50,16 +50,16 @@ public class SwordRoundAttackSkill : SkillBehaviour
 
         if(CurrentLevel == 0)
         {
-            swordSizeText = $"{GameParamenters.TextColorStart}{GetSwordSize(CurrentLevel + 1)}{GameParamenters.TextColorEnd}";
-            swordCountText = $"{GameParamenters.TextColorStart}{CurrentLevel + 1}{GameParamenters.TextColorEnd}";
+            swordSizeText = $"{GameParameters.TextColorStart}{GetSwordSize(CurrentLevel + 1)}{GameParameters.TextColorEnd}";
+            swordCountText = $"{GameParameters.TextColorStart}{CurrentLevel + 1}{GameParameters.TextColorEnd}";
         }
         else
         {
             decimal beforeSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel), 2);
             decimal afterSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel + 1) - (decimal)GetSwordSize(CurrentLevel), 2);
-            swordSizeText = $"{beforeSwordSize} (+{GameParamenters.TextColorStart}{afterSwordSize}{GameParamenters.TextColorEnd})";
+            swordSizeText = $"{beforeSwordSize} (+{GameParameters.TextColorStart}{afterSwordSize}{GameParameters.TextColorEnd})";
 
-            swordCountText = $"{CurrentLevel} (+{GameParamenters.TextColorStart}1{GameParamenters.TextColorEnd})";
+            swordCountText = $"{CurrentLevel} (+{GameParameters.TextColorStart}1{GameParameters.TextColorEnd})";
         }
 
         return $"Sword count {swordCountText}\n" +

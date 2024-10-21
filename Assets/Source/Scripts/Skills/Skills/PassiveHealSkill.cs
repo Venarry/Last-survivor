@@ -1,4 +1,6 @@
+﻿using System;
 using UnityEngine;
+using YG;
 
 public class PassiveHealSkill : SkillBehaviour
 {
@@ -28,9 +30,29 @@ public class PassiveHealSkill : SkillBehaviour
 
         if(CurrentLevel > 0)
         {
-            upgradeText = $"(+{GameParamenters.TextColorStart}{_healPercentPerSecondPerLevel * 100}{GameParamenters.TextColorEnd}%)";
+            upgradeText = $"(+{GameParameters.TextColorStart}{_healPercentPerSecondPerLevel * 100}{GameParameters.TextColorEnd}%)";
         }
 
-        return $"Health per second {HealPercentPerSecond * 100}% {upgradeText}";
+        string healthPerSecondText;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                healthPerSecondText = "Здоровье в секунду";
+                break;
+
+            case GameParameters.CodeEn:
+                healthPerSecondText = "Health per second";
+                break;
+
+            case GameParameters.CodeTr:
+                healthPerSecondText = "Saniyede sağlık";
+                break;
+
+            default:
+                throw new ArgumentNullException();
+        }
+
+        return $"{healthPerSecondText} {HealPercentPerSecond * 100}% {upgradeText}";
     }
 }

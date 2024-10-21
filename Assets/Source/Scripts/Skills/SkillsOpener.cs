@@ -92,7 +92,7 @@ public class SkillsOpener : MonoBehaviour
                 addedSkillsCounter++;
             }
 
-            if(addedSkillsCounter >= GameParamenters.SkillsToChooseByLevel)
+            if(addedSkillsCounter >= GameParameters.SkillsToChooseByLevel)
             {
                 break;
             }

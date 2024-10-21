@@ -108,7 +108,7 @@ public abstract class BuyUpgradeButton : MonoBehaviour
             float pricePow = 1.4f;
             float priceMultiplier = 0.01f;
             int progressiveLootPrice = Mathf.FloorToInt(defaultLootPrice +
-                Mathf.Pow(defaultLootPrice, pricePow) * priceMultiplier * GameParamenters.PriceMultiplier);
+                Mathf.Pow(defaultLootPrice, pricePow) * priceMultiplier * GameParameters.PriceMultiplier);
 
             targetPrice.Add(baseLootPrice.Key, progressiveLootPrice);
         }

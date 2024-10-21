@@ -1,4 +1,6 @@
+﻿using System;
 using UnityEngine;
+using YG;
 
 public class CritAttackSkill : SkillBehaviour
 {
@@ -50,8 +52,32 @@ public class CritAttackSkill : SkillBehaviour
             critChanceUpgradeText = $"(+{Decorate(_critChancePerLevel.ToString())})";
         }
 
-        return $"Crit damage {CritDamage * 100}% {critDamageUpgradeText}\n" +
-            $"Crit chance {CritChance}% {critChanceUpgradeText}";
+        string critDamageText;
+        string critChanceText;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                critDamageText = "Критический урон";
+                critChanceText = "Шанс крита";
+                break;
+
+            case GameParameters.CodeEn:
+                critDamageText = "Crit damage";
+                critChanceText = "Crit chance";
+                break;
+
+            case GameParameters.CodeTr:
+                critDamageText = "Kritik hasar";
+                critChanceText = "Kritik şans";
+                break;
+
+            default:
+                throw new ArgumentNullException(nameof(YandexGame.lang));
+        }
+
+        return $"{critDamageText} {CritDamage * 100}% {critDamageUpgradeText}\n" +
+            $"{critChanceText} {CritChance}% {critChanceUpgradeText}";
     }
         
 }

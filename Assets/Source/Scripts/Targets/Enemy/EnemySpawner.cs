@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner
 {
-    private readonly WaitForSeconds _waitSpawnDelay = new(GameParamenters.EnemySpawnDelay);
+    private readonly WaitForSeconds _waitSpawnDelay = new(GameParameters.EnemySpawnDelay);
     private readonly List<Enemy> _enemys = new();
     private readonly DayCycle _dayCycleView;
     private readonly EnemyFactory _enemyFactory;
@@ -66,7 +66,7 @@ public class EnemySpawner
     private IEnumerator SpawningEnemy()
     {
         float health = 3 + _levelsStatistic.TotalLevel + _levelsStatistic.CurrentLevel * 3;
-        float damage = 1 + (_levelsStatistic.CurrentLevel * GameParamenters.EnemyDamagePerLevelMultiplier);
+        float damage = 1 + (_levelsStatistic.CurrentLevel * GameParameters.EnemyDamagePerLevelMultiplier);
 
         float offsetX = Random.Range(-5f, 5f);
         float offsetZ = Random.Range(-3f, -8f);

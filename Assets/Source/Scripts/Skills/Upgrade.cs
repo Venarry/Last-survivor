@@ -38,6 +38,7 @@ public abstract class Upgrade
     }
 
     public abstract string GetUpLevelDescription();
+
     protected string Decorate(string text) =>
-        $"{GameParamenters.TextColorStart}{text}{GameParamenters.TextColorEnd}";
+        $"{GameParameters.TextColorStart}{text}{GameParameters.TextColorEnd}";
 }

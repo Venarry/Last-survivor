@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using UnityEngine;
+using YG;
 
 public class SplashSkill : SkillBehaviour
 {
@@ -60,16 +61,44 @@ public class SplashSkill : SkillBehaviour
 
     public override string GetUpLevelDescription()
     {
-        string splashDamageText = "";
+        string splashAdditionalDamageText = "";
 
         if(CurrentLevel > 0)
         {
             decimal damagePerLevel = Math.Round((decimal)_splashDamageMultiplierPerLevel * 100, 0);
-            splashDamageText = $"(+{GameParamenters.TextColorStart}{damagePerLevel}%{GameParamenters.TextColorEnd})";
+            splashAdditionalDamageText = $"(+{GameParameters.TextColorStart}{damagePerLevel}%{GameParameters.TextColorEnd})";
         }
 
-        return $"Splash angle {_splashAngle}\n" +
-            $"Splash distance {_splashDistance}\n" +
-            $"Splash damage {Math.Round((decimal)SplashDamageMultiplier * 100)}% {splashDamageText}";
+        string splashAngleText;
+        string splashDistanceText;
+        string splashDamageText;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                splashAngleText = "Угол сплеша";
+                splashDistanceText = "Дистанция сплеша";
+                splashDamageText = "Урон от сплеша";
+                break;
+
+            case GameParameters.CodeEn:
+                splashAngleText = "Splash angle";
+                splashDistanceText = "Splash distance";
+                splashDamageText = "Splash damage";
+                break;
+
+            case GameParameters.CodeTr:
+                splashAngleText = "Sıçrama açısı";
+                splashDistanceText = "Sıçrama mesafesi";
+                splashDamageText = "Sıçrama hasarı";
+                break;
+
+            default:
+                throw new ArgumentNullException(nameof(YandexGame.lang));
+        }
+
+        return $"{splashAngleText} {_splashAngle}\n" +
+            $"{splashDistanceText} {_splashDistance}\n" +
+            $"{splashDamageText} {Math.Round((decimal)SplashDamageMultiplier * 100)}% {splashAdditionalDamageText}";
     }
 }

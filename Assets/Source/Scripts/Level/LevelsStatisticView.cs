@@ -25,7 +25,7 @@ public class LevelsStatisticView : MonoBehaviour
 
     public void SpawnLevelsIcon()
     {
-        int levelsToCheckpoint = GameParamenters.LevelsForCheckpoint;
+        int levelsToCheckpoint = GameParameters.LevelsForCheckpoint;
         int startLevelCounter = _levelsStatisticModel.TotalLevel - _levelsStatisticModel.CurrentLevel;
 
         for (int i = 0; i < levelsToCheckpoint; i++)

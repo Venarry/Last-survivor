@@ -1,5 +1,7 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
 public class PetSkill : SkillBehaviour
 {
@@ -45,7 +47,7 @@ public class PetSkill : SkillBehaviour
 
     public override void Disable()
     {
-        Object.Destroy(_pet.gameObject);
+        UnityEngine.Object.Destroy(_pet.gameObject);
     }
 
     public override string GetUpLevelDescription()
@@ -61,8 +63,36 @@ public class PetSkill : SkillBehaviour
             moveDelay.Add(_baseMoveToTargetDelay + _moveToTargetDelayPerLevel * i);
         }
 
-        return $"Damage multiplier\n{ GetAllLevelsUpgradesText(damage.ToArray()) }\n" +
-            $"Attack cooldown multiplier\n{ GetAllLevelsUpgradesText(cooldown.ToArray()) }\n" +
-            $"Move to target delay\n{ GetAllLevelsUpgradesText(moveDelay.ToArray()) }";
+        string damageMultiplierText;
+        string attackCooldownText;
+        string moveToTargetDelayText;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                damageMultiplierText = "Коэффициент урона";
+                attackCooldownText = "Коэффициент скорости атаки";
+                moveToTargetDelayText = "Время пути до цели";
+                break;
+
+            case GameParameters.CodeEn:
+                damageMultiplierText = "Damage multiplier";
+                attackCooldownText = "Attack cooldown multiplier";
+                moveToTargetDelayText = "Move to target delay";
+                break;
+
+            case GameParameters.CodeTr:
+                damageMultiplierText = "Hasar çarpanı";
+                attackCooldownText = "Saldırı bekleme süresi çarpanı";
+                moveToTargetDelayText = "Hedef gecikmeye git";
+                break;
+
+            default:
+                throw new ArgumentNullException(nameof(YandexGame.lang));
+        }
+
+        return $"{damageMultiplierText}\n{ GetAllLevelsUpgradesText(damage.ToArray()) }\n" +
+            $"{attackCooldownText}\n{ GetAllLevelsUpgradesText(cooldown.ToArray()) }\n" +
+            $"{moveToTargetDelayText}\n{ GetAllLevelsUpgradesText(moveDelay.ToArray()) }";
     }
 }

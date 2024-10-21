@@ -3,7 +3,7 @@
 public class DayCycleParameters
 {
     private readonly CharacterBuffsModel _characterBuffsModel;
-    private readonly float _baseDayDuration = GameParamenters.BaseDayDuration;
+    private readonly float _baseDayDuration = GameParameters.BaseDayDuration;
     private float _dayDurationWithBuffs;
 
     public DayCycleParameters(CharacterBuffsModel characterBuffsModel)

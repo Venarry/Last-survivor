@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using YG;
 
 public class MaxHealthUpSkill : SkillBehaviour
 {
@@ -43,6 +45,26 @@ public class MaxHealthUpSkill : SkillBehaviour
 
     public override string GetUpLevelDescription()
     {
-        return $"Increase health:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray()) }";
+        string increaseHealthText;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                increaseHealthText = "Увеличение здоровья";
+                break;
+
+            case GameParameters.CodeEn:
+                increaseHealthText = "Increase health";
+                break;
+
+            case GameParameters.CodeTr:
+                increaseHealthText = "Sağlığı artırın";
+                break;
+
+            default:
+                throw new ArgumentNullException(nameof(YandexGame.lang));
+        }
+
+        return $"{increaseHealthText}:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray()) }";
     }
 }

@@ -3,8 +3,8 @@ using System;
 public class LevelsStatisticModel
 {
     public int TotalLevel { get; private set; }
-    public int CurrentLevel => TotalLevel % GameParamenters.LevelsForCheckpoint;
-    public int NextWave => (CurrentLevel + 1) % GameParamenters.LevelsForCheckpoint;
+    public int CurrentLevel => TotalLevel % GameParameters.LevelsForCheckpoint;
+    public int NextWave => (CurrentLevel + 1) % GameParameters.LevelsForCheckpoint;
 
     public event Action Changed;
 

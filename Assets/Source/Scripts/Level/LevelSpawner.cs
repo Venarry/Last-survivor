@@ -135,7 +135,7 @@ public class LevelSpawner : MonoBehaviour
 
     public bool TryDeletePassedMap()
     {
-        if (_targetsOnMap.Count <= GameParamenters.SpawnedMapBufferCount)
+        if (_targetsOnMap.Count <= GameParameters.SpawnedMapBufferCount)
             return false;
 
         KeyValuePair<MapPart, List<Target>> zeroMap = _targetsOnMap.Dequeue();
@@ -154,7 +154,7 @@ public class LevelSpawner : MonoBehaviour
 
     public void TryDeleteLevelObstacle()
     {
-        if (_targetsOnMap.Count <= GameParamenters.SpawnedMapBufferCount - 1)
+        if (_targetsOnMap.Count <= GameParameters.SpawnedMapBufferCount - 1)
             return;
 
         KeyValuePair<MapPart, List<Target>> previousLevel = _targetsOnMap.Peek();

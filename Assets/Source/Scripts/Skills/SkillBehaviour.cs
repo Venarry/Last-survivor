@@ -17,7 +17,7 @@ public abstract class SkillBehaviour : Upgrade
             }
             else
             {
-                stringBuilder.Append($"{GameParamenters.TextColorStart}{Math.Round(values[i], 1)}{GameParamenters.TextColorEnd}");
+                stringBuilder.Append($"{Decorate(Math.Round(values[i], 1).ToString())}");
             }
 
             if (i != MaxLevel - 1)

@@ -41,16 +41,13 @@ public class PassiveHealSkill : SkillBehaviour
                 healthPerSecondText = "Здоровье в секунду";
                 break;
 
-            case GameParameters.CodeEn:
-                healthPerSecondText = "Health per second";
-                break;
-
             case GameParameters.CodeTr:
                 healthPerSecondText = "Saniyede sağlık";
                 break;
 
             default:
-                throw new ArgumentNullException();
+                healthPerSecondText = "Health per second";
+                break;
         }
 
         return $"{healthPerSecondText} {HealPercentPerSecond * 100}% {upgradeText}";

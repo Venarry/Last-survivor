@@ -8,5 +8,7 @@
 
     public override UpgradeType UpgradeType => UpgradeType.DamageForOre;
     protected override DamageBuff DamageBuff => _buff;
-    protected override string TargetName => "ore";
+    protected override string TargetNameRu => "руде";
+    protected override string TargetNameEn => "ore";
+    protected override string TargetNameTr => "cevhere";
 }

@@ -75,12 +75,6 @@ public class PetSkill : SkillBehaviour
                 moveToTargetDelayText = "Время пути до цели";
                 break;
 
-            case GameParameters.CodeEn:
-                damageMultiplierText = "Damage multiplier";
-                attackCooldownText = "Attack cooldown multiplier";
-                moveToTargetDelayText = "Move to target delay";
-                break;
-
             case GameParameters.CodeTr:
                 damageMultiplierText = "Hasar çarpanı";
                 attackCooldownText = "Saldırı bekleme süresi çarpanı";
@@ -88,7 +82,10 @@ public class PetSkill : SkillBehaviour
                 break;
 
             default:
-                throw new ArgumentNullException(nameof(YandexGame.lang));
+                damageMultiplierText = "Damage multiplier";
+                attackCooldownText = "Attack cooldown multiplier";
+                moveToTargetDelayText = "Move to target delay";
+                break;
         }
 
         return $"{damageMultiplierText}\n{ GetAllLevelsUpgradesText(damage.ToArray()) }\n" +

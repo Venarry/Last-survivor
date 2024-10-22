@@ -126,6 +126,19 @@ public class UpgradesInformationDataSource
         },
     };
 
-    public string GetName(Type skillType) => _skillsName[skillType][YandexGame.lang];
-    public string GetDescription(Type skillType) => _skillsDescription[skillType][YandexGame.lang];
+    public string GetName(Type skillType) => GetData(_skillsName, skillType);
+
+    public string GetDescription(Type skillType) => GetData(_skillsDescription, skillType);
+
+    private string GetData(Dictionary<Type, Dictionary<string, string>> source, Type skillType)
+    {
+        if (source[skillType].ContainsKey(YandexGame.lang) == true)
+        {
+            return source[skillType][YandexGame.lang];
+        }
+        else
+        {
+            return source[skillType][GameParameters.CodeEn];
+        }
+    }
 }

@@ -81,12 +81,6 @@ public class SplashSkill : SkillBehaviour
                 splashDamageText = "Урон от сплеша";
                 break;
 
-            case GameParameters.CodeEn:
-                splashAngleText = "Splash angle";
-                splashDistanceText = "Splash distance";
-                splashDamageText = "Splash damage";
-                break;
-
             case GameParameters.CodeTr:
                 splashAngleText = "Sıçrama açısı";
                 splashDistanceText = "Sıçrama mesafesi";
@@ -94,7 +88,10 @@ public class SplashSkill : SkillBehaviour
                 break;
 
             default:
-                throw new ArgumentNullException(nameof(YandexGame.lang));
+                splashAngleText = "Splash angle";
+                splashDistanceText = "Splash distance";
+                splashDamageText = "Splash damage";
+                break;
         }
 
         return $"{splashAngleText} {_splashAngle}\n" +

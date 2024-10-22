@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using YG;
 
 public class SwordRoundAttackSkill : SkillBehaviour
 {
@@ -56,15 +57,42 @@ public class SwordRoundAttackSkill : SkillBehaviour
         else
         {
             decimal beforeSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel), 2);
-            decimal afterSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel + 1) - (decimal)GetSwordSize(CurrentLevel), 2);
-            swordSizeText = $"{beforeSwordSize} (+{GameParameters.TextColorStart}{afterSwordSize}{GameParameters.TextColorEnd})";
+            decimal afterSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel + 1) -
+                (decimal)GetSwordSize(CurrentLevel), 2);
 
-            swordCountText = $"{CurrentLevel} (+{GameParameters.TextColorStart}1{GameParameters.TextColorEnd})";
+            swordSizeText = $"{beforeSwordSize} (+{Decorate(afterSwordSize.ToString())})";
+
+            swordCountText = $"{CurrentLevel} (+{Decorate("1")})";
         }
 
-        return $"Sword count {swordCountText}\n" +
-        $"Damage {_damageMultiplier * 100}%\n" +
-        $"Sword size {swordSizeText}";
+        string swordCountHeader;
+        string swordDamageHeader;
+        string swordSizeHeader;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                swordCountHeader = "Кол-во мечей";
+                swordDamageHeader = "Урон меча";
+                swordSizeHeader = "Размер меча";
+                break;
+
+            case GameParameters.CodeTr:
+                swordCountHeader = "Kılıç sayısı";
+                swordDamageHeader = "Kılıç hasarı";
+                swordSizeHeader = "Kılıç boyutu";
+                break;
+
+            default:
+                swordCountHeader = "Sword count";
+                swordDamageHeader = "Sword damage";
+                swordSizeHeader = "Sword size";
+                break;
+        }
+
+        return $"{swordCountHeader} {swordCountText}\n" +
+        $"{swordDamageHeader} {_damageMultiplier * 100}%\n" +
+        $"{swordSizeHeader} {swordSizeText}";
     }
 
     private float GetSwordSize(int level) => 1 + (float)(level - 1) / 3;

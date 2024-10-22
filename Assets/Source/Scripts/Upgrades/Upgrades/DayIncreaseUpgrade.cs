@@ -1,4 +1,7 @@
-﻿public class DayIncreaseUpgrade : ParametersUpgradeBehaviour
+﻿using System;
+using YG;
+
+public class DayIncreaseUpgrade : ParametersUpgradeBehaviour
 {
     private readonly DayIncreaseBuff _dayIncreaseBuff = new();
     private readonly float _durationByLevel = 0.2f;
@@ -22,6 +25,23 @@
 
     public override string GetUpLevelDescription()
     {
-        return $"Increase day duration:\n{_durationByLevel * CurrentLevel} + {Decorate(_durationByLevel.ToString())}";
+        string dayDurationHeader;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                dayDurationHeader = "Увеличение длительности дня";
+                break;
+
+            case GameParameters.CodeTr:
+                dayDurationHeader = "Artan süre";
+                break;
+
+            default:
+                dayDurationHeader = "Increase day duration";
+                break;
+        }
+
+        return $"{dayDurationHeader}:\n{_durationByLevel * CurrentLevel} + {Decorate(_durationByLevel.ToString())}";
     }
 }

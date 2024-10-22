@@ -44,16 +44,13 @@ public class AttackSpeedSkill : SkillBehaviour
                 attackCooldownText = "Уменьшение время между атакми";
                 break;
 
-            case GameParameters.CodeEn:
-                attackCooldownText = "Increase health";
-                break;
-
             case GameParameters.CodeTr:
                 attackCooldownText = "Sağlığı artırın";
                 break;
 
             default:
-                throw new ArgumentNullException(nameof(YandexGame.lang));
+                attackCooldownText = "Increase health";
+                break;
         }
 
         return $"{attackCooldownText}: {AttackCooldownMultiplier} + {Decorate(_attackCooldownMultiplierPerLevel.ToString())}";

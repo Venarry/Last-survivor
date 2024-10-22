@@ -53,16 +53,13 @@ public class MaxHealthUpSkill : SkillBehaviour
                 increaseHealthText = "Увеличение здоровья";
                 break;
 
-            case GameParameters.CodeEn:
-                increaseHealthText = "Increase health";
-                break;
-
             case GameParameters.CodeTr:
                 increaseHealthText = "Sağlığı artırın";
                 break;
 
             default:
-                throw new ArgumentNullException(nameof(YandexGame.lang));
+                increaseHealthText = "Increase health";
+                break;
         }
 
         return $"{increaseHealthText}:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray()) }";

@@ -62,18 +62,15 @@ public class CritAttackSkill : SkillBehaviour
                 critChanceText = "Шанс крита";
                 break;
 
-            case GameParameters.CodeEn:
-                critDamageText = "Crit damage";
-                critChanceText = "Crit chance";
-                break;
-
             case GameParameters.CodeTr:
                 critDamageText = "Kritik hasar";
                 critChanceText = "Kritik şans";
                 break;
 
             default:
-                throw new ArgumentNullException(nameof(YandexGame.lang));
+                critDamageText = "Crit damage";
+                critChanceText = "Crit chance";
+                break;
         }
 
         return $"{critDamageText} {CritDamage * 100}% {critDamageUpgradeText}\n" +

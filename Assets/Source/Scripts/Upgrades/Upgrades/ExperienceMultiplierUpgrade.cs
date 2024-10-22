@@ -1,4 +1,7 @@
-﻿public class ExperienceMultiplierUpgrade : ParametersUpgradeBehaviour
+﻿using System;
+using YG;
+
+public class ExperienceMultiplierUpgrade : ParametersUpgradeBehaviour
 {
     private readonly ExperienceMultiplierBuff _buff = new();
     private readonly float _multiplierByLevel = 0.1f;
@@ -24,6 +27,23 @@
 
     public override string GetUpLevelDescription()
     {
-        return $"Increase experience multiplier\n{ExperienceMultiplier} + {Decorate(_multiplierByLevel.ToString())}";
+        string experienceIncreaseHeader;
+
+        switch (YandexGame.lang)
+        {
+            case GameParameters.CodeRu:
+                experienceIncreaseHeader = "Увеличение получения опыта";
+                break;
+
+            case GameParameters.CodeTr:
+                experienceIncreaseHeader = "Artan süre";
+                break;
+
+            default:
+                experienceIncreaseHeader = "Increase experience multiplier";
+                break;
+        }
+
+        return $"{experienceIncreaseHeader}\n{ExperienceMultiplier} + {Decorate(_multiplierByLevel.ToString())}";
     }
 }

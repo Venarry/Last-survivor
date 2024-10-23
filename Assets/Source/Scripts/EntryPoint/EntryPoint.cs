@@ -20,6 +20,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private GameRestartMenu _deathMenu;
     [SerializeField] private ResetProgressHandler _resetProgressHandler;
     [SerializeField] private Tutorial _tutorial;
+    [SerializeField] private EndLevelReward _endLevelReward;
 
     private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
@@ -166,7 +167,15 @@ public class EntryPoint : MonoBehaviour
         inventoryModel.Add(LootType.Prestige, 500);
 
         MapPartsFactory mapPartsFactory = new(
-            _assetsProvider, _upgradesShop, _dayCycle, levelsStatisticModel, characterSkillsModel, playerHealthModel, progressHandler);
+            _assetsProvider,
+            _upgradesShop,
+            _dayCycle,
+            levelsStatisticModel,
+            characterSkillsModel,
+            playerHealthModel,
+            _endLevelReward,
+            progressHandler);
+
         await mapPartsFactory.Load();
 
         _upgradesShop.Init(priceDataSource, inventoryModel, characterParametersUpgradesModel, characterPrestigeUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);

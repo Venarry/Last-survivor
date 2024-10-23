@@ -10,11 +10,12 @@ public class BetweenLevelPart : MapPart
         DayCycle dayCycle,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
+        EndLevelReward endLevelReward,
         IProgressSaveService saveService,
         bool haveEndLevelTrigger)
     {
         _startLevelTrigger.Init(dayCycle, characterSkills);
-        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, saveService);
+        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, endLevelReward, saveService);
 
         if (haveEndLevelTrigger == false)
         {

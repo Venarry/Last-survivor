@@ -2795,7 +2795,7 @@ GameObject:
   - component: {fileID: 624445742}
   - component: {fileID: 624445741}
   m_Layer: 0
-  m_Name: EndLevelReward
+  m_Name: EndLevelCongratulation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2810,7 +2810,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 624445740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd8e890c5e4afe4bacfbad3524c4aa2, type: 3}
+  m_Script: {fileID: 11500000, guid: 329f25ddc1c349d459185fb6e716b9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _menu: {fileID: 1928379471}

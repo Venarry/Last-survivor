@@ -20,7 +20,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private GameRestartMenu _deathMenu;
     [SerializeField] private ResetProgressHandler _resetProgressHandler;
     [SerializeField] private Tutorial _tutorial;
-    [SerializeField] private EndLevelReward _endLevelReward;
+    [SerializeField] private EndLevelCongratulation _endLevelReward;
 
     private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
@@ -188,6 +188,7 @@ public class EntryPoint : MonoBehaviour
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _dayCycle.Init(dayCycleParameters, player.DayUIParent, player.DayBar, player.DayTimeLabel);
         _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, progressHandler, spawnPosition);
+        _endLevelReward.Init(_gameTimeScaler);
 
         _upgradesShop.InitButtons();
         _targetFollower.Set(player.transform);

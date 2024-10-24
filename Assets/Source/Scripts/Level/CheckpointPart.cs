@@ -14,7 +14,7 @@ public class CheckpointPart : MapPart
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         UpgradesShop upgradesShop,
-        EndLevelReward endLevelReward,
+        EndLevelCongratulation endLevelReward,
         IProgressSaveService saveService,
         bool haveEndLevelTrigger)
     {

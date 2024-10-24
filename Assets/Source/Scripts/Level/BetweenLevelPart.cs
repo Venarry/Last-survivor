@@ -10,7 +10,7 @@ public class BetweenLevelPart : MapPart
         DayCycle dayCycle,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        EndLevelReward endLevelReward,
+        EndLevelCongratulation endLevelReward,
         IProgressSaveService saveService,
         bool haveEndLevelTrigger)
     {

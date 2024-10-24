@@ -9,7 +9,7 @@ public class MapPartsFactory
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private readonly HealthModel _playerHealthModel;
-    private readonly EndLevelReward _endLevelReward;
+    private readonly EndLevelCongratulation _endLevelReward;
     private readonly IProgressSaveService _saveService;
 
     public MapPartsFactory(
@@ -19,7 +19,7 @@ public class MapPartsFactory
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         HealthModel playerHealthModel,
-        EndLevelReward endLevelReward,
+        EndLevelCongratulation endLevelReward,
         IProgressSaveService saveService)
     {
         _assetsProvider = assetsProvider;

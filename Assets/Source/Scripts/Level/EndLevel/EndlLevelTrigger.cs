@@ -7,14 +7,14 @@ public class EndlLevelTrigger : MonoBehaviour
     private LevelsStatisticModel _levelsStatisticModel;
     private DayCycle _dayCycle;
     private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
-    private EndLevelReward _endLevelReward;
+    private EndLevelCongratulation _endLevelReward;
     private IProgressSaveService _saveService;
 
     public void Init(
         DayCycle dayCycle,
         LevelsStatisticModel levelsStatisticModel,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        EndLevelReward endLevelReward,
+        EndLevelCongratulation endLevelReward,
         IProgressSaveService saveService)
     {
         _dayCycle = dayCycle;
@@ -32,7 +32,7 @@ public class EndlLevelTrigger : MonoBehaviour
             _dayCycle.ResetTime();
             _characterSkills.DisableCast();
             _saveService.Save();
-            _endLevelReward.ShowCongratulationMenu();
+            _endLevelReward.ShowMenu();
 
             _endLevelCollider.enabled = true;
             Destroy(this);

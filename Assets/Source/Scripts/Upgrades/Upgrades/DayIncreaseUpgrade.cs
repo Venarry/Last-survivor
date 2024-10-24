@@ -18,6 +18,11 @@ public class DayIncreaseUpgrade : ParametersUpgradeBehaviour
         _dayIncreaseBuff.SetParameters(_durationByLevel * CurrentLevel);
     }
 
+    public override void Disable()
+    {
+        CharacterBuffsModel.Remove(_dayIncreaseBuff);
+    }
+
     protected override void OnLevelChange()
     {
         _dayIncreaseBuff.SetParameters(_durationByLevel * CurrentLevel);

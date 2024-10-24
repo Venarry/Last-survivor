@@ -20,6 +20,11 @@ public class ExperienceMultiplierUpgrade : ParametersUpgradeBehaviour
         _buff.SetParameters(ExperienceMultiplier);
     }
 
+    public override void Disable()
+    {
+        CharacterBuffsModel.Remove(_buff);
+    }
+
     protected override void OnLevelChange()
     {
         _buff.SetParameters(ExperienceMultiplier);

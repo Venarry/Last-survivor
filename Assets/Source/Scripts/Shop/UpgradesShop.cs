@@ -109,7 +109,13 @@ public class UpgradesShop : MonoBehaviour, ITutorialAction
 
     private void ResetButtonsBuyCount()
     {
-        foreach (BuyUpgradeButton button in _buttons)
+        ResetButtonsBuyCount(_buttons);
+        ResetButtonsBuyCount(_prestigeButtons);
+    }
+
+    private void ResetButtonsBuyCount(List<BuyUpgradeButton> buttons)
+    {
+        foreach (BuyUpgradeButton button in buttons)
         {
             int buyCount = GetBuyCount(button.UpgradeType);
             button.ReloadButton(buyCount);

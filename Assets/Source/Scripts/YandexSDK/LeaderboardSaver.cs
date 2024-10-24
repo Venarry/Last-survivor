@@ -2,8 +2,6 @@ using YG;
 
 public class LeaderboardSaver
 {
-    private const string LeaderboardName = "Max level";
-
     private readonly LevelsStatisticModel _levelsStatisticModel;
     private readonly IMaxLevelProvider _maxLevelProvider;
 
@@ -29,7 +27,7 @@ public class LeaderboardSaver
     {
         if(_levelsStatisticModel.TotalLevel >= _maxLevelProvider.MaxLevel)
         {
-            YandexGame.NewLeaderboardScores(LeaderboardName, _levelsStatisticModel.TotalLevel);
+            YandexGame.NewLeaderboardScores(GameParameters.LeaderboardName, _levelsStatisticModel.TotalLevel);
         }
     }
 }

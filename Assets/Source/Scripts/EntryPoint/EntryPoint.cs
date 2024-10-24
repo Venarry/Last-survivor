@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using YG;
 
 public class EntryPoint : MonoBehaviour
 {
@@ -37,6 +38,9 @@ public class EntryPoint : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         StartCoroutine(InitYandexSDK());
 #endif
+        TextProvider textProvider = new();
+        textProvider.Load(YandexGame.lang);
+
         string[] loadingLabels = new string[]
         {
             "Load map",

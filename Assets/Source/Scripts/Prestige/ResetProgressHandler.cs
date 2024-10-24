@@ -64,12 +64,12 @@ public class ResetProgressHandler : MonoBehaviour
 
         if(_levelsStatisticModel.TotalLevel >= minLevelForResetPreogress)
         {
-            _prestigeToAddCountLabel.text = $"You'll get {PrestigeToAdd} prestige coins";
+            _prestigeToAddCountLabel.text = $"{TextProvider.ResetProgressPart1} {PrestigeToAdd} prestige {TextProvider.ResetProgressPart2}";
             _confirmButton.gameObject.SetActive(true);
         }
         else
         {
-            _prestigeToAddCountLabel.text = $"You need {minLevelForResetPreogress} level or highter for reset progress";
+            _prestigeToAddCountLabel.text = $"{TextProvider.WarningResetProgressPart1} {minLevelForResetPreogress} {TextProvider.WarningResetProgressPart2}";
             //_confirmButton.gameObject.SetActive(false);
         }
     }

@@ -14,6 +14,7 @@ public class ProgressData
 
     public float HealthNormalized = 1.0f;
     public int TotalLevels = 0;
+    public int MaxLevel = 0;
 
     public void SetLoot(LootType lootType, int count)
     {

@@ -26,6 +26,7 @@ public class EntryPoint : MonoBehaviour
     private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
     private CharacterParametersRefresher _characterUpgradesRefresher;
+    private LeaderboardSaver _leaderboardSaver;
 
     private IEnumerator InitYandexSDK()
     {
@@ -201,13 +202,16 @@ public class EntryPoint : MonoBehaviour
         _enemySpawner.StartSpawning();
         _mapGenerator.StartGenerator();
 
-        _gameLoadingPanel.Disable();
-        player.SetBehaviour(true);
-
         //_tutorial.InitBase(_gameTimeScaler);
         //_tutorial.InitMovement(player.ThirdPersonMovement);
 
         //_mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
+
+        _leaderboardSaver = new(levelsStatisticModel, progressHandler);
+        _leaderboardSaver.Enable();
+
+        _gameLoadingPanel.Disable();
+        player.SetBehaviour(true);
     }
 
     private void OnCheckpointZoneSpawn(CheckpointPart part)
@@ -237,5 +241,6 @@ public class EntryPoint : MonoBehaviour
         _characterUpgradesRefresher.Disable();
         _enemySpawner.DisableSpawning();
         _gameTimeScaler.RemoveAll();
+        _leaderboardSaver.Disable();
     }
 }

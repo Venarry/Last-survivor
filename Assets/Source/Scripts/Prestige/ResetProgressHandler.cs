@@ -70,7 +70,7 @@ public class ResetProgressHandler : MonoBehaviour
         else
         {
             _prestigeToAddCountLabel.text = $"{TextProvider.WarningResetProgressPart1} {minLevelForResetPreogress} {TextProvider.WarningResetProgressPart2}";
-            //_confirmButton.gameObject.SetActive(false);
+            _confirmButton.gameObject.SetActive(false);
         }
     }
 

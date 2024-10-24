@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProgressHandler : IProgressSaveService
+public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
 {
     private const string SaveName = "Save";
 
@@ -16,6 +16,7 @@ public class ProgressHandler : IProgressSaveService
     private readonly ParameterUpgradesFactory _parameterUpgradesFactory;
     private readonly UpgradesShop _upgradesShop;
     private ProgressData _data;
+
 
     public ProgressHandler(
         InventoryModel inventoryModel,
@@ -41,6 +42,8 @@ public class ProgressHandler : IProgressSaveService
         _upgradesShop = upgradesShop;
     }
 
+    public int MaxLevel => _data.MaxLevel;
+
     public void Load()
     {
         if (PlayerPrefs.HasKey(SaveName) == true)
@@ -56,6 +59,11 @@ public class ProgressHandler : IProgressSaveService
 
     public void Save()
     {
+        if(_levelsStatisticModel.TotalLevel > _data.MaxLevel)
+        {
+            _data.MaxLevel = _levelsStatisticModel.TotalLevel;
+        }
+
         _data.HealthNormalized = _healthModel.HealthNormalized;
         _data.SetLevels(_levelsStatisticModel.TotalLevel);
         _data.SetExperienceData(_experienceModel.CurrentLevel, _experienceModel.CurrentExperience);

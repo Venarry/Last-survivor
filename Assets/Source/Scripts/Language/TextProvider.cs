@@ -1,20 +1,43 @@
+using System.Collections.Generic;
+
 public class TextProvider
 {
-    private const string RuResetProgressPart1 = "You'll get";
-    private const string EnResetProgressPart1 = "Ты получишь";
-    private const string TrResetProgressPart1 = "You'll get";
+    private const string NameResetProgressPart1 = "ResetProgressPart1";
+    private const string NameResetProgressPart2 = "ResetProgressPart2";
 
-    private const string RuResetProgressPart2 = "монет престижа";
-    private const string EnResetProgressPart2 = "prestige coins";
-    private const string TrResetProgressPart2 = "prestige coins";
+    private const string NameWarningResetProgressPart1 = "WarningResetProgressPart1";
+    private const string NameWarningResetProgressPart2 = "WarningResetProgressPart2";
 
-    private const string RuWarningResetProgressPart1 = "Тебе нужен";
-    private const string EnWarningResetProgressPart1 = "You need";
-    private const string TrWarningResetProgressPart1 = "You need";
+    private readonly Dictionary<string, Dictionary<string, string>> _texts = new()
+    {
+        [NameResetProgressPart1] = new()
+        {
+            ["ru"] = "Ты получишь",
+            ["en"] = "You'll get",
+            ["tr"] = "You'll get",
+        },
 
-    private const string RuWarningResetProgressPart2 = "уровень или выше для сброса прогресса";
-    private const string EnWarningResetProgressPart2 = "level or highter for reset progress";
-    private const string TrWarningResetProgressPart2 = "level or highter for reset progress";
+        [NameResetProgressPart2] = new()
+        {
+            ["ru"] = "монет престижа",
+            ["en"] = "prestige coins",
+            ["tr"] = "prestige coins",
+        },
+
+        [NameWarningResetProgressPart1] = new()
+        {
+            ["ru"] = "Тебе нужен",
+            ["en"] = "You need",
+            ["tr"] = "You need",
+        },
+
+        [NameWarningResetProgressPart2] = new()
+        {
+            ["ru"] = "уровень или выше для сброса прогресса",
+            ["en"] = "level or highter for reset progress",
+            ["tr"] = "level or highter for reset progress",
+        },
+    };
 
     public static string ResetProgressPart1 { get; private set; }
     public static string ResetProgressPart2 { get; private set; }
@@ -23,31 +46,14 @@ public class TextProvider
 
     public void Load(string lang)
     {
-        switch (lang)
+        if(lang != "ru" && lang != "tr" && lang != "en")
         {
-            case "ru":
-                ResetProgressPart1 = RuResetProgressPart1;
-                ResetProgressPart2 = RuResetProgressPart2;
-
-                WarningResetProgressPart1 = RuWarningResetProgressPart1;
-                WarningResetProgressPart2 = RuWarningResetProgressPart2;
-                break;
-
-            case "tr":
-                ResetProgressPart1 = TrResetProgressPart1;
-                ResetProgressPart2 = TrResetProgressPart2;
-
-                WarningResetProgressPart1 = TrWarningResetProgressPart1;
-                WarningResetProgressPart2 = TrWarningResetProgressPart2;
-                break;
-
-            default:
-                ResetProgressPart1 = EnResetProgressPart1;
-                ResetProgressPart2 = EnResetProgressPart2;
-
-                WarningResetProgressPart1 = EnWarningResetProgressPart1;
-                WarningResetProgressPart2 = EnWarningResetProgressPart2;
-                break;
+            lang = "en";
         }
+
+        ResetProgressPart1 = _texts[NameResetProgressPart1][lang];
+        ResetProgressPart2 = _texts[NameResetProgressPart2][lang];
+        WarningResetProgressPart1 = _texts[NameWarningResetProgressPart1][lang];
+        WarningResetProgressPart2 = _texts[NameWarningResetProgressPart2][lang];
     }
 }

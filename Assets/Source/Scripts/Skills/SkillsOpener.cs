@@ -8,12 +8,11 @@ public class SkillsOpener : MonoBehaviour
     [SerializeField] private GameObject _skillsParent;
     [SerializeField] private SkillToChoose _skillsPrefab;
 
-    private List<SkillToChoose> _spawnedSkill = new();
+    private readonly List<SkillToChoose> _spawnedSkill = new();
     private SkillsViewFactory _skillToChooseFactory;
     private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
     private ExperienceModel _experienceModel;
     private SkillsFactory _skillsFactory;
-    private GameTimeScaler _gameTimeScaler;
     private int _levelsInQueue = 0;
 
     private string GameTimeKey => nameof(SkillsOpener);
@@ -22,14 +21,12 @@ public class SkillsOpener : MonoBehaviour
         SkillsViewFactory skillToChooseFactory,
         CharacterUpgradesModel<SkillBehaviour> characterSkills,
         ExperienceModel experienceModel,
-        SkillsFactory skillsFactory,
-        GameTimeScaler gameTimeScaler)
+        SkillsFactory skillsFactory)
     {
         _skillToChooseFactory = skillToChooseFactory;
         _characterSkills = characterSkills;
         _experienceModel = experienceModel;
         _skillsFactory = skillsFactory;
-        _gameTimeScaler = gameTimeScaler;
 
         _skillsParent.SetActive(false);
 
@@ -49,7 +46,7 @@ public class SkillsOpener : MonoBehaviour
         }
 
         _spawnedSkill.Clear();
-        _gameTimeScaler.Remove(GameTimeKey);
+        GameTimeScaler.Remove(GameTimeKey);
 
         if(_levelsInQueue > 0)
         {
@@ -101,7 +98,7 @@ public class SkillsOpener : MonoBehaviour
         if(addedSkillsCounter != 0)
         {
             _skillsParent.SetActive(true);
-            _gameTimeScaler.Add(GameTimeKey, timeScale: 0);
+            GameTimeScaler.Add(GameTimeKey, timeScale: 0);
         }
     }
 

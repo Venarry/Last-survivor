@@ -1,15 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class GameTimeScaler
 {
-    private readonly Dictionary<string, float> _timeScales = new();
-    private string _currentKey;
-    private float _defaultTimeScale = 1f;
+    private static readonly Dictionary<string, float> _timeScales = new();
+    private static readonly float _defaultTimeScale = 1f;
+    private static string _currentKey;
 
-    public void Add(string key, float timeScale)
+    public static void Add(string key, float timeScale)
     {
         if (_timeScales.ContainsKey(key) == true)
             return;
@@ -19,7 +18,7 @@ public class GameTimeScaler
         RefreshTime();
     }
 
-    public void Remove(string key)
+    public static void Remove(string key)
     {
         if (_timeScales.ContainsKey(key) == false)
             return;
@@ -32,13 +31,13 @@ public class GameTimeScaler
         }
     }
 
-    public void RemoveAll()
+    public static void RemoveAll()
     {
         Time.timeScale = _defaultTimeScale;
         _timeScales.Clear();
     }
 
-    private void RefreshTime()
+    private static void RefreshTime()
     {
         if (_timeScales.Count == 0)
         {

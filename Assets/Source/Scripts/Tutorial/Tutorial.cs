@@ -38,7 +38,7 @@ public class Tutorial : MonoBehaviour
 
         if (_tutorialParts[0].DisableTime == true)
         {
-            _timeScaler.Add(_tutorialParts[0].Name, 0);
+            GameTimeScaler.Add(_tutorialParts[0].Name, 0);
         }
     }
 
@@ -132,11 +132,11 @@ public class Tutorial : MonoBehaviour
 
         if(state == true)
         {
-            _timeScaler.Add(tutorialPart.Name, 0);
+            GameTimeScaler.Add(tutorialPart.Name, 0);
         }
         else
         {
-            _timeScaler.Remove(tutorialPart.Name);
+            GameTimeScaler.Remove(tutorialPart.Name);
         }
     }
 }

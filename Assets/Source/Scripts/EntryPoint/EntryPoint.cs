@@ -23,7 +23,6 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private Tutorial _tutorial;
     [SerializeField] private EndLevelCongratulation _endLevelReward;
 
-    private readonly GameTimeScaler _gameTimeScaler = new();
     private AssetsProvider _assetsProvider;
     private CharacterParametersRefresher _characterUpgradesRefresher;
     private LeaderboardSaver _leaderboardSaver;
@@ -183,8 +182,8 @@ public class EntryPoint : MonoBehaviour
 
         await mapPartsFactory.Load();
 
-        _upgradesShop.Init(priceDataSource, inventoryModel, characterParametersUpgradesModel, characterPrestigeUpgradesModel, parametersUpgradesFactory, itemPriceFactory, _gameTimeScaler);
-        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, playerExperienceModel, skillsFactory, _gameTimeScaler);
+        _upgradesShop.Init(priceDataSource, inventoryModel, characterParametersUpgradesModel, characterPrestigeUpgradesModel, parametersUpgradesFactory, itemPriceFactory);
+        _skillsOpener.Init(skillsViewFactory, characterSkillsModel, playerExperienceModel, skillsFactory);
         _levelSpawner.Init(woodFactory, diamondFactory, stoneFactory, mapPartsFactory, levelResourcesSpawnChance);
         _mapGenerator.Init(player.transform, levelsStatisticModel, mapPartsFactory);
         _deathMenu.Init(characterSkillsModel, playerExperienceModel, player.ThirdPersonMovement, levelsStatisticModel, playerHealthModel, lootViewProvider, progressHandler, spawnPosition);
@@ -193,7 +192,6 @@ public class EntryPoint : MonoBehaviour
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _dayCycle.Init(dayCycleParameters, player.DayUIParent, player.DayBar, player.DayTimeLabel);
         _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, progressHandler, spawnPosition);
-        _endLevelReward.Init(_gameTimeScaler);
 
         _upgradesShop.InitButtons();
         _targetFollower.Set(player.transform);
@@ -240,7 +238,7 @@ public class EntryPoint : MonoBehaviour
         _assetsProvider.Clear();
         _characterUpgradesRefresher.Disable();
         _enemySpawner.DisableSpawning();
-        _gameTimeScaler.RemoveAll();
+        GameTimeScaler.RemoveAll();
         _leaderboardSaver.Disable();
     }
 }

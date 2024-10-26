@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +20,8 @@ public class LeaderBoardShower : MonoBehaviour
     [SerializeField] private Button _closeWarningMenuButton;
 
     private readonly List<UserLeaderScoreView> _userLeaderScoreViews = new();
+
+    private string TimeKey => nameof(LeaderBoardShower);
 
     private void Awake()
     {
@@ -81,21 +81,25 @@ public class LeaderBoardShower : MonoBehaviour
         {
             _warningMenu.SetActive(true);
         }
+
+        GameTimeScaler.Add(TimeKey, 0f);
     }
 
     private void CloseLeadersMenu()
     {
         _menu.SetActive(false);
+        GameTimeScaler.Remove(TimeKey);
     }
 
     private void CloseWarningMenu()
     {
         _warningMenu.SetActive(false);
+        GameTimeScaler.Remove(TimeKey);
     }
 
     private void Auth()
     {
         //YandexGame.AuthDialog();
-        YandexGame.RequestAuth();
+        //YandexGame.RequestAuth();
     }
 }

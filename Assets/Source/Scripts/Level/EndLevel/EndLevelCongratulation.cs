@@ -11,18 +11,12 @@ public class EndLevelCongratulation : MonoBehaviour
     [SerializeField] private Button _okButton;
 
     private readonly WaitForSeconds _waitForSeconds = new(ShowDelay);
-    private GameTimeScaler _timeScaler;
 
     private string TimeKeyName => nameof(EndLevelCongratulation);
 
     private void Awake()
     {
         _menu.SetActive(false);
-    }
-
-    public void Init(GameTimeScaler gameTimeScaler)
-    {
-        _timeScaler = gameTimeScaler;
     }
 
     private void OnEnable()
@@ -45,7 +39,7 @@ public class EndLevelCongratulation : MonoBehaviour
         yield return _waitForSeconds;
 
         _menu.SetActive(true);
-        _timeScaler.Add(TimeKeyName, timeScale: 0);
+        GameTimeScaler.Add(TimeKeyName, timeScale: 0);
     }
 
     private void ShowReward()
@@ -53,6 +47,6 @@ public class EndLevelCongratulation : MonoBehaviour
         YandexGame.FullscreenShow();
         _menu.SetActive(false);
 
-        _timeScaler.Remove(TimeKeyName);
+        GameTimeScaler.Remove(TimeKeyName);
     }
 }

@@ -13,7 +13,6 @@ public class UpgradesShop : MonoBehaviour, ITutorialAction
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterPrestigeUpgrades;
     private ParameterUpgradesFactory _upgradesFactory;
-    private GameTimeScaler _gameTimeScaler;
     private ItemPriceFactory _itemPriceFactory;
     private Dictionary<UpgradeType, int> _buyCountData = new();
 
@@ -27,8 +26,7 @@ public class UpgradesShop : MonoBehaviour, ITutorialAction
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterPrestigeUpgrades,
         ParameterUpgradesFactory upgradesFactory,
-        ItemPriceFactory itemPriceFactory,
-        GameTimeScaler gameTimeScaler)
+        ItemPriceFactory itemPriceFactory)
     {
         _priceDataSource = priceDataSource;
         _inventoryModel = inventoryModel;
@@ -36,7 +34,6 @@ public class UpgradesShop : MonoBehaviour, ITutorialAction
         _characterPrestigeUpgrades = characterPrestigeUpgrades;
         _upgradesFactory = upgradesFactory;
         _itemPriceFactory = itemPriceFactory;
-        _gameTimeScaler = gameTimeScaler;
 
         Hide();
     }
@@ -44,13 +41,13 @@ public class UpgradesShop : MonoBehaviour, ITutorialAction
     public void Show()
     {
         _shopMenu.SetActive(true);
-        _gameTimeScaler.Add(GameTimeKey, timeScale: 0);
+        GameTimeScaler.Add(GameTimeKey, timeScale: 0);
     }
 
     public void Hide()
     {
         _shopMenu.SetActive(false);
-        _gameTimeScaler.Remove(GameTimeKey);
+        GameTimeScaler.Remove(GameTimeKey);
     }
 
     public void ReloadButtons(UpgradeData[] upgrades)

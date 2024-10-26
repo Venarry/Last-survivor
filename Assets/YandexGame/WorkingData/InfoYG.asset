@@ -16,7 +16,7 @@ MonoBehaviour:
   playerPhotoSize: 0
   autoGameReadyAPI: 1
   playerInfoSimulation:
-    authorized: 1
+    authorized: 0
     isMobile: 0
     language: ru
     name: Player this
@@ -41,7 +41,7 @@ MonoBehaviour:
     objectName: YandexGame
     methodName: _SaveProgress
   leaderboardEnable: 1
-  saveScoreAnonymousPlayers: 1
+  saveScoreAnonymousPlayers: 0
   leaderboardSimulation:
   - technoName: Max level
     entries: 'Test LeaderBoard

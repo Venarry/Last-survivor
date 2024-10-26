@@ -8,23 +8,33 @@ using YG.Utils.LB;
 
 public class LeaderBoardShower : MonoBehaviour
 {
+    [Header("Leaderboard")]
     [SerializeField] private GameObject _menu;
     [SerializeField] private Transform _leadersParent;
     [SerializeField] private Button _showMenuButton;
     [SerializeField] private Button _closeMenuButton;
     [SerializeField] private UserLeaderScoreView _userLeaderScoreView;
+    [SerializeField] private UserLeaderScoreView _thisPlayer;
 
-    private List<UserLeaderScoreView> _userLeaderScoreViews = new();
+    [Header("Warning menu")]
+    [SerializeField] private GameObject _warningMenu;
+    [SerializeField] private Button _authButton;
+    [SerializeField] private Button _closeWarningMenuButton;
+
+    private readonly List<UserLeaderScoreView> _userLeaderScoreViews = new();
 
     private void Awake()
     {
+        _warningMenu.SetActive(false);
         _menu.SetActive(false);
     }
 
     private void OnEnable()
     {
         _showMenuButton.onClick.AddListener(ShowMenu);
-        _closeMenuButton.onClick.AddListener(CloseMenu);
+        _authButton.onClick.AddListener(Auth);
+        _closeMenuButton.onClick.AddListener(CloseLeadersMenu);
+        _closeWarningMenuButton.onClick.AddListener(CloseWarningMenu);
 
         YandexGame.onGetLeaderboard += OnLeaderboardGet;
     }
@@ -32,10 +42,13 @@ public class LeaderBoardShower : MonoBehaviour
     private void OnDisable()
     {
         _showMenuButton.onClick.RemoveListener(ShowMenu);
-        _closeMenuButton.onClick.RemoveListener(CloseMenu);
+        _authButton.onClick.RemoveListener(Auth);
+        _closeMenuButton.onClick.RemoveListener(CloseLeadersMenu);
+        _closeWarningMenuButton.onClick.RemoveListener(CloseWarningMenu);
 
         YandexGame.onGetLeaderboard -= OnLeaderboardGet;
     }
+
 
     private void OnLeaderboardGet(LBData data)
     {
@@ -53,17 +66,36 @@ public class LeaderBoardShower : MonoBehaviour
 
             _userLeaderScoreViews.Add(playerView);
         }
+
+        _thisPlayer.Set(data.thisPlayer.rank, YandexGame.playerName, data.thisPlayer.score);
     }
 
     private void ShowMenu()
     {
-        _menu.SetActive(true);
-
-        YandexGame.GetLeaderboard(GameParameters.LeaderboardName, 100, 10, 5, "small");
+        if(YandexGame.auth == true)
+        {
+            _menu.SetActive(true);
+            YandexGame.GetLeaderboard(GameParameters.LeaderboardName, 100, 10, 5, "small");
+        }
+        else
+        {
+            _warningMenu.SetActive(true);
+        }
     }
 
-    private void CloseMenu()
+    private void CloseLeadersMenu()
     {
         _menu.SetActive(false);
+    }
+
+    private void CloseWarningMenu()
+    {
+        _warningMenu.SetActive(false);
+    }
+
+    private void Auth()
+    {
+        //YandexGame.AuthDialog();
+        YandexGame.RequestAuth();
     }
 }

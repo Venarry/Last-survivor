@@ -9,7 +9,5 @@
 
     public override UpgradeType UpgradeType => UpgradeType.DamageForWood;
     protected override DamageBuff DamageBuff => _buff;
-    protected override string TargetNameRu => "дереву";
-    protected override string TargetNameEn => "wood";
-    protected override string TargetNameTr => "ağaca";
+    protected override string TargetName => LanguageProvider.TargetNameWood;
 }

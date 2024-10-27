@@ -53,7 +53,8 @@ public class ThrowingAxesSkill : SkillBehaviour
 
     public override string GetUpLevelDescription()
     {
-        return "";
+        return $"{LanguageProvider.ThrowingAxesCount}: {CurrentLevel} + {Decorate("1")}\n" +
+            $"{LanguageProvider.ThrowingAxesDamage}: {_damageMultiplier * 100}%\n";
     }
 
     private IEnumerator SpawnAxes(float count)

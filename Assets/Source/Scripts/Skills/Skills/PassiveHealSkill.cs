@@ -24,6 +24,10 @@ public class PassiveHealSkill : SkillBehaviour
         _targetHealthModel.Add(_targetHealthModel.MaxValue * HealPercentPerSecond * Time.deltaTime);
     }
 
+    public override void Disable()
+    {
+    }
+
     public override string GetUpLevelDescription()
     {
         string upgradeText = "";

@@ -20,9 +20,7 @@ public abstract class Upgrade
 
     public abstract void Apply();
 
-    public virtual void Disable()
-    {
-    }
+    public abstract void Disable();
 
     public bool TryIncreaseLevel()
     {

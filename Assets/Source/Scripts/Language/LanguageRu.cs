@@ -9,5 +9,14 @@
     public string WarningResetProgressPart1 => "Тебе нужен";
     public string WarningResetProgressPart2 => "уровень или выше для сброса прогресса";
 
+    public string TargetNameEnemy => "врагам";
+    public string TargetNameWood => "дереву";
+    public string TargetNameOre => "руде";
+    public string AdditionalDamageHeader => "Дополнительный урон по";
     public string ExperienceIncreaseHeader => "Увеличение получения опыта";
+    public string ThrowingAxesCount => "Кол-во топоров";
+    public string ThrowingAxesDamage => "Урон топоров от атаки по цели";
+    public string RoundSwordCountHeader => "Кол-во мечей";
+    public string RoundSwordDamageHeader => "Урон меча";
+    public string RoundSwordSizeHeader => "Размер меча";
 }

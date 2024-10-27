@@ -45,6 +45,10 @@ public class SwordRoundAttackSkill : SkillBehaviour
         _cooldownTimer.Tick();
     }
 
+    public override void Disable()
+    {
+    }
+
     public override string GetUpLevelDescription() 
     {
         string swordSizeText;
@@ -52,8 +56,8 @@ public class SwordRoundAttackSkill : SkillBehaviour
 
         if(CurrentLevel == 0)
         {
-            swordSizeText = $"{GameParameters.TextColorStart}{GetSwordSize(CurrentLevel + 1)}{GameParameters.TextColorEnd}";
-            swordCountText = $"{GameParameters.TextColorStart}{CurrentLevel + 1}{GameParameters.TextColorEnd}";
+            swordSizeText = $"{GameParameters.TextColorStart}{GetSwordSize(1)}{GameParameters.TextColorEnd}";
+            swordCountText = $"{GameParameters.TextColorStart}{1}{GameParameters.TextColorEnd}";
         }
         else
         {
@@ -66,34 +70,9 @@ public class SwordRoundAttackSkill : SkillBehaviour
             swordCountText = $"{CurrentLevel} (+{Decorate("1")})";
         }
 
-        string swordCountHeader;
-        string swordDamageHeader;
-        string swordSizeHeader;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                swordCountHeader = "Кол-во мечей";
-                swordDamageHeader = "Урон меча";
-                swordSizeHeader = "Размер меча";
-                break;
-
-            case GameParameters.CodeTr:
-                swordCountHeader = "Kılıç sayısı";
-                swordDamageHeader = "Kılıç hasarı";
-                swordSizeHeader = "Kılıç boyutu";
-                break;
-
-            default:
-                swordCountHeader = "Sword count";
-                swordDamageHeader = "Sword damage";
-                swordSizeHeader = "Sword size";
-                break;
-        }
-
-        return $"{swordCountHeader} {swordCountText}\n" +
-        $"{swordDamageHeader} {_damageMultiplier * 100}%\n" +
-        $"{swordSizeHeader} {swordSizeText}";
+        return $"{LanguageProvider.RoundSwordCountHeader} {swordCountText}\n" +
+        $"{LanguageProvider.RoundSwordDamageHeader} {_damageMultiplier * 100}%\n" +
+        $"{LanguageProvider.RoundSwordSizeHeader} {swordSizeText}";
     }
 
     private float GetSwordSize(int level) => 1 + (float)(level - 1) / 3;

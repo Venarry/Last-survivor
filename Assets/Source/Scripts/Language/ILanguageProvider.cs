@@ -10,5 +10,14 @@
     public string WarningResetProgressPart2 { get; }
 
 
+    public string TargetNameEnemy { get; }
+    public string TargetNameWood { get; }
+    public string TargetNameOre { get; }
+    public string AdditionalDamageHeader { get; }
     public string ExperienceIncreaseHeader { get; }
+    public string ThrowingAxesCount { get; }
+    public string ThrowingAxesDamage { get; }
+    public string RoundSwordCountHeader { get; }
+    public string RoundSwordDamageHeader { get; }
+    public string RoundSwordSizeHeader { get; }
 }

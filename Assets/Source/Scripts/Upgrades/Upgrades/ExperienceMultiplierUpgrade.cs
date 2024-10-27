@@ -1,7 +1,4 @@
-﻿using System;
-using YG;
-
-public class ExperienceMultiplierUpgrade : ParametersUpgradeBehaviour
+﻿public class ExperienceMultiplierUpgrade : ParametersUpgradeBehaviour
 {
     private readonly ExperienceMultiplierBuff _buff = new();
     private readonly float _multiplierByLevel = 0.1f;

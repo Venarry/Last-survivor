@@ -16,7 +16,7 @@ public class CritAttackSkill : SkillBehaviour
     private float CritDamage => _baseCritDamageMultiplier + _critDamageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
     private float CritChance => _baseCritChance + _critChancePerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
-    public CritAttackSkill(CharacterBuffsModel characterBuffsModel)
+    public CritAttackSkill(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
     }

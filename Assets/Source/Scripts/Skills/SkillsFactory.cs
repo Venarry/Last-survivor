@@ -11,6 +11,7 @@ public class SkillsFactory
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly ThrowingAxesFactory _throwingAxesFactory;
     private readonly PetFactory _petFactory;
+    private readonly ILanguageProvider _languageProvider;
     private readonly Dictionary<UpgradeType, Func<SkillBehaviour>> _skills;
 
     public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек.
@@ -21,7 +22,8 @@ public class SkillsFactory
         CharacterBuffsModel characterBuffsModel,
         RoundSwordFactory roundSwordFactory,
         ThrowingAxesFactory throwingAxesFactory,
-        PetFactory petFactory)
+        PetFactory petFactory,
+        ILanguageProvider languageProvider)
     {
         _coroutineProvider = coroutineProvider;
         _player = player;
@@ -31,6 +33,7 @@ public class SkillsFactory
         _roundSwordFactory = roundSwordFactory;
         _throwingAxesFactory = throwingAxesFactory;
         _petFactory = petFactory;
+        _languageProvider = languageProvider;
 
         _skills = new()
         {
@@ -46,27 +49,27 @@ public class SkillsFactory
     }
 
     public SwordRoundAttackSkill CreateSwordRoundAttackSkill() =>
-        new(_roundSwordFactory, _player.transform, _player.TargetSearcher);
+        new(_roundSwordFactory, _player.transform, _player.TargetSearcher, _languageProvider);
 
     public CritAttackSkill CreateCritAttackSkill() =>
-        new(_characterBuffsModel);
+        new(_characterBuffsModel, _languageProvider);
 
     public SplashSkill CreateSplashSkill() =>
-        new(_player.AttackHandler, _targetsProvider);
+        new(_player.AttackHandler, _targetsProvider, _languageProvider);
 
     public PassiveHealSkill CreatePassiveHealSkill() =>
-        new(_playerHealthModel);
+        new(_playerHealthModel, _languageProvider);
 
     public AttackSpeedSkill CreateAttackSpeedSkill() =>
-        new(_characterBuffsModel);
+        new(_characterBuffsModel, _languageProvider);
     public MaxHealthUpSkill CreateMaxHealthUpSkill() =>
-       new(_characterBuffsModel);
+       new(_characterBuffsModel, _languageProvider);
 
     public ThrowingAxesSkill CreateThrowingAxesSkill() =>
-       new(_targetsProvider, _throwingAxesFactory, _player.transform, _coroutineProvider);
+       new(_targetsProvider, _throwingAxesFactory, _player.transform, _coroutineProvider, _languageProvider);
 
     public PetSkill CreatePetSkill() =>
-       new(_petFactory, _player.transform);
+       new(_petFactory, _player.transform, _languageProvider);
 
     public SkillBehaviour CreateBy(UpgradeType type, int level)
     {

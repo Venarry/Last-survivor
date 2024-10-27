@@ -21,7 +21,7 @@ public class PetSkill : SkillBehaviour
     private float AttackCooldownMultiplier => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
     private float MoveToTargetDelay => _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
-    public PetSkill(PetFactory petFactory, Transform owner)
+    public PetSkill(PetFactory petFactory, Transform owner, ILanguageProvider languageProvider) : base(languageProvider)
     {
         _petFactory = petFactory;
         _owner = owner;

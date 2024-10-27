@@ -13,7 +13,10 @@ public class SplashSkill : SkillBehaviour
 
     private float SplashDamageMultiplier => _baseSplashDamageMultiplier + _splashDamageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
-    public SplashSkill(CharacterAttackHandler playerAttackHandler, TargetsProvider<Target> targetsProvider)
+    public SplashSkill(
+        CharacterAttackHandler playerAttackHandler,
+        TargetsProvider<Target> targetsProvider,
+        ILanguageProvider languageProvider) : base(languageProvider)
     {
         _playerAttackHandler = playerAttackHandler;
         _targetsProvider = targetsProvider;

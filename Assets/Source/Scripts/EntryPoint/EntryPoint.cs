@@ -35,11 +35,12 @@ public class EntryPoint : MonoBehaviour
 
     private async void Awake()
     {
-#if UNITY_WEBGL && !UNITY_EDITOR
-        StartCoroutine(InitYandexSDK());
-#endif
-        TextProvider textProvider = new();
-        textProvider.Load(YandexGame.lang);
+        ILanguageProvider languageProvider = YandexGame.lang switch
+        {
+            "ru" => new LanguageRu(),
+            "tr" => new LanguageTr(),
+            _ => new LanguageEn(),
+        };
 
         string[] loadingLabels = new string[]
         {
@@ -48,7 +49,7 @@ public class EntryPoint : MonoBehaviour
             "Load shop",
             "Load targets",
         };
-        
+
         _gameLoadingPanel.Set(loadingLabels);
         _gameLoadingPanel.ShowNext();
 
@@ -111,7 +112,7 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.ShowNext();
 
-        ParameterUpgradesFactory parametersUpgradesFactory = new(characterBuffsModel);
+        ParameterUpgradesFactory parametersUpgradesFactory = new(characterBuffsModel, languageProvider);
 
         RoundSwordFactory roundSwordFactory = new(characterAttackParameters, _assetsProvider);
         await roundSwordFactory.Load();
@@ -148,7 +149,8 @@ public class EntryPoint : MonoBehaviour
             characterBuffsModel,
             roundSwordFactory,
             throwingAxesFactory,
-            petFactory);
+            petFactory,
+            languageProvider);
 
         _gameLoadingPanel.ShowNext();
 
@@ -191,7 +193,7 @@ public class EntryPoint : MonoBehaviour
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _dayCycle.Init(dayCycleParameters, player.DayUIParent, player.DayBar, player.DayTimeLabel);
-        _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, progressHandler, spawnPosition);
+        _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, progressHandler, languageProvider, spawnPosition);
 
         _upgradesShop.InitButtons();
         _targetFollower.Set(player.transform);

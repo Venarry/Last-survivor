@@ -9,7 +9,7 @@ public class AttackSpeedSkill : SkillBehaviour
 
     private float AttackCooldownMultiplier => _attackCooldownMultiplierPerLevel * CurrentLevel;
 
-    public AttackSpeedSkill(CharacterBuffsModel characterBuffsModel)
+    public AttackSpeedSkill(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base (languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
     }

@@ -2,7 +2,8 @@
 {
     private readonly DamageForOreBuff _buff = new();
 
-    public DamageForOreUpgrade(CharacterBuffsModel characterBuffsModel) : base(characterBuffsModel)
+    public DamageForOreUpgrade(
+        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
     {
     }
 

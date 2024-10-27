@@ -13,7 +13,8 @@ public class SwordRoundAttackSkill : SkillBehaviour
     public SwordRoundAttackSkill(
         RoundSwordFactory roundSwordFactory,
         Transform spawnTarget,
-        CharacterTargetSearcher targetSearcher)
+        CharacterTargetSearcher targetSearcher,
+        ILanguageProvider languageProvider) : base(languageProvider)
     {
         _roundSwordFactory = roundSwordFactory;
         _spawnTarget = spawnTarget;

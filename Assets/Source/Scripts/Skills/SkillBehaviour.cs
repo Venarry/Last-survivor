@@ -3,6 +3,10 @@ using System.Text;
 
 public abstract class SkillBehaviour : Upgrade
 {
+    protected SkillBehaviour(ILanguageProvider languageProvider) : base(languageProvider)
+    {
+    }
+
     public override int MaxLevel { get; } = 5;
 
     protected string GetAllLevelsUpgradesText(float[] values)

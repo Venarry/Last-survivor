@@ -10,7 +10,7 @@ public class PassiveHealSkill : SkillBehaviour
 
     private float HealPercentPerSecond => _baseHealPercentPerSecond + _healPercentPerSecondPerLevel * (CurrentLevel - 1);
 
-    public PassiveHealSkill(HealthModel targetHealthModel)
+    public PassiveHealSkill(HealthModel targetHealthModel, ILanguageProvider languageProvider) : base(languageProvider)
     {
         _targetHealthModel = targetHealthModel;
     }

@@ -4,7 +4,8 @@
     public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
     public override bool HasCooldown => false;
 
-    protected ParametersUpgradeBehaviour(CharacterBuffsModel characterBuffsModel)
+    protected ParametersUpgradeBehaviour(
+        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(languageProvider)
     {
         CharacterBuffsModel = characterBuffsModel;
     }

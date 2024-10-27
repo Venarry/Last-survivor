@@ -11,8 +11,7 @@ public class MaxHealthUpSkill : SkillBehaviour
 
     public override int MaxLevel => _healthPerLevel.Count;
 
-    public MaxHealthUpSkill(
-        CharacterBuffsModel characterBuffsModel)
+    public MaxHealthUpSkill(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
     }

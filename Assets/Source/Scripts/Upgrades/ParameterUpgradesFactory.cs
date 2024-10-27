@@ -4,11 +4,13 @@ using System.Collections.Generic;
 public class ParameterUpgradesFactory
 {
     private readonly CharacterBuffsModel _characterBuffsModel;
+    private readonly ILanguageProvider _languageProvider;
     private readonly Dictionary<UpgradeType, Func<ParametersUpgradeBehaviour>> _upgradesByType;
 
-    public ParameterUpgradesFactory(CharacterBuffsModel characterBuffsModel)
+    public ParameterUpgradesFactory(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
+        _languageProvider = languageProvider;
 
         _upgradesByType = new()
         {
@@ -20,11 +22,11 @@ public class ParameterUpgradesFactory
         };
     }
 
-    public DamageForEnemyUpgrade CreateDamageForEnemy() => new(_characterBuffsModel);
-    public DamageForWoodUpgrade CreateDamageForWood() => new(_characterBuffsModel);
-    public DamageForOreUpgrade CreateDamageForOre() => new(_characterBuffsModel);
-    public DayIncreaseUpgrade CreateDayIncrease() => new(_characterBuffsModel);
-    public ExperienceMultiplierUpgrade CreateExperienceMultiplier() => new(_characterBuffsModel);
+    public DamageForEnemyUpgrade CreateDamageForEnemy() => new(_characterBuffsModel, _languageProvider);
+    public DamageForWoodUpgrade CreateDamageForWood() => new(_characterBuffsModel, _languageProvider);
+    public DamageForOreUpgrade CreateDamageForOre() => new(_characterBuffsModel, _languageProvider);
+    public DayIncreaseUpgrade CreateDayIncrease() => new(_characterBuffsModel, _languageProvider);
+    public ExperienceMultiplierUpgrade CreateExperienceMultiplier() => new(_characterBuffsModel, _languageProvider);
 
     public ParametersUpgradeBehaviour CreateBy(UpgradeType upgradeType, int level)
     {

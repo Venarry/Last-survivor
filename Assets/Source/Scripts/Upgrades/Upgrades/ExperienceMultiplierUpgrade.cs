@@ -6,7 +6,8 @@ public class ExperienceMultiplierUpgrade : ParametersUpgradeBehaviour
     private readonly ExperienceMultiplierBuff _buff = new();
     private readonly float _multiplierByLevel = 0.1f;
 
-    public ExperienceMultiplierUpgrade(CharacterBuffsModel characterBuffsModel) : base(characterBuffsModel)
+    public ExperienceMultiplierUpgrade(
+        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
     {
     }
 
@@ -32,23 +33,6 @@ public class ExperienceMultiplierUpgrade : ParametersUpgradeBehaviour
 
     public override string GetUpLevelDescription()
     {
-        string experienceIncreaseHeader;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                experienceIncreaseHeader = "Увеличение получения опыта";
-                break;
-
-            case GameParameters.CodeTr:
-                experienceIncreaseHeader = "Artan süre";
-                break;
-
-            default:
-                experienceIncreaseHeader = "Increase experience multiplier";
-                break;
-        }
-
-        return $"{experienceIncreaseHeader}\n{ExperienceMultiplier} + {Decorate(_multiplierByLevel.ToString())}";
+        return $"{LanguageProvider.ExperienceIncreaseHeader}\n{ExperienceMultiplier} + {Decorate(_multiplierByLevel.ToString())}";
     }
 }

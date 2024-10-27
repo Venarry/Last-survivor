@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -19,6 +18,7 @@ public class ResetProgressHandler : MonoBehaviour
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private ThirdPersonMovement _thirdPersonMovement;
     private IProgressSaveService _progressSaveService;
+    private ILanguageProvider _languageProvider;
     private Vector3 _respawnPosition;
 
     private int PrestigeToAdd => Mathf.FloorToInt(Mathf.Pow(_levelsStatisticModel.TotalLevel, 1.1f));
@@ -29,6 +29,7 @@ public class ResetProgressHandler : MonoBehaviour
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         ThirdPersonMovement thirdPersonMovement,
         IProgressSaveService progressSaveService,
+        ILanguageProvider languageProvider,
         Vector3 respawnPosition)
     {
         _levelsStatisticModel = levelsStatisticModel;
@@ -36,6 +37,7 @@ public class ResetProgressHandler : MonoBehaviour
         _characterUpgrades = characterUpgrades;
         _thirdPersonMovement = thirdPersonMovement;
         _progressSaveService = progressSaveService;
+        _languageProvider = languageProvider;
         _respawnPosition = respawnPosition;
 
         _resetProgressMenu.SetActive(false);
@@ -64,12 +66,12 @@ public class ResetProgressHandler : MonoBehaviour
 
         if(_levelsStatisticModel.TotalLevel >= minLevelForResetPreogress)
         {
-            _prestigeToAddCountLabel.text = $"{TextProvider.ResetProgressPart1} {PrestigeToAdd} prestige {TextProvider.ResetProgressPart2}";
+            _prestigeToAddCountLabel.text = $"{_languageProvider.ResetProgressPart1} {PrestigeToAdd} prestige {_languageProvider.ResetProgressPart2}";
             _confirmButton.gameObject.SetActive(true);
         }
         else
         {
-            _prestigeToAddCountLabel.text = $"{TextProvider.WarningResetProgressPart1} {minLevelForResetPreogress} {TextProvider.WarningResetProgressPart2}";
+            _prestigeToAddCountLabel.text = $"{_languageProvider.WarningResetProgressPart1} {minLevelForResetPreogress} {_languageProvider.WarningResetProgressPart2}";
             _confirmButton.gameObject.SetActive(false);
         }
     }

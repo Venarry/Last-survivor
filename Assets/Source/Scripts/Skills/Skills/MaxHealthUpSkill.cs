@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using YG;
+﻿using System.Collections.Generic;
 
 public class MaxHealthUpSkill : SkillBehaviour
 {
@@ -11,7 +9,7 @@ public class MaxHealthUpSkill : SkillBehaviour
 
     public override int MaxLevel => _healthPerLevel.Count;
 
-    public MaxHealthUpSkill(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(languageProvider)
+    public MaxHealthUpSkill(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
     }

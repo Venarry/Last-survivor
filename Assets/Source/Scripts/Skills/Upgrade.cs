@@ -5,9 +5,9 @@ public abstract class Upgrade
     public virtual bool HasCooldown { get; }
     public virtual int MaxLevel { get; }
     public int CurrentLevel { get; private set; }
-    protected ILanguageProvider LanguageProvider;
+    protected LanguageProvider LanguageProvider;
 
-    protected Upgrade(ILanguageProvider languageProvider)
+    protected Upgrade(LanguageProvider languageProvider)
     {
         LanguageProvider = languageProvider;
     }

@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using YG;
+﻿using UnityEngine;
 
 public class CritAttackSkill : SkillBehaviour
 {
@@ -16,7 +14,7 @@ public class CritAttackSkill : SkillBehaviour
     private float CritDamage => _baseCritDamageMultiplier + _critDamageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
     private float CritChance => _baseCritChance + _critChancePerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
-    public CritAttackSkill(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(languageProvider)
+    public CritAttackSkill(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
     }

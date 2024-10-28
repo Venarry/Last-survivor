@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using YG;
 
 public class PetSkill : SkillBehaviour
 {
@@ -21,7 +19,7 @@ public class PetSkill : SkillBehaviour
     private float AttackCooldownMultiplier => _baseAttackCooldownMultiplier + _attackCooldownMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
     private float MoveToTargetDelay => _baseMoveToTargetDelay + _moveToTargetDelayPerLevel * Mathf.Max(CurrentLevel - 1, 0);
 
-    public PetSkill(PetFactory petFactory, Transform owner, ILanguageProvider languageProvider) : base(languageProvider)
+    public PetSkill(PetFactory petFactory, Transform owner, LanguageProvider languageProvider) : base(languageProvider)
     {
         _petFactory = petFactory;
         _owner = owner;

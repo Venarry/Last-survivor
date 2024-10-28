@@ -3,7 +3,7 @@
     private readonly DamageForEnemyBuff _buff = new();
 
     public DamageForEnemyUpgrade(
-        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
+        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
     {
     }
 

@@ -11,7 +11,7 @@ public class SkillsFactory
     private readonly RoundSwordFactory _roundSwordFactory;
     private readonly ThrowingAxesFactory _throwingAxesFactory;
     private readonly PetFactory _petFactory;
-    private readonly ILanguageProvider _languageProvider;
+    private readonly LanguageProvider _languageProvider;
     private readonly Dictionary<UpgradeType, Func<SkillBehaviour>> _skills;
 
     public SkillsFactory( // бросать топоры вперед. миньон который атакует врагов. вампиризм. взрыв вокруг раз в 10 сек.
@@ -23,7 +23,7 @@ public class SkillsFactory
         RoundSwordFactory roundSwordFactory,
         ThrowingAxesFactory throwingAxesFactory,
         PetFactory petFactory,
-        ILanguageProvider languageProvider)
+        LanguageProvider languageProvider)
     {
         _coroutineProvider = coroutineProvider;
         _player = player;

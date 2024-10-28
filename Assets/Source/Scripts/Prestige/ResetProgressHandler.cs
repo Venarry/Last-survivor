@@ -18,7 +18,7 @@ public class ResetProgressHandler : MonoBehaviour
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private ThirdPersonMovement _thirdPersonMovement;
     private IProgressSaveService _progressSaveService;
-    private ILanguageProvider _languageProvider;
+    private LanguageProvider _languageProvider;
     private Vector3 _respawnPosition;
 
     private int PrestigeToAdd => Mathf.FloorToInt(Mathf.Pow(_levelsStatisticModel.TotalLevel, 1.1f));
@@ -29,7 +29,7 @@ public class ResetProgressHandler : MonoBehaviour
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         ThirdPersonMovement thirdPersonMovement,
         IProgressSaveService progressSaveService,
-        ILanguageProvider languageProvider,
+        LanguageProvider languageProvider,
         Vector3 respawnPosition)
     {
         _levelsStatisticModel = levelsStatisticModel;

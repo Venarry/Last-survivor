@@ -3,7 +3,7 @@ using System.Text;
 
 public abstract class SkillBehaviour : Upgrade
 {
-    protected SkillBehaviour(ILanguageProvider languageProvider) : base(languageProvider)
+    protected SkillBehaviour(LanguageProvider languageProvider) : base(languageProvider)
     {
     }
 

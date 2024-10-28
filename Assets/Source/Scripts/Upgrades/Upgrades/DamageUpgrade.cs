@@ -1,10 +1,7 @@
-﻿using System;
-using YG;
-
-public abstract class DamageUpgrade : ParametersUpgradeBehaviour
+﻿public abstract class DamageUpgrade : ParametersUpgradeBehaviour
 {
     protected DamageUpgrade(
-        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
+        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
     {
     }
 

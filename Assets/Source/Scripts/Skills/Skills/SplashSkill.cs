@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using YG;
 
 public class SplashSkill : SkillBehaviour
 {
@@ -16,7 +15,7 @@ public class SplashSkill : SkillBehaviour
     public SplashSkill(
         CharacterAttackHandler playerAttackHandler,
         TargetsProvider<Target> targetsProvider,
-        ILanguageProvider languageProvider) : base(languageProvider)
+        LanguageProvider languageProvider) : base(languageProvider)
     {
         _playerAttackHandler = playerAttackHandler;
         _targetsProvider = targetsProvider;

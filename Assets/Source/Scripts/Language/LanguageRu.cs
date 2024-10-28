@@ -3,7 +3,6 @@
 [Serializable]
 public class LanguageRu : ILanguageProvider
 {
-    public string Test = "sda";
     public string LoadingPart1 => "Загрузка карты";
     public string LoadingPart2 => "Загрузка игрока";
     public string LoadingPart3 => "Загрузка магазина";

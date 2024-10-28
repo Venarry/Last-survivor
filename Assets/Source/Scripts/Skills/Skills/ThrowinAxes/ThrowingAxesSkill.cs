@@ -22,7 +22,7 @@ public class ThrowingAxesSkill : SkillBehaviour
         ThrowingAxesFactory throwingAxesFactory,
         Transform owner,
         CoroutineProvider coroutineProvider,
-        ILanguageProvider languageProvider) : base(languageProvider)
+        LanguageProvider languageProvider) : base(languageProvider)
     {
         _targetsProvider = targetsProvider;
         _throwingAxesFactory = throwingAxesFactory;

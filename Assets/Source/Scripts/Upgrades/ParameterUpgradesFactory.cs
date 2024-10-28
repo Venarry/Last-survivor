@@ -4,10 +4,10 @@ using System.Collections.Generic;
 public class ParameterUpgradesFactory
 {
     private readonly CharacterBuffsModel _characterBuffsModel;
-    private readonly ILanguageProvider _languageProvider;
+    private readonly LanguageProvider _languageProvider;
     private readonly Dictionary<UpgradeType, Func<ParametersUpgradeBehaviour>> _upgradesByType;
 
-    public ParameterUpgradesFactory(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider)
+    public ParameterUpgradesFactory(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
         _languageProvider = languageProvider;

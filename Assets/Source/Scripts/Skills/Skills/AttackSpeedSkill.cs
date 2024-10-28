@@ -1,7 +1,4 @@
-﻿using System;
-using YG;
-
-public class AttackSpeedSkill : SkillBehaviour
+﻿public class AttackSpeedSkill : SkillBehaviour
 {
     private readonly AttackSpeedBuff _attackSpeedBuff = new();
     private readonly CharacterBuffsModel _characterBuffsModel;
@@ -9,7 +6,7 @@ public class AttackSpeedSkill : SkillBehaviour
 
     private float AttackCooldownMultiplier => _attackCooldownMultiplierPerLevel * CurrentLevel;
 
-    public AttackSpeedSkill(CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base (languageProvider)
+    public AttackSpeedSkill(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(languageProvider)
     {
         _characterBuffsModel = characterBuffsModel;
     }

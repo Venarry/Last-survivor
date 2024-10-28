@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using YG;
+﻿using UnityEngine;
 
 public class PassiveHealSkill : SkillBehaviour
 {
@@ -10,7 +8,7 @@ public class PassiveHealSkill : SkillBehaviour
 
     private float HealPercentPerSecond => _baseHealPercentPerSecond + _healPercentPerSecondPerLevel * (CurrentLevel - 1);
 
-    public PassiveHealSkill(HealthModel targetHealthModel, ILanguageProvider languageProvider) : base(languageProvider)
+    public PassiveHealSkill(HealthModel targetHealthModel, LanguageProvider languageProvider) : base(languageProvider)
     {
         _targetHealthModel = targetHealthModel;
     }

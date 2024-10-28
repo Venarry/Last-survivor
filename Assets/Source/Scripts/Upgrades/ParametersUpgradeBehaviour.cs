@@ -5,7 +5,7 @@
     public override bool HasCooldown => false;
 
     protected ParametersUpgradeBehaviour(
-        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(languageProvider)
+        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(languageProvider)
     {
         CharacterBuffsModel = characterBuffsModel;
     }

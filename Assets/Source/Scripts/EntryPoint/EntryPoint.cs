@@ -35,14 +35,12 @@ public class EntryPoint : MonoBehaviour
 
     private async void Awake()
     {
-        ILanguageProvider languageProvider = YandexGame.lang switch
+        LanguageProvider languageProvider = YandexGame.lang switch
         {
-            "ru" => new LanguageRu(),
-            "tr" => new LanguageTr(),
-            _ => new LanguageEn(),
+            "ru" => StreaminAssetsReader.Read<LanguageProvider>("LanguageRu.json"),
+            "tr" => StreaminAssetsReader.Read<LanguageProvider>("LanguageTr.json"),
+            _ => StreaminAssetsReader.Read<LanguageProvider>("LanguageEn.json"),
         };
-
-        Debug.Log(JsonUtility.ToJson(languageProvider));
 
         string[] loadingLabels = new string[]
         {

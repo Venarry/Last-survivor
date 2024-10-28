@@ -1,13 +1,10 @@
-﻿using System;
-using YG;
-
-public class DayIncreaseUpgrade : ParametersUpgradeBehaviour
+﻿public class DayIncreaseUpgrade : ParametersUpgradeBehaviour
 {
     private readonly DayIncreaseBuff _dayIncreaseBuff = new();
     private readonly float _durationByLevel = 0.2f;
 
     public DayIncreaseUpgrade(
-        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
+        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
     {
     }
 

@@ -3,7 +3,7 @@
     private readonly DamageForWoodBuff _buff = new();
 
     public DamageForWoodUpgrade(
-        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
+        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
     {
     }
 

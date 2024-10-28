@@ -4,7 +4,7 @@
     private readonly float _multiplierByLevel = 0.1f;
 
     public ExperienceMultiplierUpgrade(
-        CharacterBuffsModel characterBuffsModel, ILanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
+        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
     {
     }
 

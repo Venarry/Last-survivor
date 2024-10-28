@@ -37,23 +37,6 @@ public class PassiveHealSkill : SkillBehaviour
             upgradeText = $"(+{GameParameters.TextColorStart}{_healPercentPerSecondPerLevel * 100}{GameParameters.TextColorEnd}%)";
         }
 
-        string healthPerSecondText;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                healthPerSecondText = "Здоровье в секунду";
-                break;
-
-            case GameParameters.CodeTr:
-                healthPerSecondText = "Saniyede sağlık";
-                break;
-
-            default:
-                healthPerSecondText = "Health per second";
-                break;
-        }
-
-        return $"{healthPerSecondText} {HealPercentPerSecond * 100}% {upgradeText}";
+        return $"{LanguageProvider.HealthPerSecond} {HealPercentPerSecond * 100}% {upgradeText}";
     }
 }

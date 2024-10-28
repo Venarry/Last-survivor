@@ -42,6 +42,8 @@ public class EntryPoint : MonoBehaviour
             _ => new LanguageEn(),
         };
 
+        Debug.Log(JsonUtility.ToJson(languageProvider));
+
         string[] loadingLabels = new string[]
         {
             "Load map",

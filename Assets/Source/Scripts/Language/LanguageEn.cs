@@ -19,4 +19,30 @@
     public string RoundSwordCountHeader => "Sword count";
     public string RoundSwordDamageHeader => "Sword damage";
     public string RoundSwordSizeHeader => "Sword size";
+    public string DayDurationHeader => "Increase day duration";
+    public string AttackCooldown => "Reduce attack delay";
+    public string HealthPerSecond => "Health per second";
+    public string CritDamage => "Crit damage";
+    public string CritChance => "Crit chance";
+    public string IncreaseMaxHealth => "Increase health";
+    public string PetDamageMultiplier => "Damage multiplier";
+    public string PetAttackDelayMultiplier => "Attack cooldown multiplier";
+    public string PetMoveToTargetDelay => "Move to target delay";
+    public string SplashAngle => "Splash angle";
+    public string SplashDistance => "Splash distance";
+    public string SplashDamage => "Splash damage";
+
+    public string NameSwordRoundAttackSkill => throw new System.NotImplementedException();
+
+    public string NameCritAttackSkill => throw new System.NotImplementedException();
+
+    public string NameSplashSkill => throw new System.NotImplementedException();
+
+    public string NamePassiveHealSkill => throw new System.NotImplementedException();
+
+    public string NameAttackSpeedSkill => throw new System.NotImplementedException();
+
+    public string NameMaxHealthUpSkill => throw new System.NotImplementedException();
+
+    public string NameThrowingAxesSkill => throw new System.NotImplementedException();
 }

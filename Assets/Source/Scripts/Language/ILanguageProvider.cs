@@ -20,4 +20,23 @@
     public string RoundSwordCountHeader { get; }
     public string RoundSwordDamageHeader { get; }
     public string RoundSwordSizeHeader { get; }
+    public string DayDurationHeader { get; }
+    public string AttackCooldown { get; }
+    public string HealthPerSecond { get; }
+    public string CritDamage { get; }
+    public string CritChance { get; }
+    public string IncreaseMaxHealth { get; }
+    public string PetDamageMultiplier { get; }
+    public string PetAttackDelayMultiplier { get; }
+    public string PetMoveToTargetDelay { get; }
+    public string SplashAngle { get; }
+    public string SplashDistance { get; }
+    public string SplashDamage { get; }
+    public string NameSwordRoundAttackSkill { get; }
+    public string NameCritAttackSkill { get; }
+    public string NameSplashSkill { get; }
+    public string NamePassiveHealSkill { get; }
+    public string NameAttackSpeedSkill { get; }
+    public string NameMaxHealthUpSkill { get; }
+    public string NameThrowingAxesSkill { get; }
 }

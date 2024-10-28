@@ -36,23 +36,6 @@ public class AttackSpeedSkill : SkillBehaviour
 
     public override string GetUpLevelDescription()
     {
-        string attackCooldownText;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                attackCooldownText = "Уменьшение время между атакми";
-                break;
-
-            case GameParameters.CodeTr:
-                attackCooldownText = "Sağlığı artırın";
-                break;
-
-            default:
-                attackCooldownText = "Increase health";
-                break;
-        }
-
-        return $"{attackCooldownText}: {AttackCooldownMultiplier} + {Decorate(_attackCooldownMultiplierPerLevel.ToString())}";
+        return $"{LanguageProvider.AttackCooldown}: {AttackCooldownMultiplier} + {Decorate(_attackCooldownMultiplierPerLevel.ToString())}";
     }
 }

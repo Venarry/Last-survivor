@@ -4,10 +4,6 @@ using YG;
 
 public class UpgradesInformationDataSource
 {
-    private const string CodeRu = "ru";
-    private const string CodeEn = "en";
-    private const string CodeTr = "tr";
-
     private readonly Dictionary<Type, Dictionary<string, string>> _skillsName = new()
     {
         [typeof(SwordRoundAttackSkill)] = new()

@@ -63,33 +63,8 @@ public class PetSkill : SkillBehaviour
             moveDelay.Add(_baseMoveToTargetDelay + _moveToTargetDelayPerLevel * i);
         }
 
-        string damageMultiplierText;
-        string attackCooldownText;
-        string moveToTargetDelayText;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                damageMultiplierText = "Коэффициент урона";
-                attackCooldownText = "Коэффициент скорости атаки";
-                moveToTargetDelayText = "Время пути до цели";
-                break;
-
-            case GameParameters.CodeTr:
-                damageMultiplierText = "Hasar çarpanı";
-                attackCooldownText = "Saldırı bekleme süresi çarpanı";
-                moveToTargetDelayText = "Hedef gecikmeye git";
-                break;
-
-            default:
-                damageMultiplierText = "Damage multiplier";
-                attackCooldownText = "Attack cooldown multiplier";
-                moveToTargetDelayText = "Move to target delay";
-                break;
-        }
-
-        return $"{damageMultiplierText}\n{ GetAllLevelsUpgradesText(damage.ToArray()) }\n" +
-            $"{attackCooldownText}\n{ GetAllLevelsUpgradesText(cooldown.ToArray()) }\n" +
-            $"{moveToTargetDelayText}\n{ GetAllLevelsUpgradesText(moveDelay.ToArray()) }";
+        return $"{LanguageProvider.PetDamageMultiplier}\n{ GetAllLevelsUpgradesText(damage.ToArray()) }\n" +
+            $"{LanguageProvider.PetAttackDelayMultiplier}\n{ GetAllLevelsUpgradesText(cooldown.ToArray()) }\n" +
+            $"{LanguageProvider.PetMoveToTargetDelay}\n{ GetAllLevelsUpgradesText(moveDelay.ToArray()) }";
     }
 }

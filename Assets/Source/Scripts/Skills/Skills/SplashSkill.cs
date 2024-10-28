@@ -72,33 +72,8 @@ public class SplashSkill : SkillBehaviour
             splashAdditionalDamageText = $"(+{GameParameters.TextColorStart}{damagePerLevel}%{GameParameters.TextColorEnd})";
         }
 
-        string splashAngleText;
-        string splashDistanceText;
-        string splashDamageText;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                splashAngleText = "Угол сплеша";
-                splashDistanceText = "Дистанция сплеша";
-                splashDamageText = "Урон от сплеша";
-                break;
-
-            case GameParameters.CodeTr:
-                splashAngleText = "Sıçrama açısı";
-                splashDistanceText = "Sıçrama mesafesi";
-                splashDamageText = "Sıçrama hasarı";
-                break;
-
-            default:
-                splashAngleText = "Splash angle";
-                splashDistanceText = "Splash distance";
-                splashDamageText = "Splash damage";
-                break;
-        }
-
-        return $"{splashAngleText} {_splashAngle}\n" +
-            $"{splashDistanceText} {_splashDistance}\n" +
-            $"{splashDamageText} {Math.Round((decimal)SplashDamageMultiplier * 100)}% {splashAdditionalDamageText}";
+        return $"{LanguageProvider.SplashAngle} {_splashAngle}\n" +
+            $"{LanguageProvider.SplashDistance} {_splashDistance}\n" +
+            $"{LanguageProvider.SplashDamage} {Math.Round((decimal)SplashDamageMultiplier * 100)}% {splashAdditionalDamageText}";
     }
 }

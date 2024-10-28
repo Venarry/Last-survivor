@@ -44,23 +44,6 @@ public class MaxHealthUpSkill : SkillBehaviour
 
     public override string GetUpLevelDescription()
     {
-        string increaseHealthText;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                increaseHealthText = "Увеличение здоровья";
-                break;
-
-            case GameParameters.CodeTr:
-                increaseHealthText = "Sağlığı artırın";
-                break;
-
-            default:
-                increaseHealthText = "Increase health";
-                break;
-        }
-
-        return $"{increaseHealthText}:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray()) }";
+        return $"{LanguageProvider.IncreaseMaxHealth}:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray()) }";
     }
 }

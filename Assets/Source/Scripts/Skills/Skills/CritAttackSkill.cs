@@ -52,29 +52,8 @@ public class CritAttackSkill : SkillBehaviour
             critChanceUpgradeText = $"(+{Decorate(_critChancePerLevel.ToString())})";
         }
 
-        string critDamageText;
-        string critChanceText;
-
-        switch (YandexGame.lang)
-        {
-            case GameParameters.CodeRu:
-                critDamageText = "Критический урон";
-                critChanceText = "Шанс крита";
-                break;
-
-            case GameParameters.CodeTr:
-                critDamageText = "Kritik hasar";
-                critChanceText = "Kritik şans";
-                break;
-
-            default:
-                critDamageText = "Crit damage";
-                critChanceText = "Crit chance";
-                break;
-        }
-
-        return $"{critDamageText} {CritDamage * 100}% {critDamageUpgradeText}\n" +
-            $"{critChanceText} {CritChance}% {critChanceUpgradeText}";
+        return $"{LanguageProvider.CritDamage} {CritDamage * 100}% {critDamageUpgradeText}\n" +
+            $"{LanguageProvider.CritChance} {CritChance}% {critChanceUpgradeText}";
     }
         
 }

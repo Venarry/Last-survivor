@@ -21,5 +21,5 @@ public class GameParameters
     public const string CodeEn = "en";
     public const string CodeTr = "tr";
 
-    public const string LeaderboardName = "Max level";
+    public const string LeaderboardName = "MaxLevel";
 }

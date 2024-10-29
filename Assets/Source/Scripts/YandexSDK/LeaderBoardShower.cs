@@ -99,7 +99,10 @@ public class LeaderBoardShower : MonoBehaviour
 
     private void Auth()
     {
-        //YandexGame.AuthDialog();
-        YandexGame.RequestAuth();
+        YandexGame.AuthDialog();
+        //YandexGame.RequestAuth();
+
+        CloseWarningMenu();
+        ShowMenu();
     }
 }

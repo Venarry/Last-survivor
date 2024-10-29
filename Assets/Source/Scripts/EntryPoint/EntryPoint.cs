@@ -35,6 +35,8 @@ public class EntryPoint : MonoBehaviour
 
     private async void Awake()
     {
+        //Debug.Log(JsonUtility.ToJson(new LanguageProvider()));
+
         LanguageProvider languageProvider = YandexGame.lang switch
         {
             "ru" => StreaminAssetsReader.Read<LanguageProvider>("LanguageRu.json"),
@@ -44,10 +46,10 @@ public class EntryPoint : MonoBehaviour
 
         string[] loadingLabels = new string[]
         {
-            "Load map",
-            "Load player",
-            "Load shop",
-            "Load targets",
+            languageProvider.LoadingPart1,
+            languageProvider.LoadingPart2,
+            languageProvider.LoadingPart3,
+            languageProvider.LoadingPart4,
         };
 
         _gameLoadingPanel.Set(loadingLabels);
@@ -55,7 +57,7 @@ public class EntryPoint : MonoBehaviour
 
         _assetsProvider = new();
         CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
-        UpgradesInformationDataSource skillsInformationDataSource = new();
+        UpgradesInformationDataSource skillsInformationDataSource = new(languageProvider);
         PricesDataSource priceDataSource = new();
         SpritesDataSouce spritesDataSouce = new(_assetsProvider);
         TargetsProvider<Target> targetsProvider = new();

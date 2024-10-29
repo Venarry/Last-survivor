@@ -28,5 +28,22 @@
   "PetMoveToTargetDelay": "Move to target delay",
   "SplashAngle": "Splash angle",
   "SplashDistance": "Splash distance",
-  "SplashDamage": "Splash damage"
+  "SplashDamage": "Splash damage",
+
+  "NameSwordRoundAttackSkill": "Flying swords",
+  "NameCritAttackSkill": "Critical attack",
+  "NameSplashSkill": "Splash",
+  "NamePassiveHealSkill": "Passive heal",
+  "NameAttackSpeedSkill": "Attack cooldown",
+  "NameMaxHealthUpSkill": "Max health",
+  "NameThrowingAxesSkill": "Throwing axes",
+  "NamePetSkill": "Pet",
+  "DescriptionSwordRoundAttackSkill": "Spinning swords periodically appear around the character",
+  "DescriptionCritAttackSkill": "Each attack has a chance to deal increased damage",
+  "DescriptionSplashSkill": "When attacking, the character deals damage to neighboring targets",
+  "DescriptionPassiveHealSkill": "The character is passively healing",
+  "DescriptionAttackSpeedSkill": "Reduce attack cooldown",
+  "DescriptionMaxHealthUpSkill": "Increase your max health",
+  "DescriptionThrowingAxesSkill": "Throw axes in forward",
+  "DescriptionPetSkill": "Runs around the character and attacks targets with the player's attack parameters"
 }

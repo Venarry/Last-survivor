@@ -28,5 +28,21 @@
   "PetMoveToTargetDelay": "Время пути до цели",
   "SplashAngle": "Угол сплеша",
   "SplashDistance": "Дистанция сплеша",
-  "SplashDamage": "Урон от сплеша"
+  "SplashDamage": "Урон от сплеша",
+  "NameSwordRoundAttackSkill": "Летающие мечи",
+  "NameCritAttackSkill": "Критическая атака",
+  "NameSplashSkill": "Сплеш",
+  "NamePassiveHealSkill": "Пассивное исцеление",
+  "NameAttackSpeedSkill": "Перезарядка атаки",
+  "NameMaxHealthUpSkill": "Максимальное здоровье",
+  "NameThrowingAxesSkill": "Метательные топоры",
+  "NamePetSkill": "Питомец",
+  "DescriptionSwordRoundAttackSkill": "Вокруг персонажа периодически появляются вращающиеся мечи",
+  "DescriptionCritAttackSkill": "Каждая атака имеет шанс нанести увеличенный урон",
+  "DescriptionSplashSkill": "При атаке персонаж наносит урон соседним целям",
+  "DescriptionPassiveHealSkill": "Персонаж пассивно исцеляется",
+  "DescriptionAttackSpeedSkill": "Уменьшает перезарядку между атаками",
+  "DescriptionMaxHealthUpSkill": "Увеличивает максимальное здоровье",
+  "DescriptionThrowingAxesSkill": "Кидает топоры вперед",
+  "DescriptionPetSkill": "Бегает вокруг игрока и атакует цель с параметрами атаки игрока"
 }

@@ -33,6 +33,6 @@
 
     public override string GetUpLevelDescription()
     {
-        return $"{LanguageProvider.AttackCooldown}: {AttackCooldownMultiplier} + {Decorate(_attackCooldownMultiplierPerLevel.ToString())}";
+        return $"{LanguageProvider.AttackCooldown}\n{AttackCooldownMultiplier} + {Decorate(_attackCooldownMultiplierPerLevel.ToString())}";
     }
 }

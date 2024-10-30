@@ -6,7 +6,11 @@ using UnityEngine;
 [Serializable]
 public class ProgressData
 {
-    public List<LootData> Loots = new();
+    public List<LootData> Loots = new()
+    {
+        new LootData(LootType.Wood, 30),
+        new LootData(LootType.Diamond, 10),
+    };
     public List<UpgradeData> Upgrades = new();
     public List<UpgradeData> PrestigeUpgrades = new();
     public List<UpgradeData> Skills = new();

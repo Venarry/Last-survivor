@@ -27,13 +27,27 @@ public class EntryPoint : MonoBehaviour
     private CharacterParametersRefresher _characterUpgradesRefresher;
     private LeaderboardSaver _leaderboardSaver;
 
-    private IEnumerator InitYandexSDK()
+    private async void Awake()
     {
-        yield return null;//YandexGamesSdk.Initialize();
-        Debug.Log("SDK inited");
+#if UNITY_EDITOR
+        StartGame();
+#else
+        await InitGameWithYandexSDK();
+#endif
     }
 
-    private async void Awake()
+    private async Task InitGameWithYandexSDK()
+    {
+        while(YandexGame.SDKEnabled == false)
+        {
+            await Task.Yield();
+        }
+
+        Debug.Log("SDK inited");
+        StartGame();
+    }
+
+    private async void StartGame()
     {
         //Debug.Log(JsonUtility.ToJson(new LanguageProvider()));
         CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
@@ -169,11 +183,18 @@ public class EntryPoint : MonoBehaviour
             parametersUpgradesFactory,
             _upgradesShop);
 
-        progressHandler.Load();
+        if(YandexGame.auth == true)
+        {
+            progressHandler.LoadFromCloud(YandexGame.savesData.ProgressData);
+        }
+        else
+        {
+            progressHandler.LoadFromLocal();
+        }
 
-        inventoryModel.Add(LootType.Wood, 5760);
-        inventoryModel.Add(LootType.Diamond, 526);
-        inventoryModel.Add(LootType.Prestige, 500);
+        //inventoryModel.Add(LootType.Wood, 5760);
+        //inventoryModel.Add(LootType.Diamond, 526);
+        //inventoryModel.Add(LootType.Prestige, 500);
 
         MapPartsFactory mapPartsFactory = new(
             _assetsProvider,

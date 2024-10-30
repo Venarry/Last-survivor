@@ -28,7 +28,6 @@ public class StreaminAssetsReader
 #endif
 
         T fromJson = JsonUtility.FromJson<T>(file);
-        Debug.Log($"return {file}");
         return fromJson;
     }
 

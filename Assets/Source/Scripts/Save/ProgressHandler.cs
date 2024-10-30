@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
 public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
 {
@@ -16,7 +17,6 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
     private readonly ParameterUpgradesFactory _parameterUpgradesFactory;
     private readonly UpgradesShop _upgradesShop;
     private ProgressData _data;
-
 
     public ProgressHandler(
         InventoryModel inventoryModel,
@@ -44,7 +44,7 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
 
     public int MaxLevel => _data.MaxLevel;
 
-    public void Load()
+    public void LoadFromLocal()
     {
         if (PlayerPrefs.HasKey(SaveName) == true)
         {
@@ -55,6 +55,13 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
         {
             _data = new();
         }
+    }
+
+    public void LoadFromCloud(ProgressData data)
+    {
+        _data = data;
+        InjectData();
+        Debug.Log("Load cloud");
     }
 
     public void Save()
@@ -94,6 +101,7 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
         string data = JsonUtility.ToJson(_data);
 
         PlayerPrefs.SetString(SaveName, data);
+        YandexGame.SaveProgress();
         Debug.Log(PlayerPrefs.GetString(SaveName));
     }
 

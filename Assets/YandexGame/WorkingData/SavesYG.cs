@@ -16,6 +16,8 @@ namespace YG
         public string newPlayerName = "Hello!";
         public bool[] openLevels = new bool[3];
 
+        public ProgressData ProgressData = new();
+
         // Ваши сохранения
 
         // ...

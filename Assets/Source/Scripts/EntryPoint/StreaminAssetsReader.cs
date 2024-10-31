@@ -17,7 +17,6 @@ public class StreaminAssetsReader
 
     public async Task<T> ReadAsync<T>(string path)
     {
-        Debug.Log($"start to get Language '{path}' 1.0.2");
         string endPath = BasePath + path;
         string file;
 
@@ -49,13 +48,11 @@ public class StreaminAssetsReader
 
     private async Task<string> CreateWebRequestAwait(string path)
     {
-        Debug.Log($"Try get web Language");
         UnityWebRequest webRequest = UnityWebRequest.Get(path);
         webRequest.SendWebRequest();
 
         while (webRequest.isDone == false)
         {
-            Debug.Log($"await");
             await Task.Yield();
         }
 

@@ -19,13 +19,10 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private GameObject _prepareToBuyScreen;
     [SerializeField] private TutorialNextButton _prepareToBuyNextButton;
 
-    private GameTimeScaler _timeScaler;
     private ThirdPersonMovement _thirdPersonMovement;
 
-    public void InitBase(GameTimeScaler timeScaler)
+    public void InitBase()
     {
-        _timeScaler = timeScaler;
-
         for (int i = 0; i < _tutorialParts.Count; i++)
         {
             ActivateTutorial(_tutorialParts[i]);

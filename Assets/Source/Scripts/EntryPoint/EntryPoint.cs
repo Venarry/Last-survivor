@@ -226,10 +226,13 @@ public class EntryPoint : MonoBehaviour
         _enemySpawner.StartSpawning();
         _mapGenerator.StartGenerator();
 
-        //_tutorial.InitBase(_gameTimeScaler);
-        //_tutorial.InitMovement(player.ThirdPersonMovement);
+        if(progressHandler.TutorialPassed == false)
+        {
+            _tutorial.InitBase();
+            _tutorial.InitMovement(player.ThirdPersonMovement);
 
-        //_mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
+            _mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
+        }
 
         _leaderboardSaver = new(levelsStatisticModel, progressHandler);
         _leaderboardSaver.Enable();

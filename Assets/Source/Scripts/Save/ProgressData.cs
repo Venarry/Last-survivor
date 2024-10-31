@@ -8,7 +8,7 @@ public class ProgressData
 {
     public List<LootData> Loots = new()
     {
-        new LootData(LootType.Wood, 30),
+        new LootData(LootType.Wood, 31),
         new LootData(LootType.Diamond, 10),
     };
     public List<UpgradeData> Upgrades = new();
@@ -19,6 +19,7 @@ public class ProgressData
     public float HealthNormalized = 1.0f;
     public int TotalLevels = 0;
     public int MaxLevel = 0;
+    public bool TutorialPassed = false;
 
     public void SetLoot(LootType lootType, int count)
     {

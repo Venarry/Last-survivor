@@ -43,6 +43,7 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
     }
 
     public int MaxLevel => _data.MaxLevel;
+    public bool TutorialPassed => _data.TutorialPassed;
 
     public void LoadFromLocal()
     {

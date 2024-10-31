@@ -22,6 +22,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private ResetProgressHandler _resetProgressHandler;
     [SerializeField] private Tutorial _tutorial;
     [SerializeField] private EndLevelCongratulation _endLevelReward;
+    [SerializeField] private TutorialSaver _tutorialSaver;
 
     private AssetsProvider _assetsProvider;
     private CharacterParametersRefresher _characterUpgradesRefresher;
@@ -230,6 +231,7 @@ public class EntryPoint : MonoBehaviour
         {
             _tutorial.InitBase();
             _tutorial.InitMovement(player.ThirdPersonMovement);
+            _tutorialSaver.Init(progressHandler);
 
             _mapGenerator.CheckpointZoneSpawned += OnCheckpointZoneSpawn;
         }

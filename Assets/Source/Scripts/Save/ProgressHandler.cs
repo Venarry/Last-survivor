@@ -75,6 +75,7 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
         _data.HealthNormalized = _healthModel.HealthNormalized;
         _data.SetLevels(_levelsStatisticModel.TotalLevel);
         _data.SetExperienceData(_experienceModel.CurrentLevel, _experienceModel.CurrentExperience);
+        _data.ClearInventory();
         _data.ResetUpgrades();
         _data.ResetPrestigeUpgrades();
         _data.ResetSkills();
@@ -106,6 +107,11 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
         Debug.Log(PlayerPrefs.GetString(SaveName));
     }
 
+    public void PassTutorial()
+    {
+        _data.TutorialPassed = true;
+    }
+
     public void ReloadShop()
     {
         _upgradesShop.ReloadButtons(_data.Upgrades.ToArray());
@@ -126,7 +132,7 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
 
     private void LoadLoot()
     {
-        foreach (LootData lootData in _data.Loots)
+        foreach (LootData lootData in _data.Inventory)
         {
             _inventoryModel.Add(lootData.LootType, lootData.Count);
         }

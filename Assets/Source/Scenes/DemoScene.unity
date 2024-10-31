@@ -743,6 +743,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3508702195285484699, guid: 8f9c402a533ea074684b0a8cd13c29d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 95321267}
     - targetCorrespondingSourceObject: {fileID: 921290937158249399, guid: 8f9c402a533ea074684b0a8cd13c29d3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 215429766}
@@ -762,6 +765,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3464645893174628273, guid: 8f9c402a533ea074684b0a8cd13c29d3, type: 3}
   m_PrefabInstance: {fileID: 95321262}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &95321267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95321265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1caa80456ba894aad3febb081068e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &116506327 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3508702195285484699, guid: 8f9c402a533ea074684b0a8cd13c29d3, type: 3}
@@ -827,6 +842,7 @@ MonoBehaviour:
   _resetProgressHandler: {fileID: 402818593}
   _tutorial: {fileID: 1561240099}
   _endLevelReward: {fileID: 624445741}
+  _tutorialSaver: {fileID: 95321267}
 --- !u!1001 &130303531
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class ProgressData
 {
-    public List<LootData> Loots = new()
+    public List<LootData> Inventory = new()
     {
         new LootData(LootType.Wood, 31),
         new LootData(LootType.Diamond, 10),
@@ -21,13 +21,18 @@ public class ProgressData
     public int MaxLevel = 0;
     public bool TutorialPassed = false;
 
+    public void ClearInventory()
+    {
+        Inventory.Clear();
+    }
+
     public void SetLoot(LootType lootType, int count)
     {
-        LootData loot = Loots.FirstOrDefault(c => c.LootType == lootType);
+        LootData loot = Inventory.FirstOrDefault(c => c.LootType == lootType);
 
         if(loot == null)
         {
-            Loots.Add(new(lootType, count));
+            Inventory.Add(new(lootType, count));
         }
         else
         {

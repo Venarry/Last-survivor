@@ -11,14 +11,15 @@ namespace AudioMixerHomework
         [SerializeField] private Slider _generalVolume;
         [SerializeField] private AudioMixer _audioMixer;
 
+        private readonly float _minValue = 0.0001f;
+        private readonly float _maxValue = 1f;
+
         private void Awake()
         {
             if(_audioMixer.GetFloat(VolumeMaster, out float value))
             {
-                //Debug.Log(value);
-                //value = Mathf.Log10(value) * 20;
-                //Debug.Log(value);
-                _generalVolume.value = 1;
+                value = Mathf.Pow(10, value / 20);
+                _generalVolume.value = value;
             }
         }
 
@@ -39,9 +40,7 @@ namespace AudioMixerHomework
 
         private void SetVolume(string volumeName, float value)
         {
-            float minValue = 0.0001f;
-            float maxValue = 1f;
-            value = Mathf.Clamp(value, minValue, maxValue);
+            value = Mathf.Clamp(value, _minValue, _maxValue);
 
             _audioMixer.SetFloat(volumeName, Mathf.Log10(value) * 20);
         }

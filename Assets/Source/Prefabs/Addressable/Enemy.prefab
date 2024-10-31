@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shakeTarget: {fileID: 823051618070743887}
   _hitSounds:
-  - {fileID: 8300000, guid: 2d5d1e6ba2bc09240863fa61160c922e, type: 3}
+  - {fileID: 8300000, guid: c05b5d299ead1964ab23bd7080f1e4a9, type: 3}
   _destroyParticle: {fileID: 7351851860721985127, guid: ac85a45d2009a7544b75d29bb4244b37, type: 3}
 --- !u!1001 &929615539881880740
 PrefabInstance:

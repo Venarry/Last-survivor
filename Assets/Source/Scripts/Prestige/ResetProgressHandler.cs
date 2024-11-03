@@ -66,7 +66,7 @@ public class ResetProgressHandler : MonoBehaviour
 
         if(_levelsStatisticModel.TotalLevel >= minLevelForResetPreogress)
         {
-            _prestigeToAddCountLabel.text = $"{_languageProvider.ResetProgressPart1} {PrestigeToAdd} prestige {_languageProvider.ResetProgressPart2}";
+            _prestigeToAddCountLabel.text = $"{_languageProvider.ResetProgressPart1} {PrestigeToAdd} {_languageProvider.ResetProgressPart2}";
             _confirmButton.gameObject.SetActive(true);
         }
         else

@@ -91,37 +91,7 @@ public class LevelSpawner : MonoBehaviour
         return map;
     }
 
-    private async Task SpawnTargets(List<Vector3> spawnPoints, Vector3 startPosition, float targetHealth, List<Target> targetsPool)
-    {
-        foreach (Vector3 spawnPosition in spawnPoints)
-        {
-            float randomSpawnOffset = 0.8f;
-
-            float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
-            float offsetZ = Random.Range(-randomSpawnOffset, randomSpawnOffset);
-
-            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + startPosition;
-            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-
-            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
-            {
-                await SpawnObstacle(_diamondFactory, targetHealth, targetPosition, rotation, targetsPool);
-                continue;
-            }
-
-            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
-            {
-                await SpawnObstacle(_woodFactory, targetHealth, targetPosition, rotation, targetsPool);
-                continue;
-            }
-
-            await SpawnObstacle(_stoneFactory, targetHealth, targetPosition, rotation, targetsPool);
-
-            await Task.Yield();
-        }
-    }
-
-    public void RemoveAll()
+    public async Task RemoveAll()
     {
         foreach (KeyValuePair<MapPart, List<Target>> map in _targetsOnMap)
         {
@@ -133,6 +103,8 @@ public class LevelSpawner : MonoBehaviour
 
             map.Value.Clear();
             Destroy(map.Key.gameObject);
+
+            await Task.Yield();
         }
 
         _targetsOnMap.Clear();
@@ -164,6 +136,36 @@ public class LevelSpawner : MonoBehaviour
         }
 
         previousLevel.Value.Clear();
+    }
+
+    private async void SpawnTargets(List<Vector3> spawnPoints, Vector3 startPosition, float targetHealth, List<Target> targetsPool)
+    {
+        foreach (Vector3 spawnPosition in spawnPoints)
+        {
+            float randomSpawnOffset = 0.8f;
+
+            float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
+            float offsetZ = Random.Range(-randomSpawnOffset, randomSpawnOffset);
+
+            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + startPosition;
+            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+
+            await Task.Yield();
+
+            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
+            {
+                await SpawnObstacle(_diamondFactory, targetHealth, targetPosition, rotation, targetsPool);
+                continue;
+            }
+
+            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
+            {
+                await SpawnObstacle(_woodFactory, targetHealth, targetPosition, rotation, targetsPool);
+                continue;
+            }
+
+            await SpawnObstacle(_stoneFactory, targetHealth, targetPosition, rotation, targetsPool);
+        }
     }
 
     private async Task SpawnObstacle(

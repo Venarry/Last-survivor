@@ -46,16 +46,34 @@ public class MapGenerator : MonoBehaviour
         _isEnabled = true;
     }
 
-    public void ResetLevels()
+    public void StopGenerator()
+    {
+        _isEnabled = false;
+    }
+
+    public async Task ResetLevels()
+    {
+        /*foreach (MapPart part in _mapParts)
+        {
+            Destroy(part.gameObject);
+        }*/
+        //_mapParts.Clear();
+        await DestroyAllParts();
+
+        await _levelSpawner.RemoveAll();
+        _currentPosition = 0;
+    }
+
+    private async Task DestroyAllParts()
     {
         foreach (MapPart part in _mapParts)
         {
             Destroy(part.gameObject);
+
+            await Task.Yield();
         }
 
         _mapParts.Clear();
-        _levelSpawner.RemoveAll();
-        _currentPosition = 0;
     }
 
     private async Task TrySpawnMap()
@@ -65,12 +83,12 @@ public class MapGenerator : MonoBehaviour
             Vector3 spawnPosition = new(0, 0, _currentPosition);
             MapPart part;
 
-            bool startInCheckpoint = _levelsStatistic.CurrentLevel == 0 && _mapParts.Count == 0;
+            bool applicationIsEnabled = _levelsStatistic.CurrentLevel == 0 && _mapParts.Count == 0;
             int levelDifficulty = _mapParts.Count == 0 ? _levelsStatistic.CurrentLevel : _levelsStatistic.NextWave;
             int totalLevelDifficulty = _mapParts.Count == 0 ? _levelsStatistic.TotalLevel : _levelsStatistic.TotalLevel + 1;
             bool haveEndLevelTrigger = _mapParts.Count > 0;
 
-            if (_levelsStatistic.NextWave == 0 || startInCheckpoint)
+            if ((_levelsStatistic.NextWave == 0 && _mapParts.Count > 0) || applicationIsEnabled)
             {
                 CheckpointPart checkpointPart = await _mapPartsFactory.CreateCheckPointZone(spawnPosition, haveEndLevelTrigger);
                 part = checkpointPart;

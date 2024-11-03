@@ -62,7 +62,7 @@ public class ResetProgressHandler : MonoBehaviour
     {
         _resetProgressMenu.SetActive(true);
 
-        int minLevelForResetPreogress = 10;
+        int minLevelForResetPreogress = GameParameters.LevelsForCheckpoint;
 
         if(_levelsStatisticModel.TotalLevel >= minLevelForResetPreogress)
         {
@@ -76,18 +76,24 @@ public class ResetProgressHandler : MonoBehaviour
         }
     }
 
-    private void ResetProgress()
+    private async void ResetProgress()
     {
-        _characterInventory.Add(LootType.Prestige, PrestigeToAdd);
-
-        _levelsStatisticModel.Set(0);
-        _thirdPersonMovement.SetPosition(_respawnPosition);
-        _characterUpgrades.RemoveAll();
-        _mapGenerator.ResetLevels();
-        _characterInventory.RemoveWithNotIncluding(new List<LootType>() { LootType.Prestige });
-
         Hide();
         _upgradesShop.Hide();
+
+        _characterInventory.Add(LootType.Prestige, PrestigeToAdd);
+        _characterUpgrades.RemoveAll();
+        _characterInventory.RemoveWithNotIncluding(new List<LootType>() { LootType.Prestige });
+        _levelsStatisticModel.Set(0);
+
+        _thirdPersonMovement.SetBehaviour(false);
+        _mapGenerator.StopGenerator();
+
+        _thirdPersonMovement.SetPosition(_respawnPosition);
+        await _mapGenerator.ResetLevels();
+
+        _thirdPersonMovement.SetBehaviour(true);
+        _mapGenerator.StartGenerator();
 
         _progressSaveService.Save();
         _progressSaveService.ReloadShop();

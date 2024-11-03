@@ -4,12 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UIElements;
 
 public class LevelSpawner : MonoBehaviour
 {
-    [SerializeField] private MapPart _levelPrefab;
-
     private WoodFactory _woodFactory;
     private DiamondFactory _diamondFactory;
     private StoneFactory _stoneFactory;
@@ -43,7 +41,7 @@ public class LevelSpawner : MonoBehaviour
         float mapSizeX = _endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x;
         float mapSizeZ = _endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z;
 
-        int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 8);
+        int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 7); //8
 
         if (_targetsOnMap.Count != 0)
         {
@@ -74,7 +72,7 @@ public class LevelSpawner : MonoBehaviour
 
         if (currentLevel != 0)
         {
-            float healthPerCurrentWaveMultiplier = 0.1f; //3
+            float healthPerCurrentWaveMultiplier = 0.1f;
             healthPerCurrentWave = 1 + currentLevel * healthPerCurrentWaveMultiplier;
         }
         else
@@ -88,6 +86,13 @@ public class LevelSpawner : MonoBehaviour
         List<Target> targetsInLevel = new();
         _targetsOnMap.Enqueue(new(map, targetsInLevel));
 
+        SpawnTargets(spawnPoints, position, health, targetsInLevel);
+
+        return map;
+    }
+
+    private async Task SpawnTargets(List<Vector3> spawnPoints, Vector3 startPosition, float targetHealth, List<Target> targetsPool)
+    {
         foreach (Vector3 spawnPosition in spawnPoints)
         {
             float randomSpawnOffset = 0.8f;
@@ -95,25 +100,25 @@ public class LevelSpawner : MonoBehaviour
             float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
             float offsetZ = Random.Range(-randomSpawnOffset, randomSpawnOffset);
 
-            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + position;
+            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + startPosition;
             Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
             {
-                await SpawnObstacle(_diamondFactory, health, targetPosition, rotation, targetsInLevel);
+                await SpawnObstacle(_diamondFactory, targetHealth, targetPosition, rotation, targetsPool);
                 continue;
             }
 
             if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
             {
-                await SpawnObstacle(_woodFactory, health, targetPosition, rotation, targetsInLevel);
+                await SpawnObstacle(_woodFactory, targetHealth, targetPosition, rotation, targetsPool);
                 continue;
             }
 
-            await SpawnObstacle(_stoneFactory, health, targetPosition, rotation, targetsInLevel);
-        }
+            await SpawnObstacle(_stoneFactory, targetHealth, targetPosition, rotation, targetsPool);
 
-        return map;
+            await Task.Yield();
+        }
     }
 
     public void RemoveAll()
@@ -140,13 +145,6 @@ public class LevelSpawner : MonoBehaviour
 
         KeyValuePair<MapPart, List<Target>> zeroMap = _targetsOnMap.Dequeue();
 
-        /*foreach (Target target in zeroMap.Value)
-        {
-            target.LifeCycleEnded -= RemoveTargetFromMapPool;
-            target.PlaceInPool();
-        }
-
-        zeroMap.Value.Clear();*/
         Destroy(zeroMap.Key.gameObject);
 
         return true;

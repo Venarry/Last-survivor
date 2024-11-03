@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 
 public class CharacterUpgradesModel<T> where T : Upgrade
 {
@@ -118,6 +119,25 @@ public class CharacterUpgradesModel<T> where T : Upgrade
         _upgrades.Clear();
         AllRemoved?.Invoke();
     }
+
+    /*public void RemoveWithNotIncluding(params List<Type> types)
+    {
+        List<Type> upgradesForRemove = new();
+
+        foreach (KeyValuePair<Type, T> upgrade in _upgrades)
+        {
+            if(types.Contains(upgrade.Key) == false)
+            {
+                upgradesForRemove.Add(upgrade.Key);
+            }
+        }
+
+        foreach (Type type in upgradesForRemove)
+        {
+            _upgrades[type].Disable();
+            _upgrades.Remove(type);
+        }
+    }*/
 
     public bool HasUpgrade(Type skillType) => _upgrades.ContainsKey(skillType);
 

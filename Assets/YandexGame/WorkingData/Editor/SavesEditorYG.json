@@ -1,5 +1,5 @@
 {
-    "idSave": 17,
+    "idSave": 23,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
@@ -14,18 +14,18 @@
         "Inventory": [
             {
                 "LootType": 2,
-                "Count": 36
+                "Count": 4
             }
         ],
         "Upgrades": [],
         "PrestigeUpgrades": [
             {
                 "Type": 11,
-                "Level": 0
+                "Level": 5
             },
             {
                 "Type": 12,
-                "Level": 0
+                "Level": 2
             }
         ],
         "Skills": [],

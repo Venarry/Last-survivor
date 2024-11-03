@@ -18,6 +18,15 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
     private readonly UpgradesShop _upgradesShop;
     private ProgressData _data;
 
+    private UpgradeData[] GetAllDataUpgrades()
+    {
+        List<UpgradeData> allUpgrades = new();
+        allUpgrades.AddRange(_data.Upgrades);
+        allUpgrades.AddRange(_data.PrestigeUpgrades);
+
+        return allUpgrades.ToArray();
+    }
+
     public ProgressHandler(
         InventoryModel inventoryModel,
         HealthModel healthModel,
@@ -114,7 +123,7 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
 
     public void ReloadShop()
     {
-        _upgradesShop.ReloadButtons(_data.Upgrades.ToArray());
+        _upgradesShop.ReloadButtons(GetAllDataUpgrades());
     }
 
     private void InjectData()
@@ -124,7 +133,7 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
         LoadUpgrades(_characterUpgrades, _data.Upgrades);
         LoadUpgrades(_characterPrestigeUpgrades, _data.PrestigeUpgrades);
 
-        _upgradesShop.Load(_data.Upgrades.ToArray());
+        _upgradesShop.Load(GetAllDataUpgrades());
         _levelsStatisticModel.Set(_data.TotalLevels);
         _healthModel.SetNormalizedHealth(_data.HealthNormalized);
         _experienceModel.Load(_data.ExperienceData.Level, _data.ExperienceData.Experience);

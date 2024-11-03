@@ -57,10 +57,10 @@ public class GameRestartMenu : MonoBehaviour
         _parent.SetActive(false);
     }
 
-    private void ResetLevel()
+    private async void ResetLevel()
     {
         _dayCycle.ResetTime();
-        _mapGenerator.ResetLevels();
+        await _mapGenerator.ResetLevels();
         _levelsStatisticModel.ResetToCheckpoint();
         _characterExperience.Reset();
         _characterSkills.RemoveAll();

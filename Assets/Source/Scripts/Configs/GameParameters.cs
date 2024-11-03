@@ -8,7 +8,7 @@ public class GameParameters
 
     public const int SkillsToChooseByLevel = 3;
     public const int SpawnedMapBufferCount = 3;
-    public const int LevelsForCheckpoint = 10;
+    public const int LevelsForCheckpoint = 2;
     public const int BaseDayDuration = 20;
 
     public const float EnemySpawnDelay = 2f;

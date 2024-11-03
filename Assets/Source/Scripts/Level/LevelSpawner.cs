@@ -42,10 +42,11 @@ public class LevelSpawner : MonoBehaviour
         float mapSizeZ = _endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z;
 
         int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 7); //8
+        //int baseSpawnCount = 4;
 
         if (_targetsOnMap.Count != 0)
         {
-            int spawnCountByLevel = 7;
+            int spawnCountByLevel = 7; 
             baseSpawnCount += currentLevel * spawnCountByLevel;
         }
 
@@ -65,6 +66,8 @@ public class LevelSpawner : MonoBehaviour
                     i * cellOfssetZ) + _startResourcesOffseSpawnPoint);
             }
         }
+
+        Debug.Log(spawnPoints.Count);
 
         float healthPerTotalWaveMultiplier = 1f;
         float healthPerTotalWave = (totalLevel + 1) * healthPerTotalWaveMultiplier;

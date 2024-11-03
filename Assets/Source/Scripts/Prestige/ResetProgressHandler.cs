@@ -17,6 +17,7 @@ public class ResetProgressHandler : MonoBehaviour
     private InventoryModel _characterInventory;
     private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
     private ThirdPersonMovement _thirdPersonMovement;
+    private TargetFollower _camera;
     private IProgressSaveService _progressSaveService;
     private LanguageProvider _languageProvider;
     private Vector3 _respawnPosition;
@@ -28,6 +29,7 @@ public class ResetProgressHandler : MonoBehaviour
         InventoryModel characterInventory,
         CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
         ThirdPersonMovement thirdPersonMovement,
+        TargetFollower camera,
         IProgressSaveService progressSaveService,
         LanguageProvider languageProvider,
         Vector3 respawnPosition)
@@ -36,6 +38,7 @@ public class ResetProgressHandler : MonoBehaviour
         _characterInventory = characterInventory;
         _characterUpgrades = characterUpgrades;
         _thirdPersonMovement = thirdPersonMovement;
+        _camera = camera;
         _progressSaveService = progressSaveService;
         _languageProvider = languageProvider;
         _respawnPosition = respawnPosition;
@@ -90,6 +93,7 @@ public class ResetProgressHandler : MonoBehaviour
         _mapGenerator.StopGenerator();
 
         _thirdPersonMovement.SetPosition(_respawnPosition);
+        _camera.UpdatePosition();
         await _mapGenerator.ResetLevels();
 
         _thirdPersonMovement.SetBehaviour(true);

@@ -826,6 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a2557e82df1c644af2ab978a27d016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 608443011}
   _canvas: {fileID: 1160196829}
   _targetFollower: {fileID: 608443013}
   _skillsOpener: {fileID: 2060088945}
@@ -4615,7 +4616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30ac206677f77e4f97b85f5e1c8ea88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelPrefab: {fileID: -500852015413381680, guid: f519d75e02b24dd4c9a3ed88f4f38732, type: 3}
 --- !u!4 &1117798183
 Transform:
   m_ObjectHideFlags: 0

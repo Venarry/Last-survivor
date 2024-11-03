@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using YG;
 
 public class EntryPoint : MonoBehaviour
 {
+    [SerializeField] private Camera _camera;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private TargetFollower _targetFollower;
     [SerializeField] private SkillsOpener _skillsOpener;
@@ -51,6 +51,7 @@ public class EntryPoint : MonoBehaviour
     private async void StartGame()
     {
         //Debug.Log(JsonUtility.ToJson(new LanguageProvider()));
+        ChangeGameSettingsByDevice();
         CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider").AddComponent<CoroutineProvider>();
         StreaminAssetsReader streaminAssetsReader = new(coroutineProvider);
 
@@ -218,7 +219,7 @@ public class EntryPoint : MonoBehaviour
         _levelsStatisticView.Init(levelsStatisticModel);
         _characterUpgradesRefresher = new(levelsStatisticModel, playerExperienceModel, playerHealthModel, characterSkillsModel, coroutineProvider);
         _dayCycle.Init(dayCycleParameters, player.DayUIParent, player.DayBar, player.DayTimeLabel);
-        _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, progressHandler, languageProvider, spawnPosition);
+        _resetProgressHandler.Init(levelsStatisticModel, inventoryModel, characterParametersUpgradesModel, player.ThirdPersonMovement, _targetFollower, progressHandler, languageProvider, spawnPosition);
 
         _upgradesShop.InitButtons();
         _targetFollower.Set(player.transform);
@@ -261,6 +262,16 @@ public class EntryPoint : MonoBehaviour
         {
             MobileInputsProviderFactory mobileInputsProviderFactory = new(_assetsProvider);
             return await mobileInputsProviderFactory.Create(_canvas.transform);
+        }
+    }
+
+    private void ChangeGameSettingsByDevice()
+    {
+        bool isMobile = Application.isMobilePlatform;
+
+        if(isMobile == true)
+        {
+            _camera.fieldOfView = 55;
         }
     }
 

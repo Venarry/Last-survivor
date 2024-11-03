@@ -7,11 +7,13 @@ public class TargetFollower : MonoBehaviour
 
     private Transform _target;
 
+    private Vector3 TargetPosition => _target.position + _offset;
+
     public void Set(Transform target)
     {
         _target = target;
 
-        transform.position = _target.position + _offset;
+        transform.position = TargetPosition;
     }
 
     private void LateUpdate()
@@ -19,8 +21,16 @@ public class TargetFollower : MonoBehaviour
         if (_target == null)
             return;
 
-        Vector3 targetPosition = Vector3.Lerp(transform.position, _target.position + _offset, _speed * Time.deltaTime);
+        Vector3 lerpPosition = Vector3.Lerp(transform.position, TargetPosition, _speed * Time.deltaTime);
 
-        transform.position = targetPosition;
+        transform.position = lerpPosition;
+    }
+
+    public void UpdatePosition()
+    {
+        if (_target == null) 
+            return;
+
+        transform.position = TargetPosition;
     }
 }

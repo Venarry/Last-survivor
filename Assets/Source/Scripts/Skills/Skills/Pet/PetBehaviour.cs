@@ -46,16 +46,25 @@ public class PetBehaviour : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if(_currentTarget != null)
+        {
+            _currentTarget.LifeCycleEnded -= OnTargetEnd;
+            _petMovement.Reached -= OnTargetReach;
+        }
+
+        if (_attackCoroutine != null)
+        {
+            StopCoroutine(_attackCoroutine);
+        }
+    }
+
     private void OnTargetEnd(Target target)
     {
         _currentTarget.LifeCycleEnded -= OnTargetEnd;
-
-        if (enabled == false)
-        {
-            return;
-        }
-
         _petMovement.Reached -= OnTargetReach;
+
         _currentTarget = null;
 
         if(_attackCoroutine != null)

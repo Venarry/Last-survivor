@@ -1,5 +1,5 @@
 {
-    "idSave": 23,
+    "idSave": 24,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
@@ -15,9 +15,26 @@
             {
                 "LootType": 2,
                 "Count": 1034
+            },
+            {
+                "LootType": 0,
+                "Count": 30
             }
         ],
-        "Upgrades": [],
+        "Upgrades": [
+            {
+                "Type": 8,
+                "Level": 0
+            },
+            {
+                "Type": 9,
+                "Level": 0
+            },
+            {
+                "Type": 10,
+                "Level": 0
+            }
+        ],
         "PrestigeUpgrades": [
             {
                 "Type": 11,
@@ -28,13 +45,18 @@
                 "Level": 30
             }
         ],
-        "Skills": [],
+        "Skills": [
+            {
+                "Type": 0,
+                "Level": 1
+            }
+        ],
         "ExperienceData": {
-            "Level": 0,
-            "Experience": 0.0
+            "Level": 1,
+            "Experience": 90.0
         },
         "HealthNormalized": 1.0,
-        "TotalLevels": 0,
+        "TotalLevels": 1,
         "MaxLevel": 10,
         "TutorialPassed": true
     }

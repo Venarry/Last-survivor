@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 0
 --- !u!4 &4610254078268178340
 Transform:
@@ -112,7 +112,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 0
 --- !u!4 &9085822261954735517
 Transform:
@@ -205,7 +205,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6480634676321410460
 Transform:
@@ -262,7 +262,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 0
 --- !u!4 &6284615223540489332
 Transform:
@@ -357,7 +357,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 0
 --- !u!4 &7423781550384632495
 Transform:
@@ -452,7 +452,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 0
 --- !u!4 &5097542337920846081
 Transform:
@@ -541,6 +541,10 @@ PrefabInstance:
     - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_Name
       value: Trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3681822913152221539, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_LocalScale.x
@@ -676,6 +680,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 61d50b09f96900c4a8ea87e52ccfaa13, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -757,6 +765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 61d50b09f96900c4a8ea87e52ccfaa13, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -781,6 +793,10 @@ PrefabInstance:
     - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_Name
       value: Trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3681822913152221539, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_LocalScale.x
@@ -859,6 +875,10 @@ PrefabInstance:
     - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_Name
       value: Trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3681822913152221539, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_LocalScale.x
@@ -994,6 +1014,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 61d50b09f96900c4a8ea87e52ccfaa13, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1018,6 +1042,10 @@ PrefabInstance:
     - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_Name
       value: Trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3681822913152221539, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_LocalScale.x
@@ -1096,6 +1124,10 @@ PrefabInstance:
     - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_Name
       value: Trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 868592427955352036, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3681822913152221539, guid: 6175a528645b5824490dfb5dbb045c1e, type: 3}
       propertyPath: m_LocalScale.x
@@ -1231,6 +1263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 61d50b09f96900c4a8ea87e52ccfaa13, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1311,6 +1347,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 61d50b09f96900c4a8ea87e52ccfaa13, type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 61d50b09f96900c4a8ea87e52ccfaa13, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

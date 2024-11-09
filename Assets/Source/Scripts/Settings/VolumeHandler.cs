@@ -42,7 +42,8 @@ namespace AudioMixerHomework
         {
             value = Mathf.Clamp(value, _minValue, _maxValue);
 
-            _audioMixer.SetFloat(volumeName, Mathf.Log10(value) * 20);
+            //_audioMixer.SetFloat(volumeName, Mathf.Log10(value) * 20);
+            AudioListener.volume = value;
         }
     }
 }

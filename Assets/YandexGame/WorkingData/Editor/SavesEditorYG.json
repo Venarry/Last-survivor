@@ -1,5 +1,5 @@
 {
-    "idSave": 24,
+    "idSave": 26,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
@@ -18,7 +18,11 @@
             },
             {
                 "LootType": 0,
-                "Count": 30
+                "Count": 975
+            },
+            {
+                "LootType": 1,
+                "Count": 20
             }
         ],
         "Upgrades": [
@@ -49,14 +53,30 @@
             {
                 "Type": 0,
                 "Level": 1
+            },
+            {
+                "Type": 6,
+                "Level": 3
+            },
+            {
+                "Type": 5,
+                "Level": 2
+            },
+            {
+                "Type": 7,
+                "Level": 2
+            },
+            {
+                "Type": 3,
+                "Level": 1
             }
         ],
         "ExperienceData": {
-            "Level": 1,
-            "Experience": 90.0
+            "Level": 9,
+            "Experience": 1790.0
         },
         "HealthNormalized": 1.0,
-        "TotalLevels": 1,
+        "TotalLevels": 3,
         "MaxLevel": 10,
         "TutorialPassed": true
     }

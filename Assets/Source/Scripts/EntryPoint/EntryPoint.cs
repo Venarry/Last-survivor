@@ -30,7 +30,9 @@ public class EntryPoint : MonoBehaviour
 
     private async void Awake()
     {
-#if UNITY_EDITOR
+        Debug.Log("Awake");
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        Debug.Log("PC");
         StartGame();
 #else
         await InitGameWithYandexSDK();

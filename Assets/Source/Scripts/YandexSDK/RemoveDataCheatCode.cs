@@ -32,9 +32,14 @@ public class RemoveDataCheatCode : MonoBehaviour
 
                     if(_currentCode.Length == CheatCode.Length)
                     {
-                        YandexGame.ResetSaveProgress();
-                        YandexGame.SaveProgress();
+                        PlayerPrefs.DeleteKey(ProgressHandler.SaveName);
                         _currentCode = string.Empty;
+
+                        if(YandexGame.SDKEnabled == true)
+                        {
+                            YandexGame.ResetSaveProgress();
+                            YandexGame.SaveProgress();
+                        }
                     }
                 }
             }

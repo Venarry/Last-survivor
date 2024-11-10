@@ -25,7 +25,10 @@ public class LeaderboardSaver
 
     private void OnLevelChange()
     {
-        if(_levelsStatisticModel.TotalLevel >= _maxLevelProvider.MaxLevel)
+        if (YandexGame.SDKEnabled == false)
+            return;
+
+        if (_levelsStatisticModel.TotalLevel >= _maxLevelProvider.MaxLevel)
         {
             YandexGame.NewLeaderboardScores(GameParameters.LeaderboardName, _levelsStatisticModel.TotalLevel);
         }

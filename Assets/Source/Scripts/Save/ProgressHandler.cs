@@ -4,7 +4,7 @@ using YG;
 
 public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
 {
-    private const string SaveName = "Save";
+    public const string SaveName = "Save";
 
     private readonly InventoryModel _inventoryModel;
     private readonly HealthModel _healthModel;
@@ -112,7 +112,11 @@ public class ProgressHandler : IProgressSaveService, IMaxLevelProvider
         string data = JsonUtility.ToJson(_data);
 
         PlayerPrefs.SetString(SaveName, data);
-        YandexGame.SaveProgress();
+
+        if (YandexGame.SDKEnabled == true)
+        {
+            YandexGame.SaveProgress();
+        }
         Debug.Log(PlayerPrefs.GetString(SaveName));
     }
 

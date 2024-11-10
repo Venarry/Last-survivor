@@ -44,9 +44,13 @@ public class EndLevelCongratulation : MonoBehaviour
 
     private void ShowReward()
     {
-        YandexGame.FullscreenShow();
         _menu.SetActive(false);
 
         GameTimeScaler.Remove(TimeKeyName);
+
+        if (YandexGame.SDKEnabled == true)
+        {
+            YandexGame.FullscreenShow();
+        }
     }
 }

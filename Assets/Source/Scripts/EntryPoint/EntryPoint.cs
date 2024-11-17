@@ -244,6 +244,8 @@ public class EntryPoint : MonoBehaviour
 
         _gameLoadingPanel.Disable();
         player.SetBehaviour(true);
+
+        YandexGame.GameReadyAPI();
     }
 
     private void OnCheckpointZoneSpawn(CheckpointPart part)

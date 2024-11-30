@@ -1,18 +1,21 @@
+using Save;
 using UnityEngine;
 
-public class TutorialSaver : MonoBehaviour
+namespace GameTutorial
 {
-    private ProgressHandler _progressHandler;
-
-    public void Init(ProgressHandler progressHandler)
+    public class TutorialSaver : MonoBehaviour
     {
-        _progressHandler = progressHandler;
-    }
+        private ProgressHandler _progressHandler;
 
-    private void OnDisable()
-    {
-        _progressHandler.PassTutorial();
-        _progressHandler.Save();
-        Debug.Log("Tutorial passed");
+        public void Init(ProgressHandler progressHandler)
+        {
+            _progressHandler = progressHandler;
+        }
+
+        private void OnDisable()
+        {
+            _progressHandler.PassTutorial();
+            _progressHandler.Save();
+        }
     }
 }

@@ -1,21 +1,25 @@
 ﻿using System;
 
-public class MaxHealthUpBuff : IMaxHealthBuff
+namespace Buffs.Health
 {
-    private float _health;
-    public Type Type => typeof(MaxHealthUpBuff);
-    public bool CanRepeat => true;
-
-    public event Action<IBuff> ParametersChanged;
-
-    public float Apply(float health)
+    public class MaxHealthUpBuff : IMaxHealthBuff
     {
-        return health += _health;
-    }
+        private float _health;
 
-    public void SetParameters(float health)
-    {
-        _health = health;
-        ParametersChanged?.Invoke(this);
+        public event Action<IBuff> ParametersChanged;
+
+        public Type Type => typeof(MaxHealthUpBuff);
+        public bool CanRepeat => true;
+
+        public float Apply(float health)
+        {
+            return health += _health;
+        }
+
+        public void SetParameters(float health)
+        {
+            _health = health;
+            ParametersChanged?.Invoke(this);
+        }
     }
 }

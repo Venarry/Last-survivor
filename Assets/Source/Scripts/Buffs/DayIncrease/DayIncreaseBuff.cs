@@ -1,21 +1,25 @@
 using System;
 
-public class DayIncreaseBuff : IDayDurationBuff
+namespace Buffs.DayIncrease
 {
-    private float _dayDurationIncrease = 0;
-    public Type Type => GetType();
-    public bool CanRepeat => true;
-
-    public event Action<IBuff> ParametersChanged;
-
-    public float Apply(float dayDuration)
+    public class DayIncreaseBuff : IDayDurationBuff
     {
-        return _dayDurationIncrease + dayDuration;
-    }
+        private float _dayDurationIncrease = 0;
 
-    public void SetParameters(float duration)
-    {
-        _dayDurationIncrease = duration;
-        ParametersChanged?.Invoke(this);
+        public event Action<IBuff> ParametersChanged;
+
+        public Type Type => GetType();
+        public bool CanRepeat => true;
+
+        public float Apply(float dayDuration)
+        {
+            return _dayDurationIncrease + dayDuration;
+        }
+
+        public void SetParameters(float duration)
+        {
+            _dayDurationIncrease = duration;
+            ParametersChanged?.Invoke(this);
+        }
     }
 }

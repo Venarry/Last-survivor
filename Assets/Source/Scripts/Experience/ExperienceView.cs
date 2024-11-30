@@ -3,65 +3,70 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ExperienceView : MonoBehaviour
+namespace Experience
 {
-    [SerializeField] private Image _levelBar;
-    [SerializeField] private TMP_Text _levelLabel;
-    [SerializeField] private ParticleSystem _levelUpParticlePrefab;
-
-    private ExperienceModel _experienceModel;
-
-    public void Init(ExperienceModel experienceModel)
+    public class ExperienceView : MonoBehaviour
     {
-        _experienceModel = experienceModel;
+        [SerializeField] private Image _levelBar;
+        [SerializeField] private TMP_Text _levelLabel;
+        [SerializeField] private ParticleSystem _levelUpParticlePrefab;
 
-        _experienceModel.ExperienceChanged += OnExperienceChange;
-        _experienceModel.LevelAdded += OnLevelAdd;
-        _experienceModel.LevelsRemoved += OnLevelRemove;
-        _experienceModel.DataLoaded += RefreshAllInforamtion;
+        private ExperienceModel _experienceModel;
 
-        RefreshAllInforamtion();
-    }
+        private void OnDestroy()
+        {
+            _experienceModel.ExperienceChanged -= OnExperienceChange;
+            _experienceModel.LevelAdded -= OnLevelAdd;
+            _experienceModel.LevelsRemoved -= OnLevelRemove;
+            _experienceModel.DataLoaded -= RefreshAllInforamtion;
+        }
 
-    private void OnDestroy()
-    {
-        _experienceModel.ExperienceChanged -= OnExperienceChange;
-        _experienceModel.LevelAdded -= OnLevelAdd;
-        _experienceModel.LevelsRemoved -= OnLevelRemove;
-        _experienceModel.DataLoaded -= RefreshAllInforamtion;
-    }
+        public void Init(ExperienceModel experienceModel)
+        {
+            _experienceModel = experienceModel;
 
-    public void Add(float experience)
-    {
-        _experienceModel.Add(experience);
-    }
+            _experienceModel.ExperienceChanged += OnExperienceChange;
+            _experienceModel.LevelAdded += OnLevelAdd;
+            _experienceModel.LevelsRemoved += OnLevelRemove;
+            _experienceModel.DataLoaded += RefreshAllInforamtion;
 
-    private void OnExperienceChange()
-    {
-        _levelBar.fillAmount = (float)_experienceModel.CurrentExperience / _experienceModel.ExperienceForNextLevel;
-    }
+            RefreshAllInforamtion();
+        }
 
-    private void OnLevelAdd()
-    {
-        RefreshLevelLabel();
+        public void Add(float experience)
+        {
+            _experienceModel.Add(experience);
+        }
 
-        if(_levelUpParticlePrefab != null)
-            Instantiate(_levelUpParticlePrefab, transform.position, Quaternion.identity);
-    }
+        private void OnExperienceChange()
+        {
+            _levelBar.fillAmount = (float)_experienceModel.CurrentExperience / _experienceModel.ExperienceForNextLevel;
+        }
 
-    private void RefreshAllInforamtion()
-    {
-        OnExperienceChange();
-        RefreshLevelLabel();
-    }
+        private void OnLevelAdd()
+        {
+            RefreshLevelLabel();
 
-    private void OnLevelRemove()
-    {
-        RefreshLevelLabel();
-    }
+            if (_levelUpParticlePrefab != null)
+            {
+                Instantiate(_levelUpParticlePrefab, transform.position, Quaternion.identity);
+            }
+        }
 
-    private void RefreshLevelLabel()
-    {
-        _levelLabel.text = $"LVL {_experienceModel.CurrentLevel}";
+        private void RefreshAllInforamtion()
+        {
+            OnExperienceChange();
+            RefreshLevelLabel();
+        }
+
+        private void OnLevelRemove()
+        {
+            RefreshLevelLabel();
+        }
+
+        private void RefreshLevelLabel()
+        {
+            _levelLabel.text = $"LVL {_experienceModel.CurrentLevel}";
+        }
     }
 }

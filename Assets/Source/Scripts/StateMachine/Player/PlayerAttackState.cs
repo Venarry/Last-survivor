@@ -1,52 +1,59 @@
-public class PlayerAttackState : IState
+using Movement;
+using Player;
+using Targets;
+
+namespace StateMachine.Player
 {
-    private readonly ThirdPersonRotation _thirdPersonRotation;
-    private readonly CharacterAttackHandler _playerAttackHandler;
-    private readonly CharacterTargetSearcher _targetSearcher;
-    private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
-    private Target _target;
-
-    public PlayerAttackState(
-        ThirdPersonRotation thirdPersonRotation,
-        CharacterAttackHandler playerAttackHandler,
-        CharacterTargetSearcher targetSearcher,
-        IPlayerAttackStateSwitcher playerAttackStateSwitcher)
+    public class PlayerAttackState : IState
     {
-        _thirdPersonRotation = thirdPersonRotation;
-        _playerAttackHandler = playerAttackHandler;
-        _targetSearcher = targetSearcher;
-        _playerAttackStateSwitcher = playerAttackStateSwitcher;
-    }
+        private readonly ThirdPersonRotation _thirdPersonRotation;
+        private readonly CharacterAttackHandler _playerAttackHandler;
+        private readonly CharacterTargetSearcher _targetSearcher;
+        private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
+        private Target _target;
 
-    public void Set(Target target)
-    {
-        _target = target;
-        _thirdPersonRotation.Set(target);
-    }
-
-    public void OnEnter()
-    {
-    }
-
-    public void OnUpdate()
-    {
-        if(_targetSearcher.TryGetNearestTarget(out Target target))
+        public PlayerAttackState(
+            ThirdPersonRotation thirdPersonRotation,
+            CharacterAttackHandler playerAttackHandler,
+            CharacterTargetSearcher targetSearcher,
+            IPlayerAttackStateSwitcher playerAttackStateSwitcher)
         {
-            if(target != _target)
+            _thirdPersonRotation = thirdPersonRotation;
+            _playerAttackHandler = playerAttackHandler;
+            _targetSearcher = targetSearcher;
+            _playerAttackStateSwitcher = playerAttackStateSwitcher;
+        }
+
+        public void Set(Target target)
+        {
+            _target = target;
+            _thirdPersonRotation.Set(target);
+        }
+
+        public void OnEnter()
+        {
+        }
+
+        public void OnUpdate()
+        {
+            if (_targetSearcher.TryGetNearestTarget(out Target target))
             {
-                Set(target);
+                if (target != _target)
+                {
+                    Set(target);
+                }
+
+                _playerAttackHandler.TryAttack(_target);
             }
-
-            _playerAttackHandler.TryAttack(_target);
+            else
+            {
+                _playerAttackStateSwitcher.SetTargetSearchState();
+            }
         }
-        else
+
+        public void OnExit()
         {
-            _playerAttackStateSwitcher.SetTargetSearchState();
+            _thirdPersonRotation.RemoveTarget();
         }
-    }
-
-    public void OnExit()
-    {
-        _thirdPersonRotation.RemoveTarget();
     }
 }

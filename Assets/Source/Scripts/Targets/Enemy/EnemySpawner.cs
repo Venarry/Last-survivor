@@ -1,101 +1,108 @@
 using System.Collections;
 using System.Collections.Generic;
+using Configs;
+using DayCycle;
+using General;
+using Level;
 using UnityEngine;
 
-public class EnemySpawner
+namespace Targets.Enemy
 {
-    private readonly WaitForSeconds _waitSpawnDelay = new(GameParameters.EnemySpawnDelay);
-    private readonly List<Enemy> _enemys = new();
-    private readonly DayCycle _dayCycleView;
-    private readonly EnemyFactory _enemyFactory;
-    private readonly LevelsStatisticModel _levelsStatistic;
-    private readonly Target _attackTarget;
-    private readonly CoroutineProvider _coroutineProvider;
-    private readonly int _maxEnemyCount = 12;
-    private Coroutine _activeSpawner;
-
-    public EnemySpawner(
-        DayCycle dayCycle,
-        EnemyFactory enemyFactory,
-        LevelsStatisticModel levelsStatistic,
-        Target attackTarget,
-        CoroutineProvider coroutineProvider)
+    public class EnemySpawner
     {
-        _dayCycleView = dayCycle;
-        _enemyFactory = enemyFactory;
-        _levelsStatistic = levelsStatistic;
-        _attackTarget = attackTarget;
-        _coroutineProvider = coroutineProvider;
-    }
+        private readonly WaitForSeconds _waitSpawnDelay = new(GameParameters.EnemySpawnDelay);
+        private readonly List<Enemy> _enemys = new ();
+        private readonly DayCycleView _dayCycleView;
+        private readonly EnemyFactory _enemyFactory;
+        private readonly LevelsStatisticModel _levelsStatistic;
+        private readonly Target _attackTarget;
+        private readonly CoroutineProvider _coroutineProvider;
+        private readonly int _maxEnemyCount = 12;
+        private Coroutine _activeSpawner;
 
-    public void StartSpawning()
-    {
-        _dayCycleView.NightCome += OnNightCome;
-        _dayCycleView.TimeReset += TryStopSpawner;
-    }
-
-    public void DisableSpawning()
-    {
-        _dayCycleView.NightCome -= OnNightCome;
-        _dayCycleView.TimeReset -= TryStopSpawner;
-    }
-
-    private void OnNightCome()
-    {
-        TryStopSpawner();
-        _activeSpawner = _coroutineProvider.StartCoroutine(SpawningEnemy());
-    }
-
-    private void TryStopSpawner()
-    {
-        if (_activeSpawner != null)
+        public EnemySpawner(
+            DayCycleView dayCycle,
+            EnemyFactory enemyFactory,
+            LevelsStatisticModel levelsStatistic,
+            Target attackTarget,
+            CoroutineProvider coroutineProvider)
         {
-            _coroutineProvider.StopCoroutine(_activeSpawner);
-
-            foreach (Enemy enemy in _enemys)
-            {
-                enemy.LifeCycleEnded -= OnLifeCycleEnd;
-                enemy.PlaceInPool();
-            }
-
-            _enemys.Clear();
-            _activeSpawner = null;
+            _dayCycleView = dayCycle;
+            _enemyFactory = enemyFactory;
+            _levelsStatistic = levelsStatistic;
+            _attackTarget = attackTarget;
+            _coroutineProvider = coroutineProvider;
         }
-    }
 
-    private IEnumerator SpawningEnemy()
-    {
-        float health = 3 + _levelsStatistic.TotalLevel + _levelsStatistic.CurrentLevel * 3;
-        float damage = 1 + (_levelsStatistic.CurrentLevel * GameParameters.EnemyDamagePerLevelMultiplier);
-
-        float offsetX = Random.Range(-5f, 5f);
-        float offsetZ = Random.Range(-3f, -8f);
-
-        Vector3 spawnOffset = new(offsetX, 0, offsetZ);
-
-        while (true)
+        public void StartSpawning()
         {
-            yield return _waitSpawnDelay;
+            _dayCycleView.NightCome += OnNightCome;
+            _dayCycleView.TimeReset += TryStopSpawner;
+        }
 
-            if(_enemys.Count < _maxEnemyCount)
+        public void DisableSpawning()
+        {
+            _dayCycleView.NightCome -= OnNightCome;
+            _dayCycleView.TimeReset -= TryStopSpawner;
+        }
+
+        private void OnNightCome()
+        {
+            TryStopSpawner();
+            _activeSpawner = _coroutineProvider.StartCoroutine(SpawningEnemy());
+        }
+
+        private void TryStopSpawner()
+        {
+            if (_activeSpawner != null)
             {
-                SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
+                _coroutineProvider.StopCoroutine(_activeSpawner);
+
+                foreach (Enemy enemy in _enemys)
+                {
+                    enemy.LifeCycleEnded -= OnLifeCycleEnd;
+                    enemy.PlaceInPool();
+                }
+
+                _enemys.Clear();
+                _activeSpawner = null;
             }
         }
-    }
 
-    private async void SpawnEnemy(float health, float damage, Vector3 position, Quaternion rotation)
-    {
-        Enemy target = await _enemyFactory.Create(_attackTarget, health, damage, position, rotation);
-        _enemys.Add(target);
+        private IEnumerator SpawningEnemy()
+        {
+            float health = 3 + _levelsStatistic.TotalLevel + (_levelsStatistic.CurrentLevel * 3);
+            float damage = 1 + (_levelsStatistic.CurrentLevel * GameParameters.EnemyDamagePerLevelMultiplier);
 
-        target.LifeCycleEnded += OnLifeCycleEnd;
-    }
+            float offsetX = Random.Range(-5f, 5f);
+            float offsetZ = Random.Range(-3f, -8f);
 
-    private void OnLifeCycleEnd(Target target)
-    {
-        target.LifeCycleEnded -= OnLifeCycleEnd;
+            Vector3 spawnOffset = new (offsetX, 0, offsetZ);
 
-        _enemys.Remove(target as Enemy);
+            while (true)
+            {
+                yield return _waitSpawnDelay;
+
+                if (_enemys.Count < _maxEnemyCount)
+                {
+                    SpawnEnemy(health, damage, _attackTarget.Position + spawnOffset, Quaternion.identity);
+                }
+            }
+        }
+
+        private async void SpawnEnemy(float health, float damage, Vector3 position, Quaternion rotation)
+        {
+            Enemy target = await _enemyFactory.Create(_attackTarget, health, damage, position, rotation);
+            _enemys.Add(target);
+
+            target.LifeCycleEnded += OnLifeCycleEnd;
+        }
+
+        private void OnLifeCycleEnd(Target target)
+        {
+            target.LifeCycleEnded -= OnLifeCycleEnd;
+
+            _enemys.Remove(target as Enemy);
+        }
     }
 }

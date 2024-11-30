@@ -1,40 +1,44 @@
+using General;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsMenu : MonoBehaviour
+namespace Settings
 {
-    [SerializeField] private Button _settingsButton;
-    [SerializeField] private Button _closeButton;
-    [SerializeField] private GameObject _menu;
-
-    private string TimeKey => nameof(SettingsMenu);
-
-    private void Awake()
+    public class SettingsMenu : MonoBehaviour
     {
-        _menu.SetActive(false);
-    }
+        [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _closeButton;
+        [SerializeField] private GameObject _menu;
 
-    private void OnEnable()
-    {
-        _settingsButton.onClick.AddListener(OpenMenu);
-        _closeButton.onClick.AddListener(CloseMenu);
-    }
+        private string TimeKey => nameof(SettingsMenu);
 
-    private void OnDisable()
-    {
-        _settingsButton.onClick.RemoveListener(OpenMenu);
-        _closeButton.onClick.RemoveListener(CloseMenu);
-    }
+        private void Awake()
+        {
+            _menu.SetActive(false);
+        }
 
-    private void OpenMenu()
-    {
-        _menu.SetActive(true);
-        GameTimeScaler.Add(TimeKey, 0);
-    }
+        private void OnEnable()
+        {
+            _settingsButton.onClick.AddListener(OpenMenu);
+            _closeButton.onClick.AddListener(CloseMenu);
+        }
 
-    private void CloseMenu()
-    {
-        _menu.SetActive(false);
-        GameTimeScaler.Remove(TimeKey);
+        private void OnDisable()
+        {
+            _settingsButton.onClick.RemoveListener(OpenMenu);
+            _closeButton.onClick.RemoveListener(CloseMenu);
+        }
+
+        private void OpenMenu()
+        {
+            _menu.SetActive(true);
+            GameTimeScaler.Add(TimeKey, 0);
+        }
+
+        private void CloseMenu()
+        {
+            _menu.SetActive(false);
+            GameTimeScaler.Remove(TimeKey);
+        }
     }
 }

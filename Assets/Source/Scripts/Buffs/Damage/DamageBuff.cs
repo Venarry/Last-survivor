@@ -1,22 +1,27 @@
 ﻿using System;
+using Targets;
 
-public abstract class DamageBuff : IDamageBuff
+namespace Buffs.Damage
 {
-    private float _damage;
-    public Type Type => typeof(DamageBuff);
-    public bool CanRepeat => true;
-    public abstract TargetType TargetType { get; }
-
-    public event Action<IBuff> ParametersChanged;
-
-    public float ApplyDamage(float damage)
+    public abstract class DamageBuff : IDamageBuff
     {
-        return damage += _damage;
-    }
+        private float _damage;
 
-    public void SetParameters(float damage)
-    {
-        _damage = damage;
-        ParametersChanged?.Invoke(this);
+        public event Action<IBuff> ParametersChanged;
+
+        public bool CanRepeat => true;
+        public Type Type => typeof(DamageBuff);
+        public abstract TargetType TargetType { get; }
+
+        public float ApplyDamage(float damage)
+        {
+            return damage += _damage;
+        }
+
+        public void SetParameters(float damage)
+        {
+            _damage = damage;
+            ParametersChanged?.Invoke(this);
+        }
     }
 }

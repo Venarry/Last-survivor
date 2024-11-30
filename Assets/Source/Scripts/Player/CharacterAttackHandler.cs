@@ -1,130 +1,140 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using Buffs;
+using Buffs.CritDamage;
+using Targets;
 using UnityEngine;
 
-public class CharacterAttackHandler : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private bool _hasOutOfAttackRange;
-
-    private float _timeLeft = 0;
-    private CharacterAttackParameters _characterAttackParameters;
-    private CharacterBuffsModel _characterBuffsModel;
-    private Coroutine _activeAttack;
-    private Target _currentTarget;
-    private float _attackDamageMultiplier = 1;
-    private float _attackCooldownMultiplier = 1;
-    private float _outOfAttackRangeDistance;
-
-    public event Action<Target, float> AttackBegin;
-    public event Action<Target, float> AttackEnd;
-
-    public bool ReadyToAttack => _timeLeft >= _characterAttackParameters.AttackCooldown * _attackCooldownMultiplier;
-
-    public void Init(CharacterAttackParameters characterAttackParameters, CharacterBuffsModel characterBuffsModel)
+    public class CharacterAttackHandler : MonoBehaviour
     {
-        _characterAttackParameters = characterAttackParameters;
-        _characterBuffsModel = characterBuffsModel;
+        [SerializeField] private bool _hasOutOfAttackRange;
 
-        _timeLeft = _characterAttackParameters.AttackCooldown;
-    }
+        private float _timeLeft = 0;
+        private CharacterAttackParameters _characterAttackParameters;
+        private CharacterBuffsModel _characterBuffsModel;
+        private Coroutine _activeAttack;
+        private Target _currentTarget;
+        private float _attackDamageMultiplier = 1;
+        private float _attackCooldownMultiplier = 1;
+        private float _outOfAttackRangeDistance;
 
-    private void Update()
-    {
-        _timeLeft += Time.deltaTime;
-    }
+        public event Action<Target, float> AttackBegin;
+        public event Action<Target, float> AttackEnd;
 
-    private void OnEnable()
-    {
-        StopAttack();
-    }
+        public bool ReadyToAttack => _timeLeft >= _characterAttackParameters.AttackCooldown * _attackCooldownMultiplier;
 
-    public void SetParameters(float damageMultiplier, float cooldownMultiplier)
-    {
-        _attackDamageMultiplier = damageMultiplier;
-        _attackCooldownMultiplier = cooldownMultiplier;
-    }
-
-    public void SetOutOfAttackRange(float distance)
-    {
-        _outOfAttackRangeDistance = distance;
-    }
-
-    public void TryAttack(Target target)
-    {
-        if (target == null)
-            return;
-
-        if(_activeAttack != null)
+        public void Init(CharacterAttackParameters characterAttackParameters, CharacterBuffsModel characterBuffsModel)
         {
-            return;
+            _characterAttackParameters = characterAttackParameters;
+            _characterBuffsModel = characterBuffsModel;
+
+            _timeLeft = _characterAttackParameters.AttackCooldown;
         }
 
-        if (ReadyToAttack == false)
+        private void Update()
         {
-            return;
+            _timeLeft += Time.deltaTime;
         }
 
-        if (_currentTarget != target)
+        private void OnEnable()
         {
             StopAttack();
+        }
 
-            if(_currentTarget != null)
+        public void SetParameters(float damageMultiplier, float cooldownMultiplier)
+        {
+            _attackDamageMultiplier = damageMultiplier;
+            _attackCooldownMultiplier = cooldownMultiplier;
+        }
+
+        public void SetOutOfAttackRange(float distance)
+        {
+            _outOfAttackRangeDistance = distance;
+        }
+
+        public void TryAttack(Target target)
+        {
+            if (target == null)
             {
-                _currentTarget.LifeCycleEnded -= OnTargetEnd;
+                return;
             }
 
-            _currentTarget = target;
-            _currentTarget.LifeCycleEnded += OnTargetEnd;
-        }
-
-        float damage = _characterAttackParameters.GetDamage(target.TargetType) * _attackDamageMultiplier;
-        _activeAttack = StartCoroutine(AttackWithResetTimeLeft(target, damage));
-    }
-
-    private void OnTargetEnd(Target target)
-    {
-        _currentTarget.LifeCycleEnded -= OnTargetEnd;
-    }
-
-    private IEnumerator AttackWithResetTimeLeft(Target target, float damage)
-    {
-        float attackDelay = _characterAttackParameters.AttackDelay;
-        AttackBegin?.Invoke(target, attackDelay);
-
-        yield return new WaitForSeconds(attackDelay);
-
-        ICritDamageBuff[] critDamageBuffs = _characterBuffsModel.GetBuffs<ICritDamageBuff>();
-        critDamageBuffs = critDamageBuffs.OrderBy(c => c.DamageMultiplier).ToArray();
-        float buffedDamage = damage;
-
-        foreach (ICritDamageBuff buff in critDamageBuffs)
-        {
-            if(buff.TryGetCrit(damage, out buffedDamage) == true)
+            if (_activeAttack != null)
             {
-                break;
+                return;
             }
+
+            if (ReadyToAttack == false)
+            {
+                return;
+            }
+
+            if (_currentTarget != target)
+            {
+                StopAttack();
+
+                if (_currentTarget != null)
+                {
+                    _currentTarget.LifeCycleEnded -= OnTargetEnd;
+                }
+
+                _currentTarget = target;
+                _currentTarget.LifeCycleEnded += OnTargetEnd;
+            }
+
+            float damage = _characterAttackParameters.GetDamage(target.TargetType) * _attackDamageMultiplier;
+            _activeAttack = StartCoroutine(AttackWithResetTimeLeft(target, damage));
         }
 
-        if(Vector3.Distance(transform.position, _currentTarget.Position) <= _outOfAttackRangeDistance || _hasOutOfAttackRange == false)
+        private void OnTargetEnd(Target target)
         {
-            target.TakeDamage(buffedDamage);
+            _currentTarget.LifeCycleEnded -= OnTargetEnd;
         }
 
-        _timeLeft = 0;
+        private IEnumerator AttackWithResetTimeLeft(Target target, float damage)
+        {
+            float attackDelay = _characterAttackParameters.AttackDelay;
+            AttackBegin?.Invoke(target, attackDelay);
 
-        AttackEnd?.Invoke(target, damage);
-        _activeAttack = null;
-    }
+            yield return new WaitForSeconds(attackDelay);
 
-    private void StopAttack()
-    {
-        if (_activeAttack == null)
-            return;
+            ICritDamageBuff[] critDamageBuffs = _characterBuffsModel.GetBuffs<ICritDamageBuff>();
+            critDamageBuffs = critDamageBuffs.OrderBy(c => c.DamageMultiplier).ToArray();
+            float buffedDamage = damage;
 
-        StopCoroutine(_activeAttack);
-        _activeAttack = null;
+            foreach (ICritDamageBuff buff in critDamageBuffs)
+            {
+                if (buff.TryGetCrit(damage, out buffedDamage) == true)
+                {
+                    break;
+                }
+            }
 
-        AttackEnd?.Invoke(_currentTarget, 0);
+            if (Vector3.Distance(transform.position, _currentTarget.Position) <= _outOfAttackRangeDistance || _hasOutOfAttackRange == false)
+            {
+                target.TakeDamage(buffedDamage);
+            }
+
+            _timeLeft = 0;
+
+            AttackEnd?.Invoke(target, damage);
+            _activeAttack = null;
+        }
+
+        private void StopAttack()
+        {
+            if (_activeAttack == null)
+            {
+                return;
+            }
+
+            StopCoroutine(_activeAttack);
+            _activeAttack = null;
+
+            AttackEnd?.Invoke(_currentTarget, 0);
+        }
     }
 }

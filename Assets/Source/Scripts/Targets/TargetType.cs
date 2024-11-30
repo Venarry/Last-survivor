@@ -1,6 +1,9 @@
-﻿public enum TargetType
+﻿namespace Targets
 {
-    Enemy,
-    Wood,
-    Ore,
+    public enum TargetType
+    {
+        Enemy,
+        Wood,
+        Ore,
+    }
 }

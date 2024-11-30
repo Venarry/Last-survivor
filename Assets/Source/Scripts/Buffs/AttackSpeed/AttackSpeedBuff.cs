@@ -1,19 +1,23 @@
 ﻿using System;
 
-public class AttackSpeedBuff : IAttackSpeedBuff
+namespace Buffs.AttackSpeed
 {
-    private float _attackCooldownMultiplier;
-    public Type Type => typeof(AttackSpeedBuff);
-    public bool CanRepeat => true;
-
-    public event Action<IBuff> ParametersChanged;
-
-    public float ApplyCooldown(float attackCooldown) =>
-        attackCooldown - (attackCooldown * _attackCooldownMultiplier);
-
-    public void SetParameters(float attackCooldownMultiplier)
+    public class AttackSpeedBuff : IAttackSpeedBuff
     {
-        _attackCooldownMultiplier = attackCooldownMultiplier;
-        ParametersChanged?.Invoke(this);
+        private float _attackCooldownMultiplier;
+
+        public event Action<IBuff> ParametersChanged;
+
+        public bool CanRepeat => true;
+        public Type Type => typeof(AttackSpeedBuff);
+
+        public float ApplyCooldown(float attackCooldown) =>
+            attackCooldown - (attackCooldown * _attackCooldownMultiplier);
+
+        public void SetParameters(float attackCooldownMultiplier)
+        {
+            _attackCooldownMultiplier = attackCooldownMultiplier;
+            ParametersChanged?.Invoke(this);
+        }
     }
 }

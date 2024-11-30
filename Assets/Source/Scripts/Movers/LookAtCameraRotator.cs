@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class LookAtCameraRotator : MonoBehaviour
+namespace Movers
 {
-    private Camera _camera;
-
-    private void Awake()
+    public class LookAtCameraRotator : MonoBehaviour
     {
-        _camera = Camera.main;
-    }
+        private Camera _camera;
 
-    private void Update()
-    {
-        transform.forward = _camera.transform.forward;
+        private void Awake()
+        {
+            _camera = Camera.main;
+        }
+
+        private void Update()
+        {
+            transform.forward = _camera.transform.forward;
+        }
     }
 }

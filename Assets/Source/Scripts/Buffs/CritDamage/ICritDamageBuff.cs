@@ -1,5 +1,8 @@
-﻿public interface ICritDamageBuff : IBuff
+﻿namespace Buffs.CritDamage
 {
-    public float DamageMultiplier { get; }
-    public bool TryGetCrit(float damage, out float buffedDamage);
+    public interface ICritDamageBuff : IBuff
+    {
+        public float DamageMultiplier { get; }
+        public bool TryGetCrit(float damage, out float buffedDamage);
+    }
 }

@@ -1,44 +1,48 @@
 using System;
+using Save;
 using UnityEngine;
 using YG;
 
-public class RemoveDataCheatCode : MonoBehaviour
+namespace YSDK
 {
-    private const string CheatCode = "deleteall";
-
-    private readonly Array _keyCodes = Enum.GetValues(typeof(KeyCode));
-    private string _currentCode = string.Empty;
-
-    private void Update()
+    public class RemoveDataCheatCode : MonoBehaviour
     {
-        if (Input.anyKeyDown == true)
+        private const string CheatCode = "deleteall";
+
+        private readonly Array _keyCodes = Enum.GetValues(typeof(KeyCode));
+        private string _currentCode = string.Empty;
+
+        private void Update()
         {
-            foreach (KeyCode keyCode in _keyCodes)
+            if (Input.anyKeyDown == true)
             {
-                if(Input.GetKeyDown(keyCode) == true)
+                foreach (KeyCode keyCode in _keyCodes)
                 {
-                    _currentCode += keyCode.ToString().ToLower();
-
-                    if(_currentCode.Length > CheatCode.Length)
+                    if (Input.GetKeyDown(keyCode) == true)
                     {
-                        _currentCode = string.Empty;
-                        return;
-                    }
+                        _currentCode += keyCode.ToString().ToLower();
 
-                    if (_currentCode[_currentCode.Length - 1] != CheatCode[_currentCode.Length - 1])
-                    {
-                        _currentCode = string.Empty;
-                    }
-
-                    if(_currentCode.Length == CheatCode.Length)
-                    {
-                        PlayerPrefs.DeleteKey(ProgressHandler.SaveName);
-                        _currentCode = string.Empty;
-
-                        if(YandexGame.SDKEnabled == true)
+                        if (_currentCode.Length > CheatCode.Length)
                         {
-                            YandexGame.ResetSaveProgress();
-                            YandexGame.SaveProgress();
+                            _currentCode = string.Empty;
+                            return;
+                        }
+
+                        if (_currentCode[_currentCode.Length - 1] != CheatCode[_currentCode.Length - 1])
+                        {
+                            _currentCode = string.Empty;
+                        }
+
+                        if (_currentCode.Length == CheatCode.Length)
+                        {
+                            PlayerPrefs.DeleteKey(ProgressHandler.SaveName);
+                            _currentCode = string.Empty;
+
+                            if (YandexGame.SDKEnabled == true)
+                            {
+                                YandexGame.ResetSaveProgress();
+                                YandexGame.SaveProgress();
+                            }
                         }
                     }
                 }

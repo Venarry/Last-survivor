@@ -1,46 +1,51 @@
-﻿using System;
+﻿using Targets.Enemy;
 
-public class EnemyAttackState : IState
+namespace StateMachine.Enemy
 {
-    private readonly EnemyBehaviour _enemyBehaviour;
-    private readonly IEnemyStateSwitcher _enemyStateSwitcher;
-
-    public EnemyAttackState(EnemyBehaviour enemyBehaviour, IEnemyStateSwitcher enemyStateSwitcher)
+    public class EnemyAttackState : IState
     {
-        _enemyBehaviour = enemyBehaviour;
-        _enemyStateSwitcher = enemyStateSwitcher;
+        private readonly EnemyBehaviour _enemyBehaviour;
+        private readonly IEnemyStateSwitcher _enemyStateSwitcher;
 
-        _enemyBehaviour.AttackEnd += OnAttackEnd;
-    }
-
-    ~EnemyAttackState() 
-    {
-        _enemyBehaviour.AttackEnd -= OnAttackEnd;
-    }
-
-    public void OnEnter()
-    {
-    }
-
-    public void OnUpdate()
-    {
-        _enemyBehaviour.RotateToTarget();
-
-        if (_enemyBehaviour.IsReadyToAttack == false)
-            return;
-
-        _enemyBehaviour.TryAttack();
-    }
-
-    public void OnExit()
-    {
-    }
-
-    private void OnAttackEnd()
-    {
-        if (_enemyBehaviour.AttackIsOutRange)
+        public EnemyAttackState(EnemyBehaviour enemyBehaviour, IEnemyStateSwitcher enemyStateSwitcher)
         {
-            _enemyStateSwitcher.SetFollowState();
+            _enemyBehaviour = enemyBehaviour;
+            _enemyStateSwitcher = enemyStateSwitcher;
+
+            _enemyBehaviour.AttackEnd += OnAttackEnd;
+        }
+
+        ~EnemyAttackState()
+        {
+            _enemyBehaviour.AttackEnd -= OnAttackEnd;
+        }
+
+        public void OnEnter()
+        {
+        }
+
+        public void OnUpdate()
+        {
+            _enemyBehaviour.RotateToTarget();
+
+            if (_enemyBehaviour.IsReadyToAttack == false)
+            {
+                return;
+            }
+
+            _enemyBehaviour.TryAttack();
+        }
+
+        public void OnExit()
+        {
+        }
+
+        private void OnAttackEnd()
+        {
+            if (_enemyBehaviour.AttackIsOutRange)
+            {
+                _enemyStateSwitcher.SetFollowState();
+            }
         }
     }
 }

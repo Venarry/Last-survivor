@@ -1,78 +1,85 @@
 ﻿using System;
+using Configs;
+using Language;
+using Player;
+using Targets;
 using UnityEngine;
 
-public class SplashSkill : SkillBehaviour
+namespace Skills.Skills
 {
-    private readonly CharacterAttackHandler _playerAttackHandler;
-    private readonly TargetsProvider<Target> _targetsProvider;
-    private readonly float _splashAngle = 90;
-    private readonly float _splashDistance = 6;
-    private readonly float _splashDamageMultiplierPerLevel = 0.1f;
-    private readonly float _baseSplashDamageMultiplier = 0.5f;
-
-    private float SplashDamageMultiplier => _baseSplashDamageMultiplier + _splashDamageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0);
-
-    public SplashSkill(
-        CharacterAttackHandler playerAttackHandler,
-        TargetsProvider<Target> targetsProvider,
-        LanguageProvider languageProvider) : base(languageProvider)
+    public class SplashSkill : SkillBehaviour
     {
-        _playerAttackHandler = playerAttackHandler;
-        _targetsProvider = targetsProvider;
-    }
+        private readonly CharacterAttackHandler _playerAttackHandler;
+        private readonly TargetsProvider<Target> _targetsProvider;
+        private readonly float _splashAngle = 90;
+        private readonly float _splashDistance = 6;
+        private readonly float _splashDamageMultiplierPerLevel = 0.1f;
+        private readonly float _baseSplashDamageMultiplier = 0.5f;
 
-    public override UpgradeType UpgradeType => UpgradeType.Splash;
-    public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
-    public override bool HasCooldown => false;
-
-    public override void Apply()
-    {
-        _playerAttackHandler.AttackEnd += OnAttack;
-    }
-
-    public override void Disable()
-    {
-        _playerAttackHandler.AttackEnd -= OnAttack;
-    }
-
-    private void OnAttack(Target target, float damage)
-    {
-        Vector3 playerPosition = _playerAttackHandler.transform.position;
-        Target[] targets = _targetsProvider.Targets;
-
-        foreach (Target currentTarget in targets)
+        public SplashSkill(
+            CharacterAttackHandler playerAttackHandler,
+            TargetsProvider<Target> targetsProvider,
+            LanguageProvider languageProvider)
+            : base(languageProvider)
         {
-            if(target == currentTarget)
-            {
-                continue;
-            }
-
-            if (Vector3.Distance(playerPosition, currentTarget.Position) > _splashDistance)
-            {
-                continue;
-            }
-
-            Vector3 targetDirection = (currentTarget.Position - playerPosition).normalized;
-
-            if (Vector3.Angle(_playerAttackHandler.transform.forward, targetDirection) <= _splashAngle / 2)
-            {
-                currentTarget.TakeDamage(damage * SplashDamageMultiplier);
-            }
-        }
-    }
-
-    public override string GetUpLevelDescription()
-    {
-        string splashAdditionalDamageText = "";
-
-        if(CurrentLevel > 0)
-        {
-            decimal damagePerLevel = Math.Round((decimal)_splashDamageMultiplierPerLevel * 100, 0);
-            splashAdditionalDamageText = $"(+{GameParameters.TextColorStart}{damagePerLevel}%{GameParameters.TextColorEnd})";
+            _playerAttackHandler = playerAttackHandler;
+            _targetsProvider = targetsProvider;
         }
 
-        return $"{LanguageProvider.SplashAngle} {_splashAngle}\n" +
-            $"{LanguageProvider.SplashDistance} {_splashDistance}\n" +
-            $"{LanguageProvider.SplashDamage} {Math.Round((decimal)SplashDamageMultiplier * 100)}% {splashAdditionalDamageText}";
+        public override UpgradeType UpgradeType => UpgradeType.Splash;
+        public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
+        public override bool HasCooldown => false;
+        private float SplashDamageMultiplier => _baseSplashDamageMultiplier + (_splashDamageMultiplierPerLevel * Mathf.Max(CurrentLevel - 1, 0));
+
+        public override void Apply()
+        {
+            _playerAttackHandler.AttackEnd += OnAttack;
+        }
+
+        public override void Disable()
+        {
+            _playerAttackHandler.AttackEnd -= OnAttack;
+        }
+
+        public override string GetUpLevelDescription()
+        {
+            string splashAdditionalDamageText = string.Empty;
+
+            if (CurrentLevel > 0)
+            {
+                decimal damagePerLevel = Math.Round((decimal)_splashDamageMultiplierPerLevel * 100, 0);
+                splashAdditionalDamageText = $"(+{GameParameters.TextColorStart}{damagePerLevel}%{GameParameters.TextColorEnd})";
+            }
+
+            return $"{LanguageProvider.SplashAngle} {_splashAngle}\n" +
+                $"{LanguageProvider.SplashDistance} {_splashDistance}\n" +
+                $"{LanguageProvider.SplashDamage} {Math.Round((decimal)SplashDamageMultiplier * 100)}% {splashAdditionalDamageText}";
+        }
+
+        private void OnAttack(Target target, float damage)
+        {
+            Vector3 playerPosition = _playerAttackHandler.transform.position;
+            Target[] targets = _targetsProvider.Targets;
+
+            foreach (Target currentTarget in targets)
+            {
+                if (target == currentTarget)
+                {
+                    continue;
+                }
+
+                if (Vector3.Distance(playerPosition, currentTarget.Position) > _splashDistance)
+                {
+                    continue;
+                }
+
+                Vector3 targetDirection = (currentTarget.Position - playerPosition).normalized;
+
+                if (Vector3.Angle(_playerAttackHandler.transform.forward, targetDirection) <= _splashAngle / 2)
+                {
+                    currentTarget.TakeDamage(damage * SplashDamageMultiplier);
+                }
+            }
+        }
     }
 }

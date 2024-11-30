@@ -1,30 +1,32 @@
 ﻿using System;
-
-public class CritDamageBuff : ICritDamageBuff
+namespace Buffs.CritDamage
 {
-    public float DamageMultiplier { get; private set; }
-    private float _chance;
-
-    public event Action<IBuff> ParametersChanged;
-
-    public Type Type => typeof(CritDamageBuff);
-    public bool CanRepeat => true;
-
-    public bool TryGetCrit(float damage, out float buffedDamage)
+    public class CritDamageBuff : ICritDamageBuff
     {
-        float roll = UnityEngine.Random.Range(0, 101);
-        bool isCrit = _chance >= roll;
+        private float _chance;
 
-        buffedDamage = isCrit ? (float)(damage * DamageMultiplier) : (float)damage;
+        public event Action<IBuff> ParametersChanged;
 
-        return isCrit;
-    }
+        public Type Type => typeof(CritDamageBuff);
+        public bool CanRepeat => true;
+        public float DamageMultiplier { get; private set; }
 
-    public void SetParameters(float critDamageMultiplier, float chance)
-    {
-        DamageMultiplier = critDamageMultiplier;
-        _chance = chance;
+        public bool TryGetCrit(float damage, out float buffedDamage)
+        {
+            float roll = UnityEngine.Random.Range(0, 101);
+            bool isCrit = _chance >= roll;
 
-        ParametersChanged?.Invoke(this);
+            buffedDamage = isCrit ? (float)(damage * DamageMultiplier) : (float)damage;
+
+            return isCrit;
+        }
+
+        public void SetParameters(float critDamageMultiplier, float chance)
+        {
+            DamageMultiplier = critDamageMultiplier;
+            _chance = chance;
+
+            ParametersChanged?.Invoke(this);
+        }
     }
 }

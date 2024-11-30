@@ -1,55 +1,65 @@
 using System.Collections;
+using Experience;
+using General;
+using Health;
+using Level;
+using Skills;
 using UnityEngine;
 
-public class CharacterParametersRefresher
+namespace Player
 {
-    private readonly LevelsStatisticModel _levelsStatisticModel;
-    private readonly ExperienceModel _experienceModel;
-    private readonly HealthModel _healthModel;
-    private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
-    private readonly WaitForSeconds _waitForExperienceDisable = new(seconds: 2);
-    private readonly CoroutineProvider _coroutineProvider;
-
-    public CharacterParametersRefresher(
-        LevelsStatisticModel levelsStatisticModel,
-        ExperienceModel experienceModel,
-        HealthModel healthModel,
-        CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
-        CoroutineProvider coroutineProvider)
+    public class CharacterParametersRefresher
     {
-        _levelsStatisticModel = levelsStatisticModel;
-        _experienceModel = experienceModel;
-        _healthModel = healthModel;
-        _characterSkillsModel = characterSkillsModel;
-        _coroutineProvider = coroutineProvider;
-    }
+        private readonly LevelsStatisticModel _levelsStatisticModel;
+        private readonly ExperienceModel _experienceModel;
+        private readonly HealthModel _healthModel;
+        private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
+        private readonly WaitForSeconds _waitForExperienceDisable = new (seconds: 2);
+        private readonly CoroutineProvider _coroutineProvider;
 
-    public void Enable()
-    {
-        _levelsStatisticModel.Changed += OnWaveAdd;
-    }
+        public CharacterParametersRefresher(
+            LevelsStatisticModel levelsStatisticModel,
+            ExperienceModel experienceModel,
+            HealthModel healthModel,
+            CharacterUpgradesModel<SkillBehaviour> characterSkillsModel,
+            CoroutineProvider coroutineProvider)
+        {
+            _levelsStatisticModel = levelsStatisticModel;
+            _experienceModel = experienceModel;
+            _healthModel = healthModel;
+            _characterSkillsModel = characterSkillsModel;
+            _coroutineProvider = coroutineProvider;
+        }
 
-    public void Disable()
-    {
-        _levelsStatisticModel.Changed -= OnWaveAdd;
-    }
+        public void Enable()
+        {
+            _levelsStatisticModel.Changed += OnWaveAdd;
+        }
 
-    private void OnWaveAdd()
-    {
-        if (_levelsStatisticModel.CurrentLevel != 0)
-            return;
+        public void Disable()
+        {
+            _levelsStatisticModel.Changed -= OnWaveAdd;
+        }
 
-        _characterSkillsModel.RemoveAll();
-        _experienceModel.Reset();
-        _healthModel.Restore();
+        private void OnWaveAdd()
+        {
+            if (_levelsStatisticModel.CurrentLevel != 0)
+            {
+                return;
+            }
 
-        _coroutineProvider.StartCoroutine(DisableExperienceBehaviour());
-    }
+            _characterSkillsModel.RemoveAll();
+            _experienceModel.Reset();
+            _healthModel.Restore();
 
-    private IEnumerator DisableExperienceBehaviour()
-    {
-        _experienceModel.DisableBehaviour();
-        yield return _waitForExperienceDisable;
-        _experienceModel.EnableBeahviour();
+            _coroutineProvider.StartCoroutine(DisableExperienceBehaviour());
+        }
+
+        private IEnumerator DisableExperienceBehaviour()
+        {
+            _experienceModel.DisableBehaviour();
+            yield return _waitForExperienceDisable;
+            _experienceModel.EnableBeahviour();
+        }
     }
 }

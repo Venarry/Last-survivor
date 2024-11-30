@@ -1,8 +1,19 @@
-﻿public class WoodLootFactory : LootFactory
-{
-    public WoodLootFactory(ILootHolder lootHolder, TargetsProvider<Loot> lootProvider, AssetsProvider assetsProvider) : base(lootHolder, lootProvider, assetsProvider)
-    {
-    }
+﻿using Assets;
+using Configs;
+using Targets;
 
-    protected override string AssetKey => AssetsKeys.WoodLoot;
+namespace ObstacleLoot
+{
+    public class WoodLootFactory : LootFactory
+    {
+        public WoodLootFactory(
+            ILootHolder lootHolder,
+            TargetsProvider<Loot> lootProvider,
+            AssetsProvider assetsProvider)
+            : base(lootHolder, lootProvider, assetsProvider)
+        {
+        }
+
+        protected override string AssetKey => AssetsKeys.WoodLoot;
+    }
 }

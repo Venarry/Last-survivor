@@ -2,19 +2,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemView : MonoBehaviour
+namespace Inventory
 {
-    [SerializeField] private Image _icon;
-    [SerializeField] private TMP_Text _countLabel;
-
-    public void Init(Sprite icon, int count = 0)
+    public class ItemView : MonoBehaviour
     {
-        _icon.sprite = icon;
-        _countLabel.text = count.ToString();
-    }
+        [SerializeField] private Image _icon;
+        [SerializeField] private TMP_Text _countLabel;
 
-    public void SetCount(int count)
-    {
-        _countLabel.text = count.ToString();
+        public void Init(Sprite icon, int count = 0)
+        {
+            _icon.sprite = icon;
+            _countLabel.text = count.ToString();
+        }
+
+        public void SetCount(int count)
+        {
+            _countLabel.text = count.ToString();
+        }
     }
 }

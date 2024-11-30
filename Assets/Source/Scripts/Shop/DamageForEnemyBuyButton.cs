@@ -1,7 +1,13 @@
-﻿public class DamageForEnemyBuyButton : BuyUpgradeButton
-{
-    public override UpgradeType UpgradeType => UpgradeType.DamageForEnemy;
+﻿using Skills;
+using Upgrades;
 
-    protected override ParametersUpgradeBehaviour CreateUpgrade() => 
-        UpgradesFactory.CreateDamageForEnemy();
+namespace Shop
+{
+    public class DamageForEnemyBuyButton : BuyUpgradeButton
+    {
+        public override UpgradeType UpgradeType => UpgradeType.DamageForEnemy;
+
+        protected override ParametersUpgradeBehaviour CreateUpgrade() =>
+            UpgradesFactory.CreateDamageForEnemy();
+    }
 }

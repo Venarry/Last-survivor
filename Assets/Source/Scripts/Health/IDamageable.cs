@@ -1,5 +1,8 @@
-public interface IDamageable
+namespace Health
 {
-    public bool IsFriendly { get; }
-    public void TakeDamage(int damage);
+    public interface IDamageable
+    {
+        public bool IsFriendly { get; }
+        public void TakeDamage(int damage);
+    }
 }

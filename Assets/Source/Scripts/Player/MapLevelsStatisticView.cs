@@ -1,19 +1,23 @@
+using Level;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MapLevelsStatisticView : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private Image _checkPointBar;
-
-    private LevelsStatisticModel _levelsStatistic;
-
-    public void Init(LevelsStatisticModel levelsStatistic)
+    public class MapLevelsStatisticView : MonoBehaviour
     {
-        _levelsStatistic = levelsStatistic;
-    }
+        [SerializeField] private Image _checkPointBar;
 
-    public void Add()
-    {
-        _levelsStatistic.Add();
+        private LevelsStatisticModel _levelsStatistic;
+
+        public void Init(LevelsStatisticModel levelsStatistic)
+        {
+            _levelsStatistic = levelsStatistic;
+        }
+
+        public void Add()
+        {
+            _levelsStatistic.Add();
+        }
     }
 }

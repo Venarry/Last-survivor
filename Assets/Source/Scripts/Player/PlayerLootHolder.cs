@@ -1,25 +1,31 @@
+using Experience;
+using Inventory;
+using ObstacleLoot;
 using UnityEngine;
 
-public class PlayerLootHolder : MonoBehaviour, ILootHolder
+namespace Player
 {
-    private InventoryModel _inventroyModel;
-    private ExperienceModel _experienceModel;
-
-    public void Init(InventoryModel inventoryModel, ExperienceModel experienceModel)
+    public class PlayerLootHolder : MonoBehaviour, ILootHolder
     {
-        _inventroyModel = inventoryModel;
-        _experienceModel = experienceModel;
-    }
+        private InventoryModel _inventroyModel;
+        private ExperienceModel _experienceModel;
 
-    public Vector3 ReceivingPosition => transform.position + Vector3.up;
+        public Vector3 ReceivingPosition => transform.position + Vector3.up;
 
-    public void Add(LootType lootType, int count)
-    {
-        _inventroyModel.Add(lootType, count);
-    }
+        public void Init(InventoryModel inventoryModel, ExperienceModel experienceModel)
+        {
+            _inventroyModel = inventoryModel;
+            _experienceModel = experienceModel;
+        }
 
-    public void Add(float experience)
-    {
-        _experienceModel.Add(experience);
+        public void Add(LootType lootType, int count)
+        {
+            _inventroyModel.Add(lootType, count);
+        }
+
+        public void Add(float experience)
+        {
+            _experienceModel.Add(experience);
+        }
     }
 }

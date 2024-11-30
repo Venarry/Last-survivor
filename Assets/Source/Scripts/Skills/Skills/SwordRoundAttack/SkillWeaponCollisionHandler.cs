@@ -1,24 +1,29 @@
+using Player;
+using Targets;
 using UnityEngine;
 
-public class SkillWeaponCollisionHandler : MonoBehaviour
+namespace Skills.Skills.SwordRoundAttack
 {
-    private CharacterAttackParameters _characterAttackParameters;
-    private float _damageMultiplier = 0.6f;
-
-    public void Init(CharacterAttackParameters characterAttackParameters, float damageMultiplier)
+    public class SkillWeaponCollisionHandler : MonoBehaviour
     {
-        _characterAttackParameters = characterAttackParameters;
-        _damageMultiplier = damageMultiplier;
-    }
+        private CharacterAttackParameters _characterAttackParameters;
+        private float _damageMultiplier = 0.6f;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.TryGetComponent(out Target target))
+        public void Init(CharacterAttackParameters characterAttackParameters, float damageMultiplier)
         {
-            if(target.IsFriendly == false)
+            _characterAttackParameters = characterAttackParameters;
+            _damageMultiplier = damageMultiplier;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out Target target))
             {
-                float damage = _characterAttackParameters.GetDamage(target.TargetType);
-                target.TakeDamage(damage * _damageMultiplier);
+                if (target.IsFriendly == false)
+                {
+                    float damage = _characterAttackParameters.GetDamage(target.TargetType);
+                    target.TakeDamage(damage * _damageMultiplier);
+                }
             }
         }
     }

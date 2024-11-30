@@ -2,33 +2,41 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour, IStateSwitcher
+namespace StateMachine
 {
-    private readonly List<IState> _states = new();
-    private IState _activeState;
-
-    public void Register(IState state)
+    public class StateMachine : MonoBehaviour, IStateSwitcher
     {
-        if (_states.Contains(state))
-            return;
+        private readonly List<IState> _states = new ();
+        private IState _activeState;
 
-        _states.Add(state);
-    }
+        public void Register(IState state)
+        {
+            if (_states.Contains(state))
+            {
+                return;
+            }
 
-    public void Switch<T>() where T : IState
-    {
-        IState state = _states.FirstOrDefault(currentState => currentState is T);
+            _states.Add(state);
+        }
 
-        if (state == null)
-            return;
+        public void Switch<T>()
+            where T : IState
+        {
+            IState state = _states.FirstOrDefault(currentState => currentState is T);
 
-        _activeState?.OnExit();
-        _activeState = state;
-        _activeState.OnEnter();
-    }
+            if (state == null)
+            {
+                return;
+            }
 
-    public void Update()
-    {
-        _activeState?.OnUpdate();
+            _activeState?.OnExit();
+            _activeState = state;
+            _activeState.OnEnter();
+        }
+
+        public void Update()
+        {
+            _activeState?.OnUpdate();
+        }
     }
 }

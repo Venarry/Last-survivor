@@ -1,59 +1,65 @@
 ﻿using System.Threading.Tasks;
+using Assets;
+using Configs;
+using DataSources;
 using UnityEngine;
 
-public class SkillsViewFactory
+namespace Skills
 {
-    private readonly SpritesDataSouce _spritesDataSouce;
-    private readonly UpgradesInformationDataSource _skillsInformationDataSource;
-    private readonly AssetsProvider _assetsProvider;
-
-    public SkillsViewFactory(
-        SpritesDataSouce skillsSpriteDataSouce,
-        UpgradesInformationDataSource skillsInformationDataSource,
-        AssetsProvider assetsProvider)
+    public class SkillsViewFactory
     {
-        _spritesDataSouce = skillsSpriteDataSouce;
-        _skillsInformationDataSource = skillsInformationDataSource;
-        _assetsProvider = assetsProvider;
-    }
+        private readonly SpritesDataSouce _spritesDataSouce;
+        private readonly UpgradesInformationDataSource _skillsInformationDataSource;
+        private readonly AssetsProvider _assetsProvider;
 
-    public async Task Load()
-    {
-        await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
-        await _assetsProvider.LoadGameObject<SkillIcon>(AssetsKeys.SkillIcon);
-    }
+        public SkillsViewFactory(
+            SpritesDataSouce skillsSpriteDataSouce,
+            UpgradesInformationDataSource skillsInformationDataSource,
+            AssetsProvider assetsProvider)
+        {
+            _spritesDataSouce = skillsSpriteDataSouce;
+            _skillsInformationDataSource = skillsInformationDataSource;
+            _assetsProvider = assetsProvider;
+        }
 
-    public async Task<SkillToChoose> CreateSkillButton(
-        Transform parent,
-        CharacterUpgradesModel<SkillBehaviour> upgradable,
-        SkillsOpener skillsOpener,
-        SkillBehaviour skill,
-        int skillLevel,
-        int maxSkillLevel,
-        string upgradeDescription)
-    {
-        SkillToChoose skillToChoosePrefab = await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
+        public async Task Load()
+        {
+            await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
+            await _assetsProvider.LoadGameObject<SkillIcon>(AssetsKeys.SkillIcon);
+        }
 
-        System.Type skillType = skill.GetType();
-        Sprite icon = _spritesDataSouce.Get(skillType);
-        string name = _skillsInformationDataSource.GetName(skillType);
-        string description = _skillsInformationDataSource.GetDescription(skillType);
+        public async Task<SkillToChoose> CreateSkillButton(
+            Transform parent,
+            CharacterUpgradesModel<SkillBehaviour> upgradable,
+            SkillsOpener skillsOpener,
+            SkillBehaviour skill,
+            int skillLevel,
+            int maxSkillLevel,
+            string upgradeDescription)
+        {
+            SkillToChoose skillToChoosePrefab = await _assetsProvider.LoadGameObject<SkillToChoose>(AssetsKeys.SkillToChoose);
 
-        SkillToChoose skillToChooseButton = Object.Instantiate(skillToChoosePrefab, parent);
-        skillToChooseButton.Init(upgradable, skillsOpener, skill);
-        skillToChooseButton.SetSkillInformation(icon, skillLevel, maxSkillLevel, name, description, upgradeDescription);
+            System.Type skillType = skill.GetType();
+            Sprite icon = _spritesDataSouce.Get(skillType);
+            string name = _skillsInformationDataSource.GetName(skillType);
+            string description = _skillsInformationDataSource.GetDescription(skillType);
 
-        return skillToChooseButton;
-    }
+            SkillToChoose skillToChooseButton = Object.Instantiate(skillToChoosePrefab, parent);
+            skillToChooseButton.Init(upgradable, skillsOpener, skill);
+            skillToChooseButton.SetSkillInformation(icon, skillLevel, maxSkillLevel, name, description, upgradeDescription);
 
-    public async Task<SkillIcon> CreateSkillIcon(System.Type skillType, Transform parent, int level)
-    {
-        SkillIcon skillIcon = Object.Instantiate(await _assetsProvider.LoadGameObject<SkillIcon>(AssetsKeys.SkillIcon), parent);
+            return skillToChooseButton;
+        }
 
-        Sprite icon = _spritesDataSouce.Get(skillType);
-        skillIcon.Set(icon);
-        skillIcon.Set(level);
+        public async Task<SkillIcon> CreateSkillIcon(System.Type skillType, Transform parent, int level)
+        {
+            SkillIcon skillIcon = Object.Instantiate(await _assetsProvider.LoadGameObject<SkillIcon>(AssetsKeys.SkillIcon), parent);
 
-        return skillIcon;
+            Sprite icon = _spritesDataSouce.Get(skillType);
+            skillIcon.Set(icon);
+            skillIcon.Set(level);
+
+            return skillIcon;
+        }
     }
 }

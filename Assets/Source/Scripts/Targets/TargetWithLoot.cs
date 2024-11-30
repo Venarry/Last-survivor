@@ -1,17 +1,23 @@
+using Health;
+using Level;
+using ObstacleLoot;
 using UnityEngine;
 
-[RequireComponent(typeof(LootDropHandler))]
-public class TargetWithLoot : Target
+namespace Targets
 {
-    private LootDropHandler _lootDropHandler;
-
-    protected override void OnAwake()
+    [RequireComponent(typeof(LootDropHandler))]
+    public class TargetWithLoot : Target
     {
-        _lootDropHandler = GetComponent<LootDropHandler>();
-    }
+        private LootDropHandler _lootDropHandler;
 
-    public void InitLootDropHandler(HealthModel healthModel, LootFactory lootFactory, LevelsStatisticModel levelsStatisticModel)
-    {
-        _lootDropHandler.Init(healthModel, lootFactory, levelsStatisticModel);
+        protected override void OnAwake()
+        {
+            _lootDropHandler = GetComponent<LootDropHandler>();
+        }
+
+        public void InitLootDropHandler(HealthModel healthModel, LootFactory lootFactory, LevelsStatisticModel levelsStatisticModel)
+        {
+            _lootDropHandler.Init(healthModel, lootFactory, levelsStatisticModel);
+        }
     }
 }

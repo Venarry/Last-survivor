@@ -1,5 +1,10 @@
-public interface IPlayerAttackStateSwitcher : IStateSwitcher
+using Targets;
+
+namespace StateMachine.Player
 {
-    public void SetTargetSearchState();
-    public void SetAttackState(Target target);
+    public interface IPlayerAttackStateSwitcher : IStateSwitcher
+    {
+        public void SetTargetSearchState();
+        public void SetAttackState(Target target);
+    }
 }

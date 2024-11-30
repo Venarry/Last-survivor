@@ -1,30 +1,35 @@
-﻿public class EnemyFollowState : IState
+﻿using Targets.Enemy;
+
+namespace StateMachine.Enemy
 {
-    private readonly EnemyBehaviour _enemyBehaviour;
-    private readonly IEnemyStateSwitcher _enemyStateSwitcher;
-
-    public EnemyFollowState(EnemyBehaviour enemyBehaviour, IEnemyStateSwitcher enemyStateSwitcher)
+    public class EnemyFollowState : IState
     {
-        _enemyBehaviour = enemyBehaviour;
-        _enemyStateSwitcher = enemyStateSwitcher;
-    }
+        private readonly EnemyBehaviour _enemyBehaviour;
+        private readonly IEnemyStateSwitcher _enemyStateSwitcher;
 
-    public void OnEnter()
-    {
-    }
-
-    public void OnUpdate()
-    {
-        _enemyBehaviour.Follow();
-
-        if (_enemyBehaviour.TargetIsReach)
+        public EnemyFollowState(EnemyBehaviour enemyBehaviour, IEnemyStateSwitcher enemyStateSwitcher)
         {
-            _enemyBehaviour.RemoveDestination();
-            _enemyStateSwitcher.SetAttackState();
+            _enemyBehaviour = enemyBehaviour;
+            _enemyStateSwitcher = enemyStateSwitcher;
         }
-    }
 
-    public void OnExit()
-    {
+        public void OnEnter()
+        {
+        }
+
+        public void OnUpdate()
+        {
+            _enemyBehaviour.Follow();
+
+            if (_enemyBehaviour.TargetIsReach)
+            {
+                _enemyBehaviour.RemoveDestination();
+                _enemyStateSwitcher.SetAttackState();
+            }
+        }
+
+        public void OnExit()
+        {
+        }
     }
 }

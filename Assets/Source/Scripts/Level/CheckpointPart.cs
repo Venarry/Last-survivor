@@ -1,31 +1,39 @@
-﻿using UnityEngine;
+﻿using DayCycle;
+using Level.EndLevel;
+using Save;
+using Shop;
+using Skills;
+using UnityEngine;
 
-public class CheckpointPart : MapPart
+namespace Level
 {
-    [SerializeField] private StartLevelTrigger _startLevelTrigger;
-    [SerializeField] private EndlLevelTrigger _endlLevelTrigger;
-    [SerializeField] private BarrierModelEnabler _barrierModelEnabler;
-
-    [field: SerializeField] public UpgradesShopTrigger UpgradesShopTrigger { get; private set; }
-    [field: SerializeField] public GameObject ShopPoint { get; private set; }
-
-    public void Init(
-        DayCycle dayCycle,
-        LevelsStatisticModel levelsStatisticModel,
-        CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        UpgradesShop upgradesShop,
-        EndLevelCongratulation endLevelReward,
-        IProgressSaveService saveService,
-        bool haveEndLevelTrigger)
+    public class CheckpointPart : MapPart
     {
-        _startLevelTrigger.Init(dayCycle, characterSkills);
-        UpgradesShopTrigger.Init(upgradesShop);
-        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, endLevelReward, saveService);
+        [SerializeField] private StartLevelTrigger _startLevelTrigger;
+        [SerializeField] private EndlLevelTrigger _endlLevelTrigger;
+        [SerializeField] private BarrierModelEnabler _barrierModelEnabler;
 
-        if (haveEndLevelTrigger == false)
+        [field: SerializeField] public UpgradesShopTrigger UpgradesShopTrigger { get; private set; }
+        [field: SerializeField] public GameObject ShopPoint { get; private set; }
+
+        public void Init(
+            DayCycleView dayCycle,
+            LevelsStatisticModel levelsStatisticModel,
+            CharacterUpgradesModel<SkillBehaviour> characterSkills,
+            UpgradesShop upgradesShop,
+            EndLevelCongratulation endLevelReward,
+            IProgressSaveService saveService,
+            bool haveEndLevelTrigger)
         {
-            _endlLevelTrigger.gameObject.SetActive(false);
-            _barrierModelEnabler.gameObject.SetActive(false);
+            _startLevelTrigger.Init(dayCycle, characterSkills);
+            UpgradesShopTrigger.Init(upgradesShop);
+            _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, endLevelReward, saveService);
+
+            if (haveEndLevelTrigger == false)
+            {
+                _endlLevelTrigger.gameObject.SetActive(false);
+                _barrierModelEnabler.gameObject.SetActive(false);
+            }
         }
     }
 }

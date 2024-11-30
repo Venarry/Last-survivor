@@ -1,36 +1,42 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ObstacleLoot;
+using Skills;
 
-public class PricesDataSource
+namespace DataSources
 {
-    private readonly Dictionary<UpgradeType, Dictionary<LootType, int>> _baseUpgradesPrice = new()
+    public class PricesDataSource
     {
-        [UpgradeType.DamageForEnemy] = new()
+        private readonly Dictionary<UpgradeType, Dictionary<LootType, int>> _baseUpgradesPrice = new ()
         {
-            [LootType.Wood] = 15,
-        },
+            [UpgradeType.DamageForEnemy] = new ()
+            {
+                [LootType.Wood] = 15,
+            },
 
-        [UpgradeType.DamageForWood] = new()
-        {
-            [LootType.Wood] = 30,
-        },
+            [UpgradeType.DamageForWood] = new ()
+            {
+                [LootType.Wood] = 30,
+            },
 
-        [UpgradeType.DamageForOre] = new()
-        {
-            [LootType.Diamond] = 4,
-            [LootType.Wood] = 15,
-        },
+            [UpgradeType.DamageForOre] = new ()
+            {
+                [LootType.Diamond] = 4,
+                [LootType.Wood] = 15,
+            },
 
-        [UpgradeType.DayIncrease] = new()
-        {
-            [LootType.Prestige] = 2,
-        },
+            [UpgradeType.DayIncrease] = new ()
+            {
+                [LootType.Prestige] = 2,
+            },
 
-        [UpgradeType.ExperienceMultiplier] = new()
-        {
-            [LootType.Prestige] = 2,
-        },
-    };
+            [UpgradeType.ExperienceMultiplier] = new ()
+            {
+                [LootType.Prestige] = 2,
+            },
+        };
 
-    public Dictionary<LootType, int> Get(UpgradeType upgradeType) => _baseUpgradesPrice[upgradeType].ToDictionary(x => x.Key, x => x.Value);
+        public Dictionary<LootType, int> Get(UpgradeType upgradeType) =>
+            _baseUpgradesPrice[upgradeType].ToDictionary(x => x.Key, x => x.Value);
+    }
 }

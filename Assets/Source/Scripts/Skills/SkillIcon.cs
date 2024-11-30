@@ -2,18 +2,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillIcon : MonoBehaviour
+namespace Skills
 {
-    [SerializeField] private Image _icon;
-    [SerializeField] private TMP_Text _level;
-
-    public void Set(Sprite sprite)
+    public class SkillIcon : MonoBehaviour
     {
-        _icon.sprite = sprite;
-    }
+        [SerializeField] private Image _icon;
+        [SerializeField] private TMP_Text _level;
 
-    public void Set(int level)
-    {
-        _level.text = level.ToString();
+        public void Set(Sprite sprite)
+        {
+            _icon.sprite = sprite;
+        }
+
+        public void Set(int level)
+        {
+            _level.text = level.ToString();
+        }
     }
 }

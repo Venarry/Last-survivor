@@ -1,5 +1,10 @@
-﻿public interface IDamageBuff : IBuff
+﻿using Targets;
+
+namespace Buffs.Damage
 {
-    public TargetType TargetType { get; }
-    public float ApplyDamage(float damage);
+    public interface IDamageBuff : IBuff
+    {
+        public TargetType TargetType { get; }
+        public float ApplyDamage(float damage);
+    }
 }

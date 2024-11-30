@@ -1,56 +1,60 @@
+using General;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
 
-public class EndLevelCongratulation : MonoBehaviour
+namespace Level.EndLevel
 {
-    private const float ShowDelay = 0.7f;
-
-    [SerializeField] private GameObject _menu;
-    [SerializeField] private Button _okButton;
-
-    private readonly WaitForSeconds _waitForSeconds = new(ShowDelay);
-
-    private string TimeKeyName => nameof(EndLevelCongratulation);
-
-    private void Awake()
+    public class EndLevelCongratulation : MonoBehaviour
     {
-        _menu.SetActive(false);
-    }
+        private const float ShowDelay = 0.7f;
 
-    private void OnEnable()
-    {
-        _okButton.onClick.AddListener(ShowReward);
-    }
+        private readonly WaitForSeconds _waitForSeconds = new (ShowDelay);
 
-    private void OnDisable()
-    {
-        _okButton.onClick.RemoveListener(ShowReward);
-    }
+        [SerializeField] private GameObject _menu;
+        [SerializeField] private Button _okButton;
 
-    public void ShowMenu()
-    {
-        StartCoroutine(ShowDelayedMenu());
-    }
+        private string TimeKeyName => nameof(EndLevelCongratulation);
 
-    private IEnumerator ShowDelayedMenu()
-    {
-        yield return _waitForSeconds;
-
-        _menu.SetActive(true);
-        GameTimeScaler.Add(TimeKeyName, timeScale: 0);
-    }
-
-    private void ShowReward()
-    {
-        _menu.SetActive(false);
-
-        GameTimeScaler.Remove(TimeKeyName);
-
-        if (YandexGame.SDKEnabled == true)
+        private void Awake()
         {
-            YandexGame.FullscreenShow();
+            _menu.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            _okButton.onClick.AddListener(ShowReward);
+        }
+
+        private void OnDisable()
+        {
+            _okButton.onClick.RemoveListener(ShowReward);
+        }
+
+        public void ShowMenu()
+        {
+            StartCoroutine(ShowDelayedMenu());
+        }
+
+        private IEnumerator ShowDelayedMenu()
+        {
+            yield return _waitForSeconds;
+
+            _menu.SetActive(true);
+            GameTimeScaler.Add(TimeKeyName, timeScale: 0);
+        }
+
+        private void ShowReward()
+        {
+            _menu.SetActive(false);
+
+            GameTimeScaler.Remove(TimeKeyName);
+
+            if (YandexGame.SDKEnabled == true)
+            {
+                YandexGame.FullscreenShow();
+            }
         }
     }
 }

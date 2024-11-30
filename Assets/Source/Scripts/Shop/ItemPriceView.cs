@@ -2,18 +2,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemPriceView : MonoBehaviour
+namespace Shop
 {
-    [SerializeField] private Image _icon;
-    [SerializeField] private TMP_Text _price;
-
-    public void SetIcon(Sprite sprite)
+    public class ItemPriceView : MonoBehaviour
     {
-        _icon.sprite = sprite;
-    }
+        [SerializeField] private Image _icon;
+        [SerializeField] private TMP_Text _price;
 
-    public void SetPrice(int price)
-    {
-        _price.text = price.ToString();
+        public void SetIcon(Sprite sprite)
+        {
+            _icon.sprite = sprite;
+        }
+
+        public void SetPrice(int price)
+        {
+            _price.text = price.ToString();
+        }
     }
 }

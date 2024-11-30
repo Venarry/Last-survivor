@@ -1,80 +1,84 @@
 ﻿using System;
 using System.Collections;
+using ObjectPool;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
+namespace ObstacleLoot
 {
-    private const float MoveToPlayerDelay = 1.5f;
-
-    private readonly WaitForSeconds _waitForPickUp = new(MoveToPlayerDelay);
-    private Rigidbody _rigidbody;
-    private int _reward;
-    private float _experienceReward;
-    private ILootHolder _lootHolder;
-
-    public abstract LootType LootType { get; }
-
-    public event Action<Loot> LifeCycleEnded;
-
-    private void Awake()
+    [RequireComponent(typeof(Rigidbody))]
+    public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
     {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
+        private const float MoveToPlayerDelay = 1.5f;
 
-    public void Init(int reward, float experience, ILootHolder lootHolder)
-    {
-        _reward = reward;
-        _experienceReward = experience;
-        _lootHolder = lootHolder;
-    }
+        private readonly WaitForSeconds _waitForPickUp = new (MoveToPlayerDelay);
+        private Rigidbody _rigidbody;
+        private int _reward;
+        private float _experienceReward;
+        private ILootHolder _lootHolder;
 
-    public void GoToPlayer()
-    {
-        StartCoroutine(MovingToPlayer());
-    }
+        public event Action<Loot> LifeCycleEnded;
 
-    public void AddForce(Vector3 forceDirection, float forceStrength)
-    {
-        _rigidbody.AddForce(forceDirection * forceStrength);
-    }
+        public abstract LootType LootType { get; }
 
-    private IEnumerator MovingToPlayer()
-    {
-        yield return _waitForPickUp;
-
-        _rigidbody.useGravity = false;
-        float pickupDistance = 1f;
-        float deltaDistance = 50f;
-
-        while(Vector3.Distance(_lootHolder.ReceivingPosition, transform.position) > pickupDistance)
+        private void Awake()
         {
-            transform.position = Vector3
-                .MoveTowards(transform.position, _lootHolder.ReceivingPosition, deltaDistance * Time.deltaTime);
-            yield return null;
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
-        _lootHolder.Add(LootType, _reward);
-        _lootHolder.Add(_experienceReward);
+        public void Init(int reward, float experience, ILootHolder lootHolder)
+        {
+            _reward = reward;
+            _experienceReward = experience;
+            _lootHolder = lootHolder;
+        }
 
-        LifeCycleEnded?.Invoke(this);
-    }
+        public void GoToPlayer()
+        {
+            StartCoroutine(MovingToPlayer());
+        }
 
-    public void PlaceInPool()
-    {
-        LifeCycleEnded?.Invoke(this);
-    }
+        public void AddForce(Vector3 forceDirection, float forceStrength)
+        {
+            _rigidbody.AddForce(forceDirection * forceStrength);
+        }
 
-    public void Respawn(Vector3 spawnPosition, Quaternion rotation)
-    {
-        transform.position = spawnPosition;
-        transform.rotation = rotation;
-    }
+        public void PlaceInPool()
+        {
+            LifeCycleEnded?.Invoke(this);
+        }
 
-    public void ResetSettings(int reward, float experienceReward)
-    {
-        _rigidbody.useGravity = true;
-        _reward = reward;
-        _experienceReward = experienceReward;
+        public void Respawn(Vector3 spawnPosition, Quaternion rotation)
+        {
+            transform.position = spawnPosition;
+            transform.rotation = rotation;
+        }
+
+        public void ResetSettings(int reward, float experienceReward)
+        {
+            _rigidbody.useGravity = true;
+            _reward = reward;
+            _experienceReward = experienceReward;
+        }
+
+        private IEnumerator MovingToPlayer()
+        {
+            yield return _waitForPickUp;
+
+            _rigidbody.useGravity = false;
+            float pickupDistance = 1f;
+            float deltaDistance = 50f;
+
+            while (Vector3.Distance(_lootHolder.ReceivingPosition, transform.position) > pickupDistance)
+            {
+                transform.position = Vector3
+                    .MoveTowards(transform.position, _lootHolder.ReceivingPosition, deltaDistance * Time.deltaTime);
+                yield return null;
+            }
+
+            _lootHolder.Add(LootType, _reward);
+            _lootHolder.Add(_experienceReward);
+
+            LifeCycleEnded?.Invoke(this);
+        }
     }
 }

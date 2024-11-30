@@ -1,47 +1,54 @@
 ﻿using System.Threading.Tasks;
+using Assets;
+using Configs;
+using DataSources;
+using ObstacleLoot;
 using UnityEngine;
 
-public class ItemViewFactory
+namespace Inventory
 {
-    private readonly AssetsProvider _assetsProvider;
-    private readonly SpritesDataSouce _spritesDataSouce;
-
-    public ItemViewFactory(AssetsProvider assetsProvider, SpritesDataSouce spritesDataSouce)
+    public class ItemViewFactory
     {
-        _assetsProvider = assetsProvider;
-        _spritesDataSouce = spritesDataSouce;
-    }
+        private readonly AssetsProvider _assetsProvider;
+        private readonly SpritesDataSouce _spritesDataSouce;
 
-    public async Task Load()
-    {
-        await _assetsProvider.LoadGameObject<ItemView>(AssetsKeys.ItemView);
-    }
+        public ItemViewFactory(AssetsProvider assetsProvider, SpritesDataSouce spritesDataSouce)
+        {
+            _assetsProvider = assetsProvider;
+            _spritesDataSouce = spritesDataSouce;
+        }
 
-    public async Task<ItemView> Create(LootType lootType, Transform parent)
-    {
-        ItemView itemView = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemView>(AssetsKeys.ItemView), parent);
+        public async Task Load()
+        {
+            await _assetsProvider.LoadGameObject<ItemView>(AssetsKeys.ItemView);
+        }
 
-        Sprite icon = _spritesDataSouce.Get(lootType);
-        itemView.Init(icon);
+        public async Task<ItemView> Create(LootType lootType, Transform parent)
+        {
+            ItemView itemView = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemView>(AssetsKeys.ItemView), parent);
 
-        return itemView;
-    }
+            Sprite icon = _spritesDataSouce.Get(lootType);
+            itemView.Init(icon);
 
-    public async Task<ItemView> CreateMainWindowItem(Sprite icon, Transform parent)
-    {
-        return await Create(icon, parent, AssetsKeys.ItemView);
-    }
+            return itemView;
+        }
 
-    public async Task<ItemView> CreateShopWindowItem(Sprite icon, Transform parent)
-    {
-        return await Create(icon, parent, AssetsKeys.ShopItemView);
-    }
+        public async Task<ItemView> CreateMainWindowItem(Sprite icon, Transform parent)
+        {
+            return await Create(icon, parent, AssetsKeys.ItemView);
+        }
 
-    private async Task<ItemView> Create(Sprite icon, Transform parent, string key)
-    {
-        ItemView itemView = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemView>(key), parent);
-        itemView.Init(icon);
+        public async Task<ItemView> CreateShopWindowItem(Sprite icon, Transform parent)
+        {
+            return await Create(icon, parent, AssetsKeys.ShopItemView);
+        }
 
-        return itemView;
+        private async Task<ItemView> Create(Sprite icon, Transform parent, string key)
+        {
+            ItemView itemView = Object.Instantiate(await _assetsProvider.LoadGameObject<ItemView>(key), parent);
+            itemView.Init(icon);
+
+            return itemView;
+        }
     }
 }

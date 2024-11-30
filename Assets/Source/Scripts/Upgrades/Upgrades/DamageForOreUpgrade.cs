@@ -1,13 +1,22 @@
-﻿public class DamageForOreUpgrade : DamageUpgrade
+﻿using Buffs;
+using Buffs.Damage;
+using Language;
+using Skills;
+
+namespace Upgrades.Upgrades
 {
-    private readonly DamageForOreBuff _buff = new();
-
-    public DamageForOreUpgrade(
-        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(characterBuffsModel, languageProvider)
+    public class DamageForOreUpgrade : DamageUpgrade
     {
-    }
+        private readonly DamageForOreBuff _buff = new ();
 
-    public override UpgradeType UpgradeType => UpgradeType.DamageForOre;
-    protected override DamageBuff DamageBuff => _buff;
-    protected override string TargetName => LanguageProvider.TargetNameOre;
+        public DamageForOreUpgrade(
+            CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider)
+            : base(characterBuffsModel, languageProvider)
+        {
+        }
+
+        public override UpgradeType UpgradeType => UpgradeType.DamageForOre;
+        protected override DamageBuff DamageBuff => _buff;
+        protected override string TargetName => LanguageProvider.TargetNameOre;
+    }
 }

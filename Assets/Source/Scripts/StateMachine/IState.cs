@@ -1,6 +1,9 @@
-public interface IState
+namespace StateMachine
 {
-    public void OnEnter();
-    public void OnUpdate();
-    public void OnExit();
+    public interface IState
+    {
+        public void OnEnter();
+        public void OnUpdate();
+        public void OnExit();
+    }
 }

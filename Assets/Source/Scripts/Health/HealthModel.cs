@@ -1,141 +1,144 @@
+using Buffs;
+using Buffs.Health;
 using System;
-using UnityEngine;
 
-public class HealthModel
+namespace Health
 {
-    private CharacterBuffsModel _characterBuffsModel;
-    private float _baseMaxValue;
-
-    public HealthModel(CharacterBuffsModel characterBuffsModel, float maxValue)
+    public class HealthModel
     {
-        Init(characterBuffsModel, maxValue, maxValue);
-    }
+        private CharacterBuffsModel _characterBuffsModel;
+        private float _baseMaxValue;
 
-    public HealthModel(CharacterBuffsModel characterBuffsModel, float maxValue, float value)
-    {
-        Init(characterBuffsModel, maxValue, value);
-    }
-
-    ~HealthModel()
-    {
-        _characterBuffsModel.Changed -= OnBuffChange;
-    }
-
-    private void Init(CharacterBuffsModel characterBuffsModel, float maxValue, float value)
-    {
-        _characterBuffsModel = characterBuffsModel;
-        _baseMaxValue = maxValue;
-        MaxValue = maxValue;
-        Value = value;
-
-        _characterBuffsModel.Changed += OnBuffChange;
-    }
-
-    public float Value { get; private set; }
-    public float MaxValue { get; private set; }
-    public float BaseMaxValue => _baseMaxValue;
-    public float HealthNormalized => (float)Value / MaxValue;
-
-    public event Action Changed;
-    public event Action DamageReceived;
-    public event Action HealthOver;
-
-    public void Restore()
-    {
-        Value = MaxValue;
-        Changed?.Invoke();
-    }
-
-    public void SetMaxHealth(float value)
-    {
-        if (value < 1)
-            value = 1;
-
-        _baseMaxValue = value;
-        ApplyMaxHealthBuffs();
-    }
-
-    public void TakeDamage(float value)
-    {
-        if (Value <= 0)
-            return;
-
-        if (value < 0)
-            value = 0;
-
-        Value -= value;
-        Changed?.Invoke();
-        DamageReceived?.Invoke();
-
-        if (Value <= 0)
+        public HealthModel(CharacterBuffsModel characterBuffsModel, float maxValue)
         {
-            Value = 0;
-            HealthOver?.Invoke();
-        }
-    }
-
-    public void Add(float value)
-    {
-        if(value < 0)
-            value = 0;
-
-        Value += value;
-
-        if(Value > MaxValue)
-            Value = MaxValue;
-
-        Changed?.Invoke();
-    }
-
-    public void SetNormalizedHealth(float multiplier)
-    {
-        Value = MaxValue * multiplier;
-
-        Changed?.Invoke();
-    }
-
-    private void ApplyMaxHealthBuffs()
-    {
-        float healthMultiplier = HealthNormalized;
-        MaxValue = _baseMaxValue;
-        Value = MaxValue * healthMultiplier;
-
-        IMaxHealthBuff[] buffs = _characterBuffsModel.GetBuffs<IMaxHealthBuff>();
-
-        if (buffs.Length == 0)
-            return;
-
-        foreach (IMaxHealthBuff buff in buffs)
-        {
-            float bufferHealth = MaxValue;
-            MaxValue = buff.Apply(MaxValue);
-            //float maxHealthMultiplier = MaxValue / bufferHealth;
-            float deltaMaxHealth = MaxValue - bufferHealth;
-            float deltaMaxHealthWithMultiplier = deltaMaxHealth * healthMultiplier;
-
-            Value += deltaMaxHealthWithMultiplier;
-
-            healthMultiplier = HealthNormalized;
+            Init(characterBuffsModel, maxValue, maxValue);
         }
 
-        if(Value > MaxValue)
+        public HealthModel(CharacterBuffsModel characterBuffsModel, float maxValue, float value)
+        {
+            Init(characterBuffsModel, maxValue, value);
+        }
+
+        ~HealthModel()
+        {
+            _characterBuffsModel.Changed -= OnBuffChange;
+        }
+
+        public event Action Changed;
+        public event Action DamageReceived;
+        public event Action HealthOver;
+
+        public float Value { get; private set; }
+        public float MaxValue { get; private set; }
+        public float BaseMaxValue => _baseMaxValue;
+        public float HealthNormalized => (float)Value / MaxValue;
+
+        public void Restore()
         {
             Value = MaxValue;
+            Changed?.Invoke();
         }
 
-        if(Value < 1)
+        public void SetMaxHealth(float value)
         {
-            Value = 1;
-        }
+            if (value < 1)
+                value = 1;
 
-        Changed?.Invoke();
-    }
-
-    private void OnBuffChange(IBuff buff)
-    {
-        if (buff is IMaxHealthBuff)
-        {
+            _baseMaxValue = value;
             ApplyMaxHealthBuffs();
+        }
+
+        public void TakeDamage(float value)
+        {
+            if (Value <= 0)
+                return;
+
+            if (value < 0)
+                value = 0;
+
+            Value -= value;
+            Changed?.Invoke();
+            DamageReceived?.Invoke();
+
+            if (Value <= 0)
+            {
+                Value = 0;
+                HealthOver?.Invoke();
+            }
+        }
+
+        public void Add(float value)
+        {
+            if (value < 0)
+                value = 0;
+
+            Value += value;
+
+            if (Value > MaxValue)
+                Value = MaxValue;
+
+            Changed?.Invoke();
+        }
+
+        public void SetNormalizedHealth(float multiplier)
+        {
+            Value = MaxValue * multiplier;
+
+            Changed?.Invoke();
+        }
+
+        private void Init(CharacterBuffsModel characterBuffsModel, float maxValue, float value)
+        {
+            _characterBuffsModel = characterBuffsModel;
+            _baseMaxValue = maxValue;
+            MaxValue = maxValue;
+            Value = value;
+
+            _characterBuffsModel.Changed += OnBuffChange;
+        }
+
+        private void ApplyMaxHealthBuffs()
+        {
+            float healthMultiplier = HealthNormalized;
+            MaxValue = _baseMaxValue;
+            Value = MaxValue * healthMultiplier;
+
+            IMaxHealthBuff[] buffs = _characterBuffsModel.GetBuffs<IMaxHealthBuff>();
+
+            if (buffs.Length == 0)
+                return;
+
+            foreach (IMaxHealthBuff buff in buffs)
+            {
+                float bufferHealth = MaxValue;
+                MaxValue = buff.Apply(MaxValue);
+                float deltaMaxHealth = MaxValue - bufferHealth;
+                float deltaMaxHealthWithMultiplier = deltaMaxHealth * healthMultiplier;
+
+                Value += deltaMaxHealthWithMultiplier;
+
+                healthMultiplier = HealthNormalized;
+            }
+
+            if (Value > MaxValue)
+            {
+                Value = MaxValue;
+            }
+
+            if (Value < 1)
+            {
+                Value = 1;
+            }
+
+            Changed?.Invoke();
+        }
+
+        private void OnBuffChange(IBuff buff)
+        {
+            if (buff is IMaxHealthBuff)
+            {
+                ApplyMaxHealthBuffs();
+            }
         }
     }
 }

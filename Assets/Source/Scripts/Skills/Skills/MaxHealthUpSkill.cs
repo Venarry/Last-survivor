@@ -1,47 +1,53 @@
 ﻿using System.Collections.Generic;
+using Buffs;
+using Buffs.Health;
+using Language;
 
-public class MaxHealthUpSkill : SkillBehaviour
+namespace Skills.Skills
 {
-    private readonly CharacterBuffsModel _characterBuffsModel;
-    private readonly MaxHealthUpBuff _maxHealthUpBuff = new();
-    private readonly List<float> _healthPerLevel = new() { 25, 50, 80, 120, 160, 250 };
-    private float _health;
-
-    public override int MaxLevel => _healthPerLevel.Count;
-
-    public MaxHealthUpSkill(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(languageProvider)
+    public class MaxHealthUpSkill : SkillBehaviour
     {
-        _characterBuffsModel = characterBuffsModel;
-    }
+        private readonly CharacterBuffsModel _characterBuffsModel;
+        private readonly MaxHealthUpBuff _maxHealthUpBuff = new ();
+        private readonly List<float> _healthPerLevel = new () { 25, 50, 80, 120, 160, 250 };
+        private float _health;
 
-    public override UpgradeType UpgradeType => UpgradeType.MaxHealthUp;
-    public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
-    public override bool HasCooldown => false;
+        public MaxHealthUpSkill(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider)
+            : base(languageProvider)
+        {
+            _characterBuffsModel = characterBuffsModel;
+        }
 
-    public override void Apply()
-    {
-        _characterBuffsModel.Add(_maxHealthUpBuff);
-        OnLevelChange();
-    }
+        public override int MaxLevel => _healthPerLevel.Count;
+        public override UpgradeType UpgradeType => UpgradeType.MaxHealthUp;
+        public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
+        public override bool HasCooldown => false;
 
-    protected override void OnLevelChange()
-    {
-        if (CurrentLevel == 0)
-            return;
+        public override void Apply()
+        {
+            _characterBuffsModel.Add(_maxHealthUpBuff);
+            OnLevelChange();
+        }
 
-        _health = _healthPerLevel[CurrentLevel - 1];
-        _maxHealthUpBuff.SetParameters(_health);
+        public override void Disable()
+        {
+            _characterBuffsModel.Remove(_maxHealthUpBuff);
+        }
 
-        //_healthModel.TakeDamage(_health * _healthModel.HealthNormalized);
-    }
+        public override string GetUpLevelDescription()
+        {
+            return $"{LanguageProvider.IncreaseMaxHealth}:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray())}";
+        }
 
-    public override void Disable()
-    {
-        _characterBuffsModel.Remove(_maxHealthUpBuff);
-    }
+        protected override void OnLevelChange()
+        {
+            if (CurrentLevel == 0)
+            {
+                return;
+            }
 
-    public override string GetUpLevelDescription()
-    {
-        return $"{LanguageProvider.IncreaseMaxHealth}:\n{GetAllLevelsUpgradesText(_healthPerLevel.ToArray()) }";
+            _health = _healthPerLevel[CurrentLevel - 1];
+            _maxHealthUpBuff.SetParameters(_health);
+        }
     }
 }

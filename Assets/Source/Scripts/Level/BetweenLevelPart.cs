@@ -1,26 +1,33 @@
-﻿using UnityEngine;
+﻿using DayCycle;
+using Level.EndLevel;
+using Save;
+using Skills;
+using UnityEngine;
 
-public class BetweenLevelPart : MapPart
+namespace Level
 {
-    [SerializeField] private StartLevelTrigger _startLevelTrigger;
-    [SerializeField] private EndlLevelTrigger _endlLevelTrigger;
-    [SerializeField] private BarrierModelEnabler _barrierModelEnabler;
-
-    public void Init(
-        DayCycle dayCycle,
-        LevelsStatisticModel levelsStatisticModel,
-        CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        EndLevelCongratulation endLevelReward,
-        IProgressSaveService saveService,
-        bool haveEndLevelTrigger)
+    public class BetweenLevelPart : MapPart
     {
-        _startLevelTrigger.Init(dayCycle, characterSkills);
-        _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, endLevelReward, saveService);
+        [SerializeField] private StartLevelTrigger _startLevelTrigger;
+        [SerializeField] private EndlLevelTrigger _endlLevelTrigger;
+        [SerializeField] private BarrierModelEnabler _barrierModelEnabler;
 
-        if (haveEndLevelTrigger == false)
+        public void Init(
+            DayCycleView dayCycle,
+            LevelsStatisticModel levelsStatisticModel,
+            CharacterUpgradesModel<SkillBehaviour> characterSkills,
+            EndLevelCongratulation endLevelReward,
+            IProgressSaveService saveService,
+            bool haveEndLevelTrigger)
         {
-            _endlLevelTrigger.gameObject.SetActive(false);
-            _barrierModelEnabler.gameObject.SetActive(false);
+            _startLevelTrigger.Init(dayCycle, characterSkills);
+            _endlLevelTrigger.Init(dayCycle, levelsStatisticModel, characterSkills, endLevelReward, saveService);
+
+            if (haveEndLevelTrigger == false)
+            {
+                _endlLevelTrigger.gameObject.SetActive(false);
+                _barrierModelEnabler.gameObject.SetActive(false);
+            }
         }
     }
 }

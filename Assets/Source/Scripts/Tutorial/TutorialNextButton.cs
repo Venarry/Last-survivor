@@ -2,30 +2,33 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class TutorialNextButton : MonoBehaviour, ITutorialAction
+namespace GameTutorial
 {
-    private Button _button;
-
-    public event Action<ITutorialAction> Happened;
-
-    private void Awake()
+    [RequireComponent(typeof(Button))]
+    public class TutorialNextButton : MonoBehaviour, ITutorialAction
     {
-        _button = GetComponent<Button>();
-    }
+        private Button _button;
 
-    private void OnEnable()
-    {
-        _button.onClick.AddListener(OnClick); 
-    }
+        public event Action<ITutorialAction> Happened;
 
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(OnClick);
-    }
+        private void Awake()
+        {
+            _button = GetComponent<Button>();
+        }
 
-    private void OnClick()
-    {
-        Happened?.Invoke(this);
+        private void OnEnable()
+        {
+            _button.onClick.AddListener(OnClick);
+        }
+
+        private void OnDisable()
+        {
+            _button.onClick.RemoveListener(OnClick);
+        }
+
+        private void OnClick()
+        {
+            Happened?.Invoke(this);
+        }
     }
 }

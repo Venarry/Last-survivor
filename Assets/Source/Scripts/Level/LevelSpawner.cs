@@ -1,204 +1,207 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using TMPro;
+using Configs;
+using ObstacleLoot;
+using Targets;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class LevelSpawner : MonoBehaviour
+namespace Level
 {
-    private WoodFactory _woodFactory;
-    private DiamondFactory _diamondFactory;
-    private StoneFactory _stoneFactory;
-    private MapPartsFactory _mapPartsFactory;
-    private LevelResourcesSpawnChance _levelResourcesSpawnChance;
-    private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new();
-
-    private Vector3 _startResourcesOffseSpawnPoint = new(-20, 0, 10);
-    private Vector3 _endResourcesOffseSpawnPoint = new(20, 0, 50);
-
-    public void Init(
-        WoodFactory woodFactory,
-        DiamondFactory diamondFactory,
-        StoneFactory stoneFactory,
-        MapPartsFactory mapPartsFactory,
-        LevelResourcesSpawnChance levelResourcesSpawnChance)
+    public class LevelSpawner : MonoBehaviour
     {
-        _woodFactory = woodFactory;
-        _diamondFactory = diamondFactory;
-        _stoneFactory = stoneFactory;
-        _mapPartsFactory = mapPartsFactory;
-        _levelResourcesSpawnChance = levelResourcesSpawnChance;
-    }
+        private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new ();
+        private WoodFactory _woodFactory;
+        private DiamondFactory _diamondFactory;
+        private StoneFactory _stoneFactory;
+        private MapPartsFactory _mapPartsFactory;
+        private LevelResourcesSpawnChance _levelResourcesSpawnChance;
 
-    public async Task<MapPart> Spawn(Vector3 position, int currentLevel, int totalLevel)
-    {
-        MapPart map = await _mapPartsFactory.CreateLevelZone(position);
+        private Vector3 _startResourcesOffseSpawnPoint = new (-20, 0, 10);
+        private Vector3 _endResourcesOffseSpawnPoint = new (20, 0, 50);
 
-        List<Vector3> spawnPoints = new();
-
-        float mapSizeX = _endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x;
-        float mapSizeZ = _endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z;
-
-        int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 7); //8
-        //int baseSpawnCount = 4;
-
-        if (_targetsOnMap.Count != 0)
+        public void Init(
+            WoodFactory woodFactory,
+            DiamondFactory diamondFactory,
+            StoneFactory stoneFactory,
+            MapPartsFactory mapPartsFactory,
+            LevelResourcesSpawnChance levelResourcesSpawnChance)
         {
-            int spawnCountByLevel = 7; 
-            baseSpawnCount += currentLevel * spawnCountByLevel;
+            _woodFactory = woodFactory;
+            _diamondFactory = diamondFactory;
+            _stoneFactory = stoneFactory;
+            _mapPartsFactory = mapPartsFactory;
+            _levelResourcesSpawnChance = levelResourcesSpawnChance;
         }
 
-        int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(baseSpawnCount));
-        int colsCount = (int)Mathf.Floor(baseSpawnCount / rowsCount);
-
-        float cellOfssetX = mapSizeX / (colsCount - 1); // благодаря -1 мы получаем расчет для спавна на один элемент меньше, а потом в цикле в 0 координате доспавливаем этот элемент
-        float cellOfssetZ = mapSizeZ / (rowsCount - 1); // потому что в противном случае или первый или последний стобец\строка отстутствуют
-
-        for (int i = 0; i < rowsCount; i++)
+        public async Task<MapPart> Spawn(Vector3 position, int currentLevel, int totalLevel)
         {
-            for (int j = 0; j < colsCount; j++)
+            MapPart map = await _mapPartsFactory.CreateLevelZone(position);
+
+            List<Vector3> spawnPoints = new ();
+
+            float mapSizeX = _endResourcesOffseSpawnPoint.x - _startResourcesOffseSpawnPoint.x;
+            float mapSizeZ = _endResourcesOffseSpawnPoint.z - _startResourcesOffseSpawnPoint.z;
+
+            int baseSpawnCount = (int)Mathf.Floor(mapSizeX * mapSizeZ / 7);
+
+            if (_targetsOnMap.Count != 0)
             {
-                spawnPoints.Add(new Vector3(
-                    j * cellOfssetX,
-                    0,
-                    i * cellOfssetZ) + _startResourcesOffseSpawnPoint);
+                int spawnCountByLevel = 7;
+                baseSpawnCount += currentLevel * spawnCountByLevel;
             }
+
+            int rowsCount = (int)Mathf.Floor(Mathf.Sqrt(baseSpawnCount));
+            int colsCount = (int)Mathf.Floor(baseSpawnCount / rowsCount);
+
+            float cellOfssetX = mapSizeX / (colsCount - 1);
+            float cellOfssetZ = mapSizeZ / (rowsCount - 1);
+
+            for (int i = 0; i < rowsCount; i++)
+            {
+                for (int j = 0; j < colsCount; j++)
+                {
+                    spawnPoints.Add(new Vector3(
+                        j * cellOfssetX,
+                        0,
+                        i * cellOfssetZ) + _startResourcesOffseSpawnPoint);
+                }
+            }
+
+            float healthPerTotalWaveMultiplier = 1f;
+            float healthPerTotalWave = (totalLevel + 1) * healthPerTotalWaveMultiplier;
+            float healthPerCurrentWave;
+
+            if (currentLevel != 0)
+            {
+                float healthPerCurrentWaveMultiplier = 0.1f;
+                healthPerCurrentWave = 1 + (currentLevel * healthPerCurrentWaveMultiplier);
+            }
+            else
+            {
+                healthPerCurrentWave = 1;
+            }
+
+            float basehealth = 1;
+            float health = basehealth + (healthPerTotalWave * healthPerCurrentWave);
+
+            List<Target> targetsInLevel = new ();
+            _targetsOnMap.Enqueue(new (map, targetsInLevel));
+
+            SpawnTargets(spawnPoints, position, health, targetsInLevel);
+
+            return map;
         }
 
-        Debug.Log(spawnPoints.Count);
-
-        float healthPerTotalWaveMultiplier = 1f;
-        float healthPerTotalWave = (totalLevel + 1) * healthPerTotalWaveMultiplier;
-        float healthPerCurrentWave;
-
-        if (currentLevel != 0)
+        public async Task RemoveAll()
         {
-            float healthPerCurrentWaveMultiplier = 0.1f;
-            healthPerCurrentWave = 1 + currentLevel * healthPerCurrentWaveMultiplier;
+            foreach (KeyValuePair<MapPart, List<Target>> map in _targetsOnMap)
+            {
+                foreach (Target target in map.Value)
+                {
+                    target.LifeCycleEnded -= RemoveTargetFromMapPool;
+                    target.PlaceInPool();
+                }
+
+                map.Value.Clear();
+                Destroy(map.Key.gameObject);
+
+                await Task.Yield();
+            }
+
+            _targetsOnMap.Clear();
         }
-        else
+
+        public bool TryDeletePassedMap()
         {
-            healthPerCurrentWave = 1;
+            if (_targetsOnMap.Count <= GameParameters.SpawnedMapBufferCount)
+            {
+                return false;
+            }
+
+            KeyValuePair<MapPart, List<Target>> zeroMap = _targetsOnMap.Dequeue();
+
+            Destroy(zeroMap.Key.gameObject);
+
+            return true;
         }
 
-        float basehealth = 1;
-        float health = basehealth + healthPerTotalWave * healthPerCurrentWave;
-
-        List<Target> targetsInLevel = new();
-        _targetsOnMap.Enqueue(new(map, targetsInLevel));
-
-        SpawnTargets(spawnPoints, position, health, targetsInLevel);
-
-        return map;
-    }
-
-    public async Task RemoveAll()
-    {
-        foreach (KeyValuePair<MapPart, List<Target>> map in _targetsOnMap)
+        public void TryDeleteLevelObstacle()
         {
-            foreach (Target target in map.Value)
+            if (_targetsOnMap.Count <= GameParameters.SpawnedMapBufferCount - 1)
+            {
+                return;
+            }
+
+            KeyValuePair<MapPart, List<Target>> previousLevel = _targetsOnMap.Peek();
+
+            foreach (Target target in previousLevel.Value)
             {
                 target.LifeCycleEnded -= RemoveTargetFromMapPool;
                 target.PlaceInPool();
             }
 
-            map.Value.Clear();
-            Destroy(map.Key.gameObject);
-
-            await Task.Yield();
+            previousLevel.Value.Clear();
         }
 
-        _targetsOnMap.Clear();
-    }
-
-    public bool TryDeletePassedMap()
-    {
-        if (_targetsOnMap.Count <= GameParameters.SpawnedMapBufferCount)
-            return false;
-
-        KeyValuePair<MapPart, List<Target>> zeroMap = _targetsOnMap.Dequeue();
-
-        Destroy(zeroMap.Key.gameObject);
-
-        return true;
-    }
-
-    public void TryDeleteLevelObstacle()
-    {
-        if (_targetsOnMap.Count <= GameParameters.SpawnedMapBufferCount - 1)
-            return;
-
-        KeyValuePair<MapPart, List<Target>> previousLevel = _targetsOnMap.Peek();
-
-        foreach (Target target in previousLevel.Value)
+        private async void SpawnTargets(List<Vector3> spawnPoints, Vector3 startPosition, float targetHealth, List<Target> targetsPool)
         {
-            target.LifeCycleEnded -= RemoveTargetFromMapPool;
-            target.PlaceInPool();
-        }
-
-        previousLevel.Value.Clear();
-    }
-
-    private async void SpawnTargets(List<Vector3> spawnPoints, Vector3 startPosition, float targetHealth, List<Target> targetsPool)
-    {
-        foreach (Vector3 spawnPosition in spawnPoints)
-        {
-            float randomSpawnOffset = 0.8f;
-
-            float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
-            float offsetZ = Random.Range(-randomSpawnOffset, randomSpawnOffset);
-
-            Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + startPosition;
-            Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-
-            await Task.Yield();
-
-            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
+            foreach (Vector3 spawnPosition in spawnPoints)
             {
-                await SpawnObstacle(_diamondFactory, targetHealth, targetPosition, rotation, targetsPool);
-                continue;
-            }
+                float randomSpawnOffset = 0.8f;
 
-            if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
-            {
-                await SpawnObstacle(_woodFactory, targetHealth, targetPosition, rotation, targetsPool);
-                continue;
-            }
+                float offsetX = Random.Range(-randomSpawnOffset, randomSpawnOffset);
+                float offsetZ = Random.Range(-randomSpawnOffset, randomSpawnOffset);
 
-            await SpawnObstacle(_stoneFactory, targetHealth, targetPosition, rotation, targetsPool);
-        }
-    }
+                Vector3 targetPosition = spawnPosition + new Vector3(offsetX, 0, offsetZ) + startPosition;
+                Quaternion rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
-    private async Task SpawnObstacle(
-        TargetFactory targetFactory, float health, Vector3 position, Quaternion rotation, List<Target> pool)
-    {
-        Target obstacle = (await targetFactory.Create(health, position, rotation)).Result;
-        pool.Add(obstacle);
+                await Task.Yield();
 
-        obstacle.LifeCycleEnded += RemoveTargetFromMapPool;
-    }
-
-    private void RemoveTargetFromMapPool(Target removedTarget)
-    {
-        removedTarget.LifeCycleEnded -= RemoveTargetFromMapPool;
-
-        List<Target> listWithRemovedTarget = new();
-
-        foreach (KeyValuePair<MapPart, List<Target>> targets in _targetsOnMap)
-        {
-            foreach (Target target in targets.Value)
-            {
-                if(removedTarget == target)
+                if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Diamond) == true)
                 {
-                    listWithRemovedTarget = targets.Value;
+                    await SpawnObstacle(_diamondFactory, targetHealth, targetPosition, rotation, targetsPool);
+                    continue;
+                }
 
-                    break;
+                if (_levelResourcesSpawnChance.TryGetSpawnAccess(LootType.Wood) == true)
+                {
+                    await SpawnObstacle(_woodFactory, targetHealth, targetPosition, rotation, targetsPool);
+                    continue;
+                }
+
+                await SpawnObstacle(_stoneFactory, targetHealth, targetPosition, rotation, targetsPool);
+            }
+        }
+
+        private async Task SpawnObstacle(
+            TargetFactory targetFactory, float health, Vector3 position, Quaternion rotation, List<Target> pool)
+        {
+            Target obstacle = (await targetFactory.Create(health, position, rotation)).Result;
+            pool.Add(obstacle);
+
+            obstacle.LifeCycleEnded += RemoveTargetFromMapPool;
+        }
+
+        private void RemoveTargetFromMapPool(Target removedTarget)
+        {
+            removedTarget.LifeCycleEnded -= RemoveTargetFromMapPool;
+
+            List<Target> listWithRemovedTarget = new ();
+
+            foreach (KeyValuePair<MapPart, List<Target>> targets in _targetsOnMap)
+            {
+                foreach (Target target in targets.Value)
+                {
+                    if (removedTarget == target)
+                    {
+                        listWithRemovedTarget = targets.Value;
+
+                        break;
+                    }
                 }
             }
-        }
 
-        listWithRemovedTarget.Remove(removedTarget);
+            listWithRemovedTarget.Remove(removedTarget);
+        }
     }
 }

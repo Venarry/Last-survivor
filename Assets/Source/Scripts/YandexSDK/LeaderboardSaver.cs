@@ -1,36 +1,43 @@
+using Configs;
+using Level;
 using YG;
 
-public class LeaderboardSaver
+namespace YSDK
 {
-    private readonly LevelsStatisticModel _levelsStatisticModel;
-    private readonly IMaxLevelProvider _maxLevelProvider;
-
-    public LeaderboardSaver(
-        LevelsStatisticModel levelsStatisticModel,
-        IMaxLevelProvider maxLevelProvider)
+    public class LeaderboardSaver
     {
-        _levelsStatisticModel = levelsStatisticModel;
-        _maxLevelProvider = maxLevelProvider;
-    }
+        private readonly LevelsStatisticModel _levelsStatisticModel;
+        private readonly IMaxLevelProvider _maxLevelProvider;
 
-    public void Enable()
-    {
-        _levelsStatisticModel.Changed += OnLevelChange;
-    }
-
-    public void Disable()
-    {
-        _levelsStatisticModel.Changed -= OnLevelChange;
-    }
-
-    private void OnLevelChange()
-    {
-        if (YandexGame.SDKEnabled == false)
-            return;
-
-        if (_levelsStatisticModel.TotalLevel >= _maxLevelProvider.MaxLevel)
+        public LeaderboardSaver(
+            LevelsStatisticModel levelsStatisticModel,
+            IMaxLevelProvider maxLevelProvider)
         {
-            YandexGame.NewLeaderboardScores(GameParameters.LeaderboardName, _levelsStatisticModel.TotalLevel);
+            _levelsStatisticModel = levelsStatisticModel;
+            _maxLevelProvider = maxLevelProvider;
+        }
+
+        public void Enable()
+        {
+            _levelsStatisticModel.Changed += OnLevelChange;
+        }
+
+        public void Disable()
+        {
+            _levelsStatisticModel.Changed -= OnLevelChange;
+        }
+
+        private void OnLevelChange()
+        {
+            if (YandexGame.SDKEnabled == false)
+            {
+                return;
+            }
+
+            if (_levelsStatisticModel.TotalLevel >= _maxLevelProvider.MaxLevel)
+            {
+                YandexGame.NewLeaderboardScores(GameParameters.LeaderboardName, _levelsStatisticModel.TotalLevel);
+            }
         }
     }
 }

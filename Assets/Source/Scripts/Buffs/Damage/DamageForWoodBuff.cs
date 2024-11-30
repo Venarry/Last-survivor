@@ -1,4 +1,9 @@
-﻿public class DamageForWoodBuff : DamageBuff
+﻿using Targets;
+
+namespace Buffs.Damage
 {
-    public override TargetType TargetType => TargetType.Wood;
+    public class DamageForWoodBuff : DamageBuff
+    {
+        public override TargetType TargetType => TargetType.Wood;
+    }
 }

@@ -1,29 +1,35 @@
 ﻿using System.Threading.Tasks;
+using Assets;
+using Configs;
+using Player;
 using UnityEngine;
 
-public class RoundSwordFactory
+namespace Skills.Skills.SwordRoundAttack
 {
-    private readonly CharacterAttackParameters _characterAttackParameters;
-    private readonly AssetsProvider _assetsProvider;
-    private RoundSword _roundSwordPrefab;
-
-    public RoundSwordFactory(CharacterAttackParameters characterAttackParameters, AssetsProvider assetsProvider)
+    public class RoundSwordFactory
     {
-        _characterAttackParameters = characterAttackParameters;
-        _assetsProvider = assetsProvider;
-    }
+        private readonly CharacterAttackParameters _characterAttackParameters;
+        private readonly AssetsProvider _assetsProvider;
+        private RoundSword _roundSwordPrefab;
 
-    public async Task Load()
-    {
-        await _assetsProvider.LoadGameObject<RoundSword>(AssetsKeys.RoundSword);
-    }
+        public RoundSwordFactory(CharacterAttackParameters characterAttackParameters, AssetsProvider assetsProvider)
+        {
+            _characterAttackParameters = characterAttackParameters;
+            _assetsProvider = assetsProvider;
+        }
 
-    public async Task<RoundSword> Create(Vector3 position, Transform target, int swordCount, float damageMultiplier, float swordScale)
-    {
-        _roundSwordPrefab = await _assetsProvider.LoadGameObject<RoundSword>(AssetsKeys.RoundSword);
-        RoundSword roundSword = Object.Instantiate(_roundSwordPrefab, position, Quaternion.identity);
+        public async Task Load()
+        {
+            await _assetsProvider.LoadGameObject<RoundSword>(AssetsKeys.RoundSword);
+        }
 
-        roundSword.Init(_characterAttackParameters, target, swordCount, damageMultiplier, swordScale);
-        return roundSword;
+        public async Task<RoundSword> Create(Vector3 position, Transform target, int swordCount, float damageMultiplier, float swordScale)
+        {
+            _roundSwordPrefab = await _assetsProvider.LoadGameObject<RoundSword>(AssetsKeys.RoundSword);
+            RoundSword roundSword = Object.Instantiate(_roundSwordPrefab, position, Quaternion.identity);
+
+            roundSword.Init(_characterAttackParameters, target, swordCount, damageMultiplier, swordScale);
+            return roundSword;
+        }
     }
 }

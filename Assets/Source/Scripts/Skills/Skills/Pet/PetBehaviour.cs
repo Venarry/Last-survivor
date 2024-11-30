@@ -1,96 +1,102 @@
-using System;
 using System.Collections;
+using Player;
+using Targets;
 using UnityEngine;
 
-[RequireComponent(typeof(PetMovement))]
-[RequireComponent(typeof(CharacterAttackHandler))]
-public class PetBehaviour : MonoBehaviour
+namespace Skills.Skills.Pet
 {
-    private CharacterTargetSearcher _characterTargetSearcher;
-    private CharacterAttackHandler _characterAttackHandler;
-    private PetMovement _petMovement;
-    private Target _currentTarget;
-    private Coroutine _attackCoroutine;
-
-    private void Awake()
+    [RequireComponent(typeof(PetMovement))]
+    [RequireComponent(typeof(CharacterAttackHandler))]
+    public class PetBehaviour : MonoBehaviour
     {
-        _petMovement = GetComponent<PetMovement>();
-        _characterAttackHandler = GetComponent<CharacterAttackHandler>();
-    }
+        private CharacterTargetSearcher _characterTargetSearcher;
+        private CharacterAttackHandler _characterAttackHandler;
+        private PetMovement _petMovement;
+        private Target _currentTarget;
+        private Coroutine _attackCoroutine;
 
-    public void Init(CharacterTargetSearcher characterTargetSearcher)
-    {
-        _characterTargetSearcher = characterTargetSearcher;
-    }
-
-    private void Update()
-    {
-        if (_characterTargetSearcher == null)
-            return;
-
-        if(_characterTargetSearcher.TryGetNearestTarget(out Target target) == true)
+        private void Awake()
         {
-            if(_currentTarget != target)
+            _petMovement = GetComponent<PetMovement>();
+            _characterAttackHandler = GetComponent<CharacterAttackHandler>();
+        }
+
+        private void Update()
+        {
+            if (_characterTargetSearcher == null)
             {
-                if(_currentTarget != null)
+                return;
+            }
+
+            if (_characterTargetSearcher.TryGetNearestTarget(out Target target) == true)
+            {
+                if (_currentTarget != target)
                 {
-                    OnTargetEnd(_currentTarget);
+                    if (_currentTarget != null)
+                    {
+                        OnTargetEnd(_currentTarget);
+                    }
+
+                    _petMovement.GoTo(target.Position);
+
+                    _currentTarget = target;
+                    _currentTarget.LifeCycleEnded += OnTargetEnd;
+                    _petMovement.Reached += OnTargetReach;
                 }
-
-                _petMovement.GoTo(target.Position);
-
-                _currentTarget = target;
-                _currentTarget.LifeCycleEnded += OnTargetEnd;
-                _petMovement.Reached += OnTargetReach;
             }
         }
-    }
 
-    private void OnDisable()
-    {
-        if(_currentTarget != null)
+        private void OnDisable()
+        {
+            if (_currentTarget != null)
+            {
+                _currentTarget.LifeCycleEnded -= OnTargetEnd;
+                _petMovement.Reached -= OnTargetReach;
+            }
+
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+            }
+        }
+
+        public void Init(CharacterTargetSearcher characterTargetSearcher)
+        {
+            _characterTargetSearcher = characterTargetSearcher;
+        }
+
+        private void OnTargetEnd(Target target)
         {
             _currentTarget.LifeCycleEnded -= OnTargetEnd;
             _petMovement.Reached -= OnTargetReach;
-        }
 
-        if (_attackCoroutine != null)
-        {
-            StopCoroutine(_attackCoroutine);
-        }
-    }
+            _currentTarget = null;
 
-    private void OnTargetEnd(Target target)
-    {
-        _currentTarget.LifeCycleEnded -= OnTargetEnd;
-        _petMovement.Reached -= OnTargetReach;
-
-        _currentTarget = null;
-
-        if(_attackCoroutine != null)
-        {
-            StopCoroutine(_attackCoroutine);
-            _attackCoroutine = null;
-        }
-
-        _petMovement.RemoveTarget();
-    }
-
-    private void OnTargetReach()
-    {
-        _attackCoroutine = StartCoroutine(Attacking());
-    }
-
-    private IEnumerator Attacking()
-    {
-        while (true)
-        {
-            if (_characterAttackHandler.ReadyToAttack == true)
+            if (_attackCoroutine != null)
             {
-                _characterAttackHandler.TryAttack(_currentTarget);
+                StopCoroutine(_attackCoroutine);
+                _attackCoroutine = null;
             }
 
-            yield return null;
+            _petMovement.RemoveTarget();
+        }
+
+        private void OnTargetReach()
+        {
+            _attackCoroutine = StartCoroutine(Attacking());
+        }
+
+        private IEnumerator Attacking()
+        {
+            while (true)
+            {
+                if (_characterAttackHandler.ReadyToAttack == true)
+                {
+                    _characterAttackHandler.TryAttack(_currentTarget);
+                }
+
+                yield return null;
+            }
         }
     }
 }

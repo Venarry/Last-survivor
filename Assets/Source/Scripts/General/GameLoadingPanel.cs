@@ -1,45 +1,49 @@
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameLoadingPanel : MonoBehaviour
+namespace General
 {
-    [SerializeField] private GameObject _loadPanel;
-    [SerializeField] private TMP_Text _loadLabel;
-    [SerializeField] private Image _loadBar;
-
-    private int _currentProgress;
-    private string[] _labels;
-
-    public void Set(string[] labels)
+    public class GameLoadingPanel : MonoBehaviour
     {
-        _currentProgress = 0;
-        _labels = labels.ToArray();
-    }
+        [SerializeField] private GameObject _loadPanel;
+        [SerializeField] private TMP_Text _loadLabel;
+        [SerializeField] private Image _loadBar;
 
-    public void ShowNext()
-    {
-        if (_labels.Length == 0)
-            return;
+        private int _currentProgress;
+        private string[] _labels;
 
-        if(_loadPanel.activeInHierarchy == false)
+        public void Set(string[] labels)
         {
-            _loadPanel.SetActive(true);
+            _currentProgress = 0;
+            _labels = labels.ToArray();
         }
 
-        _loadBar.fillAmount = (float)_currentProgress / _labels.Length;
-        _loadLabel.text = _labels[_currentProgress];
-
-        if(_currentProgress < _labels.Length - 1)
+        public void ShowNext()
         {
-            _currentProgress++;
-        }
-    }
+            if (_labels.Length == 0)
+            {
+                return;
+            }
 
-    public void Disable()
-    {
-        _loadPanel.SetActive(false);
+            if (_loadPanel.activeInHierarchy == false)
+            {
+                _loadPanel.SetActive(true);
+            }
+
+            _loadBar.fillAmount = (float)_currentProgress / _labels.Length;
+            _loadLabel.text = _labels[_currentProgress];
+
+            if (_currentProgress < _labels.Length - 1)
+            {
+                _currentProgress++;
+            }
+        }
+
+        public void Disable()
+        {
+            _loadPanel.SetActive(false);
+        }
     }
 }

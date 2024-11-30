@@ -1,69 +1,79 @@
 ﻿using System.Threading.Tasks;
+using Assets;
+using Configs;
+using DayCycle;
+using Level.EndLevel;
+using Save;
+using Shop;
+using Skills;
 using UnityEngine;
 
-public class MapPartsFactory
+namespace Level
 {
-    private readonly AssetsProvider _assetsProvider;
-    private readonly UpgradesShop _upgradesShop;
-    private readonly DayCycle _dayCycle;
-    private readonly LevelsStatisticModel _levelsStatisticModel;
-    private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
-    private readonly HealthModel _playerHealthModel;
-    private readonly EndLevelCongratulation _endLevelReward;
-    private readonly IProgressSaveService _saveService;
-
-    public MapPartsFactory(
-        AssetsProvider assetsProvider,
-        UpgradesShop upgradesShop,
-        DayCycle dayCycle,
-        LevelsStatisticModel levelsStatisticModel,
-        CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        HealthModel playerHealthModel,
-        EndLevelCongratulation endLevelReward,
-        IProgressSaveService saveService)
+    public class MapPartsFactory
     {
-        _assetsProvider = assetsProvider;
-        _upgradesShop = upgradesShop;
-        _dayCycle = dayCycle;
-        _levelsStatisticModel = levelsStatisticModel;
-        _characterSkills = characterSkills;
-        _playerHealthModel = playerHealthModel;
-        _endLevelReward = endLevelReward;
-        _saveService = saveService;
-    }
+        private readonly AssetsProvider _assetsProvider;
+        private readonly UpgradesShop _upgradesShop;
+        private readonly DayCycleView _dayCycle;
+        private readonly LevelsStatisticModel _levelsStatisticModel;
+        private readonly CharacterUpgradesModel<SkillBehaviour> _characterSkills;
+        private readonly EndLevelCongratulation _endLevelReward;
+        private readonly IProgressSaveService _saveService;
 
-    public async Task Load()
-    {
-        await _assetsProvider.LoadGameObject<MapPart>(AssetsKeys.LevelZone);
-        await _assetsProvider.LoadGameObject<CheckpointPart>(AssetsKeys.CheckpointZone);
-        await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone);
-    }
+        public MapPartsFactory(
+            AssetsProvider assetsProvider,
+            UpgradesShop upgradesShop,
+            DayCycle.DayCycleView dayCycle,
+            LevelsStatisticModel levelsStatisticModel,
+            CharacterUpgradesModel<SkillBehaviour> characterSkills,
+            EndLevelCongratulation endLevelReward,
+            IProgressSaveService saveService)
+        {
+            _assetsProvider = assetsProvider;
+            _upgradesShop = upgradesShop;
+            _dayCycle = dayCycle;
+            _levelsStatisticModel = levelsStatisticModel;
+            _characterSkills = characterSkills;
+            _endLevelReward = endLevelReward;
+            _saveService = saveService;
+        }
 
-    public async Task<MapPart> CreateLevelZone(Vector3 spawnPosition)
-    {
-        MapPart part = Object
-            .Instantiate(await _assetsProvider.LoadGameObject<MapPart>(AssetsKeys.LevelZone), spawnPosition, Quaternion.identity);
+        public async Task Load()
+        {
+            await _assetsProvider.LoadGameObject<MapPart>(AssetsKeys.LevelZone);
+            await _assetsProvider.LoadGameObject<CheckpointPart>(AssetsKeys.CheckpointZone);
+            await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone);
+        }
 
-        return part;
-    }
+        public async Task<MapPart> CreateLevelZone(Vector3 spawnPosition)
+        {
+            MapPart part = Object
+                .Instantiate(await _assetsProvider.LoadGameObject<MapPart>(AssetsKeys.LevelZone), spawnPosition, Quaternion.identity);
 
-    public async Task<CheckpointPart> CreateCheckPointZone(Vector3 spawnPosition, bool haveEndLevelTrigger)
-    {
-        CheckpointPart part = Object
-            .Instantiate(await _assetsProvider.LoadGameObject<CheckpointPart>(AssetsKeys.CheckpointZone), spawnPosition, Quaternion.identity);
+            return part;
+        }
 
-        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _upgradesShop, _endLevelReward, _saveService, haveEndLevelTrigger);
+        public async Task<CheckpointPart> CreateCheckPointZone(Vector3 spawnPosition, bool haveEndLevelTrigger)
+        {
+            CheckpointPart part = Object
+                .Instantiate(await _assetsProvider.LoadGameObject<CheckpointPart>(AssetsKeys.CheckpointZone), spawnPosition, Quaternion.identity);
 
-        return part;
-    }
+            part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _upgradesShop, _endLevelReward, _saveService, haveEndLevelTrigger);
 
-    public async Task<BetweenLevelPart> CreateBetweenLevelZone(Vector3 spawnPosition, bool haveEndLevelTrigger) 
-    {
-        BetweenLevelPart part = Object
-            .Instantiate(await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone), spawnPosition, Quaternion.identity);
+            return part;
+        }
 
-        part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _endLevelReward, _saveService, haveEndLevelTrigger);
+        public async Task<BetweenLevelPart> CreateBetweenLevelZone(Vector3 spawnPosition, bool haveEndLevelTrigger)
+        {
+            BetweenLevelPart part = Object
+                .Instantiate(
+                await _assetsProvider.LoadGameObject<BetweenLevelPart>(AssetsKeys.BetweenLevelsZone),
+                spawnPosition,
+                Quaternion.identity);
 
-        return part;
+            part.Init(_dayCycle, _levelsStatisticModel, _characterSkills, _endLevelReward, _saveService, haveEndLevelTrigger);
+
+            return part;
+        }
     }
 }

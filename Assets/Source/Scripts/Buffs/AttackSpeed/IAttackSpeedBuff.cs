@@ -1,4 +1,7 @@
-﻿public interface IAttackSpeedBuff : IBuff
+﻿namespace Buffs.AttackSpeed
 {
-    public float ApplyCooldown(float attackCooldown);
+    public interface IAttackSpeedBuff : IBuff
+    {
+        public float ApplyCooldown(float attackCooldown);
+    }
 }

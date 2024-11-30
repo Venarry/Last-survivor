@@ -1,110 +1,123 @@
 using System.Collections.Generic;
+using Configs;
+using Inventory;
+using Language;
+using Level;
+using Movement;
+using Movers;
+using ObstacleLoot;
+using Save;
+using Shop;
+using Skills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Upgrades;
 
-public class ResetProgressHandler : MonoBehaviour
+namespace Prestige
 {
-    [SerializeField] private Button _resetProgressButton;
-    [SerializeField] private Button _confirmButton;
-    [SerializeField] private Button _cancelButton;
-    [SerializeField] private TMP_Text _prestigeToAddCountLabel;
-    [SerializeField] private GameObject _resetProgressMenu;
-    [SerializeField] private MapGenerator _mapGenerator;
-    [SerializeField] private UpgradesShop _upgradesShop;
-
-    private LevelsStatisticModel _levelsStatisticModel;
-    private InventoryModel _characterInventory;
-    private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
-    private ThirdPersonMovement _thirdPersonMovement;
-    private TargetFollower _camera;
-    private IProgressSaveService _progressSaveService;
-    private LanguageProvider _languageProvider;
-    private Vector3 _respawnPosition;
-
-    private int PrestigeToAdd => Mathf.FloorToInt(Mathf.Pow(_levelsStatisticModel.TotalLevel, 1.1f));
-
-    public void Init(
-        LevelsStatisticModel levelsStatisticModel,
-        InventoryModel characterInventory,
-        CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
-        ThirdPersonMovement thirdPersonMovement,
-        TargetFollower camera,
-        IProgressSaveService progressSaveService,
-        LanguageProvider languageProvider,
-        Vector3 respawnPosition)
+    public class ResetProgressHandler : MonoBehaviour
     {
-        _levelsStatisticModel = levelsStatisticModel;
-        _characterInventory = characterInventory;
-        _characterUpgrades = characterUpgrades;
-        _thirdPersonMovement = thirdPersonMovement;
-        _camera = camera;
-        _progressSaveService = progressSaveService;
-        _languageProvider = languageProvider;
-        _respawnPosition = respawnPosition;
+        [SerializeField] private Button _resetProgressButton;
+        [SerializeField] private Button _confirmButton;
+        [SerializeField] private Button _cancelButton;
+        [SerializeField] private TMP_Text _prestigeToAddCountLabel;
+        [SerializeField] private GameObject _resetProgressMenu;
+        [SerializeField] private MapGenerator _mapGenerator;
+        [SerializeField] private UpgradesShop _upgradesShop;
 
-        _resetProgressMenu.SetActive(false);
-    }
+        private LevelsStatisticModel _levelsStatisticModel;
+        private InventoryModel _characterInventory;
+        private CharacterUpgradesModel<ParametersUpgradeBehaviour> _characterUpgrades;
+        private ThirdPersonMovement _thirdPersonMovement;
+        private TargetFollower _camera;
+        private IProgressSaveService _progressSaveService;
+        private LanguageProvider _languageProvider;
+        private Vector3 _respawnPosition;
 
-    private void OnEnable()
-    {
-        _resetProgressButton.onClick.AddListener(OpenResetProgressMenu);
-        _confirmButton.onClick.AddListener(ResetProgress);
-        _cancelButton.onClick.AddListener(Hide);
-    }
+        private int PrestigeToAdd => Mathf.FloorToInt(Mathf.Pow(_levelsStatisticModel.TotalLevel, 1.1f));
 
-
-    private void OnDisable()
-    {
-        _resetProgressButton.onClick.RemoveListener(OpenResetProgressMenu);
-        _confirmButton.onClick.RemoveListener(ResetProgress);
-        _cancelButton.onClick.RemoveListener(Hide);
-    }
-
-    private void OpenResetProgressMenu()
-    {
-        _resetProgressMenu.SetActive(true);
-
-        int minLevelForResetPreogress = GameParameters.LevelsForCheckpoint;
-
-        if(_levelsStatisticModel.TotalLevel >= minLevelForResetPreogress)
+        public void Init(
+            LevelsStatisticModel levelsStatisticModel,
+            InventoryModel characterInventory,
+            CharacterUpgradesModel<ParametersUpgradeBehaviour> characterUpgrades,
+            ThirdPersonMovement thirdPersonMovement,
+            TargetFollower camera,
+            IProgressSaveService progressSaveService,
+            LanguageProvider languageProvider,
+            Vector3 respawnPosition)
         {
-            _prestigeToAddCountLabel.text = $"{_languageProvider.ResetProgressPart1} {PrestigeToAdd} {_languageProvider.ResetProgressPart2}";
-            _confirmButton.gameObject.SetActive(true);
+            _levelsStatisticModel = levelsStatisticModel;
+            _characterInventory = characterInventory;
+            _characterUpgrades = characterUpgrades;
+            _thirdPersonMovement = thirdPersonMovement;
+            _camera = camera;
+            _progressSaveService = progressSaveService;
+            _languageProvider = languageProvider;
+            _respawnPosition = respawnPosition;
+
+            _resetProgressMenu.SetActive(false);
         }
-        else
+
+        private void OnEnable()
         {
-            _prestigeToAddCountLabel.text = $"{_languageProvider.WarningResetProgressPart1} {minLevelForResetPreogress} {_languageProvider.WarningResetProgressPart2}";
-            _confirmButton.gameObject.SetActive(false);
+            _resetProgressButton.onClick.AddListener(OpenResetProgressMenu);
+            _confirmButton.onClick.AddListener(ResetProgress);
+            _cancelButton.onClick.AddListener(Hide);
         }
-    }
 
-    private async void ResetProgress()
-    {
-        Hide();
-        _upgradesShop.Hide();
+        private void OnDisable()
+        {
+            _resetProgressButton.onClick.RemoveListener(OpenResetProgressMenu);
+            _confirmButton.onClick.RemoveListener(ResetProgress);
+            _cancelButton.onClick.RemoveListener(Hide);
+        }
 
-        _characterInventory.Add(LootType.Prestige, PrestigeToAdd);
-        _characterUpgrades.RemoveAll();
-        _characterInventory.RemoveWithNotIncluding(new List<LootType>() { LootType.Prestige });
-        _levelsStatisticModel.Set(0);
+        private void OpenResetProgressMenu()
+        {
+            _resetProgressMenu.SetActive(true);
 
-        _thirdPersonMovement.SetBehaviour(false);
-        _mapGenerator.StopGenerator();
+            int minLevelForResetPreogress = GameParameters.LevelsForCheckpoint;
 
-        _thirdPersonMovement.SetPosition(_respawnPosition);
-        _camera.UpdatePosition();
-        await _mapGenerator.ResetLevels();
+            if (_levelsStatisticModel.TotalLevel >= minLevelForResetPreogress)
+            {
+                _prestigeToAddCountLabel.text = $"{_languageProvider.ResetProgressPart1} {PrestigeToAdd} {_languageProvider.ResetProgressPart2}";
+                _confirmButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                _prestigeToAddCountLabel.text = $"{_languageProvider.WarningResetProgressPart1} {minLevelForResetPreogress} {_languageProvider.WarningResetProgressPart2}";
+                _confirmButton.gameObject.SetActive(false);
+            }
+        }
 
-        _thirdPersonMovement.SetBehaviour(true);
-        _mapGenerator.StartGenerator();
+        private async void ResetProgress()
+        {
+            Hide();
+            _upgradesShop.Hide();
 
-        _progressSaveService.Save();
-        _progressSaveService.ReloadShop();
-    }
+            _characterInventory.Add(LootType.Prestige, PrestigeToAdd);
+            _characterUpgrades.RemoveAll();
+            _characterInventory.RemoveWithNotIncluding(new List<LootType>() { LootType.Prestige });
+            _levelsStatisticModel.Set(0);
 
-    private void Hide()
-    {
-        _resetProgressMenu.SetActive(false);
+            _thirdPersonMovement.SetBehaviour(false);
+            _mapGenerator.StopGenerator();
+
+            _thirdPersonMovement.SetPosition(_respawnPosition);
+            _camera.UpdatePosition();
+            await _mapGenerator.ResetLevels();
+
+            _thirdPersonMovement.SetBehaviour(true);
+            _mapGenerator.StartGenerator();
+
+            _progressSaveService.Save();
+            _progressSaveService.ReloadShop();
+        }
+
+        private void Hide()
+        {
+            _resetProgressMenu.SetActive(false);
+        }
     }
 }

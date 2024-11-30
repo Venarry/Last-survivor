@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CoroutineProvider : MonoBehaviour
+namespace General
 {
+    public class CoroutineProvider : MonoBehaviour
+    {
+    }
 }

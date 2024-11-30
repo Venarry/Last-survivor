@@ -1,40 +1,44 @@
 ﻿using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
-public class RoundSword : MonoBehaviour
+namespace Skills.Skills.SwordRoundAttack
 {
-    [SerializeField] private List<SkillWeaponCollisionHandler> _swords;
-
-    private Transform _target;
-    private float _duration = 2f;
-
-    private void Awake()
+    public class RoundSword : MonoBehaviour
     {
-        Destroy(gameObject, _duration);
-    }
+        [SerializeField] private List<SkillWeaponCollisionHandler> _swords;
 
-    public void Init(CharacterAttackParameters characterAttackParameters, Transform target, int swordCount, float damageMultiplier, float scale)
-    {
-        foreach (SkillWeaponCollisionHandler sword in _swords)
+        private Transform _target;
+        private float _duration = 2f;
+
+        private void Awake()
         {
-            sword.Init(characterAttackParameters, damageMultiplier);
+            Destroy(gameObject, _duration);
         }
 
-        for (int i = 0; i < swordCount; i++)
+        private void Update()
         {
-            _swords[i].gameObject.SetActive(true);
-            _swords[i].transform.localScale = new Vector3(scale, scale, scale);
-
-            _swords[i].transform.rotation = Quaternion.Euler(0, 360 / swordCount * (i + 1), 0);
+            float rotateSpeed = 360 / _duration;
+            transform.position = _target.position;
+            transform.Rotate(rotateSpeed * Time.deltaTime * Vector3.up);
         }
 
-        _target = target;
-    }
+        public void Init(CharacterAttackParameters characterAttackParameters, Transform target, int swordCount, float damageMultiplier, float scale)
+        {
+            foreach (SkillWeaponCollisionHandler sword in _swords)
+            {
+                sword.Init(characterAttackParameters, damageMultiplier);
+            }
 
-    private void Update()
-    {
-        float rotateSpeed = 360 / _duration;
-        transform.position = _target.position;
-        transform.Rotate(rotateSpeed * Time.deltaTime * Vector3.up);
+            for (int i = 0; i < swordCount; i++)
+            {
+                _swords[i].gameObject.SetActive(true);
+                _swords[i].transform.localScale = new Vector3(scale, scale, scale);
+
+                _swords[i].transform.rotation = Quaternion.Euler(0, 360 / swordCount * (i + 1), 0);
+            }
+
+            _target = target;
+        }
     }
 }

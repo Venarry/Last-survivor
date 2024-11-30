@@ -3,67 +3,70 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[Serializable]
-public class TutorialPart
+namespace GameTutorial
 {
-    [SerializeField] private string _name;
-    [SerializeField] private GameObject _beginTutorialAction;
-    [SerializeField] private List<GameObject> _tutorialObjects;
-    [SerializeField] private GameObject _endTutorialAction;
-    [SerializeField] private bool _disableTime = false;
-
-    private readonly ITutorialAction _beginAction;
-    private readonly ITutorialAction _endAction;
-
-    public TutorialPart(string name, bool disableTime, ITutorialAction beginAction, ITutorialAction endAction, GameObject[] screen)
+    [Serializable]
+    public class TutorialPart
     {
-        _name = name;
-        _beginAction = beginAction;
-        _endAction = endAction;
-        _disableTime = disableTime;
-        _tutorialObjects = screen.ToList();
-    }
+        private readonly ITutorialAction _beginAction;
+        private readonly ITutorialAction _endAction;
 
-    public GameObject[] TutorialObjects => _tutorialObjects.ToArray();
-    public string Name => _name;
-    public bool DisableTime => _disableTime;
+        [SerializeField] private string _name;
+        [SerializeField] private GameObject _beginTutorialAction;
+        [SerializeField] private List<GameObject> _tutorialObjects;
+        [SerializeField] private GameObject _endTutorialAction;
+        [SerializeField] private bool _disableTime = false;
 
-    public ITutorialAction BeginAction
-    {
-        get
+        public TutorialPart(string name, bool disableTime, ITutorialAction beginAction, ITutorialAction endAction, GameObject[] screen)
         {
-            if(_beginAction != null)
-            {
-                return _beginAction;
-            }
+            _name = name;
+            _beginAction = beginAction;
+            _endAction = endAction;
+            _disableTime = disableTime;
+            _tutorialObjects = screen.ToList();
+        }
 
-            if (_beginTutorialAction != null && _beginTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
+        public GameObject[] TutorialObjects => _tutorialObjects.ToArray();
+        public string Name => _name;
+        public bool DisableTime => _disableTime;
+
+        public ITutorialAction BeginAction
+        {
+            get
             {
-                return tutorialAction;
-            }
-            else
-            {
-                return null;
+                if (_beginAction != null)
+                {
+                    return _beginAction;
+                }
+
+                if (_beginTutorialAction != null && _beginTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
+                {
+                    return tutorialAction;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
-    }
 
-    public ITutorialAction EndAction
-    {
-        get
+        public ITutorialAction EndAction
         {
-            if (_endAction != null)
+            get
             {
-                return _endAction;
-            }
+                if (_endAction != null)
+                {
+                    return _endAction;
+                }
 
-            if (_endTutorialAction != null && _endTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
-            {
-                return tutorialAction;
-            }
-            else
-            {
-                return null;
+                if (_endTutorialAction != null && _endTutorialAction.TryGetComponent(out ITutorialAction tutorialAction))
+                {
+                    return tutorialAction;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

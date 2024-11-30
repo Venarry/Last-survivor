@@ -1,14 +1,18 @@
-﻿using System;
+﻿using ObstacleLoot;
+using System;
 
-[Serializable]
-public class LootData
+namespace Save
 {
-    public LootType LootType;
-    public int Count;
-
-    public LootData(LootType lootType, int count)
+    [Serializable]
+    public class LootData
     {
-        LootType = lootType;
-        Count = count;
+        public LootType LootType;
+        public int Count;
+
+        public LootData(LootType lootType, int count)
+        {
+            LootType = lootType;
+            Count = count;
+        }
     }
 }

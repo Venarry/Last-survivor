@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 
-public class BarrierModelEnabler : MonoBehaviour
+namespace Level
 {
-    [SerializeField] private GameObject _barrier;
-
-    private void OnTriggerEnter(Collider other)
+    public class BarrierModelEnabler : MonoBehaviour
     {
-        if (other.TryGetComponent(out Player _))
+        [SerializeField] private GameObject _barrier;
+
+        private void OnTriggerEnter(Collider other)
         {
-            _barrier.SetActive(true);
+            if (other.TryGetComponent(out PlayerCompositeRoot _))
+            {
+                _barrier.SetActive(true);
+            }
         }
     }
 }

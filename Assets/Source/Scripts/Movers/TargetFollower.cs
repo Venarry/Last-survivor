@@ -1,36 +1,43 @@
 using UnityEngine;
 
-public class TargetFollower : MonoBehaviour
+namespace Movers
 {
-    [SerializeField] private Vector3 _offset;
-    [SerializeField] private float _speed = 0.25f;
-
-    private Transform _target;
-
-    private Vector3 TargetPosition => _target.position + _offset;
-
-    public void Set(Transform target)
+    public class TargetFollower : MonoBehaviour
     {
-        _target = target;
+        [SerializeField] private Vector3 _offset;
+        [SerializeField] private float _speed = 0.25f;
 
-        transform.position = TargetPosition;
-    }
+        private Transform _target;
 
-    private void LateUpdate()
-    {
-        if (_target == null)
-            return;
+        private Vector3 TargetPosition => _target.position + _offset;
 
-        Vector3 lerpPosition = Vector3.Lerp(transform.position, TargetPosition, _speed * Time.deltaTime);
+        private void LateUpdate()
+        {
+            if (_target == null)
+            {
+                return;
+            }
 
-        transform.position = lerpPosition;
-    }
+            Vector3 lerpPosition = Vector3.Lerp(transform.position, TargetPosition, _speed * Time.deltaTime);
 
-    public void UpdatePosition()
-    {
-        if (_target == null) 
-            return;
+            transform.position = lerpPosition;
+        }
 
-        transform.position = TargetPosition;
+        public void Set(Transform target)
+        {
+            _target = target;
+
+            transform.position = TargetPosition;
+        }
+
+        public void UpdatePosition()
+        {
+            if (_target == null)
+            {
+                return;
+            }
+
+            transform.position = TargetPosition;
+        }
     }
 }

@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveTutorialEnabler : MonoBehaviour
+namespace GameTutorial
 {
-    [SerializeField] private Tutorial _tutorial;
-
-    private void OnEnable()
+    public class MoveTutorialEnabler : MonoBehaviour
     {
-        _tutorial.BeginMovementTutorial();
+        [SerializeField] private Tutorial _tutorial;
+
+        private void OnEnable()
+        {
+            _tutorial.BeginMovementTutorial();
+        }
     }
 }

@@ -1,4 +1,7 @@
-public interface IExperienceBuff : IBuff
+namespace Buffs.Experience
 {
-    public float Apply(float value);
+    public interface IExperienceBuff : IBuff
+    {
+        public float Apply(float value);
+    }
 }

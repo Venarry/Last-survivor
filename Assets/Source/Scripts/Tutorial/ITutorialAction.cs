@@ -1,6 +1,9 @@
 ﻿using System;
 
-public interface ITutorialAction
+namespace GameTutorial
 {
-    public event Action<ITutorialAction> Happened;
+    public interface ITutorialAction
+    {
+        public event Action<ITutorialAction> Happened;
+    }
 }

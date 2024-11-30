@@ -1,79 +1,88 @@
 ﻿using System;
+using Configs;
+using General;
+using Language;
+using Player;
 using UnityEngine;
-using YG;
 
-public class SwordRoundAttackSkill : SkillBehaviour
+namespace Skills.Skills.SwordRoundAttack
 {
-    private readonly RoundSwordFactory _roundSwordFactory;
-    private readonly Transform _spawnTarget;
-    private readonly CharacterTargetSearcher _targetSearcher;
-    private readonly CooldownTimer _cooldownTimer = new(cooldown: 4);
-    private readonly float _damageMultiplier = 0.5f;
-
-    public SwordRoundAttackSkill(
-        RoundSwordFactory roundSwordFactory,
-        Transform spawnTarget,
-        CharacterTargetSearcher targetSearcher,
-        LanguageProvider languageProvider) : base(languageProvider)
+    public class SwordRoundAttackSkill : SkillBehaviour
     {
-        _roundSwordFactory = roundSwordFactory;
-        _spawnTarget = spawnTarget;
-        _targetSearcher = targetSearcher;
-    }
+        private readonly RoundSwordFactory _roundSwordFactory;
+        private readonly Transform _spawnTarget;
+        private readonly CharacterTargetSearcher _targetSearcher;
+        private readonly CooldownTimer _cooldownTimer = new (cooldown: 4);
+        private readonly float _damageMultiplier = 0.5f;
 
-    public override UpgradeType UpgradeType => UpgradeType.SwordRoundAttack;
-    public override SkillTickType SkillTickType => SkillTickType.EveryTick;
-    public override bool HasCooldown => true;
-
-    public override async void Apply()
-    {
-        if(_targetSearcher.TryGetNearestTarget(out _) == false)
+        public SwordRoundAttackSkill(
+            RoundSwordFactory roundSwordFactory,
+            Transform spawnTarget,
+            CharacterTargetSearcher targetSearcher,
+            LanguageProvider languageProvider)
+            : base(languageProvider)
         {
-            return;
+            _roundSwordFactory = roundSwordFactory;
+            _spawnTarget = spawnTarget;
+            _targetSearcher = targetSearcher;
         }
 
-        if (_cooldownTimer.IsReady == true)
+        public override UpgradeType UpgradeType => UpgradeType.SwordRoundAttack;
+        public override SkillTickType SkillTickType => SkillTickType.EveryTick;
+        public override bool HasCooldown => true;
+
+        public override async void Apply()
         {
-            float swordSize = GetSwordSize(CurrentLevel);
-            _cooldownTimer.Reset();
-            await _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, _damageMultiplier, swordSize);
-        }
-    }
+            if (_targetSearcher.TryGetNearestTarget(out _) == false)
+            {
+                return;
+            }
 
-    public override void IncreaseTimeLeft()
-    {
-        _cooldownTimer.Tick();
-    }
-
-    public override void Disable()
-    {
-    }
-
-    public override string GetUpLevelDescription() 
-    {
-        string swordSizeText;
-        string swordCountText;
-
-        if(CurrentLevel == 0)
-        {
-            swordSizeText = $"{GameParameters.TextColorStart}{GetSwordSize(1)}{GameParameters.TextColorEnd}";
-            swordCountText = $"{GameParameters.TextColorStart}{1}{GameParameters.TextColorEnd}";
-        }
-        else
-        {
-            decimal beforeSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel), 2);
-            decimal afterSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel + 1) -
-                (decimal)GetSwordSize(CurrentLevel), 2);
-
-            swordSizeText = $"{beforeSwordSize} (+{Decorate(afterSwordSize.ToString())})";
-
-            swordCountText = $"{CurrentLevel} (+{Decorate("1")})";
+            if (_cooldownTimer.IsReady == true)
+            {
+                float swordSize = GetSwordSize(CurrentLevel);
+                _cooldownTimer.Reset();
+                await _roundSwordFactory.Create(_spawnTarget.position, _spawnTarget, CurrentLevel, _damageMultiplier, swordSize);
+            }
         }
 
-        return $"{LanguageProvider.RoundSwordCountHeader} {swordCountText}\n" +
-        $"{LanguageProvider.RoundSwordDamageHeader} {_damageMultiplier * 100}%\n" +
-        $"{LanguageProvider.RoundSwordSizeHeader} {swordSizeText}";
-    }
+        public override void IncreaseTimeLeft()
+        {
+            _cooldownTimer.Tick();
+        }
 
-    private float GetSwordSize(int level) => 1 + (float)(level - 1) / 3;
+        public override void Disable()
+        {
+        }
+
+        public override string GetUpLevelDescription()
+        {
+            string swordSizeText;
+            string swordCountText;
+
+            if (CurrentLevel == 0)
+            {
+                swordSizeText = $"{GameParameters.TextColorStart}{GetSwordSize(1)}{GameParameters.TextColorEnd}";
+                swordCountText = $"{GameParameters.TextColorStart}{1}{GameParameters.TextColorEnd}";
+            }
+            else
+            {
+                decimal beforeSwordSize = Math.Round((decimal)GetSwordSize(CurrentLevel), 2);
+                decimal afterSwordSize = Math.Round(
+                    (decimal)GetSwordSize(CurrentLevel + 1) -
+                    (decimal)GetSwordSize(CurrentLevel), 2);
+
+                swordSizeText = $"{beforeSwordSize} (+{Decorate(afterSwordSize.ToString())})";
+
+                swordCountText = $"{CurrentLevel} (+{Decorate("1")})";
+            }
+
+            return $"{LanguageProvider.RoundSwordCountHeader} {swordCountText}\n" +
+                $"{LanguageProvider.RoundSwordDamageHeader} {_damageMultiplier * 100}%\n" +
+                $"{LanguageProvider.RoundSwordSizeHeader} {swordSizeText}";
+        }
+
+        private float GetSwordSize(int level) =>
+            1 + ((float)(level - 1) / 3);
+    }
 }

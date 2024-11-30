@@ -1,4 +1,6 @@
 ﻿
+using Save;
+
 namespace YG
 {
     [System.Serializable]

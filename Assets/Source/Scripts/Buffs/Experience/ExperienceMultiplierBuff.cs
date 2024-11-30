@@ -1,19 +1,22 @@
 ﻿using System;
 
-public class ExperienceMultiplierBuff : IExperienceBuff
+namespace Buffs.Experience
 {
-    private float _multiplier = 1f;
-    public Type Type => GetType();
-
-    public bool CanRepeat => true;
-
-    public event Action<IBuff> ParametersChanged;
-
-    public float Apply(float value) => value * _multiplier;
-
-    public void SetParameters(float multiplier)
+    public class ExperienceMultiplierBuff : IExperienceBuff
     {
-        _multiplier = multiplier;
-        ParametersChanged?.Invoke(this);
+        private float _multiplier = 1f;
+
+        public event Action<IBuff> ParametersChanged;
+
+        public Type Type => GetType();
+        public bool CanRepeat => true;
+
+        public float Apply(float value) => value * _multiplier;
+
+        public void SetParameters(float multiplier)
+        {
+            _multiplier = multiplier;
+            ParametersChanged?.Invoke(this);
+        }
     }
 }

@@ -1,4 +1,8 @@
-public interface IStateSwitcher
+namespace StateMachine
 {
-    public void Switch<T>() where T : IState;
+    public interface IStateSwitcher
+    {
+        public void Switch<T>()
+            where T : IState;
+    }
 }

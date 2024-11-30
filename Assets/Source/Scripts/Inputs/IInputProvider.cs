@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IInputProvider
+namespace Inputs
 {
-    public Vector3 MoveDirection { get; }
+    public interface IInputProvider
+    {
+        public Vector3 MoveDirection { get; }
+    }
 }

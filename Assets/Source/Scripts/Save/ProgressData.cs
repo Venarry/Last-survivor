@@ -1,97 +1,106 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ObstacleLoot;
+using Skills;
 using UnityEngine;
 
-[Serializable]
-public class ProgressData
+namespace Save
 {
-    public List<LootData> Inventory = new()
+    [Serializable]
+    public class ProgressData
+    {
+        public List<LootData> Inventory = new ()
     {
         new LootData(LootType.Wood, 31),
         new LootData(LootType.Diamond, 10),
     };
-    public List<UpgradeData> Upgrades = new();
-    public List<UpgradeData> PrestigeUpgrades = new();
-    public List<UpgradeData> Skills = new();
-    public ExperienceData ExperienceData = new(0, 0);
+        public List<UpgradeData> Upgrades = new ();
+        public List<UpgradeData> PrestigeUpgrades = new ();
+        public List<UpgradeData> Skills = new ();
+        public ExperienceData ExperienceData = new (0, 0);
 
-    public float HealthNormalized = 1.0f;
-    public int TotalLevels = 0;
-    public int MaxLevel = 0;
-    public bool TutorialPassed = false;
+        public float HealthNormalized = 1.0f;
+        public int TotalLevels = 0;
+        public int MaxLevel = 0;
+        public bool TutorialPassed = false;
 
-    public void ClearInventory()
-    {
-        Inventory.Clear();
-    }
-
-    public void SetLoot(LootType lootType, int count)
-    {
-        LootData loot = Inventory.FirstOrDefault(c => c.LootType == lootType);
-
-        if(loot == null)
+        public void ClearInventory()
         {
-            Inventory.Add(new(lootType, count));
+            Inventory.Clear();
         }
-        else
+
+        public void SetLoot(LootType lootType, int count)
         {
-            loot.Count = count;
+            LootData loot = Inventory.FirstOrDefault(c => c.LootType == lootType);
+
+            if (loot == null)
+            {
+                Inventory.Add(new (lootType, count));
+            }
+            else
+            {
+                loot.Count = count;
+            }
         }
-    }
 
-    public void SetExperienceData(int level, float experience)
-    {
-        ExperienceData = new(level, experience);
-    }
+        public void SetExperienceData(int level, float experience)
+        {
+            ExperienceData = new (level, experience);
+        }
 
-    public void AddUpgrade(UpgradeType upgradeType, int level)
-    {
-        AddUpgradeTo(Upgrades, upgradeType, level);
-    }
+        public void AddUpgrade(UpgradeType upgradeType, int level)
+        {
+            AddUpgradeTo(Upgrades, upgradeType, level);
+        }
 
-    public void AddPrestigeUpgrade(UpgradeType upgradeType, int level)
-    {
-        AddUpgradeTo(PrestigeUpgrades, upgradeType, level);
-    }
+        public void AddPrestigeUpgrade(UpgradeType upgradeType, int level)
+        {
+            AddUpgradeTo(PrestigeUpgrades, upgradeType, level);
+        }
 
-    public void AddSkill(UpgradeType upgradeType, int level)
-    {
-        AddUpgradeTo(Skills, upgradeType, level);
-    }
+        public void AddSkill(UpgradeType upgradeType, int level)
+        {
+            AddUpgradeTo(Skills, upgradeType, level);
+        }
 
-    public void ResetUpgrades()
-    {
-        Upgrades.Clear();
-    }
+        public void ResetUpgrades()
+        {
+            Upgrades.Clear();
+        }
 
-    public void ResetPrestigeUpgrades()
-    {
-        PrestigeUpgrades.Clear();
-    }
+        public void ResetPrestigeUpgrades()
+        {
+            PrestigeUpgrades.Clear();
+        }
 
-    public void ResetSkills()
-    {
-        Skills.Clear();
-    }
+        public void ResetSkills()
+        {
+            Skills.Clear();
+        }
 
-    public void SetLevels(int count)
-    {
-        TotalLevels = count;
-    }
+        public void SetLevels(int count)
+        {
+            TotalLevels = count;
+        }
 
-    public override string ToString()
-    {
-        return JsonUtility.ToJson(this);
-    }
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
 
-    private void AddUpgradeTo(List<UpgradeData> collection, UpgradeType upgradeType, int level)
-    {
-        UpgradeData upgradeData = collection.FirstOrDefault(c => c.Type == upgradeType);
+        private void AddUpgradeTo(List<UpgradeData> collection, UpgradeType upgradeType, int level)
+        {
+            UpgradeData upgradeData = collection.FirstOrDefault(c => c.Type == upgradeType);
 
-        if (upgradeData == null)
-            collection.Add(new(upgradeType, level));
-        else
-            upgradeData.Level = level;
+            if (upgradeData == null)
+            {
+                collection.Add(new (upgradeType, level));
+            }
+            else
+            {
+                upgradeData.Level = level;
+            }
+        }
     }
 }

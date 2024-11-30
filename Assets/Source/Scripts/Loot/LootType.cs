@@ -1,6 +1,9 @@
-﻿public enum LootType
+﻿namespace ObstacleLoot
 {
-    Wood,
-    Diamond,
-    Prestige,
+    public enum LootType
+    {
+        Wood,
+        Diamond,
+        Prestige,
+    }
 }

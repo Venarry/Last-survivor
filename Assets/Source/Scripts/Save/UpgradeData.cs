@@ -1,14 +1,18 @@
-﻿using System;
+﻿using Skills;
+using System;
 
-[Serializable]
-public class UpgradeData
+namespace Save
 {
-    public UpgradeType Type;
-    public int Level;
-
-    public UpgradeData(UpgradeType type, int level)
+    [Serializable]
+    public class UpgradeData
     {
-        Type = type;
-        Level = level;
+        public UpgradeType Type;
+        public int Level;
+
+        public UpgradeData(UpgradeType type, int level)
+        {
+            Type = type;
+            Level = level;
+        }
     }
 }

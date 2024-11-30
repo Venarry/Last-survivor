@@ -1,7 +1,13 @@
-﻿public class ExperienceMultiplierUpgradeButton : BuyUpgradeButton
-{
-    public override UpgradeType UpgradeType => UpgradeType.ExperienceMultiplier;
+﻿using Skills;
+using Upgrades;
 
-    protected override ParametersUpgradeBehaviour CreateUpgrade() =>
-        UpgradesFactory.CreateExperienceMultiplier();
+namespace Shop
+{
+    public class ExperienceMultiplierUpgradeButton : BuyUpgradeButton
+    {
+        public override UpgradeType UpgradeType => UpgradeType.ExperienceMultiplier;
+
+        protected override ParametersUpgradeBehaviour CreateUpgrade() =>
+            UpgradesFactory.CreateExperienceMultiplier();
+    }
 }

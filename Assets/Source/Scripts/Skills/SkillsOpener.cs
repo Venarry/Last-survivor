@@ -1,112 +1,119 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Configs;
+using Experience;
+using General;
 using UnityEngine;
 
-public class SkillsOpener : MonoBehaviour
+namespace Skills
 {
-    [SerializeField] private GameObject _skillsParent;
-    [SerializeField] private SkillToChoose _skillsPrefab;
-
-    private readonly List<SkillToChoose> _spawnedSkill = new();
-    private SkillsViewFactory _skillToChooseFactory;
-    private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
-    private ExperienceModel _experienceModel;
-    private SkillsFactory _skillsFactory;
-    private int _levelsInQueue = 0;
-
-    private string GameTimeKey => nameof(SkillsOpener);
-
-    public void Init(
-        SkillsViewFactory skillToChooseFactory,
-        CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        ExperienceModel experienceModel,
-        SkillsFactory skillsFactory)
+    public class SkillsOpener : MonoBehaviour
     {
-        _skillToChooseFactory = skillToChooseFactory;
-        _characterSkills = characterSkills;
-        _experienceModel = experienceModel;
-        _skillsFactory = skillsFactory;
+        private readonly List<SkillToChoose> _spawnedSkill = new ();
 
-        _skillsParent.SetActive(false);
+        [SerializeField] private GameObject _skillsParent;
+        [SerializeField] private SkillToChoose _skillsPrefab;
 
-        experienceModel.LevelAdded += OnLevelAdd;
-    }
+        private SkillsViewFactory _skillToChooseFactory;
+        private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
+        private ExperienceModel _experienceModel;
+        private SkillsFactory _skillsFactory;
+        private int _levelsInQueue = 0;
 
-    private void OnDestroy()
-    {
-        _experienceModel.LevelAdded -= OnLevelAdd;
-    }
+        private string GameTimeKey => nameof(SkillsOpener);
 
-    public void CloseMenuAndRemoveSkills()
-    {
-        foreach (SkillToChoose spawnedSkill in _spawnedSkill)
+        private void OnDestroy()
         {
-            Destroy(spawnedSkill.gameObject);
+            _experienceModel.LevelAdded -= OnLevelAdd;
         }
 
-        _spawnedSkill.Clear();
-        GameTimeScaler.Remove(GameTimeKey);
-
-        if(_levelsInQueue > 0)
+        public void Init(
+            SkillsViewFactory skillToChooseFactory,
+            CharacterUpgradesModel<SkillBehaviour> characterSkills,
+            ExperienceModel experienceModel,
+            SkillsFactory skillsFactory)
         {
-            _levelsInQueue--;
-            OnLevelAdd();
-        }
-    }
+            _skillToChooseFactory = skillToChooseFactory;
+            _characterSkills = characterSkills;
+            _experienceModel = experienceModel;
+            _skillsFactory = skillsFactory;
 
-    private void OnLevelAdd()
-    {
-        if(_spawnedSkill.Count != 0)
-        {
-            _levelsInQueue++;
-            return;
+            _skillsParent.SetActive(false);
+
+            experienceModel.LevelAdded += OnLevelAdd;
         }
 
-        SkillBehaviour[] allSkills = _skillsFactory.CreateAllSkills();
-        SkillBehaviour[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length)).ToArray();
-
-        int addedSkillsCounter = 0;
-
-        foreach (SkillBehaviour skill in shuffledSkills)
+        public void CloseMenuAndRemoveSkills()
         {
-            Type skillType = skill.GetType();
-
-            if (_characterSkills.HasUpgrade(skillType))
+            foreach (SkillToChoose spawnedSkill in _spawnedSkill)
             {
-                _characterSkills.TryGetUpgradeLevel(skillType, out int level, out int maxLevel);
-                _characterSkills.TryGetUpLevelDescription(skillType, out string upgradeDescription);
-                
-                if (level < maxLevel)
+                Destroy(spawnedSkill.gameObject);
+            }
+
+            _spawnedSkill.Clear();
+            GameTimeScaler.Remove(GameTimeKey);
+
+            if (_levelsInQueue > 0)
+            {
+                _levelsInQueue--;
+                OnLevelAdd();
+            }
+        }
+
+        private void OnLevelAdd()
+        {
+            if (_spawnedSkill.Count != 0)
+            {
+                _levelsInQueue++;
+                return;
+            }
+
+            SkillBehaviour[] allSkills = _skillsFactory.CreateAllSkills();
+            SkillBehaviour[] shuffledSkills = allSkills.OrderBy(c => UnityEngine.Random.Range(0, allSkills.Length)).ToArray();
+
+            int addedSkillsCounter = 0;
+
+            foreach (SkillBehaviour skill in shuffledSkills)
+            {
+                Type skillType = skill.GetType();
+
+                if (_characterSkills.HasUpgrade(skillType))
                 {
-                    SpawnSkill(skill, level, maxLevel, upgradeDescription);
+                    _characterSkills.TryGetUpgradeLevel(skillType, out int level, out int maxLevel);
+                    _characterSkills.TryGetUpLevelDescription(skillType, out string upgradeDescription);
+
+                    if (level < maxLevel)
+                    {
+                        SpawnSkill(skill, level, maxLevel, upgradeDescription);
+                        addedSkillsCounter++;
+                    }
+                }
+                else
+                {
+                    SpawnSkill(skill, skill.CurrentLevel, skill.MaxLevel, skill.GetUpLevelDescription());
                     addedSkillsCounter++;
                 }
-            }
-            else
-            {
-                SpawnSkill(skill, skill.CurrentLevel, skill.MaxLevel, skill.GetUpLevelDescription());
-                addedSkillsCounter++;
+
+                if (addedSkillsCounter >= GameParameters.SkillsToChooseByLevel)
+                {
+                    break;
+                }
             }
 
-            if(addedSkillsCounter >= GameParameters.SkillsToChooseByLevel)
+            if (addedSkillsCounter != 0)
             {
-                break;
+                _skillsParent.SetActive(true);
+                GameTimeScaler.Add(GameTimeKey, timeScale: 0);
             }
         }
 
-        if(addedSkillsCounter != 0)
+        private async void SpawnSkill(SkillBehaviour skill, int level, int maxLevel, string upgradeDescription)
         {
-            _skillsParent.SetActive(true);
-            GameTimeScaler.Add(GameTimeKey, timeScale: 0);
+            SkillToChoose skillButton = await _skillToChooseFactory
+                .CreateSkillButton(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel, upgradeDescription);
+
+            _spawnedSkill.Add(skillButton);
         }
-    }
-
-    private async void SpawnSkill(SkillBehaviour skill, int level, int maxLevel, string upgradeDescription)
-    {
-        SkillToChoose skillButton = await _skillToChooseFactory
-            .CreateSkillButton(_skillsParent.transform, _characterSkills, this, skill, level, maxLevel, upgradeDescription);
-
-        _spawnedSkill.Add(skillButton);
     }
 }

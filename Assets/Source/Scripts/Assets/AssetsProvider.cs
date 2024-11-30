@@ -4,64 +4,70 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AssetsProvider
+namespace Assets
 {
-    private readonly Dictionary<string, AsyncOperationHandle> _handlers = new();
-    private readonly Dictionary<string, AsyncOperationHandle> _loadingHandlers = new();
-
-    public async Task<T> LoadGameObject<T>(string key) where T : class =>
-        (await Load<GameObject>(key)).GetComponent<T>();
-
-    public async Task<Sprite> LoadSprite(string key) =>
-        await Load<Sprite>(key);
-
-    public async Task<T> Load<T>(string key) where T : class
+    public class AssetsProvider
     {
-        if(_handlers.ContainsKey(key) == true)
+        private readonly Dictionary<string, AsyncOperationHandle> _handlers = new ();
+        private readonly Dictionary<string, AsyncOperationHandle> _loadingHandlers = new ();
+
+        public async Task<T> LoadGameObject<T>(string key)
+            where T : class => (await Load<GameObject>(key)).GetComponent<T>();
+
+        public async Task<Sprite> LoadSprite(string key) =>
+            await Load<Sprite>(key);
+
+        public async Task<T> Load<T>(string key)
+            where T : class
         {
-            return _handlers[key].Result as T;
+            if (_handlers.ContainsKey(key) == true)
+            {
+                return _handlers[key].Result as T;
+            }
+
+            if (_loadingHandlers.ContainsKey(key) == true)
+            {
+                return await _loadingHandlers[key].Task as T;
+            }
+
+            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
+
+            if (_loadingHandlers.ContainsKey(key) == false)
+            {
+                _loadingHandlers.Add(key, handle);
+            }
+
+            T task = await handle.Task;
+
+            if (_handlers.ContainsKey(key) == false)
+            {
+                _handlers.Add(key, handle);
+            }
+
+            return task;
         }
 
-        if(_loadingHandlers.ContainsKey(key) == true)
+        public void Clear()
         {
-            return await _loadingHandlers[key].Task as T;
+            foreach (KeyValuePair<string, AsyncOperationHandle> item in _handlers)
+            {
+                Addressables.Release(item.Value);
+            }
+
+            _handlers.Clear();
+            _loadingHandlers.Clear();
         }
 
-        AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
-
-        if(_loadingHandlers.ContainsKey(key) == false)
+        public void Clear(string key)
         {
-            _loadingHandlers.Add(key, handle);
+            if (_handlers.ContainsKey(key) == false)
+            {
+                return;
+            }
+
+            Addressables.Release(_handlers[key]);
+            _handlers.Remove(key);
+            _loadingHandlers.Remove(key);
         }
-
-        T task = await handle.Task;
-
-        if (_handlers.ContainsKey(key) == false)
-        {
-            _handlers.Add(key, handle);
-        }
-
-        return task;
-    }
-
-    public void Clear()
-    {
-        foreach (KeyValuePair<string, AsyncOperationHandle> item in _handlers)
-        {
-            Addressables.Release(item.Value);
-        }
-
-        _handlers.Clear();
-        _loadingHandlers.Clear();
-    }
-
-    public void Clear(string key)
-    {
-        if (_handlers.ContainsKey(key) == false)
-            return;
-
-        Addressables.Release(_handlers[key]);
-        _handlers.Remove(key);
-        _loadingHandlers.Remove(key);
     }
 }

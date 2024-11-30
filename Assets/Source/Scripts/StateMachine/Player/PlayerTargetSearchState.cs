@@ -1,27 +1,35 @@
-public class PlayerTargetSearchState : IState
+using Player;
+using Targets;
+
+namespace StateMachine.Player
 {
-    private readonly CharacterTargetSearcher _targetSearcher;
-    private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
-
-    public PlayerTargetSearchState(CharacterTargetSearcher targetSearcher, IPlayerAttackStateSwitcher playerAttackStateSwitcher)
+    public class PlayerTargetSearchState : IState
     {
-        _targetSearcher = targetSearcher;
-        _playerAttackStateSwitcher = playerAttackStateSwitcher;
-    }
+        private readonly CharacterTargetSearcher _targetSearcher;
+        private readonly IPlayerAttackStateSwitcher _playerAttackStateSwitcher;
 
-    public void OnEnter()
-    {
-    }
-
-    public void OnUpdate()
-    {
-        if(_targetSearcher.TryGetNearestTarget(out Target target))
+        public PlayerTargetSearchState(
+            CharacterTargetSearcher targetSearcher,
+            IPlayerAttackStateSwitcher playerAttackStateSwitcher)
         {
-            _playerAttackStateSwitcher.SetAttackState(target);
+            _targetSearcher = targetSearcher;
+            _playerAttackStateSwitcher = playerAttackStateSwitcher;
         }
-    }
 
-    public void OnExit()
-    {
+        public void OnEnter()
+        {
+        }
+
+        public void OnUpdate()
+        {
+            if (_targetSearcher.TryGetNearestTarget(out Target target))
+            {
+                _playerAttackStateSwitcher.SetAttackState(target);
+            }
+        }
+
+        public void OnExit()
+        {
+        }
     }
 }

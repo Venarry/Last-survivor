@@ -3,60 +3,56 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthView : MonoBehaviour
+namespace Health
 {
-    [SerializeField] private Image _healthBar;
-    [SerializeField] private TMP_Text _healthLabel;
-
-    //private DamageIndicator _damageIndicator;
-    private HealthModel _healthModel;
-
-    public event Action HealthOver;
-
-    private void Awake()
+    public class HealthView : MonoBehaviour
     {
-        //_damageIndicator = GetComponent<DamageIndicator>();
-    }
+        [SerializeField] private Image _healthBar;
+        [SerializeField] private TMP_Text _healthLabel;
 
-    public void Init(HealthModel healthModel)
-    {
-        _healthModel = healthModel;
+        private HealthModel _healthModel;
 
-        _healthModel.Changed += OnHealthChange;
-        _healthModel.HealthOver += OnHealthOver;
-        _healthModel.DamageReceived += OnDamageReceive;
+        public event Action HealthOver;
 
-        OnHealthChange();
-    }
+        public void Init(HealthModel healthModel)
+        {
+            _healthModel = healthModel;
 
-    private void OnDamageReceive()
-    {
-        //_damageIndicator?.Shake();
-    }
+            _healthModel.Changed += OnHealthChange;
+            _healthModel.HealthOver += OnHealthOver;
+            _healthModel.DamageReceived += OnDamageReceive;
 
-    public void TakeDamage(float count)
-    {
-        _healthModel.TakeDamage(count);
-    }
+            OnHealthChange();
+        }
 
-    public void Restore()
-    {
-        _healthModel.Restore();
-    }
+        public void TakeDamage(float count)
+        {
+            _healthModel.TakeDamage(count);
+        }
 
-    public void SetMaxHealth(float health)
-    {
-        _healthModel.SetMaxHealth(health);
-    }
+        public void Restore()
+        {
+            _healthModel.Restore();
+        }
 
-    private void OnHealthChange()
-    {
-        _healthBar.fillAmount = _healthModel.HealthNormalized;
-        _healthLabel.text = $"{Math.Round(_healthModel.Value, 1)}/{_healthModel.MaxValue}";
-    }
+        public void SetMaxHealth(float health)
+        {
+            _healthModel.SetMaxHealth(health);
+        }
 
-    private void OnHealthOver()
-    {
-        HealthOver?.Invoke();
+        private void OnHealthChange()
+        {
+            _healthBar.fillAmount = _healthModel.HealthNormalized;
+            _healthLabel.text = $"{Math.Round(_healthModel.Value, 1)}/{_healthModel.MaxValue}";
+        }
+
+        private void OnHealthOver()
+        {
+            HealthOver?.Invoke();
+        }
+
+        private void OnDamageReceive()
+        {
+        }
     }
 }

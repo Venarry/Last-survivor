@@ -1,32 +1,39 @@
-public class PlayerAttackStateMachine : StateMachine, IPlayerAttackStateSwitcher
+using Movement;
+using Player;
+using Targets;
+
+namespace StateMachine.Player
 {
-    private PlayerTargetSearchState _playerTargetSearchState;
-    private PlayerAttackState _playerAttackState;
-
-    public void Init(
-        CharacterTargetSearcher targetSearcher,
-        ThirdPersonRotation thirdPersonRotation,
-        CharacterAttackHandler playerAttackHandler,
-        IPlayerAttackStateSwitcher playerAttackStateSwitcher)
+    public class PlayerAttackStateMachine : StateMachine, IPlayerAttackStateSwitcher
     {
-        _playerTargetSearchState = new(targetSearcher, playerAttackStateSwitcher);
-        _playerAttackState = new(
-            thirdPersonRotation, playerAttackHandler, targetSearcher, playerAttackStateSwitcher);
+        private PlayerTargetSearchState _playerTargetSearchState;
+        private PlayerAttackState _playerAttackState;
 
-        Register(_playerTargetSearchState);
-        Register(_playerAttackState);
+        public void Init(
+            CharacterTargetSearcher targetSearcher,
+            ThirdPersonRotation thirdPersonRotation,
+            CharacterAttackHandler playerAttackHandler,
+            IPlayerAttackStateSwitcher playerAttackStateSwitcher)
+        {
+            _playerTargetSearchState = new (targetSearcher, playerAttackStateSwitcher);
+            _playerAttackState = new (
+                thirdPersonRotation, playerAttackHandler, targetSearcher, playerAttackStateSwitcher);
 
-        SetTargetSearchState();
-    }
+            Register(_playerTargetSearchState);
+            Register(_playerAttackState);
 
-    public void SetTargetSearchState()
-    {
-        Switch<PlayerTargetSearchState>();
-    }
+            SetTargetSearchState();
+        }
 
-    public void SetAttackState(Target target)
-    {
-        _playerAttackState.Set(target);
-        Switch<PlayerAttackState>();
+        public void SetTargetSearchState()
+        {
+            Switch<PlayerTargetSearchState>();
+        }
+
+        public void SetAttackState(Target target)
+        {
+            _playerAttackState.Set(target);
+            Switch<PlayerAttackState>();
+        }
     }
 }

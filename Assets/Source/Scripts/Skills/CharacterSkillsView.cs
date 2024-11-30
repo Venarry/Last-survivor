@@ -2,56 +2,59 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkillsView : MonoBehaviour
+namespace Skills
 {
-    private readonly Dictionary<Type, SkillIcon> _skillsIcon = new();
-    private CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
-    private SkillsViewFactory _skillsViewFactory;
-    private Transform _skillsParent;
-
-    public void Init(CharacterUpgradesModel<SkillBehaviour> characterSkillsModel, SkillsViewFactory skillsViewFactory, Transform parent)
+    public class CharacterSkillsView : MonoBehaviour
     {
-        _characterSkillsModel = characterSkillsModel;
-        _skillsViewFactory = skillsViewFactory;
-        _skillsParent = parent;
+        private readonly Dictionary<Type, SkillIcon> _skillsIcon = new ();
+        private CharacterUpgradesModel<SkillBehaviour> _characterSkillsModel;
+        private SkillsViewFactory _skillsViewFactory;
+        private Transform _skillsParent;
 
-        _characterSkillsModel.Added += OnSkillAdd;
-        _characterSkillsModel.AllRemoved += OnAllRemoved;
-    }
-
-    private void OnDestroy()
-    {
-        _characterSkillsModel.Added -= OnSkillAdd;
-        _characterSkillsModel.AllRemoved -= OnAllRemoved;
-    }
-
-    private async void OnSkillAdd(Upgrade skill)
-    {
-        Type skillType = skill.GetType();
-
-        if(_skillsIcon.ContainsKey(skillType) == false)
+        public void Init(CharacterUpgradesModel<SkillBehaviour> characterSkillsModel, SkillsViewFactory skillsViewFactory, Transform parent)
         {
-            SkillIcon skillIcon = await _skillsViewFactory.CreateSkillIcon(skillType, _skillsParent, skill.CurrentLevel);
-            _skillsIcon.Add(skillType, skillIcon);
-        }
-        else
-        {
-            _skillsIcon[skillType].Set(skill.CurrentLevel);
-        }
-    }
+            _characterSkillsModel = characterSkillsModel;
+            _skillsViewFactory = skillsViewFactory;
+            _skillsParent = parent;
 
-    private void OnAllRemoved()
-    {
-        foreach (KeyValuePair<Type, SkillIcon> icon in _skillsIcon)
-        {
-            Destroy(icon.Value.gameObject);
+            _characterSkillsModel.Added += OnSkillAdd;
+            _characterSkillsModel.AllRemoved += OnAllRemoved;
         }
 
-        _skillsIcon.Clear();
-    }
+        private void OnDestroy()
+        {
+            _characterSkillsModel.Added -= OnSkillAdd;
+            _characterSkillsModel.AllRemoved -= OnAllRemoved;
+        }
 
-    private void Update()
-    {
-        _characterSkillsModel.OnUpdate();
+        private async void OnSkillAdd(Upgrade skill)
+        {
+            Type skillType = skill.GetType();
+
+            if (_skillsIcon.ContainsKey(skillType) == false)
+            {
+                SkillIcon skillIcon = await _skillsViewFactory.CreateSkillIcon(skillType, _skillsParent, skill.CurrentLevel);
+                _skillsIcon.Add(skillType, skillIcon);
+            }
+            else
+            {
+                _skillsIcon[skillType].Set(skill.CurrentLevel);
+            }
+        }
+
+        private void OnAllRemoved()
+        {
+            foreach (KeyValuePair<Type, SkillIcon> icon in _skillsIcon)
+            {
+                Destroy(icon.Value.gameObject);
+            }
+
+            _skillsIcon.Clear();
+        }
+
+        private void Update()
+        {
+            _characterSkillsModel.OnUpdate();
+        }
     }
 }

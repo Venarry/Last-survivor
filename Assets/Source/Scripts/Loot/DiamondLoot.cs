@@ -1,4 +1,7 @@
-﻿public class DiamondLoot : Loot
+﻿namespace ObstacleLoot
 {
-    public override LootType LootType => LootType.Diamond;
+    public class DiamondLoot : Loot
+    {
+        public override LootType LootType => LootType.Diamond;
+    }
 }

@@ -1,14 +1,17 @@
 ﻿using System;
 
-[Serializable]
-public class ExperienceData
+namespace Save
 {
-    public int Level;
-    public float Experience;
-
-    public ExperienceData(int level, float experience)
+    [Serializable]
+    public class ExperienceData
     {
-        Level = level;
-        Experience = experience;
+        public int Level;
+        public float Experience;
+
+        public ExperienceData(int level, float experience)
+        {
+            Level = level;
+            Experience = experience;
+        }
     }
 }

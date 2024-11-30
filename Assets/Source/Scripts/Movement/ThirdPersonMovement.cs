@@ -1,81 +1,88 @@
 using System;
 using System.Collections;
+using GameTutorial;
+using Inputs;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
+namespace Movement
 {
-    [SerializeField] private float _speed = 7f;
-    
-    private CharacterController _characterController;
-    private Vector3 _moveDirection;
-    private IInputProvider _inputProvider;
-    private bool _isEnabled;
-    private Vector3 _startTutorialPosition;
-
-    public event Action<ITutorialAction> Happened;
-    public Vector3 Direction => _moveDirection;
-    public Vector3 Position => transform.position;
-    public bool IsMoving => new Vector3(Direction.x, 0, Direction.z) != Vector3.zero;
-
-    private void Awake()
+    [RequireComponent(typeof(CharacterController))]
+    public class ThirdPersonMovement : MonoBehaviour, IMoveProvider, ITutorialAction
     {
-        _characterController = GetComponent<CharacterController>();
-    }
+        [SerializeField] private float _speed = 7f;
 
-    public void Init(IInputProvider inputProvider)
-    {
-        _inputProvider = inputProvider;
-    }
+        private CharacterController _characterController;
+        private Vector3 _moveDirection;
+        private IInputProvider _inputProvider;
+        private bool _isEnabled;
+        private Vector3 _startTutorialPosition;
 
-    public void Update()
-    {
-        if (_isEnabled == false)
-            return;
+        public event Action<ITutorialAction> Happened;
+        public Vector3 Direction => _moveDirection;
+        public Vector3 Position => transform.position;
+        public bool IsMoving => new Vector3(Direction.x, 0, Direction.z) != Vector3.zero;
 
-        SetDirection(_inputProvider.MoveDirection);
-
-        _characterController.Move(_speed * Time.deltaTime * _moveDirection);
-    }
-
-    public void BeginMoveTutorial()
-    {
-        _startTutorialPosition = transform.position;
-        StartCoroutine(MakeTutorial());
-    }
-
-    private IEnumerator MakeTutorial()
-    {
-        float tutorialMoveRange = 2f;
-
-        while(Happened != null)
+        private void Awake()
         {
-            if (Vector3.Distance(_startTutorialPosition, transform.position) >= tutorialMoveRange)
+            _characterController = GetComponent<CharacterController>();
+        }
+
+        private void Update()
+        {
+            if (_isEnabled == false)
             {
-                Happened?.Invoke(this);
+                return;
             }
 
-            yield return null;
+            SetDirection(_inputProvider.MoveDirection);
+
+            _characterController.Move(_speed * Time.deltaTime * _moveDirection);
         }
-    }
 
-    public void SetBehaviour(bool state)
-    {
-        _isEnabled = state;
-    }
+        public void Init(IInputProvider inputProvider)
+        {
+            _inputProvider = inputProvider;
+        }
 
-    public void SetPosition(Vector3 position)
-    {
-        _characterController.enabled = false;
-        transform.position = position;
-        _characterController.enabled = true;
-    }
+        public void BeginMoveTutorial()
+        {
+            _startTutorialPosition = transform.position;
+            StartCoroutine(MakeTutorial());
+        }
 
-    private void SetDirection(Vector3 moveDirection)
-    {
-        _moveDirection = moveDirection;
-        _moveDirection = _moveDirection.normalized;
+        public void SetBehaviour(bool state)
+        {
+            _isEnabled = state;
+        }
 
-        _moveDirection.y = -1f;
+        public void SetPosition(Vector3 position)
+        {
+            _characterController.enabled = false;
+            transform.position = position;
+            _characterController.enabled = true;
+        }
+
+        private IEnumerator MakeTutorial()
+        {
+            float tutorialMoveRange = 2f;
+
+            while (Happened != null)
+            {
+                if (Vector3.Distance(_startTutorialPosition, transform.position) >= tutorialMoveRange)
+                {
+                    Happened?.Invoke(this);
+                }
+
+                yield return null;
+            }
+        }
+
+        private void SetDirection(Vector3 moveDirection)
+        {
+            _moveDirection = moveDirection;
+            _moveDirection = _moveDirection.normalized;
+
+            _moveDirection.y = -1f;
+        }
     }
 }

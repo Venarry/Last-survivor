@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class PlayerWeapon : MonoBehaviour
+namespace Player
 {
-    private float _rotateAngle = 180;
-    private float _rotateSpeed;
-    private Transform _target;
-
-    public void Init(float duration, Transform target)
+    public class PlayerWeapon : MonoBehaviour
     {
-        _rotateSpeed = _rotateAngle / duration;
-        transform.rotation = Quaternion.Euler(0, _rotateAngle / 2 + target.rotation.eulerAngles.y, 0);
-        _target = target;
+        private float _rotateAngle = 180;
+        private float _rotateSpeed;
+        private Transform _target;
 
-        Destroy(gameObject, duration);
-    }
+        public void Init(float duration, Transform target)
+        {
+            _rotateSpeed = _rotateAngle / duration;
+            transform.rotation = Quaternion.Euler(0, (_rotateAngle / 2) + target.rotation.eulerAngles.y, 0);
+            _target = target;
 
-    private void Update()
-    {
-        transform.Rotate(-_rotateSpeed * Time.deltaTime * Vector3.up);
-        transform.position = _target.position;
+            Destroy(gameObject, duration);
+        }
+
+        private void Update()
+        {
+            transform.Rotate(-_rotateSpeed * Time.deltaTime * Vector3.up);
+            transform.position = _target.position;
+        }
     }
 }

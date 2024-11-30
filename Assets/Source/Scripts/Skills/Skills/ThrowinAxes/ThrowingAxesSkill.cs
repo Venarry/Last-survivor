@@ -1,81 +1,89 @@
 ﻿using System.Collections;
 using System.Threading.Tasks;
+using General;
+using Language;
+using Targets;
 using UnityEngine;
 
-public class ThrowingAxesSkill : SkillBehaviour
+namespace Skills.Skills.ThrowingAxes
 {
-    private const float SpawnDelay = 0.2f;
-
-    private readonly WaitForSeconds _spawnDelay = new(SpawnDelay);
-    private readonly TargetsProvider<Target> _targetsProvider;
-    private readonly ThrowingAxesFactory _throwingAxesFactory;
-    private readonly Transform _owner;
-    private readonly CoroutineProvider _coroutineProvider;
-    private readonly float _damageMultiplier = 0.4f;
-    private readonly float _throwDistance = 10f;
-    private float _axesCounter = 0;
-
-    private Vector3 SpawnPosition => _owner.position + new Vector3(0, 1f, 0);
-
-    public ThrowingAxesSkill(
-        TargetsProvider<Target> targetsProvider,
-        ThrowingAxesFactory throwingAxesFactory,
-        Transform owner,
-        CoroutineProvider coroutineProvider,
-        LanguageProvider languageProvider) : base(languageProvider)
+    public class ThrowingAxesSkill : SkillBehaviour
     {
-        _targetsProvider = targetsProvider;
-        _throwingAxesFactory = throwingAxesFactory;
-        _owner = owner;
-        _coroutineProvider = coroutineProvider;
-    }
+        private const float SpawnDelay = 0.2f;
 
-    public override UpgradeType UpgradeType => UpgradeType.ThrowingAxes;
-    public override SkillTickType SkillTickType => SkillTickType.EveryTick;
-    public override bool HasCooldown => false;
+        private readonly WaitForSeconds _spawnDelay = new (SpawnDelay);
+        private readonly TargetsProvider<Target> _targetsProvider;
+        private readonly ThrowingAxesFactory _throwingAxesFactory;
+        private readonly Transform _owner;
+        private readonly CoroutineProvider _coroutineProvider;
+        private readonly float _damageMultiplier = 0.4f;
+        private readonly float _throwDistance = 10f;
+        private float _axesCounter = 0;
 
-    public override void Apply()
-    {
-        if (_axesCounter > 0)
-            return;
-
-        Ray ray = new(SpawnPosition, Vector3.forward);
-
-        if (_targetsProvider.TryGetRayTargets(ray, _throwDistance, out _))
+        public ThrowingAxesSkill(
+            TargetsProvider<Target> targetsProvider,
+            ThrowingAxesFactory throwingAxesFactory,
+            Transform owner,
+            CoroutineProvider coroutineProvider,
+            LanguageProvider languageProvider)
+            : base(languageProvider)
         {
-            _coroutineProvider.StartCoroutine(SpawnAxes(CurrentLevel));
+            _targetsProvider = targetsProvider;
+            _throwingAxesFactory = throwingAxesFactory;
+            _owner = owner;
+            _coroutineProvider = coroutineProvider;
         }
-    }
 
-    public override void Disable()
-    {
-    }
+        public override UpgradeType UpgradeType => UpgradeType.ThrowingAxes;
+        public override SkillTickType SkillTickType => SkillTickType.EveryTick;
+        public override bool HasCooldown => false;
+        private Vector3 SpawnPosition => _owner.position + new Vector3(0, 1f, 0);
 
-    public override string GetUpLevelDescription()
-    {
-        return $"{LanguageProvider.ThrowingAxesCount}: {CurrentLevel} + {Decorate("1")}\n" +
-            $"{LanguageProvider.ThrowingAxesDamage}: {_damageMultiplier * 100}%\n";
-    }
-
-    private IEnumerator SpawnAxes(float count)
-    {
-        for (int i = 0; i < count; i++)
+        public override void Apply()
         {
-            _axesCounter++;
-            Task<ThrowingAxe> axeTask = _throwingAxesFactory.Create(SpawnPosition, _throwDistance, _owner, _damageMultiplier);
+            if (_axesCounter > 0)
+            {
+                return;
+            }
 
-            yield return axeTask;
+            Ray ray = new (SpawnPosition, Vector3.forward);
 
-            ThrowingAxe throwingAxe = axeTask.Result;
-            throwingAxe.Coming += OnAxeCome;
-
-            yield return _spawnDelay;
+            if (_targetsProvider.TryGetRayTargets(ray, _throwDistance, out _))
+            {
+                _coroutineProvider.StartCoroutine(SpawnAxes(CurrentLevel));
+            }
         }
-    }
 
-    private void OnAxeCome(ThrowingAxe axe)
-    {
-        axe.Coming -= OnAxeCome;
-        _axesCounter--;
+        public override void Disable()
+        {
+        }
+
+        public override string GetUpLevelDescription()
+        {
+            return $"{LanguageProvider.ThrowingAxesCount}: {CurrentLevel} + {Decorate("1")}\n" +
+                $"{LanguageProvider.ThrowingAxesDamage}: {_damageMultiplier * 100}%\n";
+        }
+
+        private IEnumerator SpawnAxes(float count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                _axesCounter++;
+                Task<ThrowingAxe> axeTask = _throwingAxesFactory.Create(SpawnPosition, _throwDistance, _owner, _damageMultiplier);
+
+                yield return axeTask;
+
+                ThrowingAxe throwingAxe = axeTask.Result;
+                throwingAxe.Coming += OnAxeCome;
+
+                yield return _spawnDelay;
+            }
+        }
+
+        private void OnAxeCome(ThrowingAxe axe)
+        {
+            axe.Coming -= OnAxeCome;
+            _axesCounter--;
+        }
     }
 }

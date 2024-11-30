@@ -1,81 +1,92 @@
+using Experience;
+using Health;
+using Level;
+using Movement;
+using ObstacleLoot;
+using Save;
+using Skills;
+using Targets;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameRestartMenu : MonoBehaviour
+namespace DeathHandle
 {
-    [SerializeField] private GameObject _parent;
-    [SerializeField] private Button _restartButton;
-    [SerializeField] private DayCycle _dayCycle;
-    [SerializeField] private MapGenerator _mapGenerator;
-
-    private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
-    private ExperienceModel _characterExperience;
-    private ThirdPersonMovement _thirdPersonMovement;
-    private LevelsStatisticModel _levelsStatisticModel;
-    private HealthModel _healthModel;
-    private TargetsProvider<Loot> _lootProvider;
-    private IProgressSaveService _progressSaveService;
-    private Vector3 _spawnPosition;
-
-    public void Init(
-        CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        ExperienceModel characterExperience,
-        ThirdPersonMovement thirdPersonMovement,
-        LevelsStatisticModel levelsStatisticModel,
-        HealthModel healthModel,
-        TargetsProvider<Loot> lootProvider,
-        IProgressSaveService progressSaveService,
-        Vector3 spawnPosition)
+    public class GameRestartMenu : MonoBehaviour
     {
-        _characterSkills = characterSkills;
-        _characterExperience = characterExperience;
-        _thirdPersonMovement = thirdPersonMovement;
-        _levelsStatisticModel = levelsStatisticModel;
-        _healthModel = healthModel;
-        _lootProvider = lootProvider;
-        _progressSaveService = progressSaveService;
-        _spawnPosition = spawnPosition;
-    }
+        [SerializeField] private GameObject _parent;
+        [SerializeField] private Button _restartButton;
+        [SerializeField] private DayCycle.DayCycleView _dayCycle;
+        [SerializeField] private MapGenerator _mapGenerator;
 
-    private void OnEnable()
-    {
-        _restartButton.onClick.AddListener(ResetLevel);
-    }
+        private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
+        private ExperienceModel _characterExperience;
+        private ThirdPersonMovement _thirdPersonMovement;
+        private LevelsStatisticModel _levelsStatisticModel;
+        private HealthModel _healthModel;
+        private TargetsProvider<Loot> _lootProvider;
+        private IProgressSaveService _progressSaveService;
+        private Vector3 _spawnPosition;
 
-    private void OnDisable()
-    {
-        _restartButton.onClick.RemoveListener(ResetLevel);
-    }
-
-    public void Show()
-    {
-        _parent.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        _parent.SetActive(false);
-    }
-
-    private async void ResetLevel()
-    {
-        _dayCycle.ResetTime();
-        await _mapGenerator.ResetLevels();
-        _levelsStatisticModel.ResetToCheckpoint();
-        _characterExperience.Reset();
-        _characterSkills.RemoveAll();
-        _healthModel.Restore();
-
-        foreach (Loot target in _lootProvider.GetAll())
+        public void Init(
+            CharacterUpgradesModel<SkillBehaviour> characterSkills,
+            ExperienceModel characterExperience,
+            ThirdPersonMovement thirdPersonMovement,
+            LevelsStatisticModel levelsStatisticModel,
+            HealthModel healthModel,
+            TargetsProvider<Loot> lootProvider,
+            IProgressSaveService progressSaveService,
+            Vector3 spawnPosition)
         {
-            target.PlaceInPool();
-        } 
+            _characterSkills = characterSkills;
+            _characterExperience = characterExperience;
+            _thirdPersonMovement = thirdPersonMovement;
+            _levelsStatisticModel = levelsStatisticModel;
+            _healthModel = healthModel;
+            _lootProvider = lootProvider;
+            _progressSaveService = progressSaveService;
+            _spawnPosition = spawnPosition;
+        }
 
-        _thirdPersonMovement.gameObject.SetActive(true);
-        _thirdPersonMovement.SetPosition(_spawnPosition);
-        _thirdPersonMovement.SetBehaviour(state: true);
+        private void OnEnable()
+        {
+            _restartButton.onClick.AddListener(ResetLevel);
+        }
 
-        Hide();
-        _progressSaveService.Save();
+        private void OnDisable()
+        {
+            _restartButton.onClick.RemoveListener(ResetLevel);
+        }
+
+        public void Show()
+        {
+            _parent.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            _parent.SetActive(false);
+        }
+
+        private async void ResetLevel()
+        {
+            _dayCycle.ResetTime();
+            await _mapGenerator.ResetLevels();
+            _levelsStatisticModel.ResetToCheckpoint();
+            _characterExperience.Reset();
+            _characterSkills.RemoveAll();
+            _healthModel.Restore();
+
+            foreach (Loot target in _lootProvider.GetAll())
+            {
+                target.PlaceInPool();
+            }
+
+            _thirdPersonMovement.gameObject.SetActive(true);
+            _thirdPersonMovement.SetPosition(_spawnPosition);
+            _thirdPersonMovement.SetBehaviour(state: true);
+
+            Hide();
+            _progressSaveService.Save();
+        }
     }
 }

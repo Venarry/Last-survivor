@@ -1,63 +1,68 @@
+using Health;
+using ObjectPool;
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(HealthView))]
-public class Target : MonoBehaviour, IPoolObject<Target>
+namespace Targets
 {
-    [SerializeField] private bool _isFriendly = false;
-    private HealthView _healthView;
-    private HealthModel _healthModel;
-
-    public Vector3 Position => transform.position;
-    public TargetType TargetType { get; private set; }
-    public bool IsFriendly => _isFriendly;
-
-    public event Action<Target> LifeCycleEnded;
-
-    private void Awake()
+    [RequireComponent(typeof(HealthView))]
+    public class Target : MonoBehaviour, IPoolObject<Target>
     {
-        _healthView = GetComponent<HealthView>();
+        [SerializeField] private bool _isFriendly = false;
+        private HealthView _healthView;
+        private HealthModel _healthModel;
 
-        OnAwake();
-    }
+        public event Action<Target> LifeCycleEnded;
 
-    protected virtual void OnAwake()
-    {
-    }
+        public TargetType TargetType { get; private set; }
+        public Vector3 Position => transform.position;
+        public bool IsFriendly => _isFriendly;
 
-    public void Init(TargetType targetType, HealthModel healthModel)
-    {
-        TargetType = targetType;
-        _healthModel = healthModel;
-        _healthView.Init(healthModel);
+        private void Awake()
+        {
+            _healthView = GetComponent<HealthView>();
 
-        _healthModel.HealthOver += PlaceInPool;
-    }
+            OnAwake();
+        }
 
-    private void OnDestroy()
-    {
-        _healthModel.HealthOver -= PlaceInPool;
-    }
+        protected virtual void OnAwake()
+        {
+        }
 
-    public void TakeDamage(float damage)
-    {
-        _healthModel.TakeDamage(damage);
-    }
+        public void Init(TargetType targetType, HealthModel healthModel)
+        {
+            TargetType = targetType;
+            _healthModel = healthModel;
+            _healthView.Init(healthModel);
 
-    public void PlaceInPool()
-    {
-        LifeCycleEnded?.Invoke(this);
-    }
+            _healthModel.HealthOver += PlaceInPool;
+        }
 
-    public void Respawn(Vector3 spawnPosition, Quaternion rotation)
-    {
-        transform.position = spawnPosition;
-        transform.rotation = rotation;
-    }
+        private void OnDestroy()
+        {
+            _healthModel.HealthOver -= PlaceInPool;
+        }
 
-    public void ResetSettings(float health)
-    {
-        _healthModel.SetMaxHealth(health);
-        _healthModel.Restore();
+        public void TakeDamage(float damage)
+        {
+            _healthModel.TakeDamage(damage);
+        }
+
+        public void PlaceInPool()
+        {
+            LifeCycleEnded?.Invoke(this);
+        }
+
+        public void Respawn(Vector3 spawnPosition, Quaternion rotation)
+        {
+            transform.position = spawnPosition;
+            transform.rotation = rotation;
+        }
+
+        public void ResetSettings(float health)
+        {
+            _healthModel.SetMaxHealth(health);
+            _healthModel.Restore();
+        }
     }
 }

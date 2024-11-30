@@ -1,5 +1,8 @@
-﻿public interface IProgressSaveService
+﻿namespace Save
 {
-    public void ReloadShop();
-    public void Save();
+    public interface IProgressSaveService
+    {
+        public void ReloadShop();
+        public void Save();
+    }
 }

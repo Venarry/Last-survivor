@@ -1,4 +1,7 @@
-﻿public interface IMaxLevelProvider
+﻿namespace YSDK
 {
-    public int MaxLevel { get; }
+    public interface IMaxLevelProvider
+    {
+        public int MaxLevel { get; }
+    }
 }

@@ -1,58 +1,63 @@
 ﻿using System;
 using System.Collections;
+using Player;
+using Skills.Skills.SwordRoundAttack;
 using UnityEngine;
 
-[RequireComponent(typeof(SkillWeaponCollisionHandler))]
-public class ThrowingAxe : MonoBehaviour
+namespace Skills.Skills.ThrowingAxes
 {
-    [SerializeField] private Transform _axesModel;
-
-    private SkillWeaponCollisionHandler _skillSwordCollisionHandler;
-    private Transform _owner;
-
-    public event Action<ThrowingAxe> Coming;
-
-    private void Awake()
+    [RequireComponent(typeof(SkillWeaponCollisionHandler))]
+    public class ThrowingAxe : MonoBehaviour
     {
-        _skillSwordCollisionHandler = GetComponent<SkillWeaponCollisionHandler>();
-    }
+        [SerializeField] private Transform _axesModel;
 
-    public void Init(float throwDistance, Transform owner, CharacterAttackParameters characterAttackParameters, float damageMultiplier)
-    {
-        _owner = owner;
-        _skillSwordCollisionHandler.Init(characterAttackParameters, damageMultiplier);
+        private SkillWeaponCollisionHandler _skillSwordCollisionHandler;
+        private Transform _owner;
 
-        StartCoroutine(Throw(throwDistance));
-    }
+        public event Action<ThrowingAxe> Coming;
 
-    private void Update()
-    {
-        float rotateAnglePerSecond = 720;
-
-        _axesModel.Rotate(rotateAnglePerSecond * Time.deltaTime * Vector3.up);
-    }
-
-    private IEnumerator Throw(float range)
-    {
-        Vector3 throwPoint = transform.position + new Vector3(0, 0, range);
-        float epsilon = 0.1f;
-        float deltaDistance = 15f;
-
-        while ((throwPoint - transform.position).magnitude > epsilon)
+        private void Awake()
         {
-            transform.position = Vector3.MoveTowards(transform.position, throwPoint, deltaDistance * Time.deltaTime);
-
-            yield return null;
+            _skillSwordCollisionHandler = GetComponent<SkillWeaponCollisionHandler>();
         }
 
-        while ((_owner.position - transform.position).magnitude > epsilon)
+        private void Update()
         {
-            transform.position = Vector3.MoveTowards(transform.position, _owner.position, deltaDistance * Time.deltaTime);
+            float rotateAnglePerSecond = 720;
 
-            yield return null;
+            _axesModel.Rotate(rotateAnglePerSecond * Time.deltaTime * Vector3.up);
         }
 
-        Coming?.Invoke(this);
-        Destroy(gameObject);
+        public void Init(float throwDistance, Transform owner, CharacterAttackParameters characterAttackParameters, float damageMultiplier)
+        {
+            _owner = owner;
+            _skillSwordCollisionHandler.Init(characterAttackParameters, damageMultiplier);
+
+            StartCoroutine(Throw(throwDistance));
+        }
+
+        private IEnumerator Throw(float range)
+        {
+            Vector3 throwPoint = transform.position + new Vector3(0, 0, range);
+            float epsilon = 0.1f;
+            float deltaDistance = 15f;
+
+            while ((throwPoint - transform.position).magnitude > epsilon)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, throwPoint, deltaDistance * Time.deltaTime);
+
+                yield return null;
+            }
+
+            while ((_owner.position - transform.position).magnitude > epsilon)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _owner.position, deltaDistance * Time.deltaTime);
+
+                yield return null;
+            }
+
+            Coming?.Invoke(this);
+            Destroy(gameObject);
+        }
     }
 }

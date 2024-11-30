@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class TutorialBarrierDisabler : MonoBehaviour
+namespace GameTutorial
 {
-    [SerializeField] private GameObject _barrier;
-
-    private void OnDisable()
+    public class TutorialBarrierDisabler : MonoBehaviour
     {
-        _barrier.SetActive(false);
+        [SerializeField] private GameObject _barrier;
+
+        private void OnDisable()
+        {
+            _barrier.SetActive(false);
+        }
     }
 }

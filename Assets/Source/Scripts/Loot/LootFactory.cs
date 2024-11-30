@@ -1,51 +1,57 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Assets;
+using ObjectPool;
+using Targets;
 using UnityEngine;
 
-public abstract class LootFactory : ObjectPoolBehaviour<Loot>
+namespace ObstacleLoot
 {
-    private readonly ILootHolder _lootHolder;
-    private TargetsProvider<Loot> _targetProvider;
-    protected AssetsProvider AssetsProvider;
-
-    protected virtual int BaseRewardCount { get; } = 1;
-    protected virtual float BaseExperienceCount { get; } = 1;
-
-    protected LootFactory(
-        ILootHolder lootHolder,
-        TargetsProvider<Loot> targetsProvider,
-        AssetsProvider assetsProvider) : base(assetsProvider)
+    public abstract class LootFactory : ObjectPoolBehaviour<Loot>
     {
-        _lootHolder = lootHolder;
-        _targetProvider = targetsProvider;
-        AssetsProvider = assetsProvider;
-    }
+        private readonly ILootHolder _lootHolder;
+        private readonly TargetsProvider<Loot> _targetProvider;
+        protected AssetsProvider AssetsProvider;
 
-    public async Task<Loot> Create(Vector3 position, int rewardMultiplier, float experienceMultiplier)
-    {
-        var poolResult = await CreatePoolObject(position, Quaternion.identity);
-        Loot loot = poolResult.Result;
-
-        if (poolResult.IsInstantiatedObject == true)
+        protected LootFactory(
+            ILootHolder lootHolder,
+            TargetsProvider<Loot> targetsProvider,
+            AssetsProvider assetsProvider)
+            : base(assetsProvider)
         {
-            loot.Init(BaseRewardCount * rewardMultiplier, BaseExperienceCount * experienceMultiplier, _lootHolder);
-        }
-        else
-        {
-            loot.ResetSettings(BaseRewardCount * rewardMultiplier, BaseExperienceCount * experienceMultiplier);
+            _lootHolder = lootHolder;
+            _targetProvider = targetsProvider;
+            AssetsProvider = assetsProvider;
         }
 
-        _targetProvider.Add(loot);
+        protected virtual int BaseRewardCount { get; } = 1;
+        protected virtual float BaseExperienceCount { get; } = 1;
 
-        loot.LifeCycleEnded += OnLootEnd;
-        loot.GoToPlayer();
+        public async Task<Loot> Create(Vector3 position, int rewardMultiplier, float experienceMultiplier)
+        {
+            PoolSpawnResult<Loot> poolResult = await CreatePoolObject(position, Quaternion.identity);
+            Loot loot = poolResult.Result;
 
-        return loot;
-    }
+            if (poolResult.IsInstantiatedObject == true)
+            {
+                loot.Init(BaseRewardCount * rewardMultiplier, BaseExperienceCount * experienceMultiplier, _lootHolder);
+            }
+            else
+            {
+                loot.ResetSettings(BaseRewardCount * rewardMultiplier, BaseExperienceCount * experienceMultiplier);
+            }
 
-    private void OnLootEnd(Loot loot)
-    {
-        loot.LifeCycleEnded -= OnLootEnd;
-        _targetProvider.Remove(loot);
+            _targetProvider.Add(loot);
+
+            loot.LifeCycleEnded += OnLootEnd;
+            loot.GoToPlayer();
+
+            return loot;
+        }
+
+        private void OnLootEnd(Loot loot)
+        {
+            loot.LifeCycleEnded -= OnLootEnd;
+            _targetProvider.Remove(loot);
+        }
     }
 }

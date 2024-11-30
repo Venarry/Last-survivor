@@ -1,38 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using Buffs;
+using Language;
+using Skills;
+using Upgrades.Upgrades;
 
-public class ParameterUpgradesFactory
+namespace Upgrades
 {
-    private readonly CharacterBuffsModel _characterBuffsModel;
-    private readonly LanguageProvider _languageProvider;
-    private readonly Dictionary<UpgradeType, Func<ParametersUpgradeBehaviour>> _upgradesByType;
-
-    public ParameterUpgradesFactory(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider)
+    public class ParameterUpgradesFactory
     {
-        _characterBuffsModel = characterBuffsModel;
-        _languageProvider = languageProvider;
+        private readonly CharacterBuffsModel _characterBuffsModel;
+        private readonly LanguageProvider _languageProvider;
+        private readonly Dictionary<UpgradeType, Func<ParametersUpgradeBehaviour>> _upgradesByType;
 
-        _upgradesByType = new()
+        public ParameterUpgradesFactory(CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider)
         {
-            [UpgradeType.DamageForEnemy] = CreateDamageForEnemy,
-            [UpgradeType.DamageForWood] = CreateDamageForWood,
-            [UpgradeType.DamageForOre] = CreateDamageForOre,
-            [UpgradeType.DayIncrease] = CreateDayIncrease,
-            [UpgradeType.ExperienceMultiplier] = CreateExperienceMultiplier,
-        };
-    }
+            _characterBuffsModel = characterBuffsModel;
+            _languageProvider = languageProvider;
 
-    public DamageForEnemyUpgrade CreateDamageForEnemy() => new(_characterBuffsModel, _languageProvider);
-    public DamageForWoodUpgrade CreateDamageForWood() => new(_characterBuffsModel, _languageProvider);
-    public DamageForOreUpgrade CreateDamageForOre() => new(_characterBuffsModel, _languageProvider);
-    public DayIncreaseUpgrade CreateDayIncrease() => new(_characterBuffsModel, _languageProvider);
-    public ExperienceMultiplierUpgrade CreateExperienceMultiplier() => new(_characterBuffsModel, _languageProvider);
+            _upgradesByType = new ()
+            {
+                [UpgradeType.DamageForEnemy] = CreateDamageForEnemy,
+                [UpgradeType.DamageForWood] = CreateDamageForWood,
+                [UpgradeType.DamageForOre] = CreateDamageForOre,
+                [UpgradeType.DayIncrease] = CreateDayIncrease,
+                [UpgradeType.ExperienceMultiplier] = CreateExperienceMultiplier,
+            };
+        }
 
-    public ParametersUpgradeBehaviour CreateBy(UpgradeType upgradeType, int level)
-    {
-        ParametersUpgradeBehaviour upgrade = _upgradesByType[upgradeType]();
-        upgrade.SetLevel(level);
+        public DamageForEnemyUpgrade CreateDamageForEnemy() => new (_characterBuffsModel, _languageProvider);
+        public DamageForWoodUpgrade CreateDamageForWood() => new (_characterBuffsModel, _languageProvider);
+        public DamageForOreUpgrade CreateDamageForOre() => new (_characterBuffsModel, _languageProvider);
+        public DayIncreaseUpgrade CreateDayIncrease() => new (_characterBuffsModel, _languageProvider);
+        public ExperienceMultiplierUpgrade CreateExperienceMultiplier() => new (_characterBuffsModel, _languageProvider);
 
-        return upgrade;
+        public ParametersUpgradeBehaviour CreateBy(UpgradeType upgradeType, int level)
+        {
+            ParametersUpgradeBehaviour upgrade = _upgradesByType[upgradeType]();
+            upgrade.SetLevel(level);
+
+            return upgrade;
+        }
     }
 }

@@ -1,4 +1,9 @@
-﻿public class DamageForEnemyBuff : DamageBuff
+﻿using Targets;
+
+namespace Buffs.Damage
 {
-    public override TargetType TargetType => TargetType.Enemy;
+    public class DamageForEnemyBuff : DamageBuff
+    {
+        public override TargetType TargetType => TargetType.Enemy;
+    }
 }

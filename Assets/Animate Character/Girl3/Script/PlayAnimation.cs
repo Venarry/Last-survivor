@@ -19,6 +19,7 @@ public class PlayAnimation : MonoBehaviour {
 	
 	}
 
+    [System.Obsolete]
     public void PlayAni(string str)
     {
        
@@ -28,9 +29,7 @@ public class PlayAnimation : MonoBehaviour {
 
     }
 
-
-
-
+    [System.Obsolete]
     public void ChangeSpr(int num)
     {
         if (onlySpr)

@@ -1,14 +1,21 @@
-﻿public abstract class ParametersUpgradeBehaviour : Upgrade
+﻿using Buffs;
+using Language;
+using Skills;
+
+namespace Upgrades
 {
-    public override int MaxLevel { get; } = int.MaxValue;
-    public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
-    public override bool HasCooldown => false;
-
-    protected ParametersUpgradeBehaviour(
-        CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider) : base(languageProvider)
+    public abstract class ParametersUpgradeBehaviour : Upgrade
     {
-        CharacterBuffsModel = characterBuffsModel;
-    }
+        protected ParametersUpgradeBehaviour(
+            CharacterBuffsModel characterBuffsModel, LanguageProvider languageProvider)
+            : base(languageProvider)
+        {
+            CharacterBuffsModel = characterBuffsModel;
+        }
 
-    protected CharacterBuffsModel CharacterBuffsModel { get; private set; }
+        public override int MaxLevel { get; } = int.MaxValue;
+        public override SkillTickType SkillTickType => SkillTickType.AwakeTick;
+        public override bool HasCooldown => false;
+        protected CharacterBuffsModel CharacterBuffsModel { get; private set; }
+    }
 }

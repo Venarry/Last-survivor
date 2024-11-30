@@ -1,5 +1,8 @@
-﻿public interface IEnemyStateSwitcher : IStateSwitcher
+﻿namespace StateMachine.Enemy
 {
-    public void SetFollowState();
-    public void SetAttackState();
+    public interface IEnemyStateSwitcher : IStateSwitcher
+    {
+        public void SetFollowState();
+        public void SetAttackState();
+    }
 }

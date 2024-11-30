@@ -1,4 +1,7 @@
-﻿public interface IDayDurationBuff : IBuff
+﻿namespace Buffs.DayIncrease
 {
-    public float Apply(float dayDuration);
+    public interface IDayDurationBuff : IBuff
+    {
+        public float Apply(float dayDuration);
+    }
 }

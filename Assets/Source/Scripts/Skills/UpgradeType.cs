@@ -1,17 +1,20 @@
-﻿public enum UpgradeType
+﻿namespace Skills
 {
-    SwordRoundAttack,
-    AttackCooldownReduce,
-    Splash,
-    CritAttack,
-    MaxHealthUp,
-    PassiveHealthRegen,
-    ThrowingAxes,
-    Pet,
+    public enum UpgradeType
+    {
+        SwordRoundAttack,
+        AttackCooldownReduce,
+        Splash,
+        CritAttack,
+        MaxHealthUp,
+        PassiveHealthRegen,
+        ThrowingAxes,
+        Pet,
 
-    DamageForEnemy,
-    DamageForWood,
-    DamageForOre,
-    DayIncrease,
-    ExperienceMultiplier,
+        DamageForEnemy,
+        DamageForWood,
+        DamageForOre,
+        DayIncrease,
+        ExperienceMultiplier,
+    }
 }

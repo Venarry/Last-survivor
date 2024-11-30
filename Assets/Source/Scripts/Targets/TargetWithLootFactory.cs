@@ -1,25 +1,32 @@
-﻿using UnityEngine;
+﻿using Assets;
+using Health;
+using Level;
+using ObstacleLoot;
+using UnityEngine;
 
-public abstract class TargetWithLootFactory : TargetFactory
+namespace Targets
 {
-    private readonly LevelsStatisticModel _levelsStatisticModel;
-    private readonly LootFactory _lootFactory;
-
-    public TargetWithLootFactory(
-        LevelsStatisticModel levelsStatisticModel,
-        TargetsProvider<Target> targetsProvider,
-        AssetsProvider assetsProvider,
-        AudioSource audioSource,
-        LootFactory lootFactory)
-        : base(targetsProvider, assetsProvider, audioSource)
+    public abstract class TargetWithLootFactory : TargetFactory
     {
-        _levelsStatisticModel = levelsStatisticModel;
-        _lootFactory = lootFactory;
-    }
+        private readonly LevelsStatisticModel _levelsStatisticModel;
+        private readonly LootFactory _lootFactory;
 
-    protected override void OnCreated(Target target, HealthModel healthModel)
-    {
-        TargetWithLoot targetWithLoot = target as TargetWithLoot;
-        targetWithLoot.InitLootDropHandler(healthModel, _lootFactory, _levelsStatisticModel);
+        public TargetWithLootFactory(
+            LevelsStatisticModel levelsStatisticModel,
+            TargetsProvider<Target> targetsProvider,
+            AssetsProvider assetsProvider,
+            AudioSource audioSource,
+            LootFactory lootFactory)
+            : base(targetsProvider, assetsProvider, audioSource)
+        {
+            _levelsStatisticModel = levelsStatisticModel;
+            _lootFactory = lootFactory;
+        }
+
+        protected override void OnCreated(Target target, HealthModel healthModel)
+        {
+            TargetWithLoot targetWithLoot = target as TargetWithLoot;
+            targetWithLoot.InitLootDropHandler(healthModel, _lootFactory, _levelsStatisticModel);
+        }
     }
 }

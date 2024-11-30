@@ -1,4 +1,7 @@
-﻿public interface IMaxHealthBuff : IBuff
+﻿namespace Buffs.Health
 {
-    public float Apply(float health);
+    public interface IMaxHealthBuff : IBuff
+    {
+        public float Apply(float health);
+    }
 }

@@ -1,32 +1,37 @@
-public class EnemyStateMachine : StateMachine, IEnemyStateSwitcher
+using Targets.Enemy;
+
+namespace StateMachine.Enemy
 {
-    private EnemyBehaviour _enemyBehaviour;
-    private IEnemyStateSwitcher _enemyStateSwitcher;
-
-    private EnemyFollowState _enemyFollowState;
-    private EnemyAttackState _enemyAttackState;
-
-    public void Init()
+    public class EnemyStateMachine : StateMachine, IEnemyStateSwitcher
     {
-        _enemyBehaviour = GetComponent<EnemyBehaviour>();
-        _enemyStateSwitcher = GetComponent<IEnemyStateSwitcher>();
+        private EnemyBehaviour _enemyBehaviour;
+        private IEnemyStateSwitcher _enemyStateSwitcher;
 
-        _enemyFollowState = new(_enemyBehaviour, _enemyStateSwitcher);
-        Register(_enemyFollowState);
+        private EnemyFollowState _enemyFollowState;
+        private EnemyAttackState _enemyAttackState;
 
-        _enemyAttackState = new(_enemyBehaviour, _enemyStateSwitcher);
-        Register(_enemyAttackState);
+        public void Init()
+        {
+            _enemyBehaviour = GetComponent<EnemyBehaviour>();
+            _enemyStateSwitcher = GetComponent<IEnemyStateSwitcher>();
 
-        SetFollowState();
-    }
+            _enemyFollowState = new (_enemyBehaviour, _enemyStateSwitcher);
+            Register(_enemyFollowState);
 
-    public void SetFollowState()
-    {
-        Switch<EnemyFollowState>();
-    }
+            _enemyAttackState = new (_enemyBehaviour, _enemyStateSwitcher);
+            Register(_enemyAttackState);
 
-    public void SetAttackState() 
-    {
-        Switch<EnemyAttackState>();
+            SetFollowState();
+        }
+
+        public void SetFollowState()
+        {
+            Switch<EnemyFollowState>();
+        }
+
+        public void SetAttackState()
+        {
+            Switch<EnemyAttackState>();
+        }
     }
 }

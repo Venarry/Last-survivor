@@ -1,4 +1,7 @@
-﻿public interface IMoveProvider
+﻿namespace Movement
 {
-    public bool IsMoving { get; }
+    public interface IMoveProvider
+    {
+        public bool IsMoving { get; }
+    }
 }

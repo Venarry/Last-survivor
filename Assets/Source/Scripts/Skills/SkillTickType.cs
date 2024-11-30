@@ -1,6 +1,9 @@
-﻿public enum SkillTickType
+﻿namespace Skills
 {
-    HasNoTick,
-    AwakeTick,
-    EveryTick,
+    public enum SkillTickType
+    {
+        HasNoTick,
+        AwakeTick,
+        EveryTick,
+    }
 }

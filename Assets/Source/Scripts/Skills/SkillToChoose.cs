@@ -3,67 +3,70 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillToChoose : MonoBehaviour
+namespace Skills
 {
-    [SerializeField] private Image _skillIcon;
-    [SerializeField] private Button _button;
-    [SerializeField] private List<Image> _skillUpgradeCountImages;
-
-    [SerializeField] private Image _upgradePrefab;
-    [SerializeField] private Transform _upgradesParent;
-
-    [SerializeField] private TMP_Text _skillName;
-    [SerializeField] private TMP_Text _skillDescription;
-    [SerializeField] private TMP_Text _skillUpgradeDescription;
-
-    private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
-    private SkillsOpener _skillOpener;
-    private SkillBehaviour _skill;
-
-    public void Init(
-        CharacterUpgradesModel<SkillBehaviour> characterSkills,
-        SkillsOpener skillsOpener,
-        SkillBehaviour skill)
+    public class SkillToChoose : MonoBehaviour
     {
-        _characterSkills = characterSkills;
-        _skillOpener = skillsOpener;
-        _skill = skill;
-    }
+        [SerializeField] private Image _skillIcon;
+        [SerializeField] private Button _button;
+        [SerializeField] private List<Image> _skillUpgradeCountImages;
 
-    public void SetSkillInformation(
-        Sprite icon,
-        int currentLevel,
-        int maxLevel,
-        string name,
-        string description,
-        string upgradeDescription)
-    {
-        _skillIcon.sprite = icon;
-        _skillName.text = name;
-        _skillDescription.text = description;
-        _skillUpgradeDescription.text = upgradeDescription;
+        [SerializeField] private Image _upgradePrefab;
+        [SerializeField] private Transform _upgradesParent;
 
-        for (int i = 0; i < maxLevel; i++)
+        [SerializeField] private TMP_Text _skillName;
+        [SerializeField] private TMP_Text _skillDescription;
+        [SerializeField] private TMP_Text _skillUpgradeDescription;
+
+        private CharacterUpgradesModel<SkillBehaviour> _characterSkills;
+        private SkillsOpener _skillOpener;
+        private SkillBehaviour _skill;
+
+        public void Init(
+            CharacterUpgradesModel<SkillBehaviour> characterSkills,
+            SkillsOpener skillsOpener,
+            SkillBehaviour skill)
         {
-            Image image = Instantiate(_upgradePrefab, _upgradesParent);
-
-            image.color = i < currentLevel ? Color.yellow : Color.black;
+            _characterSkills = characterSkills;
+            _skillOpener = skillsOpener;
+            _skill = skill;
         }
-    }
 
-    private void OnEnable()
-    {
-        _button.onClick.AddListener(OnButtonClick);
-    }
+        public void SetSkillInformation(
+            Sprite icon,
+            int currentLevel,
+            int maxLevel,
+            string name,
+            string description,
+            string upgradeDescription)
+        {
+            _skillIcon.sprite = icon;
+            _skillName.text = name;
+            _skillDescription.text = description;
+            _skillUpgradeDescription.text = upgradeDescription;
 
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(OnButtonClick);
-    }
+            for (int i = 0; i < maxLevel; i++)
+            {
+                Image image = Instantiate(_upgradePrefab, _upgradesParent);
 
-    private void OnButtonClick()
-    {
-        _characterSkills.AddWithAwakeIncreaseLevelOrIncreaseLevel(_skill);
-        _skillOpener.CloseMenuAndRemoveSkills();
+                image.color = i < currentLevel ? Color.yellow : Color.black;
+            }
+        }
+
+        private void OnEnable()
+        {
+            _button.onClick.AddListener(OnButtonClick);
+        }
+
+        private void OnDisable()
+        {
+            _button.onClick.RemoveListener(OnButtonClick);
+        }
+
+        private void OnButtonClick()
+        {
+            _characterSkills.AddWithAwakeIncreaseLevelOrIncreaseLevel(_skill);
+            _skillOpener.CloseMenuAndRemoveSkills();
+        }
     }
 }

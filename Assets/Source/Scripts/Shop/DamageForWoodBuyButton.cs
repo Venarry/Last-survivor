@@ -1,7 +1,13 @@
-﻿public class DamageForWoodBuyButton : BuyUpgradeButton
-{
-    public override UpgradeType UpgradeType => UpgradeType.DamageForWood;
+﻿using Skills;
+using Upgrades;
 
-    protected override ParametersUpgradeBehaviour CreateUpgrade() =>
-        UpgradesFactory.CreateDamageForWood();
+namespace Shop
+{
+    public class DamageForWoodBuyButton : BuyUpgradeButton
+    {
+        public override UpgradeType UpgradeType => UpgradeType.DamageForWood;
+
+        protected override ParametersUpgradeBehaviour CreateUpgrade() =>
+            UpgradesFactory.CreateDamageForWood();
+    }
 }

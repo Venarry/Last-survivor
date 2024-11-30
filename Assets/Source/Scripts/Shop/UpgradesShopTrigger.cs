@@ -1,63 +1,70 @@
 using System;
+using GameTutorial;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradesShopTrigger : MonoBehaviour, ITutorialAction
+namespace Shop
 {
-    private const float TimeToOpenShop = 2f;
-
-    [SerializeField] private Image _triggerArea;
-
-    private UpgradesShop _upgradesShop;
-    private bool _inTrigger;
-    private float _timeInTrigger;
-
-    public event Action<ITutorialAction> Happened;
-
-    private bool TimerIsReach => _timeInTrigger >= TimeToOpenShop;
-
-    public void Init(UpgradesShop upgradesShop)
+    public class UpgradesShopTrigger : MonoBehaviour, ITutorialAction
     {
-        _upgradesShop = upgradesShop;
-        RefreshAreaView();
-    }
+        private const float TimeToOpenShop = 2f;
 
-    private void Update()
-    {
-        if (_inTrigger == false || TimerIsReach == true)
-            return;
+        [SerializeField] private Image _triggerArea;
 
-        _timeInTrigger += Time.deltaTime;
-        RefreshAreaView();
+        private UpgradesShop _upgradesShop;
+        private bool _inTrigger;
+        private float _timeInTrigger;
 
-        if (TimerIsReach == true)
+        public event Action<ITutorialAction> Happened;
+
+        private bool TimerIsReach => _timeInTrigger >= TimeToOpenShop;
+
+        public void Init(UpgradesShop upgradesShop)
         {
-            _upgradesShop.Show();
-
-            Happened?.Invoke(this);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.TryGetComponent(out Player _))
-        {
-            _inTrigger = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out Player _))
-        {
-            _inTrigger = false;
-            _timeInTrigger = 0;
+            _upgradesShop = upgradesShop;
             RefreshAreaView();
         }
-    }
 
-    private void RefreshAreaView()
-    {
-        _triggerArea.fillAmount = _timeInTrigger / TimeToOpenShop;
+        private void Update()
+        {
+            if (_inTrigger == false || TimerIsReach == true)
+            {
+                return;
+            }
+
+            _timeInTrigger += Time.deltaTime;
+            RefreshAreaView();
+
+            if (TimerIsReach == true)
+            {
+                _upgradesShop.Show();
+
+                Happened?.Invoke(this);
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out PlayerCompositeRoot _))
+            {
+                _inTrigger = true;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.TryGetComponent(out PlayerCompositeRoot _))
+            {
+                _inTrigger = false;
+                _timeInTrigger = 0;
+                RefreshAreaView();
+            }
+        }
+
+        private void RefreshAreaView()
+        {
+            _triggerArea.fillAmount = _timeInTrigger / TimeToOpenShop;
+        }
     }
 }

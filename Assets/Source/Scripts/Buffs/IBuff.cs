@@ -1,8 +1,11 @@
 ﻿using System;
 
-public interface IBuff
+namespace Buffs
 {
-    public Type Type { get; }
-    public bool CanRepeat { get; }
-    public event Action<IBuff> ParametersChanged;
+    public interface IBuff
+    {
+        public event Action<IBuff> ParametersChanged;
+        public Type Type { get; }
+        public bool CanRepeat { get; }
+    }
 }

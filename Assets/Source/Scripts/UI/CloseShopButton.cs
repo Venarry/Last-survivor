@@ -1,23 +1,27 @@
+using Shop;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CloseShopButton : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private UpgradesShop _shop;
-    [SerializeField] private Button _button;
-
-    private void OnEnable()
+    public class CloseShopButton : MonoBehaviour
     {
-        _button.onClick.AddListener(OnClick);
-    }
+        [SerializeField] private UpgradesShop _shop;
+        [SerializeField] private Button _button;
 
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(OnClick);
-    }
+        private void OnEnable()
+        {
+            _button.onClick.AddListener(OnClick);
+        }
 
-    private void OnClick()
-    {
-        _shop.Hide();
+        private void OnDisable()
+        {
+            _button.onClick.RemoveListener(OnClick);
+        }
+
+        private void OnClick()
+        {
+            _shop.Hide();
+        }
     }
 }

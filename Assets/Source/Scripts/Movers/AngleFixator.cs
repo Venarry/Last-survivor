@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class AngleFixator : MonoBehaviour
+namespace Movers
 {
-    [SerializeField] private Vector3 _angle;
-
-    private void Update()
+    public class AngleFixator : MonoBehaviour
     {
-        transform.eulerAngles = _angle;
+        [SerializeField] private Vector3 _angle;
+
+        private void Update()
+        {
+            transform.eulerAngles = _angle;
+        }
     }
 }

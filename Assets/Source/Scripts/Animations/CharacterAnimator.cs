@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -29,6 +28,16 @@ namespace Animations
             OnAwake();
         }
 
+        private void OnEnable()
+        {
+            OnUnityEnable();
+        }
+
+        private void OnDisable()
+        {
+            OnUnityDisable();
+        }
+
         private void Update()
         {
             if (IsMoving == true && _isAttacking == false)
@@ -39,18 +48,8 @@ namespace Animations
 
             if (_canMove == true)
             {
-                SetMoveAnimation();
+                TransitToMoveAnimation();
             }
-        }
-
-        private void OnEnable()
-        {
-            OnUnityEnable();
-        }
-
-        private void OnDisable()
-        {
-            OnUnityDisable();
         }
 
         protected virtual void OnAwake()
@@ -101,7 +100,7 @@ namespace Animations
             yield return new WaitForSeconds(duration);
 
             ResetAttackAnimation();
-            SetMoveAnimation();
+            TransitToMoveAnimation();
         }
 
         private void ResetAttackAnimation()
@@ -118,15 +117,15 @@ namespace Animations
             _currentAnimation = string.Empty;
         }
 
-        private void SetMoveAnimation()
+        private void TransitToMoveAnimation()
         {
-            if (IsMoving == false)
+            if (IsMoving == true)
             {
-                ChangeAnimation(AnimationNameIdle);
+                ChangeAnimation(AnimationNameWalk);
             }
             else
             {
-                ChangeAnimation(AnimationNameWalk);
+                ChangeAnimation(AnimationNameIdle);
             }
         }
     }

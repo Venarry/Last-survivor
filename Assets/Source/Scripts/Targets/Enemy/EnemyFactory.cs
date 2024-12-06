@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Assets;
-using Configs;
 using ObjectPool;
 using UnityEngine;
 
@@ -11,17 +10,16 @@ namespace Targets.Enemy
         private readonly float _attackDistance;
 
         public EnemyFactory(
+            TargetType targetType,
             TargetsProvider<Target> targetsProvider,
             AssetsProvider assetsProvider,
             AudioSource audioSource,
+            string assetKey,
             float attackDistance)
-            : base(targetsProvider, assetsProvider, audioSource)
+            : base(targetType, targetsProvider, assetsProvider, audioSource, assetKey)
         {
             _attackDistance = attackDistance;
         }
-
-        protected override string AssetKey => AssetsKeys.Enemy;
-        protected override TargetType TargetType => TargetType.Enemy;
 
         public async Task<Enemy> Create(Target attackTarget, float health, float damage, Vector3 position, Quaternion rotation)
         {

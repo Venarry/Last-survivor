@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using DataSources;
 using ObstacleLoot;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Inventory

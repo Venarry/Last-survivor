@@ -7,22 +7,28 @@ using UnityEngine;
 
 namespace Targets
 {
-    public abstract class TargetFactory : ObjectPoolBehaviour<Target>
+    public class TargetFactory : ObjectPoolBehaviour<Target>
     {
         private readonly TargetsProvider<Target> _targetsProvider;
         private readonly AudioSource _audioSource;
+        private readonly string _assetKey;
 
-        protected TargetFactory(
+        public TargetFactory(
+            TargetType targetType,
             TargetsProvider<Target> targetsProvider,
             AssetsProvider assetsProvider,
-            AudioSource audioSource)
+            AudioSource audioSource,
+            string assetKey)
             : base(assetsProvider)
         {
+            TargetType = targetType;
             _targetsProvider = targetsProvider;
             _audioSource = audioSource;
+            _assetKey = assetKey;
         }
 
-        protected abstract TargetType TargetType { get; }
+        protected TargetType TargetType { get; private set; }
+        protected override string AssetKey => _assetKey;
 
         public async Task<PoolSpawnResult<Target>> Create(float health, Vector3 position, Quaternion rotation)
         {

@@ -1,7 +1,7 @@
-﻿using Assets;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Assets;
 using UnityEngine;
 
 namespace ObjectPool
@@ -9,7 +9,7 @@ namespace ObjectPool
     public abstract class ObjectPoolBehaviour<T>
         where T : MonoBehaviour, IPoolObject<T>
     {
-        private readonly List<T> _objects = new();
+        private readonly List<T> _objects = new ();
         private readonly AssetsProvider _assetsProvider;
 
         protected ObjectPoolBehaviour(AssetsProvider assetsProvider)
@@ -27,7 +27,7 @@ namespace ObjectPool
         protected async Task<PoolSpawnResult<T>> CreatePoolObject(Vector3 spawnPoint, Quaternion rotation)
         {
             T foundedObject = _objects.FirstOrDefault(c => c.isActiveAndEnabled == false);
-            PoolSpawnResult<T> poolResult = new();
+            PoolSpawnResult<T> poolResult = new ();
 
             if (foundedObject == null)
             {

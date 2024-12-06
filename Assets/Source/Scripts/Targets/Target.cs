@@ -1,6 +1,6 @@
+using System;
 using Health;
 using ObjectPool;
-using System;
 using UnityEngine;
 
 namespace Targets

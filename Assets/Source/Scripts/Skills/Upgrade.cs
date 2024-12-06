@@ -7,16 +7,16 @@ namespace Skills
     {
         protected LanguageProvider LanguageProvider;
 
+        protected Upgrade(LanguageProvider languageProvider)
+        {
+            LanguageProvider = languageProvider;
+        }
+
         public abstract UpgradeType UpgradeType { get; }
         public virtual SkillTickType SkillTickType { get; }
         public virtual bool HasCooldown { get; }
         public virtual int MaxLevel { get; }
         public int CurrentLevel { get; private set; }
-
-        protected Upgrade(LanguageProvider languageProvider)
-        {
-            LanguageProvider = languageProvider;
-        }
 
         public void SetLevel(int level)
         {

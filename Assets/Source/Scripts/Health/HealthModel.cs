@@ -1,6 +1,6 @@
+using System;
 using Buffs;
 using Buffs.Health;
-using System;
 
 namespace Health
 {

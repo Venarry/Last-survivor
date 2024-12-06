@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ObstacleLoot
 {
     [RequireComponent(typeof(Rigidbody))]
-    public abstract class Loot : MonoBehaviour, IPoolObject<Loot>
+    public class Loot : MonoBehaviour, IPoolObject<Loot>
     {
         private const float MoveToPlayerDelay = 1.5f;
 
@@ -18,18 +18,19 @@ namespace ObstacleLoot
 
         public event Action<Loot> LifeCycleEnded;
 
-        public abstract LootType LootType { get; }
+        public LootType LootType { get; private set; }
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
 
-        public void Init(int reward, float experience, ILootHolder lootHolder)
+        public void Init(int reward, float experience, ILootHolder lootHolder, LootType lootType)
         {
             _reward = reward;
             _experienceReward = experience;
             _lootHolder = lootHolder;
+            LootType = lootType;
         }
 
         public void GoToPlayer()

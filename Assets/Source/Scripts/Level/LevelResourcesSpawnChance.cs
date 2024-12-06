@@ -1,5 +1,5 @@
-using ObstacleLoot;
 using System.Collections.Generic;
+using ObstacleLoot;
 using UnityEngine;
 
 namespace Level

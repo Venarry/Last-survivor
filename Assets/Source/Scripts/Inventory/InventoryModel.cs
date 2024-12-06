@@ -1,13 +1,13 @@
-using ObstacleLoot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ObstacleLoot;
 
 namespace Inventory
 {
     public class InventoryModel
     {
-        private readonly Dictionary<LootType, int> _loot = new();
+        private readonly Dictionary<LootType, int> _loot = new ();
 
         public event Action<LootType, int> ItemChanged;
 
@@ -49,7 +49,7 @@ namespace Inventory
 
         public void RemoveWithNotIncluding(List<LootType> lootTypes)
         {
-            List<LootType> lootsForRemove = new();
+            List<LootType> lootsForRemove = new ();
 
             foreach (KeyValuePair<LootType, int> loot in _loot)
             {

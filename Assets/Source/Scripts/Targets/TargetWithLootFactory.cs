@@ -6,18 +6,20 @@ using UnityEngine;
 
 namespace Targets
 {
-    public abstract class TargetWithLootFactory : TargetFactory
+    public class TargetWithLootFactory : TargetFactory
     {
         private readonly LevelsStatisticModel _levelsStatisticModel;
         private readonly LootFactory _lootFactory;
 
         public TargetWithLootFactory(
+            TargetType targetType,
             LevelsStatisticModel levelsStatisticModel,
             TargetsProvider<Target> targetsProvider,
             AssetsProvider assetsProvider,
             AudioSource audioSource,
-            LootFactory lootFactory)
-            : base(targetsProvider, assetsProvider, audioSource)
+            LootFactory lootFactory,
+            string assetKey)
+            : base(targetType, targetsProvider, assetsProvider, audioSource, assetKey)
         {
             _levelsStatisticModel = levelsStatisticModel;
             _lootFactory = lootFactory;

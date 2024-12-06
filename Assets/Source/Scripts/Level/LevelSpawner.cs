@@ -10,9 +10,9 @@ namespace Level
     public class LevelSpawner : MonoBehaviour
     {
         private readonly Queue<KeyValuePair<MapPart, List<Target>>> _targetsOnMap = new ();
-        private WoodFactory _woodFactory;
-        private DiamondFactory _diamondFactory;
-        private StoneFactory _stoneFactory;
+        private TargetWithLootFactory _woodFactory;
+        private TargetWithLootFactory _diamondFactory;
+        private TargetFactory _stoneFactory;
         private MapPartsFactory _mapPartsFactory;
         private LevelResourcesSpawnChance _levelResourcesSpawnChance;
 
@@ -20,9 +20,9 @@ namespace Level
         private Vector3 _endResourcesOffseSpawnPoint = new (20, 0, 50);
 
         public void Init(
-            WoodFactory woodFactory,
-            DiamondFactory diamondFactory,
-            StoneFactory stoneFactory,
+            TargetWithLootFactory woodFactory,
+            TargetWithLootFactory diamondFactory,
+            TargetFactory stoneFactory,
             MapPartsFactory mapPartsFactory,
             LevelResourcesSpawnChance levelResourcesSpawnChance)
         {

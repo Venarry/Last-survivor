@@ -42,7 +42,7 @@ namespace Experience
             CurrentExperience += buffedExperience;
             TryUpLevel();
 
-            ExperienceChanged.Invoke();
+            ExperienceChanged?.Invoke();
         }
 
         public void EnableBeahviour()

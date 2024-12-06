@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Buffs;
 using Language;
 using Skills;
+using Targets;
 using Upgrades.Upgrades;
 
 namespace Upgrades
@@ -28,13 +29,13 @@ namespace Upgrades
             };
         }
 
-        public DamageForEnemyUpgrade CreateDamageForEnemy() => new (_characterBuffsModel, _languageProvider);
-        public DamageForWoodUpgrade CreateDamageForWood() => new (_characterBuffsModel, _languageProvider);
-        public DamageForOreUpgrade CreateDamageForOre() => new (_characterBuffsModel, _languageProvider);
+        public DamageUpgrade CreateDamageForEnemy() => new (TargetType.Enemy, UpgradeType.DamageForEnemy, _characterBuffsModel, _languageProvider);
+        public DamageUpgrade CreateDamageForWood() => new (TargetType.Wood, UpgradeType.DamageForWood, _characterBuffsModel, _languageProvider);
+        public DamageUpgrade CreateDamageForOre() => new (TargetType.Ore, UpgradeType.DamageForOre, _characterBuffsModel, _languageProvider);
         public DayIncreaseUpgrade CreateDayIncrease() => new (_characterBuffsModel, _languageProvider);
         public ExperienceMultiplierUpgrade CreateExperienceMultiplier() => new (_characterBuffsModel, _languageProvider);
 
-        public ParametersUpgradeBehaviour CreateBy(UpgradeType upgradeType, int level)
+        public ParametersUpgradeBehaviour CreateBy(UpgradeType upgradeType, int level = 0)
         {
             ParametersUpgradeBehaviour upgrade = _upgradesByType[upgradeType]();
             upgrade.SetLevel(level);

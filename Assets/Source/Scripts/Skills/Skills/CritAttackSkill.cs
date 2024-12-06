@@ -8,7 +8,7 @@ namespace Skills.Skills
     public class CritAttackSkill : SkillBehaviour
     {
         private readonly CharacterBuffsModel _characterBuffsModel;
-        private readonly CritDamageBuff _critDamageBuff = new();
+        private readonly CritDamageBuff _critDamageBuff = new ();
 
         private readonly float _critDamageMultiplierPerLevel = 0.2f;
         private readonly float _critChancePerLevel = 10;

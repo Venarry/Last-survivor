@@ -47,7 +47,7 @@ namespace Skills
             _petFactory = petFactory;
             _languageProvider = languageProvider;
 
-            _skills = new()
+            _skills = new ()
             {
                 [UpgradeType.SwordRoundAttack] = CreateSwordRoundAttackSkill,
                 [UpgradeType.CritAttack] = CreateCritAttackSkill,

@@ -70,15 +70,18 @@ namespace Health
             int soundIndex = Random.Range(0, _hitSounds.Count);
             AudioClip audioClip = _hitSounds[soundIndex];
 
-            float volumeScale = Random.Range(0.9f, 1.1f);
+            float minVolumeScale = 0.9f;
+            float maxVolumeScale = 1.1f;
+            float volumeScale = Random.Range(minVolumeScale, maxVolumeScale);
+
             _audioSource.PlayOneShot(audioClip, volumeScale);
         }
 
         private void OnHealthOver()
         {
-            Vector3 particleOffset = new (0f, 0.2f, 0f);
+            Vector3 particleSpawnOffset = new (0f, 0.2f, 0f);
             ParticleSystem destroyParticle = Instantiate(
-                _destroyParticle, transform.position + particleOffset, _destroyParticle.transform.localRotation);
+                _destroyParticle, transform.position + particleSpawnOffset, _destroyParticle.transform.localRotation);
             destroyParticle.Play();
         }
 
@@ -86,14 +89,16 @@ namespace Health
         {
             float timeLeft = 0;
             float middleTimeSpot = _duration / 2;
+            float valueToChangeDirection = 1;
+            float maxDuretionMultiplier = 2;
 
             while (timeLeft < _duration)
             {
                 float lerpSpot = timeLeft / middleTimeSpot;
 
-                if (lerpSpot > 1)
+                if (lerpSpot > valueToChangeDirection)
                 {
-                    lerpSpot = 2 - lerpSpot;
+                    lerpSpot = maxDuretionMultiplier - lerpSpot;
                 }
 
                 float scale = Mathf.Lerp(_defaultScale, _defaultScale * _scaleFactor, lerpSpot);
@@ -106,6 +111,10 @@ namespace Health
 
         private IEnumerator ChangeRotation()
         {
+            const int FirstStepValue = 2;
+            const int SecondStepValue = 1;
+            const int ThirdStepValue = 0;
+
             float tiltAngle = 15f;
             Vector3 tilt = new (
                 Random.Range(-tiltAngle, tiltAngle),
@@ -122,17 +131,17 @@ namespace Health
 
                 switch (lerpSpot)
                 {
-                    case > 2:
-                        lerpSpot -= 2;
+                    case > FirstStepValue:
+                        lerpSpot -= FirstStepValue;
                         targetTilt = _defaultRotation;
                         break;
 
-                    case > 1:
-                        lerpSpot--;
+                    case > SecondStepValue:
+                        lerpSpot -= SecondStepValue;
                         targetTilt = Quaternion.Euler(-tilt * 0.5f);
                         break;
 
-                    case > 0:
+                    case > ThirdStepValue:
                         targetTilt = Quaternion.Euler(tilt);
                         break;
                 }

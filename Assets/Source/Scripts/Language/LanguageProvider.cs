@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Targets;
 
 namespace Language
 {
@@ -54,5 +56,19 @@ namespace Language
         public string DescriptionMaxHealthUpSkill = "Увеличивает максимальное здоровье";
         public string DescriptionThrowingAxesSkill = "Кидает топоры вперед";
         public string DescriptionPetSkill = "Бегает вокруг игрока и атакует цель с параметрами атаки игрока";
+
+        private readonly Dictionary<TargetType, string> _targetNames;
+
+        public LanguageProvider()
+        {
+            _targetNames = new()
+            {
+                [TargetType.Enemy] = TargetNameEnemy,
+                [TargetType.Wood] = TargetNameWood,
+                [TargetType.Ore] = TargetNameOre,
+            };
+        }
+
+        public string GetTargetName(TargetType targetType) => _targetNames[targetType];
     }
 }

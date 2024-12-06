@@ -34,8 +34,6 @@ namespace Targets.Enemy
             _agent = GetComponent<NavMeshAgent>();
         }
 
-
-
         private void Update()
         {
             _cooldownTimer.Tick();

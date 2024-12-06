@@ -10,7 +10,7 @@ namespace YSDK
 {
     public class LeaderBoardShower : MonoBehaviour
     {
-        private readonly List<UserLeaderScoreView> _userLeaderScoreViews = new();
+        private readonly List<UserLeaderScoreView> _userLeaderScoreViews = new ();
 
         [Header("Leaderboard")]
         [SerializeField] private GameObject _menu;

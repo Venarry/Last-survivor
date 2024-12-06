@@ -132,7 +132,7 @@ namespace DayCycle
                 float g = Mathf.Lerp(startColor.g, targetColor.g, progress);
                 float b = Mathf.Lerp(startColor.b, targetColor.b, progress);
 
-                _light.color = new(r, g, b);
+                _light.color = new (r, g, b);
                 timeLeft += Time.deltaTime;
 
                 yield return null;

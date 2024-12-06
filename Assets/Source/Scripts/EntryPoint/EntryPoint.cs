@@ -84,7 +84,7 @@ namespace EntryPoint
             ChangeGameSettingsByDevice();
             CoroutineProvider coroutineProvider = new GameObject("CoroutineProvider")
                 .AddComponent<CoroutineProvider>();
-            StreaminAssetsReader streaminAssetsReader = new (coroutineProvider);
+            StreaminAssetsReader streaminAssetsReader = new ();
 
             LanguageProvider languageProvider = YandexGame.lang switch
             {
@@ -170,28 +170,43 @@ namespace EntryPoint
             ThrowingAxesFactory throwingAxesFactory = new (_assetsProvider, characterAttackParameters);
             await throwingAxesFactory.Load();
 
-            DiamondLootFactory diamondLootFactory = new (player.LootHolder, lootViewProvider, _assetsProvider);
+            LootFactory diamondLootFactory = new (player.LootHolder, LootType.Diamond, lootViewProvider, AssetsKeys.DiamondLoot, _assetsProvider);
             await diamondLootFactory.Load();
 
-            DiamondFactory diamondFactory = new (
+            TargetWithLootFactory diamondFactory = new (
+                TargetType.Ore,
                 levelsStatisticModel,
                 targetsProvider,
                 _assetsProvider,
                 player.AudioSource,
-                diamondLootFactory);
+                diamondLootFactory,
+                AssetsKeys.Diamond);
 
             await diamondFactory.Load();
 
-            WoodLootFactory woodLootFactory = new (player.LootHolder, lootViewProvider, _assetsProvider);
+            LootFactory woodLootFactory = new (player.LootHolder, LootType.Wood, lootViewProvider, AssetsKeys.WoodLoot, _assetsProvider);
             await woodLootFactory.Load();
 
-            WoodFactory woodFactory = new (levelsStatisticModel, targetsProvider, _assetsProvider, player.AudioSource, woodLootFactory);
+            TargetWithLootFactory woodFactory = new (
+                TargetType.Wood,
+                levelsStatisticModel,
+                targetsProvider,
+                _assetsProvider,
+                player.AudioSource,
+                woodLootFactory,
+                AssetsKeys.Wood);
             await woodFactory.Load();
 
-            EnemyFactory enemyFactory = new (targetsProvider, _assetsProvider, player.AudioSource, attackDistance: 3);
+            EnemyFactory enemyFactory = new (
+                TargetType.Enemy,
+                targetsProvider,
+                _assetsProvider,
+                player.AudioSource,
+                AssetsKeys.Enemy,
+                attackDistance: 3);
             await enemyFactory.Load();
 
-            StoneFactory stoneFactory = new (targetsProvider, _assetsProvider, player.AudioSource);
+            TargetFactory stoneFactory = new (TargetType.Ore, targetsProvider, _assetsProvider, player.AudioSource, AssetsKeys.Stone);
             await stoneFactory.Load();
 
             PetFactory petFactory = new (_assetsProvider, characterAttackParameters, characterBuffsModel, player.TargetSearcher, player.transform);

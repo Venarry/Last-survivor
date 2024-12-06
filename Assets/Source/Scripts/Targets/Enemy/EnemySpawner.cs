@@ -10,7 +10,7 @@ namespace Targets.Enemy
 {
     public class EnemySpawner
     {
-        private readonly WaitForSeconds _waitSpawnDelay = new(GameParameters.EnemySpawnDelay);
+        private readonly WaitForSeconds _waitSpawnDelay = new (GameParameters.EnemySpawnDelay);
         private readonly List<Enemy> _enemys = new ();
         private readonly DayCycleView _dayCycleView;
         private readonly EnemyFactory _enemyFactory;

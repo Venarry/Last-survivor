@@ -3,7 +3,7 @@ using Targets;
 
 namespace Buffs.Damage
 {
-    public abstract class DamageBuff : IDamageBuff
+    public class DamageBuff : IDamageBuff
     {
         private float _damage;
 
@@ -11,7 +11,12 @@ namespace Buffs.Damage
 
         public bool CanRepeat => true;
         public Type Type => typeof(DamageBuff);
-        public abstract TargetType TargetType { get; }
+        public TargetType TargetType { get; }
+
+        public DamageBuff(TargetType targetType)
+        {
+            TargetType = targetType;
+        }
 
         public float ApplyDamage(float damage)
         {

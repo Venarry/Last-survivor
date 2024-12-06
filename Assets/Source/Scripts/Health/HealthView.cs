@@ -20,24 +20,8 @@ namespace Health
 
             _healthModel.Changed += OnHealthChange;
             _healthModel.HealthOver += OnHealthOver;
-            _healthModel.DamageReceived += OnDamageReceive;
 
             OnHealthChange();
-        }
-
-        public void TakeDamage(float count)
-        {
-            _healthModel.TakeDamage(count);
-        }
-
-        public void Restore()
-        {
-            _healthModel.Restore();
-        }
-
-        public void SetMaxHealth(float health)
-        {
-            _healthModel.SetMaxHealth(health);
         }
 
         private void OnHealthChange()
@@ -49,10 +33,6 @@ namespace Health
         private void OnHealthOver()
         {
             HealthOver?.Invoke();
-        }
-
-        private void OnDamageReceive()
-        {
         }
     }
 }

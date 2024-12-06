@@ -1,8 +1,8 @@
-﻿using Assets;
+﻿using System.Threading.Tasks;
+using Assets;
 using Configs;
 using DataSources;
 using ObstacleLoot;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Shop
